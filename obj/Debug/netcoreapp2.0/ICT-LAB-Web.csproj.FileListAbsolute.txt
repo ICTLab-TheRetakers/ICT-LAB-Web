@@ -31,3 +31,14 @@ C:\GitHub\ICT-LAB-Web\obj\Debug\netcoreapp2.0\ICT-LAB-Web.AssemblyInfoInputs.cac
 C:\GitHub\ICT-LAB-Web\obj\Debug\netcoreapp2.0\ICT-LAB-Web.AssemblyInfo.cs
 C:\GitHub\ICT-LAB-Web\obj\Debug\netcoreapp2.0\ICT-LAB-Web.dll
 C:\GitHub\ICT-LAB-Web\obj\Debug\netcoreapp2.0\ICT-LAB-Web.pdb
+C:\Users\0878090\GitHub\ICT-LAB-Web\bin\Debug\netcoreapp2.0\ICT-LAB-Web.deps.json
+C:\Users\0878090\GitHub\ICT-LAB-Web\bin\Debug\netcoreapp2.0\ICT-LAB-Web.runtimeconfig.json
+C:\Users\0878090\GitHub\ICT-LAB-Web\bin\Debug\netcoreapp2.0\ICT-LAB-Web.runtimeconfig.dev.json
+C:\Users\0878090\GitHub\ICT-LAB-Web\bin\Debug\netcoreapp2.0\ICT-LAB-Web.dll
+C:\Users\0878090\GitHub\ICT-LAB-Web\bin\Debug\netcoreapp2.0\ICT-LAB-Web.pdb
+C:\Users\0878090\GitHub\ICT-LAB-Web\obj\Debug\netcoreapp2.0\ICT-LAB-Web.csprojResolveAssemblyReference.cache
+C:\Users\0878090\GitHub\ICT-LAB-Web\obj\Debug\netcoreapp2.0\ICT-LAB-Web.csproj.CoreCompileInputs.cache
+C:\Users\0878090\GitHub\ICT-LAB-Web\obj\Debug\netcoreapp2.0\ICT-LAB-Web.AssemblyInfoInputs.cache
+C:\Users\0878090\GitHub\ICT-LAB-Web\obj\Debug\netcoreapp2.0\ICT-LAB-Web.AssemblyInfo.cs
+C:\Users\0878090\GitHub\ICT-LAB-Web\obj\Debug\netcoreapp2.0\ICT-LAB-Web.dll
+C:\Users\0878090\GitHub\ICT-LAB-Web\obj\Debug\netcoreapp2.0\ICT-LAB-Web.pdb
