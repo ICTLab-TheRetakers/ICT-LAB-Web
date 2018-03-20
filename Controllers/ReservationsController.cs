@@ -47,7 +47,8 @@ namespace ICT_LAB_Web.Controllers
             }
 
             //Convert to view model
-            var result = data.Select(x => new ReservationViewModel {
+            var result = data.Select(x => new ReservationViewModel
+            {
                 UserId = x.UserId,
                 RoomCode = x.RoomCode,
                 StartTime = x.StartTime,
@@ -102,7 +103,8 @@ namespace ICT_LAB_Web.Controllers
                 return StatusCode(400, "Invalid parameter(s).");
             }
 
-            Reservation reservation = new Reservation {
+            Reservation reservation = new Reservation
+            {
                 RoomCode = model.RoomCode,
                 UserId = model.UserId,
                 StartTime = model.StartTime,
@@ -112,7 +114,8 @@ namespace ICT_LAB_Web.Controllers
             List<Participant> participants = new List<Participant>();
             foreach (var participant in model.Participants)
             {
-                var newParticipant = new Participant {
+                var newParticipant = new Participant
+                {
                     RoomCode = model.RoomCode,
                     StartTime = model.StartTime,
                     UserId = participant.UserId
@@ -128,21 +131,33 @@ namespace ICT_LAB_Web.Controllers
             }
 
             //Insert participant(s)
-            var successCount = 0;
+            var returnedParticipants = new List<Participant>();
             foreach (var p in participants)
             {
                 var participantResult = await _participantRepository.Add(p);
                 if (participantResult != null)
                 {
-                    successCount++;
+                    returnedParticipants.Add(p);
                 }
             }
-            if (successCount != participants.Count)
+            if (returnedParticipants.Count != participants.Count)
             {
                 return StatusCode(500, "A problem occured while saving the participants. Please try again!");
             }
 
-            return Ok(result);
+            return Ok(new ReservationViewModel
+            {
+                UserId = result.UserId,
+                StartTime = result.StartTime,
+                EndTime = result.EndTime,
+                RoomCode = result.RoomCode,
+                Participants = returnedParticipants.Select(x => new ParticipantViewModel
+                {
+                    UserId = x.UserId,
+                    RoomCode = x.RoomCode,
+                    StartTime = x.StartTime
+                }).ToList()
+            });
         }
 
         // PUT: api/reservations/update
@@ -154,7 +169,8 @@ namespace ICT_LAB_Web.Controllers
                 return StatusCode(400, "Invalid parameter(s).");
             }
 
-            Reservation reservation = new Reservation {
+            Reservation reservation = new Reservation
+            {
                 RoomCode = model.RoomCode,
                 UserId = model.UserId,
                 StartTime = model.StartTime,
@@ -175,7 +191,7 @@ namespace ICT_LAB_Web.Controllers
             }
 
             //Get current participants
-            var currentParticipants =await  _participantRepository.GetByRoom(model.RoomCode, model.StartTime);
+            var currentParticipants = await _participantRepository.GetByRoom(model.RoomCode, model.StartTime);
 
             //Get difference betweens current and possibly new participants
             var newParticipants = participants.Except(currentParticipants).ToList();
@@ -189,21 +205,33 @@ namespace ICT_LAB_Web.Controllers
             }
 
             //Insert participant(s)
-            var successCount = 0;
+            var returnedParticipants = new List<Participant>();
             foreach (var p in newParticipants)
             {
                 var participantResult = await _participantRepository.Add(p);
                 if (participantResult != null)
                 {
-                    successCount++;
+                    returnedParticipants.Add(p);
                 }
             }
-            if (successCount != newParticipants.Count)
+            if (returnedParticipants.Count != newParticipants.Count)
             {
                 return StatusCode(500, "A problem occured while saving the participants. Please try again!");
             }
 
-            return Ok(result);
+            return Ok(new ReservationViewModel
+            {
+                UserId = result.UserId,
+                StartTime = result.StartTime,
+                EndTime = result.EndTime,
+                RoomCode = result.RoomCode,
+                Participants = returnedParticipants.Select(x => new ParticipantViewModel
+                {
+                    UserId = x.UserId,
+                    RoomCode = x.RoomCode,
+                    StartTime = x.StartTime
+                }).ToList()
+            });
         }
 
         // DELETE: api/reservations/delete?room=WD.001.016&start=2018-01-01T08:30:00

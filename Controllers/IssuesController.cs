@@ -1,11 +1,11 @@
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 using ICT_LAB_Web.Components.Entities;
 using ICT_LAB_Web.Components.Services;
 using ICT_LAB_Web.Components.Services.Interfaces;
 using ICT_LAB_Web.Controllers.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace ICT_LAB_Web.Controllers
 {
@@ -36,7 +36,8 @@ namespace ICT_LAB_Web.Controllers
             }
 
             //Convert to view model
-            var result = data.Select(x => new IssueViewModel {
+            var result = data.Select(x => new IssueViewModel
+            {
                 IssueId = x.IssueId,
                 RoomCode = x.RoomCode,
                 CreatedOn = x.CreatedOn,
@@ -85,7 +86,8 @@ namespace ICT_LAB_Web.Controllers
                 return StatusCode(400, "Invalid parameter(s).");
             }
 
-            Issue issue = new Issue {
+            Issue issue = new Issue
+            {
                 IssueId = model.IssueId,
                 RoomCode = model.RoomCode,
                 CreatedOn = model.CreatedOn,
@@ -100,7 +102,14 @@ namespace ICT_LAB_Web.Controllers
                 return StatusCode(500, "A problem occured while saving the record. Please try again!");
             }
 
-            return Ok(result);
+            return Ok(new IssueViewModel
+            {
+                IssueId = result.IssueId,
+                RoomCode = result.RoomCode,
+                Description = result.Description,
+                CreatedOn = result.CreatedOn,
+                Resolved = result.Resolved
+            });
         }
 
         // PUT: api/issues/update
@@ -112,7 +121,8 @@ namespace ICT_LAB_Web.Controllers
                 return StatusCode(400, "Invalid parameter(s).");
             }
 
-            Issue issue = new Issue {
+            Issue issue = new Issue
+            {
                 IssueId = model.IssueId,
                 RoomCode = model.RoomCode,
                 CreatedOn = model.CreatedOn,
@@ -127,7 +137,14 @@ namespace ICT_LAB_Web.Controllers
                 return StatusCode(500, "A problem occured while updating the record. Please try again!");
             }
 
-            return Ok(result);
+            return Ok(new IssueViewModel
+            {
+                IssueId = result.IssueId,
+                RoomCode = result.RoomCode,
+                Description = result.Description,
+                CreatedOn = result.CreatedOn,
+                Resolved = result.Resolved
+            });
         }
 
         // DELETE: api/issues/delete?issue=5

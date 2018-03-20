@@ -1,8 +1,8 @@
-using System.Threading.Tasks;
 using ICT_LAB_Web.Components.Services;
 using ICT_LAB_Web.Components.Services.Interfaces;
 using ICT_LAB_Web.Controllers.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace ICT_LAB_Web.Controllers
 {
@@ -47,7 +47,8 @@ namespace ICT_LAB_Web.Controllers
             }
 
             //Convert to view model
-            var result = new RoleViewModel {
+            var result = new RoleViewModel
+            {
                 RoleId = data.RoleId,
                 Type = data.Type
             };

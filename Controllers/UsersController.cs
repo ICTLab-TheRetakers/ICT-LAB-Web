@@ -1,10 +1,10 @@
-using System;
-using System.Threading.Tasks;
 using ICT_LAB_Web.Components.Entities;
 using ICT_LAB_Web.Components.Services;
 using ICT_LAB_Web.Components.Services.Interfaces;
 using ICT_LAB_Web.Controllers.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Threading.Tasks;
 
 namespace ICT_LAB_Web.Controllers
 {
@@ -65,7 +65,8 @@ namespace ICT_LAB_Web.Controllers
             }
 
             //Convert to view model
-            var result = new UserViewModel {
+            var result = new UserViewModel
+            {
                 UserId = data.UserId,
                 Role = data.Role,
                 FirstName = data.FirstName,
@@ -100,12 +101,13 @@ namespace ICT_LAB_Web.Controllers
                 return StatusCode(400, "Invalid parameter(s).");
             }
 
-            User user = new User {
+            User user = new User
+            {
                 UserId = model.UserId,
                 Role = model.Role,
                 FirstName = model.FirstName,
                 LastName = model.LastName,
-                Email= model.Email,
+                Email = model.Email,
                 Password = model.Password
             };
 
@@ -116,7 +118,15 @@ namespace ICT_LAB_Web.Controllers
                 return StatusCode(500, "A problem occured while saving the record. Please try again!");
             }
 
-            return Ok(result);
+            return Ok(new UserViewModel
+            {
+                UserId = result.UserId,
+                Role = result.Role,
+                FirstName = result.FirstName,
+                LastName = result.LastName,
+                Email = result.Email,
+                Password = result.Password
+            });
         }
 
         // PUT: api/users/update
@@ -128,7 +138,8 @@ namespace ICT_LAB_Web.Controllers
                 return StatusCode(400, "Invalid parameter(s).");
             }
 
-            User user = new User {
+            User user = new User
+            {
                 Role = model.Role,
                 FirstName = model.FirstName,
                 LastName = model.LastName
@@ -141,7 +152,15 @@ namespace ICT_LAB_Web.Controllers
                 return StatusCode(500, "A problem occured while updating the record. Please try again!");
             }
 
-            return Ok(result);
+            return Ok(new UserViewModel
+            {
+                UserId = result.UserId,
+                Role = result.Role,
+                FirstName = result.FirstName,
+                LastName = result.LastName,
+                Email = result.Email,
+                Password = result.Password
+            });
         }
 
         // DELETE: api/users/delete?user=1

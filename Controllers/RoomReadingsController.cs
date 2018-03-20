@@ -106,7 +106,12 @@ namespace ICT_LAB_Web.Controllers
                 return StatusCode(500, "A problem occured while saving the record. Please try again!");
             }
 
-            return Ok(result);
+            return Ok(new RoomReadingViewModel {
+                RoomCode = result.RoomCode,
+                CreatedOn = result.CreatedOn,
+                Type = result.Type,
+                Value = result.Value
+            });
         }
         
         // DELETE: api/readings/delete?room=WD.001.016

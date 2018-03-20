@@ -1,11 +1,11 @@
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 using ICT_LAB_Web.Components.Entities;
 using ICT_LAB_Web.Components.Services;
 using ICT_LAB_Web.Components.Services.Interfaces;
 using ICT_LAB_Web.Controllers.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace ICT_LAB_Web.Controllers
 {
@@ -36,7 +36,8 @@ namespace ICT_LAB_Web.Controllers
             }
 
             //Convert to view model
-            var result = new DeviceViewModel {
+            var result = new DeviceViewModel
+            {
                 DeviceId = data.DeviceId,
                 RoomCode = data.RoomCode
             };
@@ -61,14 +62,15 @@ namespace ICT_LAB_Web.Controllers
             }
 
             //Convert to view model
-            var result = data.Select(x => new DeviceViewModel {
+            var result = data.Select(x => new DeviceViewModel
+            {
                 DeviceId = x.DeviceId,
                 RoomCode = x.RoomCode
             });
 
             return Ok(result);
         }
-        
+
         // POST: api/devices/create
         [HttpPost]
         public async Task<IActionResult> Create([FromBody]DeviceViewModel model)
@@ -78,7 +80,8 @@ namespace ICT_LAB_Web.Controllers
                 return StatusCode(400, "Invalid parameter(s).");
             }
 
-            Device device = new Device {
+            Device device = new Device
+            {
                 DeviceId = model.DeviceId,
                 RoomCode = model.RoomCode
             };
@@ -90,7 +93,11 @@ namespace ICT_LAB_Web.Controllers
                 return StatusCode(500, "A problem occured while saving the record. Please try again!");
             }
 
-            return Ok(result);
+            return Ok(new DeviceViewModel
+            {
+                DeviceId = result.DeviceId,
+                RoomCode = result.RoomCode
+            });
         }
 
         // DELETE: api/devices/delete?device=1
