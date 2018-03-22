@@ -7,6 +7,22 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="src\app\shared\models\device.model.ts" />
+    <None Remove="src\app\shared\models\issue.model..ts" />
+    <None Remove="src\app\shared\models\notification.model.ts" />
+    <None Remove="src\app\shared\models\participant.model.ts" />
+    <None Remove="src\app\shared\models\reading.model.ts" />
+    <None Remove="src\app\shared\models\reservation.model.ts" />
+    <None Remove="src\app\shared\models\role.model.ts" />
+    <None Remove="src\app\shared\models\room.model.ts" />
+    <None Remove="src\app\shared\models\user.model.ts" />
+    <None Remove="src\app\shared\services\device.service.ts" />
+    <None Remove="src\app\shared\services\reading.service.ts" />
+    <None Remove="src\app\shared\services\room.service.ts" />
+    <None Remove="src\app\shared\services\user.service.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
@@ -25,6 +41,22 @@
 
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.DotNet.Watcher.Tools" Version="2.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="src\app\shared\models\device.model.ts" />
+    <TypeScriptCompile Include="src\app\shared\models\issue.model..ts" />
+    <TypeScriptCompile Include="src\app\shared\models\notification.model.ts" />
+    <TypeScriptCompile Include="src\app\shared\models\participant.model.ts" />
+    <TypeScriptCompile Include="src\app\shared\models\reservation.model.ts" />
+    <TypeScriptCompile Include="src\app\shared\models\role.model.ts" />
+    <TypeScriptCompile Include="src\app\shared\models\room.model.ts" />
+    <TypeScriptCompile Include="src\app\shared\models\reading.model.ts" />
+    <TypeScriptCompile Include="src\app\shared\models\user.model.ts" />
+    <TypeScriptCompile Include="src\app\shared\services\device.service.ts" />
+    <TypeScriptCompile Include="src\app\shared\services\reading.service.ts" />
+    <TypeScriptCompile Include="src\app\shared\services\room.service.ts" />
+    <TypeScriptCompile Include="src\app\shared\services\user.service.ts" />
   </ItemGroup>
 
 </Project>
