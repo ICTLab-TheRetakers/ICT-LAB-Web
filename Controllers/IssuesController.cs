@@ -165,5 +165,24 @@ namespace ICT_LAB_Web.Controllers
 
             return Ok();
         }
+
+        // DELETE: api/issues/deleteFromRoom?room=WD.001.016
+        [HttpDelete]
+        public async Task<IActionResult> DeleteFromRoom(string room)
+        {
+            if (String.IsNullOrEmpty(room))
+            {
+                return StatusCode(400, "Invalid parameter(s).");
+            }
+
+            //Remove issue(s)
+            var succeeded = await _issueRepository.DeleteFromRoom(room);
+            if (!succeeded)
+            {
+                return StatusCode(500, "A problem occured while removing the record. Please try again!");
+            }
+
+            return Ok();
+        }
     }
 }

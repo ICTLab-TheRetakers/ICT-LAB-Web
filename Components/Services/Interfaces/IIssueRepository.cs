@@ -11,5 +11,6 @@ namespace ICT_LAB_Web.Components.Services.Interfaces
         Task<Issue> Add(Issue issue);
         Task<Issue> Update(Issue issue);
         Task<bool> Delete(int issue);
+        Task<bool> DeleteFromRoom(string room);
     }
 }

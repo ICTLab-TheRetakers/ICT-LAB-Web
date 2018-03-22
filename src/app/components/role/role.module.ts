@@ -1,11 +1,20 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RoleComponent } from './role/role.component';
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
+
+import { RoleComponent } from './role.component';
+import { RoleService } from '../../shared/services/role.service';
 
 @NgModule({
   imports: [
-    CommonModule
+    CommonModule,
+    HttpClientModule,
+    FormsModule
   ],
-  declarations: [RoleComponent]
+  declarations: [RoleComponent],
+  providers: [
+    RoleService
+  ],
 })
 export class RoleModule { }

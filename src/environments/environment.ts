@@ -6,11 +6,12 @@
 export const environment = {
     production: false,
     baseUrl: 'http://145.24.222.238/api',
-    userApi: this.baseUrl + '/users/',
-    roomApi: this.baseUrl + '/rooms/',
-    readingApi: this.baseUrl + '/readings/',
     deviceApi: this.baseUrl + '/devices/',
-    reservationApi: this.baseUrl + '/reservations/',
     issueApi: this.baseUrl + '/issues/',
     notificationsApi: this.baseUrl + '/notifications/',
+    readingApi: this.baseUrl + '/readings/',
+    reservationApi: this.baseUrl + '/reservations/',
+    roleApi: this.baseUrl + '/roles/',
+    roomApi: this.baseUrl + '/rooms/',
+    userApi: this.baseUrl + '/users/',
 };

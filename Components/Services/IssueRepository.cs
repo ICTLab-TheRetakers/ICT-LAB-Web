@@ -43,6 +43,15 @@ namespace ICT_LAB_Web.Components.Services
             return result == 1 ? true : false;
         }
 
+        public async Task<bool> DeleteFromRoom(string room)
+        {
+            List<Issue> issuesToDelete = await _dbContext.Issues.Where(q => q.RoomCode == room).ToListAsync();
+            _dbContext.Issues.RemoveRange(issuesToDelete);
+
+            var result = await _dbContext.SaveChangesAsync();
+            return result == 1 ? true : false;
+        }
+
         public async Task<Issue> Get(int issueId)
         {
             var response = await _dbContext.Issues.FirstOrDefaultAsync(q => q.IssueId == issueId);

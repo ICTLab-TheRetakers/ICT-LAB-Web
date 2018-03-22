@@ -6,42 +6,23 @@ import { environment } from '../../../environments/environment';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 
-import Roomreading from '../models/reading.model';
+import Role from '../models/role.model';
 
 @Injectable()
-export class RoomReadingService {
+export class RoleService {
 
-    private baseUrl = environment.readingApi;
+    private baseUrl = environment.roleApi;
 
     constructor(public http: HttpClient) { }
 
-    get(room: string, type: string): Observable<Roomreading[]> {
-        return this.http.get(this.baseUrl + 'get?room=' + room + '&type=' + type)
+    get(id: number): Observable<Role> {
+        return this.http.get(this.baseUrl + 'get?role=' + id)
             .map(this.extractData)
             .catch(this.handleError);
     }
 
-    getByDate(room: string, type: string, from: string, till: string): Observable<Roomreading[]> {
-        return this.http.get(this.baseUrl + 'get?room=' + room + '&type=' + type
-            + '&from=' + from + '&till=' + till)
-            .map(this.extractData)
-            .catch(this.handleError);
-    }
-
-    getByRoom(room: string): Observable<Roomreading[]> {
-        return this.http.get(this.baseUrl + 'getByRoom?room=' + room)
-            .map(this.extractData)
-            .catch(this.handleError);
-    }
-
-    create(reading: Roomreading): Observable<Roomreading> {
-        return this.http.post(this.baseUrl + 'create', reading)
-            .map(this.extractData)
-            .catch(this.handleError);
-    }
-
-    delete(room: string): Observable<boolean> {
-        return this.http.delete(this.baseUrl + 'delete?room=' + room)
+    getAll(): Observable<Role[]> {
+        return this.http.get(this.baseUrl + 'get')
             .map(this.extractData)
             .catch(this.handleError);
     }

@@ -6,42 +6,53 @@ import { environment } from '../../../environments/environment';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 
-import Roomreading from '../models/reading.model';
+import Reservation from '../models/reservation.model';
 
 @Injectable()
-export class RoomReadingService {
+export class ReservationService {
 
-    private baseUrl = environment.readingApi;
+    private baseUrl = environment.reservationApi;
 
     constructor(public http: HttpClient) { }
 
-    get(room: string, type: string): Observable<Roomreading[]> {
-        return this.http.get(this.baseUrl + 'get?room=' + room + '&type=' + type)
+    get(user: string): Observable<Reservation> {
+        return this.http.get(this.baseUrl + 'get?user=' + user)
             .map(this.extractData)
             .catch(this.handleError);
     }
 
-    getByDate(room: string, type: string, from: string, till: string): Observable<Roomreading[]> {
-        return this.http.get(this.baseUrl + 'get?room=' + room + '&type=' + type
-            + '&from=' + from + '&till=' + till)
+    getByDate(user: string, from: string, till: string): Observable<Reservation[]> {
+        return this.http.get(this.baseUrl + 'get?user=' + user + '&from=' + from + '&till=' + till)
             .map(this.extractData)
             .catch(this.handleError);
     }
 
-    getByRoom(room: string): Observable<Roomreading[]> {
+    getByRoomAndDate(room: string, from: string, till: string): Observable<Reservation[]> {
+        return this.http.get(this.baseUrl + 'getByRoom?room=' + room + '&from=' + from + '&till=' + till)
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
+
+    getByRoom(room: string): Observable<Reservation[]> {
         return this.http.get(this.baseUrl + 'getByRoom?room=' + room)
             .map(this.extractData)
             .catch(this.handleError);
     }
 
-    create(reading: Roomreading): Observable<Roomreading> {
-        return this.http.post(this.baseUrl + 'create', reading)
+    create(reservation: Reservation): Observable<Reservation> {
+        return this.http.post(this.baseUrl + 'create', reservation)
             .map(this.extractData)
             .catch(this.handleError);
     }
 
-    delete(room: string): Observable<boolean> {
-        return this.http.delete(this.baseUrl + 'delete?room=' + room)
+    update(reservation: Reservation): Observable<Reservation> {
+        return this.http.put(this.baseUrl + 'update', reservation)
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
+
+    delete(room: string, start: string): Observable<Reservation[]> {
+        return this.http.delete(this.baseUrl + 'delete?room=' + room + '&start=' + start)
             .map(this.extractData)
             .catch(this.handleError);
     }

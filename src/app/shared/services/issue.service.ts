@@ -6,42 +6,47 @@ import { environment } from '../../../environments/environment';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 
-import Roomreading from '../models/reading.model';
+import Issue from '../models/issue.model';
 
 @Injectable()
-export class RoomReadingService {
+export class IssueService {
 
-    private baseUrl = environment.readingApi;
+    private baseUrl = environment.issueApi;
 
     constructor(public http: HttpClient) { }
 
-    get(room: string, type: string): Observable<Roomreading[]> {
-        return this.http.get(this.baseUrl + 'get?room=' + room + '&type=' + type)
+    get(id: number): Observable<Issue> {
+        return this.http.get(this.baseUrl + 'get?issue=' + id)
             .map(this.extractData)
             .catch(this.handleError);
     }
 
-    getByDate(room: string, type: string, from: string, till: string): Observable<Roomreading[]> {
-        return this.http.get(this.baseUrl + 'get?room=' + room + '&type=' + type
-            + '&from=' + from + '&till=' + till)
-            .map(this.extractData)
-            .catch(this.handleError);
-    }
-
-    getByRoom(room: string): Observable<Roomreading[]> {
+    getByRoom(room: string): Observable<Issue[]> {
         return this.http.get(this.baseUrl + 'getByRoom?room=' + room)
             .map(this.extractData)
             .catch(this.handleError);
     }
 
-    create(reading: Roomreading): Observable<Roomreading> {
-        return this.http.post(this.baseUrl + 'create', reading)
+    create(issue: Issue): Observable<Issue> {
+        return this.http.post(this.baseUrl + 'create', issue)
             .map(this.extractData)
             .catch(this.handleError);
     }
 
-    delete(room: string): Observable<boolean> {
-        return this.http.delete(this.baseUrl + 'delete?room=' + room)
+    update(issue: Issue): Observable<Issue> {
+        return this.http.put(this.baseUrl + 'update', issue)
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
+
+    delete(id: number): Observable<boolean> {
+        return this.http.delete(this.baseUrl + 'delete?issue=' + id)
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
+
+    deleteFromRoom(room: string): Observable<boolean> {
+        return this.http.delete(this.baseUrl + 'deleteFromRoom?room=' + room)
             .map(this.extractData)
             .catch(this.handleError);
     }

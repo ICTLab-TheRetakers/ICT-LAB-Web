@@ -3,8 +3,8 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 
-import { NotificationComponent } from './notification.component';
-import { NotificationService } from '../../shared/services/notification.service';
+import { RoomreadingsComponent } from './roomreading.component';
+import { RoomReadingService } from '../../shared/services/reading.service';
 
 @NgModule({
   imports: [
@@ -12,9 +12,9 @@ import { NotificationService } from '../../shared/services/notification.service'
     HttpClientModule,
     FormsModule
   ],
-  declarations: [NotificationComponent],
+  declarations: [RoomreadingsComponent],
   providers: [
-    NotificationService
+      RoomReadingService
   ],
 })
-export class NotificationModule { }
+export class RoomreadingsModule { }
