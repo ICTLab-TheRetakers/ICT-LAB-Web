@@ -1,9 +1,9 @@
-<input type="text" [(ngModel)]="location" (ngModelChange)="findRoomsByLocation" placeholder="Please enter a location" />
+<input type="text" [(ngModel)]="location" placeholder="Please enter a location" />
 
 <br />
 
-<select #roomList (change)="currentRoom = roomList.value">
-    <option *ngFor="let room of findRoomsByLocation()" [value]="room">{{ room.room_code }} - {{ room.location }}</option>
+<select [(ngModel)]="selectedRoom" (ngModelChange)="selectRoom()">
+    <option *ngFor="let room of findRoomsByLocation()" [value]="room.room_code">{{ room.room_code }} - {{ room.location }}</option>
 </select>
 
 <br />
