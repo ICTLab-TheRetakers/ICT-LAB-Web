@@ -1,5 +1,7 @@
-<h1> Does it change? huh, it does..</h1>
-<ul>
-  <li *ngFor="let value of apiValues"> {{value}}</li>
-</ul>
+<input type="text" [(ngModel)]="location" placeholder="Please enter a location"/>
 
+<br />
+
+<select *ngIf="location">
+    <option *ngFor="let room in rooms">{{ room.room_code }}</option>
+</select>
