@@ -10,6 +10,7 @@ import Room from '../../shared/models/room.model';
 export class RoomComponent implements OnInit {
     location: string = '';
     rooms: Room[] = [];
+    currentRoom: Room;
 
     constructor(private _roomService: RoomService) { }
 
@@ -17,8 +18,8 @@ export class RoomComponent implements OnInit {
         this.getAllRooms();
     }
 
-    findRoomsByLocation(): Room[] {
-        return this.rooms.filter(f => f.location.indexOf(this.location) != -1);
+    findRoomsByLocation(): void {
+        this.rooms.filter(f => f.location.includes(this.location));
     }
 
     getAllRooms() {
