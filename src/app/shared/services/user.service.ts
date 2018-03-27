@@ -17,43 +17,38 @@ export class UserService {
 
     getByEmail(email: string): Observable<User> {
         return this.http.get(this.baseUrl + 'getByEmail?email=' + email)
-            .map(this.extractData)
+            .map(res => res)
             .catch(this.handleError);
     }
 
     getById(id: string): Observable<User> {
         return this.http.get(this.baseUrl + 'get?user=' + id)
-            .map(this.extractData)
+            .map(res => res)
             .catch(this.handleError);
     }
 
     checkCredentials(email: string, password: string): Observable<boolean> {
         return this.http.get(this.baseUrl + 'checkCredentials?email=' + email + '&password=' + password)
-            .map(this.extractData)
+            .map(res => res)
             .catch(this.handleError);
     }
 
     create(user: User): Observable<User> {
         return this.http.post(this.baseUrl + 'create', user)
-            .map(this.extractData)
+            .map(res => res)
             .catch(this.handleError);
     }
 
     update(user: User): Observable<User> {
         return this.http.put(this.baseUrl + 'update', user)
-            .map(this.extractData)
+            .map(res => res)
             .catch(this.handleError);
     }
 
     delete(id: string): Observable<boolean> {
         return this.http.delete(this.baseUrl + 'delete?user=' + id)
-            .map(this.extractData)
+            .map(res => res)
             .catch(this.handleError);
-    }
-
-    private extractData(res: Response) {
-        let body = res.json();
-        return body.data || {};
     }
 
     private handleError(error) {
@@ -66,7 +61,7 @@ export class UserService {
         } else {
             errMsg = error.message ? error.message : error.toString();
         }
-        console.error(errMsg);
+        console.log(errMsg);
         return Observable.throw(errMsg);
     }
 }

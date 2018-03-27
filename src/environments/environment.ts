@@ -12,6 +12,6 @@ export const environment = {
     readingApi: this.baseUrl + '/readings/',
     reservationApi: this.baseUrl + '/reservations/',
     roleApi: this.baseUrl + '/roles/',
-    roomApi: this.baseUrl + '/rooms/',
+    roomApi: 'http://145.24.222.238/api/rooms/',
     userApi: this.baseUrl + '/users/',
 };

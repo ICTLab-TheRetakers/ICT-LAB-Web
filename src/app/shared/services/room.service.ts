@@ -10,44 +10,38 @@ import Room from '../models/room.model';
 
 @Injectable()
 export class RoomService {
-
-    private baseUrl = environment.readingApi;
+    private baseUrl = environment.roomApi;
 
     constructor(public http: HttpClient) { }
 
     get(room: string): Observable<Room> {
         return this.http.get(this.baseUrl + 'get?room=' + room)
-            .map(this.extractData)
+            .map(res => res)
             .catch(this.handleError);
     }
 
     getByLocation(location: string): Observable<Room[]> {
         return this.http.get(this.baseUrl + 'getByLocation?location=' + location)
-            .map(this.extractData)
+            .map(res => res)
             .catch(this.handleError);
     }
 
     create(room: Room): Observable<Room> {
         return this.http.post(this.baseUrl + 'create', room)
-            .map(this.extractData)
+            .map(res => res)
             .catch(this.handleError);
     }
 
     update(room: Room): Observable<Room> {
         return this.http.put(this.baseUrl + 'update', room)
-            .map(this.extractData)
+            .map(res => res)
             .catch(this.handleError);
     }
 
     delete(room: string): Observable<boolean> {
         return this.http.delete(this.baseUrl + 'delete?room=' + room)
-            .map(this.extractData)
+            .map(res => res)
             .catch(this.handleError);
-    }
-
-    private extractData(res: Response) {
-        let body = res.json();
-        return body.data || {};
     }
 
     private handleError(error) {
@@ -60,7 +54,7 @@ export class RoomService {
         } else {
             errMsg = error.message ? error.message : error.toString();
         }
-        console.error(errMsg);
+        console.log(errMsg);
         return Observable.throw(errMsg);
     }
 }

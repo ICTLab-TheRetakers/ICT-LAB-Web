@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-roomreadings',
-  templateUrl: './roomreadings.component.html',
-  styleUrls: ['./roomreadings.component.css']
+  templateUrl: './roomreading.component.html',
+  styleUrls: ['./roomreading.component.css']
 })
 export class RoomReadingComponent implements OnInit {
 

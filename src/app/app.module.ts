@@ -4,20 +4,40 @@ import { AppComponent } from './app.component';
 
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
+
 import { RoomService } from './shared/services/room.service';
 
+import { AppRoutingModule } from './app.routing';
+import { RoomModule } from './components/room/room.module';
+import { UserModule } from './components/user/user.module';
+import { RoomreadingsModule } from './components/roomreading/roomreading.module';
+import { DeviceModule } from './components/device/device.module';
+import { NotificationModule } from './components/notification/notification.module';
+import { IssueModule } from './components/issue/issue.module';
+import { ReservationModule } from './components/reservation/reservation.module';
+import { RoleModule } from './components/role/role.module';
+
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
-  imports: [
-    BrowserModule,
-    FormsModule,
-    HttpModule
-  ],
-  providers: [
-    RoomService
-  ],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent
+    ],
+    imports: [
+        BrowserModule,
+        FormsModule,
+        HttpModule,
+        AppRoutingModule,
+        RoomModule,
+        UserModule,
+        RoomreadingsModule,
+        DeviceModule,
+        NotificationModule,
+        IssueModule,
+        ReservationModule,
+        RoleModule
+    ],
+    providers: [
+        RoomService
+    ],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }

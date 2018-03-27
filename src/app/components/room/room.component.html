@@ -1,3 +1,7 @@
-<p>
-  room works!
-</p>
+<input type="text" [(ngModel)]="location" (ngModelChange)="findRooms" placeholder="Please enter a location" />
+
+<br />
+
+<select *ngIf="location != ''">
+    <option *ngFor="let room of rooms">{{ room.room_code }}</option>
+</select>

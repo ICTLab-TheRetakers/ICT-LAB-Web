@@ -10,15 +10,6 @@ import { RoomService } from './shared/services/room.service';
 })
 
 export class AppComponent implements OnInit {
-    location: string = 'Wijnhaven 107';
-    rooms: Room[] = [];
-
-    constructor(private _roomService: RoomService) { }
-
-    ngOnInit() {
-        this._roomService.getByLocation(this.location).subscribe(
-            values => this.rooms = values,
-            (err) => console.log(err)
-        );
-    }
+    constructor() { }
+    ngOnInit() {}
 }
