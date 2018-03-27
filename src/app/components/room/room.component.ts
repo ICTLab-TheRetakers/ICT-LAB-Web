@@ -17,8 +17,8 @@ export class RoomComponent implements OnInit {
         this.getAllRooms();
     }
 
-    findRoomsByLocation(): void {
-        this.rooms.filter(f => f.location.includes(this.location));
+    findRoomsByLocation(): Room[] {
+        return this.rooms.filter(f => f.location.indexOf(this.location) != -1);
     }
 
     getAllRooms() {
