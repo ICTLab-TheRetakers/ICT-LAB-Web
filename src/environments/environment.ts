@@ -5,13 +5,12 @@
 
 export const environment = {
     production: false,
-    baseUrl: 'http://145.24.222.238/api',
-    deviceApi: this.baseUrl += '/devices/',
-    issueApi: this.baseUrl += '/issues/',
-    notificationsApi: this.baseUrl += '/notifications/',
-    readingApi: this.baseUrl += '/readings/',
-    reservationApi: this.baseUrl += '/reservations/',
-    roleApi: this.baseUrl += '/roles/',
-    roomApi: this.baseUrl += '/rooms/',
-    userApi: this.baseUrl += '/users/',
+    deviceApi: 'http://145.24.222.238/api/devices/',
+    issueApi: 'http://145.24.222.238/api/issues/',
+    notificationsApi: 'http://145.24.222.238/api/notifications/',
+    readingApi: 'http://145.24.222.238/api/readings/',
+    reservationApi: 'http://145.24.222.238/apireservations/',
+    roleApi: 'http://145.24.222.238/api/roles/',
+    roomApi: 'http://145.24.222.238/api/rooms/',
+    userApi: 'http://145.24.222.238/api/users/',
 };
