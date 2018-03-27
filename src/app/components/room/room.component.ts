@@ -8,19 +8,22 @@ import Room from '../../shared/models/room.model';
   styleUrls: ['./room.component.css']
 })
 export class RoomComponent implements OnInit {
-
-    location: string = 'Wijnhaven 107';
+    location: string = '';
     rooms: Room[] = [];
 
     constructor(private _roomService: RoomService) { }
 
     ngOnInit() {
-        this.findRooms();
+        this.getAllRooms();
     }
 
-    findRooms(): void {
-        this._roomService.getByLocation(this.location).subscribe(
-            values => this.rooms = values.map(r => new Room(r.room_code, r.has_smartboard, r.has_computer, r.has_windows, r.student_capacity, r.location)),
+    findRoomsByLocation(): void {
+        this.rooms.filter(f => f.location.includes(this.location));
+    }
+
+    getAllRooms() {
+        this._roomService.getAllRooms().subscribe(
+            values => this.rooms = values,
             (err) => console.log(err)
         );
     }

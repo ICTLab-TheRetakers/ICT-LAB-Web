@@ -49,6 +49,30 @@ namespace ICT_LAB_Web.Controllers
             return Ok(result);
         }
 
+        // GET: api/rooms/getAll
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            //Get rooms
+            var data = await _roomRepository.GetAll();
+            if (data == null)
+            {
+                return StatusCode(500, "Rooms could not be found.");
+            }
+
+            //Convert to view model
+            var result = data.Select(x => new RoomViewModel {
+                RoomCode = x.RoomCode,
+                HasSmartboard = x.HasSmartboard,
+                HasComputer = x.HasComputer,
+                HasWindows = x.HasWindows,
+                StudentCapacity = x.StudentCapacity,
+                Location = x.Location
+            });
+
+            return Ok(result);
+        }
+
         // GET: api/rooms/get?room=WD.001.016
         [HttpGet]
         public async Task<IActionResult> Get(string room)

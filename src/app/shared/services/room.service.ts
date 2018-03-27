@@ -20,6 +20,12 @@ export class RoomService {
             .catch(this.handleError);
     }
 
+    getAllRooms(): Observable<Room[]> {
+        return this.http.get(this.baseUrl + 'getAll')
+            .map(res => res)
+            .catch(this.handleError);
+    }
+
     getByLocation(location: string): Observable<Room[]> {
         return this.http.get(this.baseUrl + 'getByLocation?location=' + location)
             .map(res => res)

@@ -49,6 +49,11 @@ namespace ICT_LAB_Web.Components.Services
             return response;
         }
 
+        public async Task<List<Room>> GetAll()
+        {
+            return await _dbContext.Rooms.ToListAsync();
+        }
+
         public Task<List<Room>> GetByLocation(string location)
         {
             return _dbContext.Rooms.Where(q => q.Location.ToLower() == location.ToLower()).ToListAsync();
