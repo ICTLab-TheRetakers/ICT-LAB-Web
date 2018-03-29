@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 
@@ -17,7 +17,8 @@ import { RoleService } from '../../shared/services/role.service';
     ],
     declarations: [RoleComponent],
     providers: [
-        RoleService
+        RoleService,
+        { provide: LocationStrategy, useClass: HashLocationStrategy }
     ],
 })
 export class RoleModule { }

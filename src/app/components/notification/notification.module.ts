@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 
@@ -17,7 +17,8 @@ import { NotificationService } from '../../shared/services/notification.service'
     ],
     declarations: [NotificationComponent],
     providers: [
-        NotificationService
+        NotificationService,
+        { provide: LocationStrategy, useClass: HashLocationStrategy }
     ],
 })
 export class NotificationModule { }

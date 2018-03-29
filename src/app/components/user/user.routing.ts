@@ -7,10 +7,7 @@ const routes: Routes = [
     {
         path: 'users',
         children: [
-            { path: '', component: UserComponent },
-            //{ path: 'add', component: AddRoomComponent },
-            //{ path: 'details/:id', component: DetailRoomComponent },
-            //{ path: 'edit/:id', component: EditRoomComponent }
+            { path: '', component: UserComponent }
         ]
     },
 ];

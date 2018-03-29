@@ -5,9 +5,9 @@ import { RoomComponent } from './room.component';
 
 const routes: Routes = [
     {
-        path: 'debtors',
+        path: 'rooms',
         children: [
-            { path: '', component: RoomComponent },
+            { path: '', component: RoomComponent }
             //{ path: 'add', component: AddRoomComponent },
             //{ path: 'details/:id', component: DetailRoomComponent },
             //{ path: 'edit/:id', component: EditRoomComponent }

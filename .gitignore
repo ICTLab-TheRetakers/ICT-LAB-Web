@@ -45,3 +45,6 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+.vs/ICT-LAB-Web/v15/.suo
+.vs/ICT-LAB-Web/v15/Server/sqlite3/storage.ide-shm
+obj/Debug/netcoreapp2.0/ICT-LAB-Web.csproj.CoreCompileInputs.cache

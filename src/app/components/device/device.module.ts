@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 
@@ -17,7 +17,8 @@ import { DeviceService } from '../../shared/services/device.service';
     ],
     declarations: [DeviceComponent],
     providers: [
-        DeviceService
+        DeviceService,
+        { provide: LocationStrategy, useClass: HashLocationStrategy }
     ],
 })
 export class DeviceModule { }
