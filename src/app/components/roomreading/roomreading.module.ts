@@ -17,8 +17,7 @@ import { RoomReadingComponent } from './roomreading.component';
     ],
     declarations: [RoomReadingComponent],
     providers: [
-        RoomReadingService,
-        { provide: LocationStrategy, useClass: HashLocationStrategy }
+        RoomReadingService
     ],
 })
 export class RoomreadingsModule { }

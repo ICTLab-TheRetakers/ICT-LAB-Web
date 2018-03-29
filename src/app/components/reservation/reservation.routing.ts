@@ -7,7 +7,7 @@ const routes: Routes = [
     {
         path: 'reservations',
         children: [
-            { path: '', component: ReservationComponent }
+            { path: '', component: ReservationComponent, pathMatch: 'full' }
         ]
     },
 ];

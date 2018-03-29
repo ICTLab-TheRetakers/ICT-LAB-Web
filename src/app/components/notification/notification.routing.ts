@@ -7,7 +7,7 @@ const routes: Routes = [
     {
         path: 'notifications',
         children: [
-            { path: '', component: NotificationComponent }
+            { path: '', component: NotificationComponent, pathMatch: 'full' }
         ]
     },
 ];

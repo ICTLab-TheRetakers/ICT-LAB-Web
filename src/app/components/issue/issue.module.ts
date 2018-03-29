@@ -17,8 +17,7 @@ import { IssueService } from '../../shared/services/issue.service';
     ],
     declarations: [IssueComponent],
     providers: [
-        IssueService,
-        { provide: LocationStrategy, useClass: HashLocationStrategy }
+        IssueService
     ],
 })
 export class IssueModule { }

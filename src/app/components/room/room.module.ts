@@ -18,8 +18,7 @@ import { RoomService } from '../../shared/services/room.service';
     ],
     declarations: [RoomComponent],
     providers: [
-        RoomService,
-        { provide: LocationStrategy, useClass: HashLocationStrategy }
+        RoomService
     ],
 })
 export class RoomModule { }

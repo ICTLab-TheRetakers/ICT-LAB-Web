@@ -7,7 +7,7 @@ const routes: Routes = [
     {
         path: 'roles',
         children: [
-            { path: '', component: RoleComponent }
+            { path: '', component: RoleComponent, pathMatch: 'full' }
         ]
     },
 ];

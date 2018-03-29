@@ -17,8 +17,7 @@ import { NotificationService } from '../../shared/services/notification.service'
     ],
     declarations: [NotificationComponent],
     providers: [
-        NotificationService,
-        { provide: LocationStrategy, useClass: HashLocationStrategy }
+        NotificationService
     ],
 })
 export class NotificationModule { }

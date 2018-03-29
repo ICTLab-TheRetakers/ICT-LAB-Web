@@ -17,8 +17,7 @@ import { RoleService } from '../../shared/services/role.service';
     ],
     declarations: [RoleComponent],
     providers: [
-        RoleService,
-        { provide: LocationStrategy, useClass: HashLocationStrategy }
+        RoleService
     ],
 })
 export class RoleModule { }
