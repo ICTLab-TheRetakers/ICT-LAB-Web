@@ -5,9 +5,9 @@
 /dist-server
 /tmp
 /out-tsc
-[Bb]in/
-[Oo]bj/
-wwwroot/
+[Bb]in/*
+[Oo]bj/*
+wwwroot/*
 
 # dependencies
 /node_modules
@@ -45,3 +45,15 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+.vs/ICT-LAB-Web/v15/.suo
+.vs/ICT-LAB-Web/v15/.suo
+.vs/ICT-LAB-Web/v15/Server/sqlite3/storage.ide
+.vs/ICT-LAB-Web/v15/Server/sqlite3/storage.ide-shm
+.vs/ICT-LAB-Web/v15/Server/sqlite3/storage.ide-wal
+obj/Debug/netcoreapp2.0/ICT-LAB-Web.csproj.CoreCompileInputs.cache
+obj/Debug/netcoreapp2.0/ICT-LAB-Web.csprojResolveAssemblyReference.cache
+obj/Debug/netcoreapp2.0/ICT-LAB-Web.dll
+obj/Debug/netcoreapp2.0/ICT-LAB-Web.pdb
+obj/ICT-LAB-Web.csproj.nuget.cache
+obj/ICT-LAB-Web.csproj.nuget.g.props
+obj/project.assets.json
