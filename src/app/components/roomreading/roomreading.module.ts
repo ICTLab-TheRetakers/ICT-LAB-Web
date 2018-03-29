@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 
+import { RoomReadingRoutingModule } from './roomreading.routing';
+
 import { RoomReadingService } from '../../shared/services/reading.service';
 import { RoomReadingComponent } from './roomreading.component';
 
@@ -10,7 +12,8 @@ import { RoomReadingComponent } from './roomreading.component';
     imports: [
         CommonModule,
         HttpClientModule,
-        FormsModule
+        FormsModule,
+        RoomReadingRoutingModule
     ],
     declarations: [RoomReadingComponent],
     providers: [
