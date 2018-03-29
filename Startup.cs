@@ -36,7 +36,7 @@ namespace ICT_LAB_Web
                     await next();
                 }
             });
-            app.UseMvcWithDefaultRoute();
+
             app.UseDefaultFiles();
             app.UseStaticFiles();
 
@@ -48,6 +48,9 @@ namespace ICT_LAB_Web
             );
 
             app.UseMvc(routes => {
+                routes.MapRoute(
+                    "Default", "{controller}/{action}/{id?}"
+                );
                 routes.MapRoute(
                     name: "readings",
                     template: "api/readings/{action}/{id?}",

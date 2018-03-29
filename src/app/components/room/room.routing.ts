@@ -7,7 +7,7 @@ const routes: Routes = [
     {
         path: 'rooms',
         children: [
-            { path: '', component: RoomComponent, pathMatch: 'full' }
+            { path: '', component: RoomComponent }
             //{ path: 'add', component: AddRoomComponent },
             //{ path: 'details/:id', component: DetailRoomComponent },
             //{ path: 'edit/:id', component: EditRoomComponent }

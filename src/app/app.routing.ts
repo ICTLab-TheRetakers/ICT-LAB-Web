@@ -17,19 +17,20 @@ const routes: Routes = [
     },
     {
         path: 'users',
-        component: UserComponent,
+        component: UserComponent
     },
     {
         path: 'rooms',
         component: RoomComponent,
+        pathMatch: 'full'
     },
     {
         path: 'devices',
-        component: DeviceComponent,
+        component: DeviceComponent
     },
     {
         path: 'issues',
-        component: IssueComponent,
+        component: IssueComponent
     },
     {
         path: 'readings',
@@ -37,7 +38,7 @@ const routes: Routes = [
     },
     {
         path: 'notifications',
-        component: NotificationComponent,
+        component: NotificationComponent
     }
 ];
 
