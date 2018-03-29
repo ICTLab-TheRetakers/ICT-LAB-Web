@@ -13,11 +13,11 @@ const routes: Routes = [
             //{ path: 'edit/:id', component: EditRoomComponent }
         ]
     },
-];
+]; 
 
 @NgModule({
     imports: [
-        RouterModule.forRoot(routes)
+        RouterModule.forChild(routes)
     ],
     exports: [
         RouterModule

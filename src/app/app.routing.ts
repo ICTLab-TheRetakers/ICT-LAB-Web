@@ -33,7 +33,7 @@ const routes: Routes = [
     },
     {
         path: 'readings',
-        component: RoomReadingComponent,
+        component: RoomReadingComponent
     },
     {
         path: 'notifications',

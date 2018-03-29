@@ -26,7 +26,6 @@ import { RoleModule } from './components/role/role.module';
         BrowserModule,
         FormsModule,
         HttpModule,
-        AppRoutingModule,
         RoomModule,
         UserModule,
         RoomreadingsModule,
@@ -34,7 +33,8 @@ import { RoleModule } from './components/role/role.module';
         NotificationModule,
         IssueModule,
         ReservationModule,
-        RoleModule
+        RoleModule,
+        AppRoutingModule
     ],
     providers: [
         RoomService,
