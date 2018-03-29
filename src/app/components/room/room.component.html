@@ -5,7 +5,7 @@
 
             <br />
 
-            <select [(ngModel)]="selectedRoom" (ngModelChange)="selectRoom()">
+            <select [(ngModel)]="availableRooms" (ngModelChange)="selectRoom()">
                 <option *ngFor="let room of findRoomsByLocation()" [value]="room.room_code">{{ room.room_code }} - {{ room.location }}</option>
             </select>
 

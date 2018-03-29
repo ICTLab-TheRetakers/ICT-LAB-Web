@@ -11,7 +11,7 @@ export class RoomComponent implements OnInit {
     location: string = '';
     rooms: Room[] = [];
     currentRoom: Room;
-    selectedRoom: string;
+    availableRooms: string;
 
     constructor(private _roomService: RoomService) { }
 
@@ -24,7 +24,7 @@ export class RoomComponent implements OnInit {
     }
 
     selectRoom() {
-        this.currentRoom = this.rooms.filter(f => f.room_code == this.selectedRoom)[0];
+        this.currentRoom = this.rooms.filter(f => f.room_code == this.availableRooms)[0];
     }
 
     getAllRooms() {
