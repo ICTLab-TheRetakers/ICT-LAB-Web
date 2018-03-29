@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule, HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { CommonModule, PathLocationStrategy, LocationStrategy } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 
@@ -18,7 +18,7 @@ import { ReservationService } from '../../shared/services/reservation.service';
     declarations: [ReservationComponent],
     providers: [
         ReservationService,
-        { provide: LocationStrategy, useClass: HashLocationStrategy }
+        { provide: LocationStrategy, useClass: PathLocationStrategy }
     ],
 })
 export class ReservationModule { }

@@ -1,67 +1,57 @@
-# See http://help.github.com/ignore-files/ for more about ignoring files.
+# use glob syntax
+syntax: glob
 
-# compiled output
-/dist
-/dist-server
-/tmp
-/out-tsc
-[Bb]in/
-[Oo]bj/
-wwwroot/
-[Bb]in/*
-[Oo]bj/*
-wwwroot/*
+wwwroot/app/**
+wwwroot/bin/**
+wwwroot/js/**
+wwwroot/scripts/**
+wwwroot/styles/**
+wwwroot/dist/main-client.*
+ClientApp/dist/main-server.*
 
-# dependencies
-/node_modules
+node_modules/**
+[Ss]cripts/[Aa]pp/*.js
+[Ss]cripts/[Aa]pp_old/*.js
 
-# IDEs and editors
-/.idea
-.project
-.classpath
-.c9/
-*.launch
-.settings/
-*.sublime-workspace
+[Mm]igrations/**
 
-# IDE - VSCode
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
+.tscache/**
+.vs/
 
-# misc
-/.sass-cache
-/connect.lock
-/coverage
-/libpeerconnection.log
-npm-debug.log
-yarn-error.log
-testem.log
-/typings
-
-# e2e
-/e2e/*.js
-/e2e/*.map
-
-# System Files
-.DS_Store
-Thumbs.db
-.vs/ICT-LAB-Web/v15/.suo
-<<<<<<< HEAD
-.vs/ICT-LAB-Web/v15/Server/sqlite3/storage.ide-shm
-obj/Debug/netcoreapp2.0/ICT-LAB-Web.csproj.CoreCompileInputs.cache
-=======
-.vs/ICT-LAB-Web/v15/.suo
-.vs/ICT-LAB-Web/v15/Server/sqlite3/storage.ide
-.vs/ICT-LAB-Web/v15/Server/sqlite3/storage.ide-shm
-.vs/ICT-LAB-Web/v15/Server/sqlite3/storage.ide-wal
-obj/Debug/netcoreapp2.0/ICT-LAB-Web.csproj.CoreCompileInputs.cache
-obj/Debug/netcoreapp2.0/ICT-LAB-Web.csprojResolveAssemblyReference.cache
-obj/Debug/netcoreapp2.0/ICT-LAB-Web.dll
-obj/Debug/netcoreapp2.0/ICT-LAB-Web.pdb
-obj/ICT-LAB-Web.csproj.nuget.cache
-obj/ICT-LAB-Web.csproj.nuget.g.props
-obj/project.assets.json
->>>>>>> adb922bc3bac2c09190a4c623545ee74dc982c44
+*.mwb.bak	# MySQL Workbench .BAK file
+*.dbmdl		# VS2010 Database Projects cache file
+*.obj
+*.pdb
+*.user
+*.aps
+*.pch
+*.vspscc
+*.vssscc
+*_i.c
+*_p.c
+*.ncb
+*.suo
+*.tlb
+*.tlh
+*.bak
+*.[Cc]ache
+*.ilk
+*.log
+*.lib
+*.sbr
+*.scc
+*.DotSettings
+[Bb]in
+[Dd]ebug*/**
+obj/
+[Rr]elease*/**
+_ReSharper*/**
+NDependOut/**
+packages/**
+[Tt]humbs.db
+[Tt]est[Rr]esult*
+[Bb]uild[Ll]og.*
+*.[Pp]ublish.xml
+*.resharper
+*.ncrunch*
+*.ndproj

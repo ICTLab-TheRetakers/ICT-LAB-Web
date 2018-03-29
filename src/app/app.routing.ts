@@ -21,8 +21,7 @@ const routes: Routes = [
     },
     {
         path: 'rooms',
-        component: RoomComponent,
-        pathMatch: 'full'
+        component: RoomComponent
     },
     {
         path: 'devices',

@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { HashLocationStrategy, LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { AppComponent } from './app.component';
 
 import { FormsModule } from '@angular/forms';
@@ -37,7 +37,8 @@ import { RoleModule } from './components/role/role.module';
         RoleModule
     ],
     providers: [
-        RoomService
+        RoomService,
+        { provide: LocationStrategy, useClass: PathLocationStrategy } 
     ],
     bootstrap: [AppComponent]
 })
