@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { RoomComponent } from './room.component';
+import { UserComponent } from './user.component';
 
 const routes: Routes = [
     {
-        path: 'debtors',
+        path: 'users',
         children: [
-            { path: '', component: RoomComponent },
+            { path: '', component: UserComponent },
             //{ path: 'add', component: AddRoomComponent },
             //{ path: 'details/:id', component: DetailRoomComponent },
             //{ path: 'edit/:id', component: EditRoomComponent }
@@ -24,4 +24,4 @@ const routes: Routes = [
     ],
     declarations: []
 })
-export class RoomRoutingModule { }
+export class UserRoutingModule { }
