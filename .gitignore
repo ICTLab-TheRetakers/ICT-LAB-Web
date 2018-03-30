@@ -1,6 +1,9 @@
 # use glob syntax
 syntax: glob
 
+wwwroot/
+wwwroot/*.*
+wwwroot/**
 wwwroot/app/**
 wwwroot/bin/**
 wwwroot/js/**
@@ -55,7 +58,9 @@ packages/**
 *.resharper
 *.ncrunch*
 *.ndproj
+.vs/ICT-LAB-Web/**
+obj/Debug/netcoreapp2.0/**
+
+obj/**
 .vs/ICT-LAB-Web/v15/.suo
-obj/Debug/netcoreapp2.0/ICT-LAB-Web.csprojResolveAssemblyReference.cache
-obj/ICT-LAB-Web.csproj.nuget.cache
-obj/project.assets.json
+dist/**
