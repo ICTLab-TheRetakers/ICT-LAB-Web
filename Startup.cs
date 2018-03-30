@@ -32,11 +32,12 @@ namespace ICT_LAB_Web
                    !Path.HasExtension(context.Request.Path.Value) &&
                    !context.Request.Path.Value.StartsWith("/api/"))
                 {
-                    context.Request.Path = "./src/index.html";
+                    context.Request.Path = "/index.html";
                     await next();
                 }
             });
 
+            app.UseMvcWithDefaultRoute();
             app.UseDefaultFiles();
             app.UseStaticFiles();
 
@@ -48,9 +49,6 @@ namespace ICT_LAB_Web
             );
 
             app.UseMvc(routes => {
-                routes.MapRoute(
-                    "Default", "{controller}/{action}/{id?}"
-                );
                 routes.MapRoute(
                     name: "readings",
                     template: "api/readings/{action}/{id?}",
