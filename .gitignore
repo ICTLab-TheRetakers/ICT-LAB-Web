@@ -363,3 +363,15 @@ typings/
 
 
 # End of https://www.gitignore.io/api/node,angular,aspnetcore
+wwwroot/vendor.bundle.js
+wwwroot/polyfills.bundle.js
+wwwroot/main.bundle.js.map
+wwwroot/main.bundle.js
+wwwroot/inline.bundle.js.map
+wwwroot/inline.bundle.js
+obj/project.assets.json
+obj/ICT-LAB-Web.csproj.nuget.g.props
+obj/ICT-LAB-Web.csproj.nuget.cache
+obj/Debug/netcoreapp2.0/ICT-LAB-Web.csprojResolveAssemblyReference.cache
+obj/Debug/netcoreapp2.0/ICT-LAB-Web.csproj.CoreCompileInputs.cache
+.vs/ICT-LAB-Web/v15/.suo
