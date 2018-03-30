@@ -1,55 +1,43 @@
-import { ErrorHandler, Injectable } from '@angular/core';
+import { ErrorHandler, Injectable, Injector } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Subject, Observable, Subscription } from 'rxjs/Rx';
+import { Router } from '@angular/router';
 
-import { ToastyService, ToastyConfig, ToastyComponent, ToastOptions, ToastData } from 'ng2-toasty';
+import * as StackTraceParser from 'error-stack-parser';
+
+import { ErrorService } from './services/error.service';
+import { NotifyService } from './services/notify.service';
 
 @Injectable()
-export class GlobalErrorHandler extends ErrorHandler {
-
-    constructor(private toastyService: ToastyService) { super(); }
-
-    handleError(error: any) {
-        let message = '';
-        let subscription: Subscription;
-        const date = new Date().toISOString();
-
-        //Set message based on error
+export class ErrorsHandler implements ErrorHandler {
+    constructor(
+        private injector: Injector,
+    ) { }
+    handleError(error: Error | HttpErrorResponse) {
+        const notificationService = this.injector.get(NotifyService);
+        const errorsService = this.injector.get(ErrorService);
+        const router = this.injector.get(Router);
         if (error instanceof HttpErrorResponse) {
-            message = 'An error occured while your request was being processed, please try again!';
-            console.error(date, 'HTTP Error.', error.message, 'Status code:', (<HttpErrorResponse>error).status);
-        } else if (error instanceof TypeError) {
-            message = 'An error occured, please try again!';
-            console.error(date, 'Typescript Error', error.message);
-        } else if (error instanceof Error) {
-            message = 'An error occured, please try again!';
-            console.error(date, 'General Error', error.message);
+            // Server error happened      
+            if (!navigator.onLine) {
+                // No Internet connection
+                return notificationService.notify('No Internet Connection');
+            }
+            // Http Error
+            // Send the error to the server
+            errorsService
+                .log(error)
+                .subscribe();
+            // Show notification to the user
+            return notificationService.notify(`${error.status} - ${error.message}`);
         } else {
-            message = 'Something unexpected happened, please try again!';
-            console.error(date, 'Unexpected Error', error.message);
+            // Client Error Happend
+            // Send the error to the server and then
+            // redirect the user to the page with all the info
+            errorsService
+                .log(error)
+                .subscribe(errorWithContextInfo => {
+                    router.navigate(['/error'], { queryParams: errorWithContextInfo });
+                });
         }
-
-        //Create toast
-        var toastOptions: ToastOptions = {
-            title: "Oops, an error occured",
-            msg: message,
-            showClose: true,
-            timeout: 5000,
-            theme: 'bootstrap',
-            onAdd: (toast: ToastData) => {
-                let observable = Observable.interval(1000).take(5);
-                                // Start listen seconds beat
-                                    subscription = observable.subscribe((count: number) => {
-                                            //// Update title of toast
-                                                //toast.title = this.getTitle(seconds - count - 1);
-                                                //// Update message of toast
-                                                //toast.msg = this.getMessage(seconds - count - 1);
-                                            });
-            },
-            onRemove: function (toast: ToastData) {}
-        };
-
-        //Show toast
-        this.toastyService.error(toastOptions);
     }
 }
