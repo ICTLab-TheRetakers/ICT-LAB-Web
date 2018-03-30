@@ -5,6 +5,7 @@ import { Response } from '@angular/http';
 import { environment } from '../../../environments/environment';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
+import 'rxjs/add/observable/throw';
 
 import Room from '../models/room.model';
 
@@ -51,7 +52,6 @@ export class RoomService {
     }
 
     private handleError(error: Response) {
-        console.error(error);
-        return Observable.throw(error.json().error());
+        return Observable.throw(error);
     }
 }

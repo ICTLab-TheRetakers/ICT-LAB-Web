@@ -8,10 +8,6 @@ import { HttpModule } from '@angular/http';
 import { AppRoutingModule } from './app.routing';
 import { AppComponent } from './app.component';
 
-import { GlobalErrorHandler } from './shared/error.handler';
-
-import { ToastyModule } from 'ng2-toasty';
-
 import { RoomModule } from './components/room/room.module';
 import { UserModule } from './components/user/user.module';
 import { RoomreadingsModule } from './components/roomreading/roomreading.module';
@@ -37,12 +33,10 @@ import { RoleModule } from './components/role/role.module';
         IssueModule,
         ReservationModule,
         RoleModule,
-        ToastyModule.forRoot(),
         AppRoutingModule //Keep at bottom
     ],
     providers: [
-        { provide: LocationStrategy, useClass: PathLocationStrategy },
-        { provide: ErrorHandler, useClass: GlobalErrorHandler }
+        { provide: LocationStrategy, useClass: PathLocationStrategy }
     ],
     bootstrap: [AppComponent],
     exports: [ToastyModule]

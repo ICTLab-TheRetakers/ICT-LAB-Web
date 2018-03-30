@@ -1,19 +1,17 @@
-import { ErrorHandler } from '@angular/core';
+import { ErrorHandler, Injectable } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Subject, Observable, Subscription } from 'rxjs/Rx';
 
-import { ToastyService, ToastyConfig, ToastOptions, ToastData } from 'ng2-toasty';
+import { ToastyService, ToastyConfig, ToastyComponent, ToastOptions, ToastData } from 'ng2-toasty';
 
+@Injectable()
 export class GlobalErrorHandler extends ErrorHandler {
 
-    constructor(private toastyService: ToastyService, private toastyConfig: ToastyConfig) {
-        super();
-
-        // Assign the toasty theme
-        this.toastyConfig.theme = 'bootstrap';
-    }
+    constructor(private toastyService: ToastyService) { super(); }
 
     handleError(error: any) {
         let message = '';
+        let subscription: Subscription;
         const date = new Date().toISOString();
 
         //Set message based on error
@@ -37,7 +35,18 @@ export class GlobalErrorHandler extends ErrorHandler {
             msg: message,
             showClose: true,
             timeout: 5000,
-            theme: 'bootstrap'
+            theme: 'bootstrap',
+            onAdd: (toast: ToastData) => {
+                let observable = Observable.interval(1000).take(5);
+                                // Start listen seconds beat
+                                    subscription = observable.subscribe((count: number) => {
+                                            //// Update title of toast
+                                                //toast.title = this.getTitle(seconds - count - 1);
+                                                //// Update message of toast
+                                                //toast.msg = this.getMessage(seconds - count - 1);
+                                            });
+            },
+            onRemove: function (toast: ToastData) {}
         };
 
         //Show toast
