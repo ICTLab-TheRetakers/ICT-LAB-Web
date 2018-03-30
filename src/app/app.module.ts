@@ -5,7 +5,6 @@ import { LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
-import { ErrorsHandler } from './shared/error.handler';
 import { ToastyModule } from 'ng2-toasty';
 
 import { AppRoutingModule } from './app.routing';
@@ -40,8 +39,7 @@ import { RoleModule } from './components/role/role.module';
         AppRoutingModule //Keep at bottom
     ],
     providers: [
-        { provide: LocationStrategy, useClass: PathLocationStrategy },
-        { provide: ErrorHandler, useClass: ErrorsHandler }
+        { provide: LocationStrategy, useClass: PathLocationStrategy }
     ],
     bootstrap: [AppComponent],
     exports: []

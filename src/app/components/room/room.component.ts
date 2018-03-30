@@ -37,7 +37,15 @@ export class RoomComponent implements OnInit {
     getAllRooms() {
         this._roomService.getAllRooms().subscribe(
             values => this.rooms = values,
-            (err) => console.log(err)
+            (err) => {
+                this.toastyService.error({
+                    title: 'Oops, an error occured',
+                    msg: 'Unable to retrieve the available rooms. Please try again!',
+                    timeout: 5000,
+                    showClose: true,
+                    theme: 'bootstrap'
+                });
+            }
         );
     }
 
