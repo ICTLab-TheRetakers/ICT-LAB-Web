@@ -19,6 +19,6 @@ import { RoomReadingComponent } from './roomreading.component';
     providers: [
         RoomReadingService,
         { provide: LocationStrategy, useClass: PathLocationStrategy } 
-    ],
+    ]
 })
 export class RoomreadingsModule { }

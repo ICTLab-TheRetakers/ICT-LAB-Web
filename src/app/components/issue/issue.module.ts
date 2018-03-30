@@ -19,6 +19,6 @@ import { IssueService } from '../../shared/services/issue.service';
     providers: [
         IssueService,
         { provide: LocationStrategy, useClass: PathLocationStrategy }
-    ],
+    ]
 })
 export class IssueModule { }

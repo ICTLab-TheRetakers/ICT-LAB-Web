@@ -8,7 +8,6 @@ import { RoomReadingComponent } from './components/roomreading/roomreading.compo
 import { ReservationComponent } from './components/reservation/reservation.component';
 import { IssueComponent } from './components/issue/issue.component';
 import { NotificationComponent } from './components/notification/notification.component';
-import { AppComponent } from './app.component';
 
 const routes: Routes = [
     {

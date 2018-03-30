@@ -9,7 +9,7 @@ const routes: Routes = [
         children: [
             { path: '', component: UserComponent, pathMatch: 'full' }
         ]
-    },
+    }
 ];
 
 @NgModule({

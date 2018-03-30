@@ -9,7 +9,7 @@ const routes: Routes = [
         children: [
             { path: '', component: IssueComponent, pathMatch: 'full' }
         ]
-    },
+    }
 ];
 
 @NgModule({

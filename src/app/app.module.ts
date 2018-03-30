@@ -1,14 +1,17 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { HashLocationStrategy, LocationStrategy, PathLocationStrategy } from '@angular/common';
-import { AppComponent } from './app.component';
+import { NgModule, ErrorHandler } from '@angular/core';
+import { LocationStrategy, PathLocationStrategy } from '@angular/common';
 
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
-import { RoomService } from './shared/services/room.service';
-
 import { AppRoutingModule } from './app.routing';
+import { AppComponent } from './app.component';
+
+import { GlobalErrorHandler } from './shared/error.handler';
+
+import { ToastyModule } from 'ng2-toasty';
+
 import { RoomModule } from './components/room/room.module';
 import { UserModule } from './components/user/user.module';
 import { RoomreadingsModule } from './components/roomreading/roomreading.module';
@@ -34,12 +37,14 @@ import { RoleModule } from './components/role/role.module';
         IssueModule,
         ReservationModule,
         RoleModule,
-        AppRoutingModule
+        ToastyModule.forRoot(),
+        AppRoutingModule //Keep at bottom
     ],
     providers: [
-        RoomService,
-        { provide: LocationStrategy, useClass: PathLocationStrategy } 
+        { provide: LocationStrategy, useClass: PathLocationStrategy },
+        { provide: ErrorHandler, useClass: GlobalErrorHandler }
     ],
-    bootstrap: [AppComponent]
+    bootstrap: [AppComponent],
+    exports: [ToastyModule]
 })
 export class AppModule { }

@@ -19,6 +19,6 @@ import { RoleService } from '../../shared/services/role.service';
     providers: [
         RoleService,
         { provide: LocationStrategy, useClass: PathLocationStrategy } 
-    ],
+    ]
 })
 export class RoleModule { }

@@ -19,6 +19,6 @@ import { ReservationService } from '../../shared/services/reservation.service';
     providers: [
         ReservationService,
         { provide: LocationStrategy, useClass: PathLocationStrategy }
-    ],
+    ]
 })
 export class ReservationModule { }

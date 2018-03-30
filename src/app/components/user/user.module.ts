@@ -19,6 +19,6 @@ import { UserService } from '../../shared/services/user.service';
     providers: [
         UserService,
         { provide: LocationStrategy, useClass: PathLocationStrategy }
-    ],
+    ]
 })
 export class UserModule { }

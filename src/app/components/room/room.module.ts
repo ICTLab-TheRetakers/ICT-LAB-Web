@@ -20,6 +20,6 @@ import { RoomService } from '../../shared/services/room.service';
     providers: [
         RoomService,
         { provide: LocationStrategy, useClass: PathLocationStrategy }
-    ],
+    ]
 })
 export class RoomModule { }

@@ -19,6 +19,6 @@ import { DeviceService } from '../../shared/services/device.service';
     providers: [
         DeviceService,
         { provide: LocationStrategy, useClass: PathLocationStrategy }
-    ],
+    ]
 })
 export class DeviceModule { }

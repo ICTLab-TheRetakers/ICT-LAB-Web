@@ -12,7 +12,7 @@ const routes: Routes = [
             //{ path: 'details/:id', component: DetailRoomComponent },
             //{ path: 'edit/:id', component: EditRoomComponent }
         ]
-    },
+    }
 ]; 
 
 @NgModule({

@@ -9,7 +9,7 @@ const routes: Routes = [
         children: [
             { path: '', component: NotificationComponent, pathMatch: 'full' }
         ]
-    },
+    }
 ];
 
 @NgModule({
