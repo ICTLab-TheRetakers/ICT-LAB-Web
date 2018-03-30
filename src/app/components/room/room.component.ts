@@ -14,12 +14,20 @@ export class RoomComponent implements OnInit {
     rooms: Room[] = [];
     currentRoom: Room;
     availableRooms: string;
+    toastOptions: ToastOptions;
 
     constructor(private _roomService: RoomService, private toastyService: ToastyService,
         private toastyConfig: ToastyConfig) {
 
         //Set toast theme
         this.toastyConfig.theme = 'bootstrap';
+        this.toastOptions = {
+            title: 'Oops, an error occured',
+            msg: 'Unable to retrieve available rooms. Please try again!',
+            timeout: 5000,
+            showClose: true,
+            theme: 'bootstrap'
+        };
     }
 
     ngOnInit() {
@@ -38,13 +46,7 @@ export class RoomComponent implements OnInit {
         this._roomService.getAllRooms().subscribe(
             values => this.rooms = values,
             (err) => {
-                this.toastyService.error({
-                    title: 'Oops, an error occured',
-                    msg: 'Unable to retrieve the available rooms. Please try again!',
-                    timeout: 5000,
-                    showClose: true,
-                    theme: 'bootstrap'
-                });
+                this.toastyService.error(this.toastOptions);
             }
         );
     }
