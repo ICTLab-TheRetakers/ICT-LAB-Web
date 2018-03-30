@@ -3,6 +3,8 @@ import { CommonModule, LocationStrategy, PathLocationStrategy } from '@angular/c
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 
+import { ToastyModule } from 'ng2-toasty';
+
 import { RoleRoutingModule } from './role.routing';
 
 import { RoleComponent } from './role.component';
@@ -13,6 +15,7 @@ import { RoleService } from '../../shared/services/role.service';
         CommonModule,
         HttpClientModule,
         FormsModule,
+        ToastyModule.forRoot(),
         RoleRoutingModule
     ],
     declarations: [RoleComponent],

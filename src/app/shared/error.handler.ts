@@ -2,42 +2,25 @@ import { ErrorHandler, Injectable, Injector } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 
-import * as StackTraceParser from 'error-stack-parser';
-
-import { ErrorService } from './services/error.service';
-import { NotifyService } from './services/notify.service';
+import { ToastyService, ToastyConfig, ToastOptions, ToastData } from 'ng2-toasty';
 
 @Injectable()
-export class ErrorsHandler implements ErrorHandler {
-    constructor(
-        private injector: Injector,
-    ) { }
-    handleError(error: Error | HttpErrorResponse) {
-        const notificationService = this.injector.get(NotifyService);
-        const errorsService = this.injector.get(ErrorService);
-        const router = this.injector.get(Router);
-        if (error instanceof HttpErrorResponse) {
-            // Server error happened      
-            if (!navigator.onLine) {
-                // No Internet connection
-                return notificationService.notify('No Internet Connection');
-            }
-            // Http Error
-            // Send the error to the server
-            errorsService
-                .log(error)
-                .subscribe();
-            // Show notification to the user
-            return notificationService.notify(`${error.status} - ${error.message}`);
-        } else {
-            // Client Error Happend
-            // Send the error to the server and then
-            // redirect the user to the page with all the info
-            errorsService
-                .log(error)
-                .subscribe(errorWithContextInfo => {
-                    router.navigate(['/error'], { queryParams: errorWithContextInfo });
-                });
-        }
+export class ErrorsHandler extends ErrorHandler {
+
+    constructor(private injector: Injector) { super(); }
+
+    handleError(error: any): void {
+
+        let toasty = this.injector.get(ToastyService);
+        let toastOptions = {
+            title: "Oops, an error occured",
+            msg: "An error occured during",
+            showClose: true,
+            timeout: 5000,
+            theme: 'bootstrap'
+        };
+
+        toasty.error(toastOptions);
     }
+
 }

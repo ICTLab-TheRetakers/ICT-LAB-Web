@@ -4,6 +4,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 
+import { ToastyModule } from 'ng2-toasty';
+
 import { RoomRoutingModule } from './room.routing';
 
 import { RoomComponent } from './room.component';
@@ -14,6 +16,7 @@ import { RoomService } from '../../shared/services/room.service';
         CommonModule,
         HttpClientModule,
         FormsModule,
+        ToastyModule.forRoot(),
         RoomRoutingModule
     ],
     declarations: [RoomComponent],

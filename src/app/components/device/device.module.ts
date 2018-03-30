@@ -3,6 +3,8 @@ import { CommonModule, PathLocationStrategy, LocationStrategy } from '@angular/c
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 
+import { ToastyModule } from 'ng2-toasty';
+
 import { DeviceRoutingModule } from './device.routing';
 
 import { DeviceComponent } from './device.component';
@@ -13,6 +15,7 @@ import { DeviceService } from '../../shared/services/device.service';
         CommonModule,
         HttpClientModule,
         FormsModule,
+        ToastyModule.forRoot(),
         DeviceRoutingModule
     ],
     declarations: [DeviceComponent],

@@ -3,6 +3,8 @@ import { CommonModule, PathLocationStrategy, LocationStrategy } from '@angular/c
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 
+import { ToastyModule } from 'ng2-toasty';
+
 import { IssueRoutingModule } from './issue.routing';
 
 import { IssueComponent } from './issue.component';
@@ -13,6 +15,7 @@ import { IssueService } from '../../shared/services/issue.service';
         CommonModule,
         HttpClientModule,
         FormsModule,
+        ToastyModule.forRoot(),
         IssueRoutingModule
     ],
     declarations: [IssueComponent],

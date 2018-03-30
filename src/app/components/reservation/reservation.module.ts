@@ -3,6 +3,8 @@ import { CommonModule, PathLocationStrategy, LocationStrategy } from '@angular/c
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 
+import { ToastyModule } from 'ng2-toasty';
+
 import { ReservationRoutingModule } from './reservation.routing';
 
 import { ReservationComponent } from './reservation.component';
@@ -13,6 +15,7 @@ import { ReservationService } from '../../shared/services/reservation.service';
         CommonModule,
         HttpClientModule,
         FormsModule,
+        ToastyModule.forRoot(),
         ReservationRoutingModule
     ],
     declarations: [ReservationComponent],

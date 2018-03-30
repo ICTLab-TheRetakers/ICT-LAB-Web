@@ -6,7 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { ErrorsHandler } from './shared/error.handler';
-import { NotifyService } from './shared/services/notify.service';
+import { ToastyModule } from 'ng2-toasty';
 
 import { AppRoutingModule } from './app.routing';
 import { AppComponent } from './app.component';
@@ -36,10 +36,10 @@ import { RoleModule } from './components/role/role.module';
         IssueModule,
         ReservationModule,
         RoleModule,
+        ToastyModule.forRoot(),
         AppRoutingModule //Keep at bottom
     ],
     providers: [
-        NotifyService
         { provide: LocationStrategy, useClass: PathLocationStrategy },
         { provide: ErrorHandler, useClass: ErrorsHandler }
     ],

@@ -3,6 +3,8 @@ import { CommonModule, PathLocationStrategy, LocationStrategy } from '@angular/c
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 
+import { ToastyModule } from 'ng2-toasty';
+
 import { UserRoutingModule } from './user.routing';
 
 import { UserComponent } from './user.component';
@@ -13,6 +15,7 @@ import { UserService } from '../../shared/services/user.service';
         CommonModule,
         HttpClientModule,
         FormsModule,
+        ToastyModule.forRoot(),
         UserRoutingModule
     ],
     declarations: [UserComponent],

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ToastyService, ToastyConfig, ToastOptions, ToastData } from 'ng2-toasty';
+
 import { RoomService } from '../../shared/services/room.service';
 import Room from '../../shared/models/room.model';
 
@@ -13,7 +15,12 @@ export class RoomComponent implements OnInit {
     currentRoom: Room;
     availableRooms: string;
 
-    constructor(private _roomService: RoomService) { }
+    constructor(private _roomService: RoomService, private toastyService: ToastyService,
+        private toastyConfig: ToastyConfig) {
+
+        //Set toast theme
+        this.toastyConfig.theme = 'bootstrap';
+    }
 
     ngOnInit() {
         this.getAllRooms();
