@@ -1,0 +1,14 @@
+/* NAVBAR -> changes to the bootstrap navbar */
+
+.redNav {
+    background-color: red;
+    margin-bottom: 15px;
+}
+
+.redNav a {
+    color: white !important;
+}
+.redNav .active {
+    text-decoration: underline;
+    text-decoration-style:solid;
+}
