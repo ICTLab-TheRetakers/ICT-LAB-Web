@@ -1,11 +1,12 @@
 <nav class="navbar navbar-expand-lg navbar-light redNav">
-    <div class="container">
-        <a class="navbar-brand" href="#">Hogeschool Rotterdam</a>
+    <a class="navbar-brand" href="#">Hogeschool Rotterdam</a>
+    <div class="ml-auto">
+
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarText">
-            <ul class="navbar-nav ml-auto">
+            <ul class="navbar-nav">
                 <li class="nav-item">
                     <a [routerLink]="['/']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
                        class="nav-link" href="#">Home</a>
@@ -22,4 +23,22 @@
         </div>
     </div>
 </nav>
+
+
+<div id="sidebar">
+    <!--<div class="sidebar-header">
+        <h3>Bootstrap Sidebar</h3>
+    </div>-->
+
+    <ul class="list-unstyled components">
+        <h3>Dummy Heading</h3>
+        <p>Some more text</p>
+    </ul>
+
+    <ul class="list-unstyled components">
+        <h3>Dummy Heading</h3>
+        <p>Some more text</p>
+    </ul>
+</div>
+
 <router-outlet></router-outlet>

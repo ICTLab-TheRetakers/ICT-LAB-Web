@@ -2,13 +2,88 @@
 
 .redNav {
     background-color: red;
-    margin-bottom: 15px;
+    /*height: 5vh;*/
+}
+
+.redNav .navbar-brand {
+    font-weight: 700;
 }
 
 .redNav a {
     color: white !important;
+    font-size: 25px;
+    padding: 25px 20px;
 }
+
 .redNav .active {
     text-decoration: underline;
     text-decoration-style:solid;
 }
+
+@media (max-width: 767.98px) {
+    .redNav a {
+        color: white !important;
+        font-size: 15px;
+        padding: 15px 10px;
+    }
+}
+
+/* SIDEBAR */
+#sidebar {
+    min-width: 350px;
+    max-width: 350px;
+    min-height: 90vh;
+    background-color: red;
+    color: #fff;
+    transition: all 0.3s;
+    float:left;
+}
+
+#sidebar.active {
+    margin-left: -250px;
+}
+
+#sidebar .sidebar-header {
+    padding: 20px;
+    border-bottom: 1px solid white;
+}
+
+#sidebar ul.components {
+    padding: 20px 0;
+    border-bottom: 1px solid white;
+}
+
+#sidebar ul p {
+    color: #fff;
+    padding: 10px;
+}
+
+#sidebar ul h3 {
+    color: #fff;
+    padding: 10px;
+}
+
+#sidebar ul li a {
+    padding: 10px;
+    font-size: 1.1em;
+    display: block;
+}
+
+    #sidebar ul li a:hover {
+        color: #7386D5;
+        background: #fff;
+    }
+
+#sidebar ul li.active > a, a[aria-expanded="true"] {
+    color: #fff;
+    background: #6d7fcc;
+}
+
+ul ul a {
+    font-size: 0.9em !important;
+    padding-left: 30px !important;
+    background: #6d7fcc;
+}
+
+/* TO DO: RESPONSIVE SIDEMENU */
+
