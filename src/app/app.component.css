@@ -97,8 +97,7 @@ ul ul a {
 
 /* SIDEBAR -> QR-CODE-COMPONENT*/
 #sidebar .qrComp {
-    position: absolute;
-    bottom: 0;
+    vertical-align: bottom;
     max-width:250px;
     padding: 25px;
 }
