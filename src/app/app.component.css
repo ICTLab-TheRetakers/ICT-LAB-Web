@@ -1,8 +1,9 @@
 /* NAVBAR -> changes to the bootstrap navbar */
 
 .redNav {
-    background-color: red;
-    /*height: 5vh;*/
+    background-color: #BD012F;
+    min-height: 10vh;
+    max-height: 10vh;
 }
 
 .redNav .navbar-brand {
@@ -30,32 +31,35 @@
 
 /* SIDEBAR */
 #sidebar {
-    min-width: 350px;
-    max-width: 350px;
+    min-width: 300px;
+    max-width: 300px;
     min-height: 90vh;
-    background-color: red;
+    background-color: #BD012F;
     color: #fff;
     transition: all 0.3s;
-    float:left;
+    float: left;
+    text-align: center;
 }
 
 #sidebar.active {
-    margin-left: -250px;
+    margin-left: -300px;
 }
 
 #sidebar .sidebar-header {
     padding: 20px;
-    border-bottom: 1px solid white;
+    border-bottom: 2px solid white;
 }
 
 #sidebar ul.components {
-    padding: 20px 0;
-    border-bottom: 1px solid white;
+    padding: 10px 0;
+    border-top: 2px solid white;
 }
 
 #sidebar ul p {
     color: #fff;
-    padding: 10px;
+    padding-bottom: 15px;
+    width:100%;
+    border-bottom: 2px solid white;
 }
 
 #sidebar ul h3 {
@@ -69,10 +73,10 @@
     display: block;
 }
 
-    #sidebar ul li a:hover {
-        color: #7386D5;
-        background: #fff;
-    }
+#sidebar ul li a:hover {
+    color: #7386D5;
+    background: #fff;
+}
 
 #sidebar ul li.active > a, a[aria-expanded="true"] {
     color: #fff;
@@ -84,6 +88,29 @@ ul ul a {
     padding-left: 30px !important;
     background: #6d7fcc;
 }
+
+/* SIDEBAR -> ALERTS-COMPONENT */
+#sidebar .alertComp {
+    padding-top: 10vh;
+    font-weight: 700;
+}
+
+/* SIDEBAR -> QR-CODE-COMPONENT*/
+#sidebar .qrComp {
+    position: absolute;
+    bottom: 0;
+    max-width:250px;
+    padding: 25px;
+}
+
+.qrImg {
+    padding-left: 50px;
+}
+
+qrcode img {
+    display: inherit !important;
+}
+
 
 /* TO DO: RESPONSIVE SIDEMENU */
 

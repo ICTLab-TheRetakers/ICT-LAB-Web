@@ -7,6 +7,8 @@ import { HttpModule } from '@angular/http';
 
 import { ToastyModule } from 'ng2-toasty';
 
+import { QRCodeModule } from 'angularx-qrcode';
+
 import { AppRoutingModule } from './app.routing';
 import { AppComponent } from './app.component';
 
@@ -36,6 +38,7 @@ import { RoleModule } from './components/role/role.module';
         ReservationModule,
         RoleModule,
         ToastyModule.forRoot(),
+        QRCodeModule,
         AppRoutingModule //Keep at bottom
     ],
     providers: [
