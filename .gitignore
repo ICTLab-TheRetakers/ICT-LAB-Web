@@ -661,3 +661,20 @@ obj/Debug/netcoreapp2.0/ICT-LAB-Web.csproj.CoreCompileInputs.cache
 .vs/ICT-LAB-Web/v15/.suo
 =======
 >>>>>>> parent of 005cdec... ignore cache
+.vs/ICT-LAB-Web/v15/.suo
+*.cache
+obj/ICT-LAB-Web.csproj.nuget.g.props
+obj/project.assets.json
+wwwroot/index.html
+wwwroot/inline.bundle.js
+wwwroot/assets/style-material.css
+wwwroot/assets/style-bootstrap.css
+wwwroot/assets/style-default.css
+wwwroot/inline.bundle.js
+wwwroot/inline.bundle.js.map
+wwwroot/main.bundle.js
+wwwroot/main.bundle.js.map
+wwwroot/polyfills.bundle.js
+wwwroot/styles.bundle.js
+wwwroot/vendor.bundle.js
+wwwroot/vendor.bundle.js.map
