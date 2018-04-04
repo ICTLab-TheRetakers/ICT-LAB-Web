@@ -1,1 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
+
+/*Overrides bootstrap/scss to make component fit the screen.*/
+@media (min-width: 1200px) {
+    .container /*TO DO: see if we can change or give an ID to the container to avoid errors*/
+    { 
+        max-width: 100%;
+    }
+}
