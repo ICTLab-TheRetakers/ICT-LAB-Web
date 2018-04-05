@@ -3,7 +3,7 @@
         <div class="col-sm-12 col-md-12">
 
             <ul *ngIf="readings.length > 0">
-                <li *ngFor="let reading of readings">{{ reading.type }} - {{ reading.value }}</li>
+                <li *ngFor="let reading of readings.slice(0, 10)">{{ reading.type }} - {{ reading.value }}</li>
             </ul>
 
         </div>

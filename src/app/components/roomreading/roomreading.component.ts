@@ -39,12 +39,24 @@ export class RoomReadingComponent implements OnInit {
 
     getLatestReadings() {
         this._readingService.getByRoom(this.currentRoom).subscribe(
-            res => this.readings = res,
-            (err) => { this.toastyService.error(this.toastOptions); }
+            res => {
+                this.readings = res; this.sortByLatest();
+            },
+            (err) => {
+                this.toastyService.error(this.toastOptions);
+            }
         );
+    }
 
-        this.readings.sort(function (a, b) {
+    sortByLatest() {
+        this.readings = this.readings.sort(function (a, b) {
             return new Date(b.created_on).getTime() - new Date(a.created_on).getTime()
-        })[0];
+        });
+    }
+
+    getLastHour() {
+        var hour = 60 * 60 * 1000
+        var pastHour = Date.now() - hour;
+        this.readings = this.readings.filter(f => new Date(f.created_on).getTime() >= pastHour);
     }
 }
