@@ -1,0 +1,31 @@
+.ReservationsContent {
+    padding-top: 15px;
+    text-align: center;
+}
+h2 {
+    font-weight: bold;
+    padding-bottom: 20px;
+}
+table {
+    display: inline-block;
+    vertical-align: top;
+    text-align: left;
+}
+th {
+    padding-bottom: 20px;
+}
+table, p {
+    min-width: 200px;
+    margin: 0;
+    padding: 0;
+}
+td {
+    padding: 5px;
+    vertical-align: middle;
+}
+.TableHeader {
+    border-bottom: 5px solid;
+    border-color: darkred;
+    margin-bottom: 20px;
+}
+
