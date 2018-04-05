@@ -5,5 +5,6 @@
     .container /*TO DO: see if we can change or give an ID to the container to avoid errors*/
     { 
         max-width: 100%;
+        padding-left: 300px; /*TO DO: make sure this is the same value as the width of the sidebar*/
     }
 }

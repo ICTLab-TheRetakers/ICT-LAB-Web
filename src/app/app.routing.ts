@@ -23,6 +23,10 @@ const routes: Routes = [
         component: RoomComponent
     },
     {
+        path: 'reservations',
+        component: ReservationComponent
+    },
+    {
         path: 'devices',
         component: DeviceComponent
     },

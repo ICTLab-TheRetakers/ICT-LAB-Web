@@ -9,15 +9,19 @@
             <ul class="navbar-nav">
                 <li class="nav-item">
                     <a [routerLink]="['/']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
-                       class="nav-link" href="#">Home</a>
+                       class="nav-link" href="#">HOME</a>
                 </li>
                 <li class="nav-item">
-                    <a [routerLink]="['/rooms']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: false}"
-                       class="nav-link" href="#">Rooms</a>
+                    <a [routerLink]="['/readings']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: false}"
+                       class="nav-link" href="#">INFORMATION</a>
                 </li>
                 <li class="nav-item">
-                    <a [routerLink]="['/devices']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: false}"
-                       class="nav-link" href="#">Devices</a>
+                    <a [routerLink]="['/reservations']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: false}"
+                       class="nav-link" href="#">RESERVATIONS</a>
+                </li>
+                <li class="nav-item">
+                    <a [routerLink]="['/users']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: false}"
+                       class="nav-link" href="#">PROFIEL</a>
                 </li>
             </ul>
         </div>
@@ -40,4 +44,4 @@
 </div>
 
 
-<router-outlet id="test"></router-outlet>
+<router-outlet></router-outlet>
