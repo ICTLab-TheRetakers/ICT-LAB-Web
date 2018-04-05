@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { ToastyService, ToastyConfig, ToastOptions, ToastData } from 'ng2-toasty';
 
 import { RoomService } from '../../shared/services/room.service';
 import Room from '../../shared/models/room.model';
+import { SharedService } from '../../shared/services/shared.service';
 
 @Component({
   selector: 'app-room',
@@ -16,8 +17,8 @@ export class RoomComponent implements OnInit {
     availableRooms: string;
     toastOptions: ToastOptions;
 
-    constructor(private _roomService: RoomService, private toastyService: ToastyService,
-        private toastyConfig: ToastyConfig) {
+    constructor(private _roomService: RoomService, private _sharedService: SharedService,
+        private toastyService: ToastyService, private toastyConfig: ToastyConfig) {
 
         //Set toast theme
         this.toastyConfig.theme = 'bootstrap';
@@ -40,6 +41,7 @@ export class RoomComponent implements OnInit {
 
     selectRoom() {
         this.currentRoom = this.rooms.filter(f => f.room_code == this.availableRooms)[0];
+        this._sharedService.setData(this.currentRoom.room_code);
     }
 
     getAllRooms() {

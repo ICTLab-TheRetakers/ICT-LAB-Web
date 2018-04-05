@@ -1,24 +1,11 @@
-<div class="container" style="padding-top: 10px;">
+<div class="container">
     <div class="row">
-        <div class="col-sm-12 col-md-12 text-center">
-            <input type="text" [(ngModel)]="location" placeholder="Please enter a location" />
+        <div class="col-sm-12 col-md-12">
 
-            <br />
-
-            <select [(ngModel)]="availableRooms" (ngModelChange)="selectRoom()">
-                <option *ngFor="let room of findRoomsByLocation()" [value]="room.room_code">{{ room.room_code }} - {{ room.location }}</option>
-            </select>
-
-            <br />
-
-            <ul *ngIf="currentRoom != null">
-                <li>Smartboard present: {{ currentRoom.has_smartboard }}</li>
-                <li>Computer present: {{ currentRoom.has_computer }}</li>
-                <li>Has windows: {{ currentRoom.has_windows }}</li>
-                <li>Student capacity: {{ currentRoom.student_capacity }}</li>
+            <ul *ngIf="readings.length > 0">
+                <li *ngFor="let reading of readings.slice(0, 10)">{{ reading.type }} - {{ reading.value }}</li>
             </ul>
 
         </div>
     </div>
 </div>
-<ng2-toasty></ng2-toasty>

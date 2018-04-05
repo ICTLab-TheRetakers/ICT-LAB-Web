@@ -9,6 +9,8 @@ import { ToastyModule } from 'ng2-toasty';
 import { RoomRoutingModule } from './room.routing';
 
 import { RoomComponent } from './room.component';
+
+import { SharedService } from '../../shared/services/shared.service';
 import { RoomService } from '../../shared/services/room.service';
 
 @NgModule({
@@ -22,6 +24,7 @@ import { RoomService } from '../../shared/services/room.service';
     declarations: [RoomComponent],
     providers: [
         RoomService,
+        SharedService,
         { provide: LocationStrategy, useClass: PathLocationStrategy }
     ]
 })
