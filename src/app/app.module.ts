@@ -21,6 +21,8 @@ import { IssueModule } from './components/issue/issue.module';
 import { ReservationModule } from './components/reservation/reservation.module';
 import { RoleModule } from './components/role/role.module';
 
+import { SharedService } from './shared/services/shared.service';
+
 @NgModule({
     declarations: [
         AppComponent
@@ -42,6 +44,7 @@ import { RoleModule } from './components/role/role.module';
         AppRoutingModule //Keep at bottom
     ],
     providers: [
+        SharedService,
         { provide: LocationStrategy, useClass: PathLocationStrategy }
     ],
     bootstrap: [AppComponent],

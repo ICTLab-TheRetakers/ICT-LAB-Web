@@ -7,7 +7,7 @@ const routes: Routes = [
     {
         path: 'readings',
         children: [
-            { path: '', component: RoomReadingComponent, pathMatch: 'full' }
+            { path: '', component: RoomReadingComponent}
         ]
     }
 ];

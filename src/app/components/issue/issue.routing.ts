@@ -7,7 +7,7 @@ const routes: Routes = [
     {
         path: 'issues',
         children: [
-            { path: '', component: IssueComponent, pathMatch: 'full' }
+            { path: '', component: IssueComponent}
         ]
     }
 ];
