@@ -28,7 +28,7 @@ namespace ICT_LAB_Web.Components.Services
             _dbContext.RoomReadings.RemoveRange(readingsToDelete);
 
             var result = await _dbContext.SaveChangesAsync();
-            return result == 1 ? true : false;
+            return result == 0 ? true : false;
         }
 
         public async Task<List<RoomReading>> Get(string room, string type, DateTime? from, DateTime? till)
