@@ -27,7 +27,7 @@ export class RoomReadingComponent implements OnInit {
         this.toastyConfig.theme = 'bootstrap';
         this.toastOptions = {
             title: 'Oops, an error occured',
-            msg: 'Unable to retrieve readings. Please try again!',
+            msg: '',
             timeout: 5000,
             showClose: true,
             theme: 'bootstrap'
@@ -47,6 +47,7 @@ export class RoomReadingComponent implements OnInit {
                 this.setReadingsData();
             },
             (err) => {
+                this.toastOptions.msg = 'Unable to retrieve classroom readings. Please try again!',
                 this.toastyService.error(this.toastOptions);
             }
         );
@@ -79,6 +80,7 @@ export class RoomReadingComponent implements OnInit {
                 this.rooms = values;
             },
             (err) => {
+                this.toastOptions.msg = 'Unable to retrieve classrooms. Please try again!',
                 this.toastyService.error(this.toastOptions);
             }
         );

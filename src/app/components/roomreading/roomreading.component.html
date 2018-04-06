@@ -7,10 +7,10 @@
             </select>
 
             <ul class="list-group list-group-flush mx-auto mt-4" *ngIf="currentReadings != null">
-                <li class="list-group-item"><b>Temperature is</b> {{ currentReadings.temperature }}&deg;C</li>
-                <li class="list-group-item"><b>Humidity is</b> {{ currentReadings.humidity }}%</li>
-                <li class="list-group-item"><b>Sound level is</b> {{ currentReadings.sound }}%</li>
-                <li class="list-group-item"><b>Light level is</b> {{ currentReadings.light }}&</li>
+                <li class="list-group-item">Temperature is <b>{{ currentReadings.temperature }}&deg;C</b></li>
+				<li class="list-group-item">Humidity is <b>{{ currentReadings.humidity }}%</b></li>
+				<li class="list-group-item">Sound level is <b>{{ currentReadings.sound }}%</b></li>
+				<li class="list-group-item">Light level is <b>{{ currentReadings.light }}%</b></li>
             </ul>
         </div>
     </div>
