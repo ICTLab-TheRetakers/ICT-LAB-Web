@@ -1,11 +1,17 @@
 <div class="container">
     <div class="row">
-        <div class="col-sm-12 col-md-12">
+        <div class="col-sm-12 col-md-6 offset-md-3  mx-auto text-center">
+            <select class="custom-select" (change)="setRoom($event)">
+                <option class="list-group-item" [value]="null">-- Select a classroom --</option>
+                <option *ngFor="let room of rooms" [value]="room.room_code">{{ room.room_code }} - {{ room.location }}</option>
+            </select>
 
-            <ul *ngIf="readings.length > 0">
-                <li *ngFor="let reading of readings.slice(0, 10)">{{ reading.type }} - {{ reading.value }}</li>
+            <ul class="list-group list-group-flush mx-auto mt-4" *ngIf="currentReadings != null">
+                <li class="list-group-item"><b>Temperature is</b> {{ currentReadings.temperature }}&deg;C</li>
+                <li class="list-group-item"><b>Humidity is</b> {{ currentReadings.humidity }}%</li>
+                <li class="list-group-item"><b>Sound level is</b> {{ currentReadings.sound }}%</li>
+                <li class="list-group-item"><b>Light level is</b> {{ currentReadings.light }}&</li>
             </ul>
-
         </div>
     </div>
 </div>

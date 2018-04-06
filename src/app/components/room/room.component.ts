@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+    import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { ToastyService, ToastyConfig, ToastOptions, ToastData } from 'ng2-toasty';
 
 import { RoomService } from '../../shared/services/room.service';
@@ -13,8 +13,7 @@ import { SharedService } from '../../shared/services/shared.service';
 export class RoomComponent implements OnInit {
     location: string = '';
     rooms: Room[] = [];
-    currentRoom: Room;
-    availableRooms: string;
+    selectedRoom: Room = null;
     toastOptions: ToastOptions;
 
     constructor(private _roomService: RoomService, private _sharedService: SharedService,
@@ -39,9 +38,9 @@ export class RoomComponent implements OnInit {
         return this.rooms.filter(f => f.location.includes(this.location));
     }
 
-    selectRoom() {
-        this.currentRoom = this.rooms.filter(f => f.room_code == this.availableRooms)[0];
-        this._sharedService.setData(this.currentRoom.room_code);
+    setRoom($event) {
+        this.selectedRoom = this.rooms.filter(f => f.room_code == $event.target.value)[0];
+        this._sharedService.setData(this.selectedRoom.room_code);
     }
 
     getAllRooms() {

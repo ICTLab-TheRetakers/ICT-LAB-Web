@@ -11,6 +11,7 @@ import { RoomReadingComponent } from './roomreading.component';
 
 import { SharedService } from '../../shared/services/shared.service';
 import { RoomReadingService } from '../../shared/services/reading.service';
+import { RoomService } from '../../shared/services/room.service';
 
 @NgModule({
     imports: [
@@ -23,6 +24,7 @@ import { RoomReadingService } from '../../shared/services/reading.service';
     declarations: [RoomReadingComponent],
     providers: [
         RoomReadingService,
+        RoomService,
         SharedService,
         { provide: LocationStrategy, useClass: PathLocationStrategy } 
     ]

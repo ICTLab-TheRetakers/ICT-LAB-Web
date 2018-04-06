@@ -2,7 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { ToastyService, ToastyConfig, ToastOptions, ToastData } from 'ng2-toasty';
 import { RoomReadingService } from '../../shared/services/reading.service';
 import { SharedService } from '../../shared/services/shared.service';
+import { RoomService } from '../../shared/services/room.service';
 import Roomreading from '../../shared/models/reading.model';
+import Room from '../../shared/models/room.model';
+import ReadingViewModel from '../../shared/models/reading.viewmodel';
 
 @Component({
     selector: 'app-roomreadings',
@@ -11,11 +14,14 @@ import Roomreading from '../../shared/models/reading.model';
 })
 export class RoomReadingComponent implements OnInit {
     readings: Roomreading[] = [];
-    currentRoom: string;
+    rooms: Room[] = [];
+    selectedRoom: Room = null;
+    currentReadings: ReadingViewModel;
     toastOptions: ToastOptions;
 
-    constructor(private _readingService: RoomReadingService, private _sharedService: SharedService,
-        private toastyService: ToastyService, private toastyConfig: ToastyConfig) {
+    constructor(private _readingService: RoomReadingService, private _roomService: RoomService,
+        private _sharedService: SharedService, private toastyService: ToastyService,
+        private toastyConfig: ToastyConfig) {
 
         //Set toast theme
         this.toastyConfig.theme = 'bootstrap';
@@ -29,18 +35,16 @@ export class RoomReadingComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.receiveSelectedRoom();
-        this.getLatestReadings();
-    }
-
-    receiveSelectedRoom() {
-        this.currentRoom = this._sharedService.data;
+        this.getAllRooms();
     }
 
     getLatestReadings() {
-        this._readingService.getByRoom(this.currentRoom).subscribe(
+        this._readingService.getByRoom(this.selectedRoom.room_code).subscribe(
             res => {
-                this.readings = res; this.sortByLatest();
+                this.readings = res;
+                this.sortByLatest();
+                //this.getLastHour();
+                this.setReadingsData();
             },
             (err) => {
                 this.toastyService.error(this.toastOptions);
@@ -58,5 +62,30 @@ export class RoomReadingComponent implements OnInit {
         var hour = 60 * 60 * 1000
         var pastHour = Date.now() - hour;
         this.readings = this.readings.filter(f => new Date(f.created_on).getTime() >= pastHour);
+
+    }
+
+    setReadingsData() {
+        this.currentReadings = new ReadingViewModel();
+        this.currentReadings.temperature = this.readings.filter(f => f.type == 'temp')[0].value;
+        this.currentReadings.humidity = this.readings.filter(f => f.type == 'humidity')[0].value;
+        this.currentReadings.sound = this.readings.filter(f => f.type == 'sound')[0].value;
+        this.currentReadings.light = this.readings.filter(f => f.type == 'light')[0].value;
+    }
+
+    getAllRooms() {
+        this._roomService.getAllRooms().subscribe(
+            values => {
+                this.rooms = values;
+            },
+            (err) => {
+                this.toastyService.error(this.toastOptions);
+            }
+        );
+    }
+
+    setRoom($event) {
+        this.selectedRoom = this.rooms.filter(f => f.room_code == $event.target.value)[0];
+        this.getLatestReadings();
     }
 }

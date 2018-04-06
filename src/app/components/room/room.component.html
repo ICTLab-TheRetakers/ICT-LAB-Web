@@ -1,23 +1,19 @@
-<div class="container" style="padding-top: 10px;">
+<div class="container">
     <div class="row">
-        <div class="col-sm-12 col-md-12 text-center">
-            <input type="text" [(ngModel)]="location" placeholder="Please enter a location" />
+        <div class="col-sm-12 col-md-6 offset-md-3 text-center">
+            <input class="form-control mb-1" type="text" [(ngModel)]="location" placeholder="Please enter a location" />
 
-            <br />
-
-            <select [(ngModel)]="availableRooms" (ngModelChange)="selectRoom()">
+            <select class="custom-select" (change)="setRoom($event)">
+                <option class="list-group-item" [value]="null">-- Select a classroom --</option>
                 <option *ngFor="let room of findRoomsByLocation()" [value]="room.room_code">{{ room.room_code }} - {{ room.location }}</option>
             </select>
 
-            <br />
-
-            <ul *ngIf="currentRoom != null">
-                <li>Smartboard present: {{ currentRoom.has_smartboard }}</li>
-                <li>Computer present: {{ currentRoom.has_computer }}</li>
-                <li>Has windows: {{ currentRoom.has_windows }}</li>
-                <li>Student capacity: {{ currentRoom.student_capacity }}</li>
+            <ul class="list-group list-group-flush mx-auto mt-4" *ngIf="selectedRoom != null">
+                <li class="list-group-item"><b>Smartboard present:</b> {{ selectedRoom.has_smartboard ? 'yes' : 'no' }}</li>
+                <li class="list-group-item"><b>Computer present:</b> {{ selectedRoom.has_computer ? 'yes' : 'no' }}</li>
+                <li class="list-group-item"><b>Classroom has windows:</b> {{ selectedRoom.has_windows ? 'yes' : 'no' }}</li>
+                <li class="list-group-item"><b>Student capacity is</b> {{ selectedRoom.student_capacity }} students</li>
             </ul>
-
         </div>
     </div>
 </div>
