@@ -21,6 +21,14 @@
     text-decoration-style:solid;
 }
 
+main {
+	position: fixed;
+	left: 250px;
+	top: 10vh;
+	min-height: 90vh;
+	width: calc(100vw - 250px);
+}  
+
 @media (max-width: 767.98px) {
     .redNav a {
         color: white !important;
@@ -31,14 +39,17 @@
 
 /* SIDEBAR */
 #sidebar {
-    min-width: 300px;
-    max-width: 300px;
-    min-height: 90vh;
-    background-color: #BD012F;
-    color: #fff;
-    transition: all 0.3s;
-    float: left;
-    text-align: center;
+	position: fixed;
+	top: 10vh;
+	overflow-x: hidden;
+	left: 0;
+	width: 250px;
+	padding: 10px;
+	min-height: 90vh;
+	background-color: #BD012F;
+	color: #fff;
+	transition: all 0.3s;
+	text-align: center;
 }
 
 #sidebar.active {
@@ -98,17 +109,14 @@ ul ul a {
 /* SIDEBAR -> QR-CODE-COMPONENT*/
 #sidebar .qrComp {
     vertical-align: bottom;
-    max-width:250px;
-    padding: 25px;
 }
 
-.qrImg {
-    padding-left: 50px;
+#sidebar > .qrComp  {
+	display: inherit !important;
 }
 
-qrcode img {
-    display: inherit !important;
+#sidebar .qrComp img {
+	margin: 0 auto !important;
 }
-
 
 /* TO DO: RESPONSIVE SIDEMENU */

@@ -1,16 +1,12 @@
-<div class="container">
-    <div class="row">
-        <div class="col-sm-12 col-md-6 offset-md-3  mx-auto text-center">
-            <app-select-room (chosenRoom)="getRoomChoice($event)"></app-select-room>
+<div class="col-sm-12 col-md-6 offset-md-3  mx-auto text-center">
+	<app-select-room (chosenRoom)="getRoomChoice($event)"></app-select-room>
 
-            <ul class="list-group mx-auto mt-4" *ngIf="currentReadings != null">
-                <li *ngIf="!currentReadings.humidity && !currentReadings.temperature
+	<ul class="list-group mx-auto mt-4" *ngIf="currentReadings != null">
+		<li *ngIf="!currentReadings.humidity && !currentReadings.temperature
                     && !currentReadings.sound && !currentReadings.light" class="list-group-item">No information available.</li>
-                <li *ngIf="currentReadings.temperature" class="list-group-item">Temperature is <b>{{ currentReadings.temperature }}&deg;C</b></li>
-                <li *ngIf="currentReadings.humidity" class="list-group-item">Humidity is <b>{{ currentReadings.humidity }}%</b></li>
-                <li *ngIf="currentReadings.sound" class="list-group-item">Sound level is <b>{{ currentReadings.sound }}%</b></li>
-                <li *ngIf="currentReadings.light" class="list-group-item">Light level is <b>{{ currentReadings.light }}%</b></li>
-            </ul>
-        </div>
-    </div>
+		<li *ngIf="currentReadings.temperature" class="list-group-item">Temperature is <b>{{ currentReadings.temperature }}&deg;C</b></li>
+		<li *ngIf="currentReadings.humidity" class="list-group-item">Humidity is <b>{{ currentReadings.humidity }}%</b></li>
+		<li *ngIf="currentReadings.sound" class="list-group-item">Sound level is <b>{{ currentReadings.sound }}%</b></li>
+		<li *ngIf="currentReadings.light" class="list-group-item">Light level is <b>{{ currentReadings.light }}%</b></li>
+	</ul>
 </div>

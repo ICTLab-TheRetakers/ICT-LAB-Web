@@ -28,21 +28,28 @@
     </div>
 </nav>
 
+<div class="container-fluid">
+	<div class="row">
 
-<div id="sidebar">
-    <h3 class="alertComp">Alerts</h3>
-    <ul class="list-unstyled components">
-        <p>Your reservation for room H.4.212 has been canceled</p>
-        <p>Reminder: Scheduled room WD.4.002 for today 14:30</p>
-        <p>Some more text about reservations and stuff</p>
-        <p>Very interesting bit about the alerts now available</p>
-        <p>Have you tried the qr code?</p>
-    </ul>
-    <div class="qrComp">
-        <qrcode [qrdata]="'I knew you could not resist'" [size]="250" [level]="'M'"></qrcode>
-    </div>
+		<div id="sidebar">
+			<h3 class="alertComp">Alerts</h3>
+			<ul class="list-unstyled components">
+				<p>Your reservation for room H.4.212 has been canceled</p>
+				<p>Reminder: Scheduled room WD.4.002 for today 14:30</p>
+				<p>Some more text about reservations and stuff</p>
+				<p>Very interesting bit about the alerts now available</p>
+				<p>Have you tried the qr code?</p>
+			</ul>
+			<div class="qrComp">
+				<qrcode [qrdata]="'I knew you could not resist'" [size]="200" [level]="'M'"></qrcode>
+			</div>
+		</div>
+
+		<main class="main">
+			<router-outlet></router-outlet>
+			<ng2-toasty></ng2-toasty>
+		</main>
+
+	</div>
 </div>
 
-
-<router-outlet></router-outlet>
-<ng2-toasty></ng2-toasty>
