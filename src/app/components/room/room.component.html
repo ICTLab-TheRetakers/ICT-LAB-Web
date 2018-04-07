@@ -1,13 +1,7 @@
 <div class="container">
     <div class="row">
         <div class="col-sm-12 col-md-6 offset-md-3 text-center">
-            <input class="form-control mb-1" type="text" [(ngModel)]="location" placeholder="Please enter a location" />
-
-            <select class="custom-select" (change)="setRoom($event)">
-                <option class="list-group-item text-center" [value]="null">-- Select a classroom --</option>
-                <option class="list-group-item text-center" *ngFor="let room of findRoomsByLocation()"
-						[value]="room.room_code">{{ room.room_code }} - {{ room.location }}</option>
-            </select>
+            <app-select-room (chosenRoom)="getRoomChoice($event)"></app-select-room>
 
             <ul class="list-group list-group-flush mx-auto mt-4" *ngIf="selectedRoom != null">
                 <li class="list-group-item">Smartboard present: <b>{{ selectedRoom.has_smartboard ? 'yes' : 'no' }}</b></li>

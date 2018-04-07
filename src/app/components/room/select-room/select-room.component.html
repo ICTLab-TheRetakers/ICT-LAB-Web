@@ -1,0 +1,11 @@
+<div class="text-center">
+    <input class="form-control mb-1" type="text" [(ngModel)]="location" placeholder="Search by location" />
+
+    <select class="custom-select" (change)="setRoom($event)">
+        <option class="list-group-item text-center" [value]="null">-- Select a classroom --</option>
+        <option class="list-group-item text-center" *ngFor="let room of findRoomsByLocation()"
+                [value]="room.room_code">
+            {{ room.room_code }} - {{ room.location }}
+        </option>
+    </select>
+</div>

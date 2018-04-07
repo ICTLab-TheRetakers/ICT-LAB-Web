@@ -13,15 +13,20 @@ import { SharedService } from '../../shared/services/shared.service';
 import { RoomReadingService } from '../../shared/services/reading.service';
 import { RoomService } from '../../shared/services/room.service';
 
+import { SelectRoomModule } from '../room/select-room/select-room.module';
+
 @NgModule({
     imports: [
         CommonModule,
         HttpClientModule,
         FormsModule,
+        SelectRoomModule,
         ToastyModule.forRoot(),
         RoomReadingRoutingModule
     ],
-    declarations: [RoomReadingComponent],
+    declarations: [
+        RoomReadingComponent
+    ],
     providers: [
         RoomReadingService,
         RoomService,

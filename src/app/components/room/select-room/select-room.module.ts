@@ -6,30 +6,26 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { ToastyModule } from 'ng2-toasty';
 
-import { RoomRoutingModule } from './room.routing';
+import { SelectRoomComponent } from './select-room.component';
 
-import { RoomComponent } from './room.component';
-import { SelectRoomModule } from './select-room/select-room.module';
-
-import { SharedService } from '../../shared/services/shared.service';
-import { RoomService } from '../../shared/services/room.service';
+import { RoomService } from '../../../shared/services/room.service';
 
 @NgModule({
     imports: [
         CommonModule,
         HttpClientModule,
         FormsModule,
-        SelectRoomModule,
-        ToastyModule.forRoot(),
-        RoomRoutingModule,
+        ToastyModule.forRoot()
+    ],
+    exports: [
+        SelectRoomComponent
     ],
     declarations: [
-        RoomComponent
+        SelectRoomComponent
     ],
     providers: [
         RoomService,
-        SharedService,
         { provide: LocationStrategy, useClass: PathLocationStrategy }
     ]
 })
-export class RoomModule { }
+export class SelectRoomModule { }

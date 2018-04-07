@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastyService, ToastyConfig, ToastOptions, ToastData } from 'ng2-toasty';
+
 import { RoomReadingService } from '../../shared/services/reading.service';
-import { SharedService } from '../../shared/services/shared.service';
 import { RoomService } from '../../shared/services/room.service';
+
 import Roomreading from '../../shared/models/reading.model';
 import Room from '../../shared/models/room.model';
 import ReadingViewModel from '../../shared/models/reading.viewmodel';
+
+import { SelectRoomComponent } from '../room/select-room/select-room.component';
 
 @Component({
     selector: 'app-roomreadings',
@@ -14,14 +17,12 @@ import ReadingViewModel from '../../shared/models/reading.viewmodel';
 })
 export class RoomReadingComponent implements OnInit {
     readings: Roomreading[] = [];
-    rooms: Room[] = [];
     selectedRoom: Room = null;
     currentReadings: ReadingViewModel;
     toastOptions: ToastOptions;
 
     constructor(private _readingService: RoomReadingService, private _roomService: RoomService,
-        private _sharedService: SharedService, private toastyService: ToastyService,
-        private toastyConfig: ToastyConfig) {
+        private toastyService: ToastyService, private toastyConfig: ToastyConfig) {
 
         //Set toast theme
         this.toastyConfig.theme = 'bootstrap';
@@ -34,16 +35,13 @@ export class RoomReadingComponent implements OnInit {
         };
     }
 
-    ngOnInit() {
-        this.getAllRooms();
-    }
+    ngOnInit() {}
 
     getLatestReadings() {
         this._readingService.getByRoom(this.selectedRoom.room_code).subscribe(
             res => {
                 this.readings = res;
                 this.sortByLatest();
-                //this.getLastHour();
                 this.setReadingsData();
             },
             (err) => {
@@ -74,20 +72,8 @@ export class RoomReadingComponent implements OnInit {
         this.currentReadings.light = this.readings.filter(f => f.type == 'light')[0].value;
     }
 
-    getAllRooms() {
-        this._roomService.getAllRooms().subscribe(
-            values => {
-                this.rooms = values;
-            },
-            (err) => {
-                this.toastOptions.msg = 'Unable to retrieve classrooms. Please try again!',
-                this.toastyService.error(this.toastOptions);
-            }
-        );
-    }
-
-    setRoom($event) {
-        this.selectedRoom = this.rooms.filter(f => f.room_code == $event.target.value)[0];
+    getRoomChoice(event: any) {
+        this.selectedRoom = event;
         this.getLatestReadings();
     }
 }
