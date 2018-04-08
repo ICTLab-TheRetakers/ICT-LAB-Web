@@ -72,7 +72,7 @@ export class RoomReadingComponent implements OnInit {
             this.currentReadings.humidity = this.readings.filter(f => f.type == 'humidity')[0].value;
             this.currentReadings.sound = this.readings.filter(f => f.type == 'sound')[0].value;
             this.currentReadings.light = this.readings.filter(f => f.type == 'light')[0].value;
-            this.currentReadings.created_on = this.readings.filter(f => f.type == 'temp')[0].created_on;
+            this.currentReadings.created_on = new Date(this.readings.filter(f => f.type == 'temp')[0].created_on);
         }
     }
 
