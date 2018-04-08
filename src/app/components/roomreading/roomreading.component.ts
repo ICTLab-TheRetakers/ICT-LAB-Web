@@ -18,8 +18,13 @@ import { SelectRoomComponent } from '../room/select-room/select-room.component';
 export class RoomReadingComponent implements OnInit {
     readings: Roomreading[] = [];
     selectedRoom: Room = null;
-    currentReadings: ReadingViewModel = null;
     toastOptions: ToastOptions;
+
+    temperature: number;
+    sound: number;
+    light: number;
+    humidity: number;
+    created_on: Date;
 
     constructor(private _readingService: RoomReadingService, private _roomService: RoomService,
         private toastyService: ToastyService, private toastyConfig: ToastyConfig) {
@@ -67,14 +72,26 @@ export class RoomReadingComponent implements OnInit {
 
     setReadingsData() {
         if (this.readings.length > 0) {
-            this.currentReadings = new ReadingViewModel();
-            this.currentReadings.temperature = this.readings.filter(f => f.type == 'temp')[0].value ? this.readings.filter(f => f.type == 'temp')[0].value : null;
-            this.currentReadings.humidity = this.readings.filter(f => f.type == 'humidity')[0].value ? this.readings.filter(f => f.type == 'humidity')[0].value : null;
-            this.currentReadings.sound = this.readings.filter(f => f.type == 'sound')[0].value ? this.readings.filter(f => f.type == 'sound')[0].value : null;
-            this.currentReadings.light = this.readings.filter(f => f.type == 'light')[0].value ? this.readings.filter(f => f.type == 'light')[0].value : null;
-            this.currentReadings.created_on = new Date(this.readings.filter(f => f.type == 'temp')[0].created_on) ? new Date(this.readings.filter(f => f.type == 'temp')[0].created_on) : null;
+            this.temperature = this.readings.filter(f => f.type == 'temp')[0] != null ? this.readings.filter(f => f.type == 'temp')[0].value : -1;
+            this.humidity = this.readings.filter(f => f.type == 'humidity')[0] != null ? this.readings.filter(f => f.type == 'humidity')[0].value : -1;
+            this.sound = this.readings.filter(f => f.type == 'sound')[0] != null ? this.readings.filter(f => f.type == 'sound')[0].value : -1;
+            this.light = this.readings.filter(f => f.type == 'light')[0] != null ? this.readings.filter(f => f.type == 'light')[0].value: -1;
+
+            var type = '';
+            if (this.temperature != null) {
+                type = 'temp';
+            }
+            else if (this.humidity != null) {
+                type = 'humidity';
+            }
+            else if (this.sound != null) {
+                type = 'sound';
+            }
+            else if (this.light != null) {
+                type = 'light';
+            }
+            this.created_on = this.readings.filter(f => f.type == type)[0] != null ? new Date(this.readings.filter(f => f.type == type)[0].created_on) : null;
         }
-        console.log('current' + this.currentReadings);
     }
 
     getRoomChoice(event: any) {
