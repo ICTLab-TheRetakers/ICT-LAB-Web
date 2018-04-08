@@ -1,0 +1,21 @@
+.UserPage {
+    padding-top: 15px;
+    text-align: center;
+}
+h2 {
+    font-weight: bold;
+    padding-bottom: 20px;
+}
+img {
+    width: 200px;
+    display: inline-block;
+}
+ul {
+    list-style: none;
+    display: inline-block;
+    text-align: left;
+    margin-right: 200px;
+}
+li {
+    padding-bottom: 10px;
+}
