@@ -18,7 +18,6 @@ import { SelectRoomComponent } from '../room/select-room/select-room.component';
 export class RoomReadingComponent implements OnInit {
     readings: Roomreading[] = [];
     selectedRoom: Room = null;
-    currentReadings: ReadingViewModel;
     toastOptions: ToastOptions;
 
     temperature: number;
@@ -76,7 +75,7 @@ export class RoomReadingComponent implements OnInit {
             this.temperature = this.readings.filter(f => f.type == 'temp')[0] != null ? this.readings.filter(f => f.type == 'temp')[0].value : -1;
             this.humidity = this.readings.filter(f => f.type == 'humidity')[0] != null ? this.readings.filter(f => f.type == 'humidity')[0].value : -1;
             this.sound = this.readings.filter(f => f.type == 'sound')[0] != null ? this.readings.filter(f => f.type == 'sound')[0].value : -1;
-            this.light = this.readings.filter(f => f.type == 'light')[0].value || -1;
+            this.light = this.readings.filter(f => f.type == 'light')[0] != null ? this.readings.filter(f => f.type == 'light')[0].value: -1;
 
             var type = '';
             if (this.temperature != null) {
@@ -91,7 +90,7 @@ export class RoomReadingComponent implements OnInit {
             else if (this.light != null) {
                 type = 'light';
             }
-            this.created_on = this.readings.filter(f => f.type == type) != null ? new Date(this.readings.filter(f => f.type == type)[0].created_on) : null;
+            this.created_on = this.readings.filter(f => f.type == type)[0] != null ? new Date(this.readings.filter(f => f.type == type)[0].created_on) : null;
         }
     }
 
