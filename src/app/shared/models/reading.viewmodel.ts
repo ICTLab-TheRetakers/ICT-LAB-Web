@@ -3,6 +3,7 @@ export default class ReadingViewModel {
     humidity: number;
     sound: number;
     light: number;
+    created_on: string;
 
     constructor() { }
 }

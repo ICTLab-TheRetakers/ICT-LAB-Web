@@ -18,7 +18,7 @@ import { SelectRoomComponent } from '../room/select-room/select-room.component';
 export class RoomReadingComponent implements OnInit {
     readings: Roomreading[] = [];
     selectedRoom: Room = null;
-    currentReadings: ReadingViewModel;
+    currentReadings: ReadingViewModel = null;
     toastOptions: ToastOptions;
 
     constructor(private _readingService: RoomReadingService, private _roomService: RoomService,
@@ -40,12 +40,14 @@ export class RoomReadingComponent implements OnInit {
     getLatestReadings() {
         this._readingService.getByRoom(this.selectedRoom.room_code).subscribe(
             res => {
-                this.readings = res;
-                this.sortByLatest();
-                this.setReadingsData();
+                if (res != null || res.length < 1) {
+                    this.readings = res;
+                    this.sortByLatest();
+                    this.setReadingsData();
+                }
             },
             (err) => {
-                this.toastOptions.msg = 'Unable to retrieve classroom readings. Please try again!',
+                this.toastOptions.msg = 'Unable to retrieve classroom information. Please try again!',
                 this.toastyService.error(this.toastOptions);
             }
         );
@@ -61,15 +63,17 @@ export class RoomReadingComponent implements OnInit {
         var hour = 60 * 60 * 1000
         var pastHour = Date.now() - hour;
         this.readings = this.readings.filter(f => new Date(f.created_on).getTime() >= pastHour);
-
     }
 
     setReadingsData() {
-        this.currentReadings = new ReadingViewModel();
-        this.currentReadings.temperature = this.readings.filter(f => f.type == 'temp')[0].value;
-        this.currentReadings.humidity = this.readings.filter(f => f.type == 'humidity')[0].value;
-        this.currentReadings.sound = this.readings.filter(f => f.type == 'sound')[0].value;
-        this.currentReadings.light = this.readings.filter(f => f.type == 'light')[0].value;
+        if (this.readings.length > 0) {
+            this.currentReadings = new ReadingViewModel();
+            this.currentReadings.temperature = this.readings.filter(f => f.type == 'temp')[0].value;
+            this.currentReadings.humidity = this.readings.filter(f => f.type == 'humidity')[0].value;
+            this.currentReadings.sound = this.readings.filter(f => f.type == 'sound')[0].value;
+            this.currentReadings.light = this.readings.filter(f => f.type == 'light')[0].value;
+            this.currentReadings.created_on = this.readings.filter(f => f.type == 'temp')[0].created_on;
+        }
     }
 
     getRoomChoice(event: any) {

@@ -1,12 +1,69 @@
-<div class="col-sm-12 col-md-6 offset-md-3  mx-auto text-center">
-	<app-select-room (chosenRoom)="getRoomChoice($event)"></app-select-room>
+<div class="col-sm-12 col-md-10 offset-md-1  mx-auto text-center">
+    <app-select-room (chosenRoom)="getRoomChoice($event)"></app-select-room>
 
-	<ul class="list-group mx-auto mt-4" *ngIf="currentReadings != null">
-		<li *ngIf="!currentReadings.humidity && !currentReadings.temperature
-                    && !currentReadings.sound && !currentReadings.light" class="list-group-item">No information available.</li>
-		<li *ngIf="currentReadings.temperature" class="list-group-item">Temperature is <b>{{ currentReadings.temperature }}&deg;C</b></li>
-		<li *ngIf="currentReadings.humidity" class="list-group-item">Humidity is <b>{{ currentReadings.humidity }}%</b></li>
-		<li *ngIf="currentReadings.sound" class="list-group-item">Sound level is <b>{{ currentReadings.sound }}%</b></li>
-		<li *ngIf="currentReadings.light" class="list-group-item">Light level is <b>{{ currentReadings.light }}%</b></li>
-	</ul>
+    <div class="card-deck mx-auto mt-4">
+
+        <!-- Classroom details -->
+        <div class="card mx-auto" *ngIf="selectedRoom != null">
+            <i class="card-img-top fa fa-info-circle fa-4x mt-3" aria-hidden="true"></i>
+            <div class="card-body">
+                <h5 class="card-title">Classroom <br /> Details</h5>
+                <p class="card-text"></p>
+            </div>
+            <table class="table table-hover mx-auto">
+                <tbody>
+                    <tr class="d-flex">
+                        <td class="col-7">Smartboard present</td>
+                        <td class="col-5">{{ selectedRoom.has_smartboard ? 'Yes' : 'No' }}</td>
+                    </tr>
+                    <tr class="d-flex">
+                        <td class="col-7">Computer present</td>
+                        <td class="col-5">{{ selectedRoom.has_computer ? 'Yes' : 'No' }}</td>
+                    </tr>
+                    <tr class="d-flex">
+                        <td class="col-7">Classroom has windows</td>
+                        <td class="col-5">{{ selectedRoom.has_windows ? 'Yes' : 'No' }}</td>
+                    </tr>
+                    <tr class="d-flex">
+                        <td class="col-7">Student capacity</td>
+                        <td class="col-5">{{ selectedRoom.student_capacity }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="card-footer text-muted">
+            </div>
+        </div>
+
+        <!-- Classroom info -->
+        <div class="card mx-auto" *ngIf="currentReadings?.length > 0">
+            <i class="card-img-top fa fa-thermometer-half fa-4x mt-3" aria-hidden="true"></i>
+            <div class="card-body">
+                <h5 class="card-title">Classroom <br /> Information</h5>
+                <p class="card-text"></p>
+            </div>
+            <table class="table table-hover mx-auto">
+                <tbody>
+                    <tr class="d-flex">
+                        <td class="col-7">Temperature</td>
+                        <td class="col-5">{{ currentReadings.temperature }}&deg;C</td>
+                    </tr>
+                    <tr class="d-flex">
+                        <td class="col-7">Humidity</td>
+                        <td class="col-5">{{ currentReadings.humidity }}%</td>
+                    </tr>
+                    <tr class="d-flex">
+                        <td class="col-7">Sound Level</td>
+                        <td class="col-5">{{ currentReadings.sound }}&</td>
+                    </tr>
+                    <tr class="d-flex">
+                        <td class="col-7">Light Level</td>
+                        <td class="col-5">{{ currentReadings.light }}%</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="card-footer text-muted">
+                {{ new Date(currentReadings.created_on) | date:'HH:mm'}}
+            </div>
+        </div>
+    </div>
 </div>
