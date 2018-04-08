@@ -35,7 +35,7 @@
         </div>
 
         <!-- Classroom info -->
-        <div class="card mx-auto" *ngIf="currentReadings?.length > 0">
+        <div class="card mx-auto">
             <i class="card-img-top fa fa-thermometer-half fa-4x mt-3" aria-hidden="true"></i>
             <div class="card-body">
                 <h5 class="card-title">Classroom <br /> Information</h5>
@@ -45,19 +45,19 @@
                 <tbody>
                     <tr class="d-flex">
                         <td class="col-7">Temperature</td>
-                        <td class="col-5">{{ currentReadings.temperature }}&deg;C</td>
+                        <td class="col-5">{{ currentReadings?.temperature }}&deg;C</td>
                     </tr>
                     <tr class="d-flex">
                         <td class="col-7">Humidity</td>
-                        <td class="col-5">{{ currentReadings.humidity }}%</td>
+                        <td class="col-5">{{ currentReadings?.humidity }}%</td>
                     </tr>
                     <tr class="d-flex">
                         <td class="col-7">Sound Level</td>
-                        <td class="col-5">{{ currentReadings.sound }}&</td>
+                        <td class="col-5">{{ currentReadings?.sound }}%</td>
                     </tr>
                     <tr class="d-flex">
                         <td class="col-7">Light Level</td>
-                        <td class="col-5">{{ currentReadings.light }}%</td>
+                        <td class="col-5">{{ currentReadings?.light }}%</td>
                     </tr>
                 </tbody>
             </table>

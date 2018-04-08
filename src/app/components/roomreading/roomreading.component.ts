@@ -40,10 +40,9 @@ export class RoomReadingComponent implements OnInit {
     getLatestReadings() {
         this._readingService.getByRoom(this.selectedRoom.room_code).subscribe(
             res => {
-                if (res != null || res.length < 1) {
+                if (res != null || res.length > 0) {
                     this.readings = res;
                     this.sortByLatest();
-                    this.setReadingsData();
                 }
             },
             (err) => {
@@ -55,8 +54,9 @@ export class RoomReadingComponent implements OnInit {
 
     sortByLatest() {
         this.readings = this.readings.sort(function (a, b) {
-            return new Date(b.created_on).getTime() - new Date(a.created_on).getTime()
+            return new Date(b.created_on).getTime() - new Date(a.created_on).getTime();
         });
+        this.setReadingsData();
     }
 
     getLastHour() {
@@ -68,12 +68,13 @@ export class RoomReadingComponent implements OnInit {
     setReadingsData() {
         if (this.readings.length > 0) {
             this.currentReadings = new ReadingViewModel();
-            this.currentReadings.temperature = this.readings.filter(f => f.type == 'temp')[0].value;
-            this.currentReadings.humidity = this.readings.filter(f => f.type == 'humidity')[0].value;
-            this.currentReadings.sound = this.readings.filter(f => f.type == 'sound')[0].value;
-            this.currentReadings.light = this.readings.filter(f => f.type == 'light')[0].value;
-            this.currentReadings.created_on = new Date(this.readings.filter(f => f.type == 'temp')[0].created_on);
+            this.currentReadings.temperature = this.readings.filter(f => f.type == 'temp')[0].value ? this.readings.filter(f => f.type == 'temp')[0].value : null;
+            this.currentReadings.humidity = this.readings.filter(f => f.type == 'humidity')[0].value ? this.readings.filter(f => f.type == 'humidity')[0].value : null;
+            this.currentReadings.sound = this.readings.filter(f => f.type == 'sound')[0].value ? this.readings.filter(f => f.type == 'sound')[0].value : null;
+            this.currentReadings.light = this.readings.filter(f => f.type == 'light')[0].value ? this.readings.filter(f => f.type == 'light')[0].value : null;
+            this.currentReadings.created_on = new Date(this.readings.filter(f => f.type == 'temp')[0].created_on) ? new Date(this.readings.filter(f => f.type == 'temp')[0].created_on) : null;
         }
+        console.log('current' + this.currentReadings);
     }
 
     getRoomChoice(event: any) {
