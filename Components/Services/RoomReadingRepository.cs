@@ -53,5 +53,10 @@ namespace ICT_LAB_Web.Components.Services
         {
             return _dbContext.RoomReadings.Where(q => q.RoomCode.ToLower() == room.ToLower()).ToListAsync();
         }
+
+        public Task<List<RoomReading>> GetByRoom(string room, int limit)
+        {
+            return _dbContext.RoomReadings.Where(q => q.RoomCode.ToLower() == room.ToLower()).OrderByDescending(o => o.CreatedOn).Take(limit).ToListAsync();
+        }
     }
 }

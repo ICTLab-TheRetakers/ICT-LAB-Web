@@ -9,6 +9,7 @@ namespace ICT_LAB_Web.Components.Services.Interfaces
     {
         Task<List<RoomReading>> Get(string room, string type, DateTime? from, DateTime? till);
         Task<List<RoomReading>> GetByRoom(string room);
+        Task<List<RoomReading>> GetByRoom(string room, int limit);
         Task<RoomReading> Add(RoomReading reading);
         Task<bool> Delete(string room);
     }

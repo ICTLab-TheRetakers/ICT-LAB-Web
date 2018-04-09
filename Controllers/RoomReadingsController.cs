@@ -21,7 +21,7 @@ namespace ICT_LAB_Web.Controllers
 
         // GET: api/readings/getByRoom?room=WD.001.016
         [HttpGet]
-        public async Task<IActionResult> GetByRoom(string room)
+        public async Task<IActionResult> GetByRoom(string room, int? limit)
         {
             if (String.IsNullOrEmpty(room))
             {
@@ -29,7 +29,7 @@ namespace ICT_LAB_Web.Controllers
             }
 
             //Get data
-            var data = await _roomReadingRepository.GetByRoom(room);
+            var data = limit.HasValue ? await _roomReadingRepository.GetByRoom(room, limit.Value) : await _roomReadingRepository.GetByRoom(room);
             if (data == null)
             {
                 return StatusCode(500, "Room readings could not be found.");
