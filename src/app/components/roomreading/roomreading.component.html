@@ -45,24 +45,26 @@
                 <tbody>
                     <tr class="d-flex">
                         <td class="col-7">Temperature</td>
-                        <td class="col-5" *ngIf="!temperature">{{ temperature }}&deg;C</td>
+                        <td class="col-5" *ngIf="temperature != -1">{{ temperature }}&deg;C</td>
                     </tr>
                     <tr class="d-flex">
                         <td class="col-7">Humidity</td>
-                        <td class="col-5" *ngIf="!humidity">{{ humidity }}%</td>
+                        <td class="col-5" *ngIf="humidity != -1">{{ humidity }}%</td>
                     </tr>
                     <tr class="d-flex">
                         <td class="col-7">Sound Level</td>
-                        <td class="col-5" *ngIf="!sound">{{ sound }}%</td>
+                        <td class="col-5" *ngIf="sound != -1">{{ sound }} dB</td>
                     </tr>
                     <tr class="d-flex">
                         <td class="col-7">Light Level</td>
-                        <td class="col-5" *ngIf="!light">{{ light }}%</td>
+                        <td class="col-5" *ngIf="light != -1">{{ light }} lux</td>
                     </tr>
                 </tbody>
             </table>
-            <div class="card-footer text-muted" *ngIf="!created_on">
-                {{ created_on }}
+            <div class="card-footer">
+                <span class="text-muted" *ngIf="created_on != null">
+                    Last updated on {{ created_on | date: 'dd-MM HH:mm' }}
+                </span>
             </div>
         </div>
     </div>

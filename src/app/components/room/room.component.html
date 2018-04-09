@@ -1,7 +1,7 @@
 <div class="col-sm-12 text-center"> <!--col-md-6 offset-md-3 "> Gives unnecessary margin and padding to the DIV-->
     <app-select-room (chosenRoom)="getRoomChoice($event)"></app-select-room>
 
-	<h4 class="text-center mt-3 mb-0" *ngIf="selectedRoom != null">{{ selectedRoom.room_code }}</h4>
+	<h4 class="text-center mt-4 mb-0" *ngIf="selectedRoom != null">{{ selectedRoom.room_code }}</h4>
     <table class="rooster" *ngIf="selectedRoom != null">
         <thead class="roosterWeek">
             <tr>

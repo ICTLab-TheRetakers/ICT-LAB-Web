@@ -78,16 +78,16 @@ export class RoomReadingComponent implements OnInit {
             this.light = this.readings.filter(f => f.type == 'light')[0] != null ? this.readings.filter(f => f.type == 'light')[0].value: -1;
 
             var type = '';
-            if (this.temperature != null) {
+            if (this.temperature != -1) {
                 type = 'temp';
             }
-            else if (this.humidity != null) {
+            else if (this.humidity != -1) {
                 type = 'humidity';
             }
-            else if (this.sound != null) {
+            else if (this.sound != -1) {
                 type = 'sound';
             }
-            else if (this.light != null) {
+            else if (this.light != -1) {
                 type = 'light';
             }
             this.created_on = this.readings.filter(f => f.type == type)[0] != null ? new Date(this.readings.filter(f => f.type == type)[0].created_on) : null;
