@@ -1,12 +1,13 @@
-using ICT_LAB_Web.Components.Entities;
-using ICT_LAB_Web.Components.Services;
-using ICT_LAB_Web.Components.Services.Interfaces;
-using ICT_LAB_Web.Controllers.ViewModels;
-using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ICT_LAB_Web.Components.Entities;
+using ICT_LAB_Web.Components.Helper;
+using ICT_LAB_Web.Components.Services;
+using ICT_LAB_Web.Components.Services.Interfaces;
+using ICT_LAB_Web.Controllers.ViewModels;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ICT_LAB_Web.Controllers
 {
@@ -47,13 +48,40 @@ namespace ICT_LAB_Web.Controllers
             }
 
             //Convert to view model
-            var result = data.Select(x => new ReservationViewModel
-            {
+            var result = data.Select(x => new ReservationViewModel {
                 UserId = x.UserId,
                 RoomCode = x.RoomCode,
                 StartTime = x.StartTime,
                 EndTime = x.EndTime
             });
+
+            return Ok(result);
+        }
+
+        //GET: api/reservations/getLessonsByWeek?classNumber=r00028&department=CMI&week=15&quarter=3
+        public async Task<IActionResult> GetLessonsByWeek(string classNumber, string department, int? week, int? quarter)
+        {
+            if (String.IsNullOrEmpty(classNumber) || String.IsNullOrEmpty(department) || !week.HasValue
+                || !quarter.HasValue)
+            {
+                return StatusCode(400, "Invalid parameter(s).");
+            }
+
+            //Get lessons
+            var crawler = new ScheduleCrawler();
+            crawler.SetClassRoomNumber(classNumber);
+            crawler.SetDepartment(department);
+            crawler.SetWeek(week.Value);
+            crawler.SetQuarterOfYear(quarter.Value);
+
+            var data = await crawler.StartCrawlingAsync();
+            if (data == null)
+            {
+                return StatusCode(500, "Lessons could not be found.");
+            }
+
+            //Convert to view model
+            var result = new ScheduleViewModel(data);
 
             return Ok(result);
         }
