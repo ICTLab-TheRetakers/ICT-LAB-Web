@@ -34,6 +34,12 @@ export class RoomReadingService {
             .catch(this.handleError);
     }
 
+    getByRoomLimit(room: string, limit: number): Observable<Roomreading[]> {
+        return this.http.get(this.baseUrl + 'getByRoom?room=' + room + '&limit=' + limit)
+            .map(res => res)
+            .catch(this.handleError);
+    }
+
     create(reading: Roomreading): Observable<Roomreading> {
         return this.http.post(this.baseUrl + 'create', reading)
             .map(res => res)

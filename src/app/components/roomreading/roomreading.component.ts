@@ -19,6 +19,7 @@ export class RoomReadingComponent implements OnInit {
     readings: Roomreading[] = [];
     selectedRoom: Room = null;
     toastOptions: ToastOptions;
+    limit: number = 20;
 
     temperature: number;
     sound: number;
@@ -43,7 +44,7 @@ export class RoomReadingComponent implements OnInit {
     ngOnInit() {}
 
     getLatestReadings() {
-        this._readingService.getByRoom(this.selectedRoom.room_code).subscribe(
+        this._readingService.getByRoomLimit(this.selectedRoom.room_code, this.limit).subscribe(
             res => {
                 if (res != null || res.length > 0) {
                     this.readings = res;
