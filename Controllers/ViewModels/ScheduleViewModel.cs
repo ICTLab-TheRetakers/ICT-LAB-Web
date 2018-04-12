@@ -7,7 +7,7 @@ namespace ICT_LAB_Web.Controllers.ViewModels
     public class ScheduleViewModel
     {
         [JsonProperty("classroom")]
-        public string Classroom { get; set; }
+        public string RoomCode { get; set; }
         [JsonProperty("week")]
         public int Week { get; set; }
         [JsonProperty("quarter_of_year")]
@@ -19,7 +19,7 @@ namespace ICT_LAB_Web.Controllers.ViewModels
 
         public ScheduleViewModel(Schedule model)
         {
-            this.Classroom = model.Classroom;
+            this.RoomCode = model.RoomCode;
             this.Week = model.Week;
             this.QuarterOfYear = model.QuarterOfYear;
             this.Department = model.Department;
