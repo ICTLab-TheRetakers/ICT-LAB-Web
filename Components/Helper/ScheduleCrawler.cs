@@ -80,7 +80,7 @@ namespace ICT_LAB_Web.Components.Helper
 
             //Get and set room code
             var roomCode = document.DocumentNode.SelectNodes("/html/body/center/font[2]")[0].InnerText;
-            this.RoomCode = roomCode;
+            this.RoomCode = RemoveChars(roomCode, true);
 
             var table = document.DocumentNode.SelectNodes("/html/body/center/table[1]")[0];
             var schedule = GetLessons(table);
@@ -113,8 +113,8 @@ namespace ICT_LAB_Web.Components.Helper
                 for (int lesson = 1; lesson < lessons.Count; lesson++)
                 {
                     // Get current hour
-                    var hourNumber = RemoveChars(lessons[0].InnerText.Split(' ')[0]);
-                    var currentHour = RemoveChars(lessons[0].InnerText.Split(' ')[1]);
+                    var hourNumber = RemoveChars(lessons[0].InnerText.Split(' ')[0], false);
+                    var currentHour = RemoveChars(lessons[0].InnerText.Split(' ')[1], false);
 
                     // Create new lesson and set start time
                     var newLesson = new Lesson(lesson);
@@ -161,19 +161,19 @@ namespace ICT_LAB_Web.Components.Helper
                                 newLesson.Teacher = String.Empty;
                                 break;
                             case 1:
-                                newLesson.Course = RemoveChars(lessonInfo[0].InnerText);
+                                newLesson.Course = RemoveChars(lessonInfo[0].InnerText, false);
                                 newLesson.Class = String.Empty;
                                 newLesson.Teacher = String.Empty;
                                 break;
                             case 2:
-                                newLesson.Course = RemoveChars(lessonInfo[1].InnerText);
-                                newLesson.Class = RemoveChars(lessonInfo[0].InnerText);
+                                newLesson.Course = RemoveChars(lessonInfo[1].InnerText, false);
+                                newLesson.Class = RemoveChars(lessonInfo[0].InnerText, false);
                                 newLesson.Teacher = String.Empty;
                                 break;
                             case 3:
-                                newLesson.Course = RemoveChars(lessonInfo[2].InnerText);
-                                newLesson.Class = RemoveChars(lessonInfo[0].InnerText);
-                                newLesson.Teacher = RemoveChars(lessonInfo[1].InnerText);
+                                newLesson.Course = RemoveChars(lessonInfo[2].InnerText, false);
+                                newLesson.Class = RemoveChars(lessonInfo[0].InnerText, false);
+                                newLesson.Teacher = RemoveChars(lessonInfo[1].InnerText, false);
                                 break;
                         }
 
@@ -258,19 +258,19 @@ namespace ICT_LAB_Web.Components.Helper
                         lesson.Teacher = String.Empty;
                         break;
                     case 1:
-                        lesson.Course = RemoveChars(lessonInfo[0].InnerText);
+                        lesson.Course = RemoveChars(lessonInfo[0].InnerText, false);
                         lesson.Class = String.Empty;
                         lesson.Teacher = String.Empty;
                         break;
                     case 2:
-                        lesson.Course = RemoveChars(lessonInfo[1].InnerText);
-                        lesson.Class = RemoveChars(lessonInfo[0].InnerText);
+                        lesson.Course = RemoveChars(lessonInfo[1].InnerText, false);
+                        lesson.Class = RemoveChars(lessonInfo[0].InnerText, false);
                         lesson.Teacher = String.Empty;
                         break;
                     case 3:
-                        lesson.Course = RemoveChars(lessonInfo[2].InnerText);
-                        lesson.Class = RemoveChars(lessonInfo[0].InnerText);
-                        lesson.Teacher = RemoveChars(lessonInfo[1].InnerText);
+                        lesson.Course = RemoveChars(lessonInfo[2].InnerText, false);
+                        lesson.Class = RemoveChars(lessonInfo[0].InnerText, false);
+                        lesson.Teacher = RemoveChars(lessonInfo[1].InnerText, false);
                         break;
                 }
             }
@@ -358,9 +358,17 @@ namespace ICT_LAB_Web.Components.Helper
             return time;
         }
 
-        private string RemoveChars(string text)
+        private string RemoveChars(string text, bool isRoomCode)
         {
-            return text.Replace("\n", String.Empty).Replace("\r", String.Empty).Replace("\t", String.Empty).Replace(".", String.Empty);
+			var textWithoutCharacters = text.Replace("\n", String.Empty).Replace("\r", String.Empty)
+				.Replace("\t", String.Empty);
+
+            if (!isRoomCode)
+            {
+                textWithoutCharacters = textWithoutCharacters.Replace(".", String.Empty);
+            }
+
+            return textWithoutCharacters;
         }
 
         #endregion
