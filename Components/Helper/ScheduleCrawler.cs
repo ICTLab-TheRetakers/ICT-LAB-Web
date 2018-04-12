@@ -12,6 +12,7 @@ namespace ICT_LAB_Web.Components.Helper
     {
         #region Properties
 
+        private string RoomCode;
         private string Department;
         private int Week;
         private int Quarter;
@@ -77,6 +78,10 @@ namespace ICT_LAB_Web.Components.Helper
             var document = new HtmlDocument();
             document.LoadHtml(html);
 
+            //Get and set room code
+            var roomCode = document.DocumentNode.SelectNodes("/html/body/center/font[2]")[0].InnerText;
+            this.RoomCode = roomCode;
+
             var table = document.DocumentNode.SelectNodes("/html/body/center/table[1]")[0];
             var schedule = GetLessons(table);
 
@@ -90,6 +95,7 @@ namespace ICT_LAB_Web.Components.Helper
 
             //Create new schedule and set properties
             var timeSchedule = new Schedule();
+            timeSchedule.RoomCode = this.RoomCode;
             timeSchedule.Department = this.Department;
             timeSchedule.Week = this.Week;
             timeSchedule.QuarterOfYear = this.Quarter;
