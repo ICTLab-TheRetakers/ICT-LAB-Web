@@ -1,36 +1,38 @@
 /* NAVBAR -> changes to the bootstrap navbar */
 
-.redNav {
+.navbar {
     background-color: #BD012F;
     min-height: 10vh;
     max-height: 10vh;
 }
 
-.redNav .navbar-brand {
+.navbar .navbar-brand {
     font-weight: 700;
 }
 
-.redNav a {
+.navbar a {
     color: white !important;
-    font-size: 25px;
+    font-size: 20px;
     padding: 25px 20px;
 }
 
-.redNav .active {
+.navbar .active {
     text-decoration: underline;
-    text-decoration-style:solid;
+    text-decoration-style: solid;
 }
 
 main {
-	position: fixed;
-	left: 250px;
-	top: 10vh;
-	min-height: 90vh;
-	width: calc(100vw - 250px);
-}  
+    position: fixed;
+    left: 16vw;
+    top: 10vh;
+    bottom: 0;
+    overflow-y: auto;
+    width: 100%;
+    width: 84vw;
+}
 
 @media (max-width: 767.98px) {
-    .redNav a {
+    .navbar a {
         color: white !important;
         font-size: 15px;
         padding: 15px 10px;
@@ -38,20 +40,91 @@ main {
 }
 
 /* SIDEBAR */
-#sidebar {
-	position: fixed;
-	top: 10vh;
-	overflow-x: hidden;
-	left: 0;
-	width: 250px;
-	padding: 10px;
-	min-height: 90vh;
-	background-color: #BD012F;
-	color: #fff;
-	transition: all 0.3s;
-	text-align: center;
+.sidebar {
+    background-color: #BD012F;
+    position: fixed;
+    width: 16vw;
+    top: 60px;
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+    padding: 25px 0px;
+    overflow-x: hidden;
+    overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+    transition: all 0.3s;
+    text-align: center;
 }
 
+.sidebar h4 {
+    color: #fff;
+    padding: 0;
+    margin-bottom: 25px;
+    padding-bottom: 4px;
+}
+
+.sidebar .nav {
+    margin: 0 auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.sidebar .nav-bottom {
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    margin: 0 auto;
+}
+
+.sidebar .nav-item {
+    color: #fff;
+    width: 100%;
+    font-family: 'Nunito', sans-serif;
+    border-bottom: 1px solid white;
+    padding: 15px 2px;
+    font-size: 15px;
+    line-height: 15px;
+}
+
+.sidebar .nav-item:hover a {
+    background: #007BFF;
+    color: #FFF;
+}
+
+.sidebar .nav-item + .nav-item {
+    margin-left: 0;
+}
+
+.sidebar .nav-link {
+    border-radius: 0;
+}
+
+.sidebar .nav-bottom .nav-item {
+    border: none;
+    padding: 15px 0px;
+}
+
+.sidebar .nav-bottom .qrComp {
+    display: inherit !important;
+    vertical-align: bottom;
+}
+
+.sidebar > .nav-bottom > .nav-item > .qrComp > ::ng-deep qrcode > img {
+    margin: 0 auto !important;
+}
+
+@media(max-width: 1224px) {
+    .sidebar > .nav-bottom > .nav-item {
+        padding-left: 4px;
+        padding-right: 4px;
+    }
+    .sidebar > .nav-bottom > .nav-item > .qrComp > ::ng-deep qrcode > img {
+        padding: 5px;
+        width: 100%;
+        height: 100%;
+    }
+}
+
+/* OLD */
 #sidebar.active {
     margin-left: -300px;
 }
@@ -69,7 +142,7 @@ main {
 #sidebar ul p {
     color: #fff;
     padding-bottom: 15px;
-    width:100%;
+    width: 100%;
     border-bottom: 2px solid white;
 }
 
@@ -84,10 +157,10 @@ main {
     display: block;
 }
 
-#sidebar ul li a:hover {
-    color: #7386D5;
-    background: #fff;
-}
+    #sidebar ul li a:hover {
+        color: #7386D5;
+        background: #fff;
+    }
 
 #sidebar ul li.active > a, a[aria-expanded="true"] {
     color: #fff;
@@ -107,16 +180,6 @@ ul ul a {
 }
 
 /* SIDEBAR -> QR-CODE-COMPONENT*/
-#sidebar .qrComp {
-    vertical-align: bottom;
-}
 
-#sidebar > .qrComp  {
-	display: inherit !important;
-}
-
-#sidebar .qrComp img {
-	margin: 0 auto !important;
-}
 
 /* TO DO: RESPONSIVE SIDEMENU */
