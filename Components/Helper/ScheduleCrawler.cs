@@ -80,7 +80,7 @@ namespace ICT_LAB_Web.Components.Helper
 
             //Get and set room code
             var roomCode = document.DocumentNode.SelectNodes("/html/body/center/font[2]")[0].InnerText;
-            this.RoomCode = RemoveChars(roomCode, true);
+            this.RoomCode = RemoveChars(roomCode, true).Trim();
 
             var table = document.DocumentNode.SelectNodes("/html/body/center/table[1]")[0];
             var schedule = GetLessons(table);
