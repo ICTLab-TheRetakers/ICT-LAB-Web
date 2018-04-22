@@ -27,7 +27,6 @@ namespace ICT_LAB_Web.Controllers.ViewModels
                 Id = x.Id,
                 WeekDay = x.WeekDay,
                 Lessons = x.Lessons.Select(y => new LessonViewModel {
-                    Id = y.Id,
                     Class = y.Class,
                     Teacher = y.Teacher,
                     Course = y.Course,
