@@ -117,7 +117,7 @@ namespace ICT_LAB_Web.Components.Helper
                     var currentHour = RemoveChars(lessons[0].InnerText.Split(' ')[1], false);
 
                     // Create new lesson and set start time
-                    var newLesson = new Lesson(lesson);
+                    var newLesson = new Lesson();
                     newLesson.StartTime = currentHour;
 
                     // Get current lesson and info
@@ -243,7 +243,7 @@ namespace ICT_LAB_Web.Components.Helper
 
         private Lesson ConvertToLesson(HtmlNode node, string hour)
         {
-            Lesson lesson = new Lesson(new Random().Next());
+            Lesson lesson = new Lesson();
             lesson.StartTime = hour;
 
             var lessonInfo = node.SelectSingleNode("table").ChildNodes.Descendants("font").ToList();

@@ -4,8 +4,6 @@ namespace ICT_LAB_Web.Controllers.ViewModels
 {
     public class LessonViewModel
     {
-        [JsonProperty("id")]
-        public int Id { get; set; }
         [JsonProperty("teacher")]
         public string Teacher { get; set; }
         [JsonProperty("class")]

@@ -1,6 +1,4 @@
 using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ICT_LAB_Web.Components.Helper.Models
 {
@@ -8,21 +6,17 @@ namespace ICT_LAB_Web.Components.Helper.Models
     {
         #region Properties
 
-        [Column(Order = 0), Key]
-        public int Id { get; set; }
         public string Teacher { get; set; }
         public string Class { get; set; }
         public string Course { get; set; }
-        [Column(Order = 1), Key]
         public string StartTime { get; set; }
 
         #endregion
 
         #region Constructors
 
-        public Lesson(int id)
+        public Lesson()
         {
-            this.Id = id;
         }
 
         #endregion
