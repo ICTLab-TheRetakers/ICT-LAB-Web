@@ -9,7 +9,7 @@ export const environment = {
     issueApi: 'http://145.24.222.238/api/issues/',
     notificationsApi: 'http://145.24.222.238/api/notifications/',
     readingApi: 'http://145.24.222.238/api/readings/',
-    reservationApi: 'http://145.24.222.238/apireservations/',
+    reservationApi: 'http://145.24.222.238/api/reservations/',
     roleApi: 'http://145.24.222.238/api/roles/',
     roomApi: 'http://145.24.222.238/api/rooms/',
     userApi: 'http://145.24.222.238/api/users/',

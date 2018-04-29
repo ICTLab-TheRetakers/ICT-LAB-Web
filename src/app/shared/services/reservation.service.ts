@@ -8,6 +8,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/throw';
 
 import Reservation from '../models/reservation.model';
+import Schedule from '../models/schedule/schedule.model';
 
 @Injectable()
 export class ReservationService {
@@ -23,6 +24,12 @@ export class ReservationService {
 
     getByDate(user: string, from: string, till: string): Observable<Reservation[]> {
         return this.http.get(this.baseUrl + 'get?user=' + user + '&from=' + from + '&till=' + till)
+            .map(res => res)
+            .catch(this.handleError);
+    }
+
+    getLessonsByWeek(classNumber: string, department: string, quarter: number, week: number): Observable<Schedule> {
+        return this.http.get(this.baseUrl + 'getLessonsByWeek?classNumber=' + classNumber + '&department=' + department + '&quarter=' + quarter + '&week=' + week)
             .map(res => res)
             .catch(this.handleError);
     }

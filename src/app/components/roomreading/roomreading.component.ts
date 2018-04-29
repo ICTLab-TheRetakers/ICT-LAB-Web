@@ -6,7 +6,7 @@ import { RoomService } from '../../shared/services/room.service';
 
 import Roomreading from '../../shared/models/reading.model';
 import Room from '../../shared/models/room.model';
-import ReadingViewModel from '../../shared/models/reading.viewmodel';
+import ReadingViewModel from '../../shared/models/viewmodels/reading.viewmodel';
 
 import { SelectRoomComponent } from '../room/select-room/select-room.component';
 
