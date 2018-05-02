@@ -9,7 +9,7 @@ namespace ICT_LAB_Web.Controllers.ViewModels
         [JsonProperty("identifier")]
         public string Identifier { get; set; }
         [JsonProperty("schedule_type")]
-        public int ScheduleType { get; set; }
+        public string ScheduleType { get; set; }
         [JsonProperty("week")]
         public int Week { get; set; }
         [JsonProperty("quarter_of_year")]
