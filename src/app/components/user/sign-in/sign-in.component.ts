@@ -38,7 +38,6 @@ export class SignInComponent implements OnInit {
         this.authenticationService.login(this.email, this.password)
             .subscribe(
             user => {
-                console.log(user);
                 localStorage.setItem('loggedInUser', JSON.stringify(user[0] as User));
                 this.router.navigate(['/']);
             },

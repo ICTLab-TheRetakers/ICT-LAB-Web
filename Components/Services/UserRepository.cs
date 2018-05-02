@@ -42,7 +42,7 @@ namespace ICT_LAB_Web.Components.Services
             //Encrypt password to match 
             string encryptedPassword = _encryptor.Encrypt(password);
 
-            var response = await _dbContext.Users.FirstOrDefaultAsync(q => q.UserId.ToLower() == email.ToLower() && q.Password == encryptedPassword);
+            var response = await _dbContext.Users.FirstOrDefaultAsync(q => q.Email.ToLower() == email.ToLower() && q.Password == encryptedPassword);
             return response;
         }
 
