@@ -21,6 +21,7 @@ namespace ICT_LAB_Web.Controllers.ViewModels
 
         public ScheduleViewModel(Schedule model)
         {
+            this.ScheduleType = model.ScheduleType;
             this.Identifier = model.Identifier;
             this.Week = model.Week;
             this.QuarterOfYear = model.QuarterOfYear;
