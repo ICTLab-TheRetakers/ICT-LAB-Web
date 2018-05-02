@@ -37,21 +37,13 @@ namespace ICT_LAB_Web.Components.Services
             return result == 1 ? user : null;
         }
 
-        public async Task<bool> CheckCredentials(string email, string password)
+        public async Task<User> CheckCredentials(string email, string password)
         {
             //Encrypt password to match 
             string encryptedPassword = _encryptor.Encrypt(password);
 
-            User user = await _dbContext.Users.FirstOrDefaultAsync(q => q.Email.ToLower() == email.ToLower() 
-                && q.Password == encryptedPassword);
-
-            var result = false;
-            if (user != null)
-            {
-                result = true;
-            }
-
-            return result;
+            var response = await _dbContext.Users.FirstOrDefaultAsync(q => q.UserId.ToLower() == email.ToLower() && q.Password == encryptedPassword);
+            return response;
         }
 
         public async Task<bool> Delete(string user)

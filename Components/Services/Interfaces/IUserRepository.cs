@@ -7,7 +7,7 @@ namespace ICT_LAB_Web.Components.Services.Interfaces
     {
         Task<User> Get(string user);
         Task<User> GetByEmail(string email);
-        Task<bool> CheckCredentials(string email, string password);
+        Task<User> CheckCredentials(string email, string password);
         Task<User> Add(User user);
         Task<User> Update(User user);
         Task<bool> Delete(string user);

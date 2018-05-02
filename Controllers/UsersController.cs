@@ -88,7 +88,23 @@ namespace ICT_LAB_Web.Controllers
             }
 
             //Get user
-            var result = await _userRepository.CheckCredentials(email, password);
+            var data = await _userRepository.CheckCredentials(email, password);
+            if (data == null)
+            {
+                return StatusCode(500, "Invalid credentials.");
+            }
+
+            //Convert to view model
+            var result = new UserViewModel
+            {
+                UserId = data.UserId,
+                Role = data.Role,
+                FirstName = data.FirstName,
+                LastName = data.LastName,
+                Email = data.Email,
+                Password = data.Password
+            };
+
             return Ok(result);
         }
 
