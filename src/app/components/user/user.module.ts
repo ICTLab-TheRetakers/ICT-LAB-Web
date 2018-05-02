@@ -25,6 +25,9 @@ import { SignInComponent } from './sign-in/sign-in.component';
         UserService,
         { provide: LocationStrategy, useClass: PathLocationStrategy },
         { provide: ErrorHandler, useClass: CustomErrorHandler }
+    ],
+    exports: [
+        UserComponent
     ]
 })
 export class UserModule { }

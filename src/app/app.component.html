@@ -55,10 +55,10 @@
                 </ul>
             </nav>
 
-            <main class="main">
-                <router-outlet></router-outlet>
-                <ng2-toasty [position]="'bottom-right'"></ng2-toasty>
-            </main>
+			<main class="main">
+				<router-outlet (activate)="checkIfLoggedIn()"></router-outlet>
+				<ng2-toasty [position]="'bottom-right'"></ng2-toasty>
+			</main>
         </div>
 
 	</div>

@@ -19,6 +19,7 @@ export class AuthenticationService {
     login(email: string, password: string): Observable<any> {
         return this.userService.checkCredentials(email, password)
             .map(user => user)
+            .share()
             .catch(this.handleError);
     }
 
