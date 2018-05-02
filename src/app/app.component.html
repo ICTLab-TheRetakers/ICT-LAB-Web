@@ -9,20 +9,23 @@
             <ul class="navbar-nav">
                 <li class="nav-item">
                     <a [routerLink]="['/']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
-                       class="nav-link" href="#">HOME</a>
+                       class="nav-link">HOME</a>
                 </li>
                 <li class="nav-item">
                     <a [routerLink]="['/readings']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
-                       class="nav-link" href="#">INFORMATION</a>
+                       class="nav-link">INFORMATION</a>
                 </li>
                 <li class="nav-item">
                     <a [routerLink]="['/reservations']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
-                       class="nav-link" href="#">RESERVATIONS</a>
+                       class="nav-link">RESERVATIONS</a>
                 </li>
                 <li class="nav-item">
                     <a [routerLink]="['/users']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
-                       class="nav-link" href="#">PROFIEL</a>
+                       class="nav-link">PROFIEL</a>
                 </li>
+				<li class="nav-item">
+					<a class="nav-link" style="cursor: pointer;" (click)="signOut()">SIGN OUT</a>
+				</li>
             </ul>
         </div>
     </div>
