@@ -107,6 +107,21 @@ namespace ICT_LAB_Web.Components.Helper
             timeSchedule.Week = this.Week;
             timeSchedule.QuarterOfYear = this.Quarter;
 
+            switch (this.ScheduleType)
+            {
+                case "c":
+                    timeSchedule.ScheduleType = "Class";
+                    break;
+                case "t":
+                    timeSchedule.ScheduleType = "Teacher";
+                    break;
+                case "r":
+                    timeSchedule.ScheduleType = "Room";
+                    break;
+                default:
+                    break;
+            }
+
             // Loop through each row (row is an hour, e.x. 08:30-09:20)
             for (int time = 2; time < schedule.ChildNodes.Count; time += 2)
             {

@@ -9,6 +9,7 @@ namespace ICT_LAB_Web.Components.Helper.Models
 
         [Key]
         public string Identifier { get; set; }
+        public string ScheduleType { get; set; }
         public int Week { get; set; }
         public int QuarterOfYear { get; set; }
         public string Department { get; set; }
