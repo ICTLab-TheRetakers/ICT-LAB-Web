@@ -13,7 +13,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class AppComponent implements OnInit {
     user: User = null;
     isLoggedIn = false;
-    title: string;
 
     constructor(private authService: AuthenticationService, private route: ActivatedRoute,
         private router: Router) { }
@@ -23,9 +22,11 @@ export class AppComponent implements OnInit {
     }
 
     checkIfLoggedIn() {
-        this.user = JSON.parse(localStorage.getItem('loggedInUser'));
-        if (this.user != null) {
-            this.isLoggedIn = true;
+        if (localStorage.getItem('loggedInUser') != 'undefined') {
+            this.user = JSON.parse(localStorage.getItem('loggedInUser') || null);
+            if (this.user != null) {
+                this.isLoggedIn = true;
+            } 
         } else {
             this.isLoggedIn = false;
         }
