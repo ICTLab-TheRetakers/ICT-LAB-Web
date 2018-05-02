@@ -59,9 +59,9 @@ namespace ICT_LAB_Web.Controllers
         }
 
         //GET: api/reservations/getLessonsByWeek?classNumber=r00028&department=CMI&week=15&quarter=3
-        public async Task<IActionResult> GetLessonsByWeek(string classNumber, string department, int? week, int? quarter)
+        public async Task<IActionResult> GetLessonsByWeek(string index, string department, int? week, int? quarter)
         {
-            if (String.IsNullOrEmpty(classNumber) || String.IsNullOrEmpty(department) || !week.HasValue
+            if (String.IsNullOrEmpty(index) || String.IsNullOrEmpty(department) || !week.HasValue
                 || !quarter.HasValue)
             {
                 return StatusCode(400, "Invalid parameter(s).");
@@ -69,7 +69,7 @@ namespace ICT_LAB_Web.Controllers
 
             //Get lessons
             var crawler = new ScheduleCrawler();
-            crawler.SetClassRoomNumber(classNumber);
+            crawler.SetIndex(index);
             crawler.SetDepartment(department);
             crawler.SetWeek(week.Value);
             crawler.SetQuarterOfYear(quarter.Value);

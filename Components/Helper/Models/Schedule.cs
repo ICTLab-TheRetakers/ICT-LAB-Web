@@ -8,7 +8,7 @@ namespace ICT_LAB_Web.Components.Helper.Models
         #region Properties
 
         [Key]
-        public string RoomCode { get; set; }
+        public string Identifier { get; set; }
         public int Week { get; set; }
         public int QuarterOfYear { get; set; }
         public string Department { get; set; }

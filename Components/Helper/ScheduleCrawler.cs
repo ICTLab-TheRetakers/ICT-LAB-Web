@@ -12,11 +12,12 @@ namespace ICT_LAB_Web.Components.Helper
     {
         #region Properties
 
-        private string RoomCode;
+        private string ScheduleType;
+        private string Identifier;
         private string Department;
         private int Week;
         private int Quarter;
-        private string ClassroomNumber;
+        private string Index;
 
         #endregion
 
@@ -24,17 +25,23 @@ namespace ICT_LAB_Web.Components.Helper
 
         public ScheduleCrawler() { }
 
-        public ScheduleCrawler(string department, int week, int quarter, string classroomNumber)
+        public ScheduleCrawler(string scheduleType, string index, string department, int quarter, int week)
         {
+            this.ScheduleType = scheduleType;
             this.Department = department;
             this.Week = week;
             this.Quarter = quarter;
-            this.ClassroomNumber = classroomNumber;
+            this.Index = index;
         }
 
         #endregion
 
         #region Setters
+
+        public void SetScheduleType(string type)
+        {
+            this.ScheduleType = type;
+        }
 
         public void SetDepartment(string department)
         {
@@ -51,9 +58,9 @@ namespace ICT_LAB_Web.Components.Helper
             this.Quarter = quarter;
         }
 
-        public void SetClassRoomNumber(string classRoomNumber)
+        public void SetIndex(string index)
         {
-            this.ClassroomNumber = classRoomNumber;
+            this.Index = index;
         }
 
         #endregion
@@ -62,16 +69,16 @@ namespace ICT_LAB_Web.Components.Helper
 
         public async Task<Schedule> StartCrawlingAsync()
         {
-            return await GetSchedule(this.Quarter, this.Week, this.Department, this.ClassroomNumber);
+            return await GetSchedule(this.ScheduleType, this.Index, this.Department, this.Quarter, this.Week);
         }
 
         #endregion
 
         #region Private Methods
 
-        private async Task<Schedule> GetSchedule(int quarterOfYear, int week, string department, string room)
+        private async Task<Schedule> GetSchedule(string scheduleType, string identifier, string department, int quarterOfYear, int week)
         {
-            var url = String.Format("http://misc.hro.nl/roosterdienst/webroosters/{0}/kw{1}/{2}/r/{3}.htm", department, quarterOfYear, week, room);
+            var url = String.Format("http://misc.hro.nl/roosterdienst/webroosters/{0}/kw{1}/{2}/{3}/{4}.htm", department, quarterOfYear, week ,scheduleType, identifier);
             var httpClient = new HttpClient();
 
             var html = await httpClient.GetStringAsync(url);
@@ -79,8 +86,8 @@ namespace ICT_LAB_Web.Components.Helper
             document.LoadHtml(html);
 
             //Get and set room code
-            var roomCode = document.DocumentNode.SelectNodes("/html/body/center/font[2]")[0].InnerText;
-            this.RoomCode = RemoveChars(roomCode, true).Trim();
+            var identifierCode = document.DocumentNode.SelectNodes("/html/body/center/font[2]")[0].InnerText;
+            this.Identifier = RemoveChars(identifierCode, true).Trim();
 
             var table = document.DocumentNode.SelectNodes("/html/body/center/table[1]")[0];
             var schedule = GetLessons(table);
@@ -95,7 +102,7 @@ namespace ICT_LAB_Web.Components.Helper
 
             //Create new schedule and set properties
             var timeSchedule = new Schedule();
-            timeSchedule.RoomCode = this.RoomCode;
+            timeSchedule.Identifier = this.Identifier;
             timeSchedule.Department = this.Department;
             timeSchedule.Week = this.Week;
             timeSchedule.QuarterOfYear = this.Quarter;
