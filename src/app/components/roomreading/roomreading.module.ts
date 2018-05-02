@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler } from '@angular/core';
 import { CommonModule, LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
@@ -14,6 +14,7 @@ import { RoomReadingService } from '../../shared/services/reading.service';
 import { RoomService } from '../../shared/services/room.service';
 
 import { SelectRoomModule } from '../room/select-room/select-room.module';
+import { CustomErrorHandler } from '../../shared/error-handler';
 
 @NgModule({
     imports: [
@@ -31,7 +32,8 @@ import { SelectRoomModule } from '../room/select-room/select-room.module';
         RoomReadingService,
         RoomService,
         SharedService,
-        { provide: LocationStrategy, useClass: PathLocationStrategy } 
+        { provide: LocationStrategy, useClass: PathLocationStrategy },
+        { provide: ErrorHandler, useClass: CustomErrorHandler }
     ]
 })
 export class RoomreadingsModule { }

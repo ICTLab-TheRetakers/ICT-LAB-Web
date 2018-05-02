@@ -13,6 +13,7 @@ import { SelectRoomModule } from './select-room/select-room.module';
 
 import { SharedService } from '../../shared/services/shared.service';
 import { RoomService } from '../../shared/services/room.service';
+import { CustomErrorHandler } from '../../shared/error-handler';
 
 @NgModule({
     imports: [
@@ -29,7 +30,8 @@ import { RoomService } from '../../shared/services/room.service';
     providers: [
         RoomService,
         SharedService,
-        { provide: LocationStrategy, useClass: PathLocationStrategy }
+        { provide: LocationStrategy, useClass: PathLocationStrategy },
+        { provide: ErrorHandler, useClass: CustomErrorHandler }
     ]
 })
 export class RoomModule { }

@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler } from '@angular/core';
 import { CommonModule, PathLocationStrategy, LocationStrategy } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
@@ -9,6 +9,7 @@ import { IssueRoutingModule } from './issue.routing';
 
 import { IssueComponent } from './issue.component';
 import { IssueService } from '../../shared/services/issue.service';
+import { CustomErrorHandler } from '../../shared/error-handler';
 
 @NgModule({
     imports: [
@@ -21,7 +22,8 @@ import { IssueService } from '../../shared/services/issue.service';
     declarations: [IssueComponent],
     providers: [
         IssueService,
-        { provide: LocationStrategy, useClass: PathLocationStrategy }
+        { provide: LocationStrategy, useClass: PathLocationStrategy },
+        { provide: ErrorHandler, useClass: CustomErrorHandler }
     ]
 })
 export class IssueModule { }

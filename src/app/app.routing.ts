@@ -8,39 +8,54 @@ import { RoomReadingComponent } from './components/roomreading/roomreading.compo
 import { ReservationComponent } from './components/reservation/reservation.component';
 import { IssueComponent } from './components/issue/issue.component';
 import { NotificationComponent } from './components/notification/notification.component';
+import { AuthGuard } from './shared/authguard.service';
+import { SignInComponent } from './components/user/sign-in/sign-in.component';
 
 const routes: Routes = [
     {
         path: '',
-        component: RoomComponent
+        component: RoomComponent,
+        canActivate: [AuthGuard]
     },
     {
         path: 'users',
-        component: UserComponent
+        component: UserComponent,
+        canActivate: [AuthGuard]
     },
     {
         path: 'rooms',
-        component: RoomComponent
+        component: RoomComponent,
+        canActivate: [AuthGuard]
     },
     {
         path: 'reservations',
-        component: ReservationComponent
+        component: ReservationComponent,
+        canActivate: [AuthGuard]
     },
     {
         path: 'devices',
-        component: DeviceComponent
+        component: DeviceComponent,
+        canActivate: [AuthGuard]
     },
     {
         path: 'issues',
-        component: IssueComponent
+        component: IssueComponent,
+        canActivate: [AuthGuard]
     },
     {
         path: 'readings',
-        component: RoomReadingComponent
+        component: RoomReadingComponent,
+        canActivate: [AuthGuard]
     },
     {
         path: 'notifications',
-        component: NotificationComponent
+        component: NotificationComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path: 'sign-in',
+        component: SignInComponent,
+        canActivate: [AuthGuard]
     }
 ];
 

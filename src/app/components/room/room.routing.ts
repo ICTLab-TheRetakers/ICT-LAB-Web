@@ -2,15 +2,13 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { RoomComponent } from './room.component';
+import { AuthGuard } from '../../shared/authguard.service';
 
 const routes: Routes = [
     {
         path: 'rooms',
         children: [
-            { path: '', component: RoomComponent }
-            //{ path: 'add', component: AddRoomComponent },
-            //{ path: 'details/:id', component: DetailRoomComponent },
-            //{ path: 'edit/:id', component: EditRoomComponent }
+            { path: '', component: RoomComponent, canActivate: [AuthGuard] }
         ]
     }
 ]; 

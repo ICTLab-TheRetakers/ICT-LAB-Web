@@ -22,6 +22,9 @@ import { ReservationModule } from './components/reservation/reservation.module';
 import { RoleModule } from './components/role/role.module';
 
 import { SharedService } from './shared/services/shared.service';
+import { AuthGuard } from './shared/authguard.service';
+import { AuthenticationService } from './shared/authentication.service';
+import { CustomErrorHandler } from './shared/error-handler';
 
 @NgModule({
     declarations: [
@@ -45,7 +48,10 @@ import { SharedService } from './shared/services/shared.service';
     ],
     providers: [
         SharedService,
-        { provide: LocationStrategy, useClass: PathLocationStrategy }
+        { provide: LocationStrategy, useClass: PathLocationStrategy },
+        { provide: AuthGuard, useClass: AuthGuard },
+        { provide: AuthenticationService, useClass: AuthenticationService },
+        { provide: ErrorHandler, useClass: CustomErrorHandler }
     ],
     bootstrap: [AppComponent],
     exports: []
