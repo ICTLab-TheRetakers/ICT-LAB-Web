@@ -16,10 +16,9 @@ export class AuthenticationService {
 
     constructor(private userService: UserService, private router: Router) { }
 
-    login(email: string, password: string): Observable<any> {
+    login(email: string, password: string): any {
         return this.userService.checkCredentials(email, password)
             .map(user => user)
-            .share()
             .catch(this.handleError);
     }
 

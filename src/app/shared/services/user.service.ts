@@ -27,7 +27,7 @@ export class UserService {
             .catch(this.handleError);
     }
 
-    checkCredentials(email: string, password: string): Observable<boolean> {
+    checkCredentials(email: string, password: string): Observable<User> {
         return this.http.get(this.baseUrl + 'checkCredentials?email=' + email + '&password=' + password)
             .map(res => res)
             .catch(this.handleError);

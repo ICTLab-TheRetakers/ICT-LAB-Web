@@ -35,10 +35,9 @@ export class SignInComponent implements OnInit {
     }
 
     checkCredentials() {
-        this.authenticationService.login(this.email, this.password)
-            .subscribe(
+        this.authenticationService.login(this.email, this.password).subscribe(
             user => {
-                localStorage.setItem('loggedInUser', JSON.stringify(user[0] as User));
+                localStorage.setItem('loggedInUser', JSON.stringify(user as User));
                 this.router.navigate(['/']);
             },
             error => {
