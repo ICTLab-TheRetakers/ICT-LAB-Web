@@ -3,6 +3,7 @@ using ICT_LAB_Web.Components.Entities;
 using ICT_LAB_Web.Components.Helper;
 using ICT_LAB_Web.Components.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace ICT_LAB_Web.Components.Services
@@ -58,6 +59,12 @@ namespace ICT_LAB_Web.Components.Services
         public async Task<User> Get(string user)
         {
             var response = await _dbContext.Users.FirstOrDefaultAsync(q => q.UserId.ToLower() == user.ToLower());
+            return response;
+        }
+
+        public async Task<List<User>> GetAllUsers()
+        {
+            var response = await _dbContext.Users.ToListAsync();
             return response;
         }
 

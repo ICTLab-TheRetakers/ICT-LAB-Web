@@ -1,17 +1,18 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using ICT_LAB_Web.Components.Entities;
 using ICT_LAB_Web.Components.Helper;
 using ICT_LAB_Web.Components.Services;
 using ICT_LAB_Web.Components.Services.Interfaces;
 using ICT_LAB_Web.Controllers.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace ICT_LAB_Web.Controllers
 {
     [Produces("application/json")]
+    [Route("api/reservations/")]
     public class ReservationsController : Controller
     {
         private IReservationRepository _reservationRepository;
@@ -23,8 +24,16 @@ namespace ICT_LAB_Web.Controllers
             this._participantRepository = new ParticipantRepository();
         }
 
-        // GET: api/reservations/getByRoom?room=WD.001.016&from=2018-01-01T12:00:00&till=2018-01-02T16:00:00
-        [HttpGet]
+        /// <summary>
+        /// Gets a list with all reservations of a certain room and between a certain datetime.
+        /// </summary>
+        /// <param name="room">Room code</param>
+        /// <param name="from">Beginning of datetime reservations</param>
+        /// <param name="till">End of datetine reservations</param>
+        [HttpGet("getByRoom")]
+        [ProducesResponseType(typeof(IEnumerable<RoomReadingViewModel>), 200)]
+        [ProducesResponseType(typeof(void), 400)]
+        [ProducesResponseType(typeof(void), 500)]
         public async Task<IActionResult> GetByRoom(string room, string from, string till)
         {
             if (String.IsNullOrEmpty(room))
@@ -48,7 +57,8 @@ namespace ICT_LAB_Web.Controllers
             }
 
             //Convert to view model
-            var result = data.Select(x => new ReservationViewModel {
+            var result = data.Select(x => new ReservationViewModel
+            {
                 UserId = x.UserId,
                 RoomCode = x.RoomCode,
                 StartTime = x.StartTime,
@@ -58,7 +68,18 @@ namespace ICT_LAB_Web.Controllers
             return Ok(result);
         }
 
-        //GET: api/reservations/getLessonsByWeek?classNumber=r00028&department=CMI&week=15&quarter=3
+        /// <summary>
+        /// Gets a list with all lessons based on type, department, week and quarter of the year.
+        /// </summary>
+        /// <param name="type">Type of schedule: ex. class, room or teacher</param>
+        /// <param name="index">Index in list</param>
+        /// <param name="department">Department within school</param>
+        /// <param name="quarter">Quarter of year</param>
+        /// <param name="week">Week number</param>
+        [HttpGet("getLessonsByWeek")]
+        [ProducesResponseType(typeof(ScheduleViewModel), 200)]
+        [ProducesResponseType(typeof(void), 400)]
+        [ProducesResponseType(typeof(void), 500)]
         public async Task<IActionResult> GetLessonsByWeek(string type, string index, string department, int? week, int? quarter)
         {
             if (String.IsNullOrEmpty(type) || String.IsNullOrEmpty(index) || String.IsNullOrEmpty(department) || !week.HasValue
@@ -87,8 +108,16 @@ namespace ICT_LAB_Web.Controllers
             return Ok(result);
         }
 
-        // GET: api/reservations/get?user=5&from=2018-01-01T12:00:00&till=2018-01-02T16:00:00
-        [HttpGet]
+        /// <summary>
+        /// Gets a list with all reservations based on user and between a certain datetime.
+        /// </summary>
+        /// <param name="user">Id of user</param>
+        /// <param name="from">Beginning of datetime reservations</param>
+        /// <param name="till">End of datetine reservations</param>
+        [HttpGet("get")]
+        [ProducesResponseType(typeof(IEnumerable<ReservationViewModel>), 200)]
+        [ProducesResponseType(typeof(void), 400)]
+        [ProducesResponseType(typeof(void), 500)]
         public async Task<IActionResult> Get(string user, string from, string till)
         {
             if (String.IsNullOrEmpty(user))
@@ -123,8 +152,14 @@ namespace ICT_LAB_Web.Controllers
             return Ok(result);
         }
 
-        // POST: api/reservations/create
-        [HttpPost]
+        /// <summary>
+        /// Creates a reservation.
+        /// </summary>
+        /// <param name="model">Reservation object</param>
+        [HttpPost("create")]
+        [ProducesResponseType(typeof(IEnumerable<ReservationViewModel>), 200)]
+        [ProducesResponseType(typeof(void), 400)]
+        [ProducesResponseType(typeof(void), 500)]
         public async Task<IActionResult> Create([FromBody]ReservationViewModel model)
         {
             if (model == null)
@@ -189,8 +224,14 @@ namespace ICT_LAB_Web.Controllers
             });
         }
 
-        // PUT: api/reservations/update
-        [HttpPut]
+        /// <summary>
+        /// Updates a reservation.
+        /// </summary>
+        /// <param name="model">Reservation object</param>
+        [HttpPut("update")]
+        [ProducesResponseType(typeof(IEnumerable<ReservationViewModel>), 200)]
+        [ProducesResponseType(typeof(void), 400)]
+        [ProducesResponseType(typeof(void), 500)]
         public async Task<IActionResult> Update([FromBody]ReservationViewModel model)
         {
             if (model == null)
@@ -263,8 +304,15 @@ namespace ICT_LAB_Web.Controllers
             });
         }
 
-        // DELETE: api/reservations/delete?room=WD.001.016&start=2018-01-01T08:30:00
-        [HttpDelete]
+        /// <summary>
+        /// Deletes a reservation.
+        /// </summary>
+        /// <param name="room">Room code</param>
+        /// <param name="start">Datetime of start reservation(s)</param>
+        [HttpDelete("delete")]
+        [ProducesResponseType(typeof(IEnumerable<ReservationViewModel>), 200)]
+        [ProducesResponseType(typeof(void), 400)]
+        [ProducesResponseType(typeof(void), 500)]
         public async Task<IActionResult> Delete(string room, string start)
         {
             if (String.IsNullOrEmpty(room))

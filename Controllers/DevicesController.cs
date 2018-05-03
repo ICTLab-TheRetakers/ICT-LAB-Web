@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 namespace ICT_LAB_Web.Controllers
 {
     [Produces("application/json")]
+    [Route("api/devices/")]
     public class DevicesController : Controller
     {
         private IDeviceRepository _deviceRepository;
@@ -19,8 +20,14 @@ namespace ICT_LAB_Web.Controllers
             this._deviceRepository = new DeviceRepository();
         }
 
-        // GET: api/devices/get?device=1
-        [HttpGet]
+        /// <summary>
+        /// Gets a device by id.
+        /// </summary>
+        /// <param name="device">Id of device</param>
+        [HttpGet("get")]
+        [ProducesResponseType(typeof(DeviceViewModel), 200)]
+        [ProducesResponseType(typeof(void), 400)]
+        [ProducesResponseType(typeof(void), 500)]
         public async Task<IActionResult> Get(int? device)
         {
             if (!device.HasValue)
@@ -45,8 +52,14 @@ namespace ICT_LAB_Web.Controllers
             return Ok(result);
         }
 
-        // GET: api/devices/getByRoom?room=WD.001.016
-        [HttpGet]
+        /// <summary>
+        /// Gets a list of devices in a certain room.
+        /// </summary>
+        /// <param name="room">Room code</param>
+        [HttpGet("getByRoom")]
+        [ProducesResponseType(typeof(DeviceViewModel), 200)]
+        [ProducesResponseType(typeof(void), 400)]
+        [ProducesResponseType(typeof(void), 500)]
         public async Task<IActionResult> GetByRoom(string room)
         {
             if (String.IsNullOrEmpty(room))
@@ -71,8 +84,14 @@ namespace ICT_LAB_Web.Controllers
             return Ok(result);
         }
 
-        // POST: api/devices/create
-        [HttpPost]
+        /// <summary>
+        /// Creates a device.
+        /// </summary>
+        /// <param name="model">Device object</param>
+        [HttpPost("create")]
+        [ProducesResponseType(typeof(DeviceViewModel), 200)]
+        [ProducesResponseType(typeof(void), 400)]
+        [ProducesResponseType(typeof(void), 500)]
         public async Task<IActionResult> Create([FromBody]DeviceViewModel model)
         {
             if (model == null)
@@ -100,8 +119,14 @@ namespace ICT_LAB_Web.Controllers
             });
         }
 
-        // DELETE: api/devices/delete?device=1
-        [HttpDelete]
+        /// <summary>
+        /// Deletes a device.
+        /// </summary>
+        /// <param name="device">Id of device</param>
+        [HttpDelete("delete")]
+        [ProducesResponseType(typeof(DeviceViewModel), 200)]
+        [ProducesResponseType(typeof(void), 400)]
+        [ProducesResponseType(typeof(void), 500)]
         public async Task<IActionResult> Delete(int? device)
         {
             if (!device.HasValue)

@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 namespace ICT_LAB_Web.Controllers
 {
     [Produces("application/json")]
+    [Route("api/issues/")]
     public class IssuesController : Controller
     {
         private IIssueRepository _issueRepository;
@@ -19,8 +20,14 @@ namespace ICT_LAB_Web.Controllers
             this._issueRepository = new IssueRepository();
         }
 
-        // GET: api/issues/getByRoom?room=WD.001.016
-        [HttpGet]
+        /// <summary>
+        /// Gets a list of issues linked to a certain room.
+        /// </summary>
+        /// <param name="room">Room code</param>
+        [HttpGet("getByRoom")]
+        [ProducesResponseType(typeof(DeviceViewModel), 200)]
+        [ProducesResponseType(typeof(void), 400)]
+        [ProducesResponseType(typeof(void), 500)]
         public async Task<IActionResult> GetByRoom(string room)
         {
             if (String.IsNullOrEmpty(room))
@@ -48,8 +55,14 @@ namespace ICT_LAB_Web.Controllers
             return Ok(result);
         }
 
-        // GET: api/issues/get?issue=5
-        [HttpGet]
+        /// <summary>
+        /// Gets aa issue by id.
+        /// </summary>
+        /// <param name="issue">Id of issue</param>
+        [HttpGet("getByRoom")]
+        [ProducesResponseType(typeof(DeviceViewModel), 200)]
+        [ProducesResponseType(typeof(void), 400)]
+        [ProducesResponseType(typeof(void), 500)]
         public async Task<IActionResult> Get(int? issue)
         {
             if (!issue.HasValue)
@@ -77,8 +90,14 @@ namespace ICT_LAB_Web.Controllers
             return Ok(result);
         }
 
-        // POST: api/issues/create
-        [HttpPost]
+        /// <summary>
+        /// Creates an issue.
+        /// </summary>
+        /// <param name="model">Issue object</param>
+        [HttpPost("create")]
+        [ProducesResponseType(typeof(DeviceViewModel), 200)]
+        [ProducesResponseType(typeof(void), 400)]
+        [ProducesResponseType(typeof(void), 500)]
         public async Task<IActionResult> Create([FromBody]IssueViewModel model)
         {
             if (model == null)
@@ -112,8 +131,14 @@ namespace ICT_LAB_Web.Controllers
             });
         }
 
-        // PUT: api/issues/update
-        [HttpPut]
+        /// <summary>
+        /// Updates an issue.
+        /// </summary>
+        /// <param name="model">Issue object</param>
+        [HttpPut("update")]
+        [ProducesResponseType(typeof(DeviceViewModel), 200)]
+        [ProducesResponseType(typeof(void), 400)]
+        [ProducesResponseType(typeof(void), 500)]
         public async Task<IActionResult> Update([FromBody]IssueViewModel model)
         {
             if (model == null)
@@ -147,8 +172,14 @@ namespace ICT_LAB_Web.Controllers
             });
         }
 
-        // DELETE: api/issues/delete?issue=5
-        [HttpDelete]
+        /// <summary>
+        /// Deletes an issue.
+        /// </summary>
+        /// <param name="issue">Id of issue</param>
+        [HttpDelete("delete")]
+        [ProducesResponseType(typeof(DeviceViewModel), 200)]
+        [ProducesResponseType(typeof(void), 400)]
+        [ProducesResponseType(typeof(void), 500)]
         public async Task<IActionResult> Delete(int? issue)
         {
             if (!issue.HasValue)
@@ -166,8 +197,14 @@ namespace ICT_LAB_Web.Controllers
             return Ok();
         }
 
-        // DELETE: api/issues/deleteFromRoom?room=WD.001.016
-        [HttpDelete]
+        /// <summary>
+        /// Deletes all issues linked to a certain room.
+        /// </summary>
+        /// <param name="room">Room code</param>
+        [HttpDelete("deleteFromRoom")]
+        [ProducesResponseType(typeof(DeviceViewModel), 200)]
+        [ProducesResponseType(typeof(void), 400)]
+        [ProducesResponseType(typeof(void), 500)]
         public async Task<IActionResult> DeleteFromRoom(string room)
         {
             if (String.IsNullOrEmpty(room))

@@ -1,8 +1,12 @@
-using System.IO;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Swashbuckle.AspNetCore.Swagger;
+using System;
+using System.IO;
+using System.Linq;
+using System.Reflection;
 
 namespace ICT_LAB_Web
 {
@@ -21,12 +25,25 @@ namespace ICT_LAB_Web
         {
             services.AddCors();
             services.AddMvc();
+
+            // Register the Swagger generator, defining one or more Swagger documents  
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "HINT Reservation System API", Version = "v1" });
+                c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
+
+                // Set the comments path for the Swagger JSON and UI.
+                var xmlFile = $"{Assembly.GetEntryAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            app.Use(async (context, next) => {
+            app.Use(async (context, next) =>
+            {
                 await next();
                 if (context.Response.StatusCode == 404 &&
                    !Path.HasExtension(context.Request.Path.Value) &&
@@ -40,6 +57,13 @@ namespace ICT_LAB_Web
             app.UseMvcWithDefaultRoute();
             app.UseDefaultFiles();
             app.UseStaticFiles();
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c =>
+            {
+                c.RoutePrefix = "api";
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "HINT Reservation System API");
+            });
 
             app.UseCors(builder => builder
                 .AllowAnyOrigin()
@@ -48,7 +72,8 @@ namespace ICT_LAB_Web
                 .AllowCredentials()
             );
 
-            app.UseMvc(routes => {
+            app.UseMvc(routes =>
+            {
                 routes.MapRoute(
                     name: "readings",
                     template: "api/readings/{action}/{id?}",

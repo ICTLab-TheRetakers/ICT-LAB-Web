@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 namespace ICT_LAB_Web.Controllers
 {
     [Produces("application/json")]
+    [Route("api/notifications/")]
     public class NotificationsController : Controller
     {
         private INotificationRepository _notificationRepository;
@@ -19,8 +20,16 @@ namespace ICT_LAB_Web.Controllers
             this._notificationRepository = new NotificationRepository();
         }
 
-        // GET: api/notifications/getByUser?user=5&from=2018-01-01T12:00:00&till=2018-01-02T12:00:00
-        [HttpGet]
+        /// <summary>
+        /// Gets a list of notifications by user id and between a certain datetime.
+        /// </summary>
+        /// <param name="user">Id of user</param>
+        /// <param name="from">Beginning of datetime reservations</param>
+        /// <param name="till">End of datetine reservations</param>
+        [HttpGet("getByUser")]
+        [ProducesResponseType(typeof(DeviceViewModel), 200)]
+        [ProducesResponseType(typeof(void), 400)]
+        [ProducesResponseType(typeof(void), 500)]
         public async Task<IActionResult> GetByUser(string user, string from, string till)
         {
             if (String.IsNullOrEmpty(user))
@@ -53,8 +62,14 @@ namespace ICT_LAB_Web.Controllers
             return Ok(result);
         }
 
-        // GET: api/notifications/get?issue=5
-        [HttpGet]
+        /// <summary>
+        /// Gets a notification by id.
+        /// </summary>
+        /// <param name="notification">Id of notification</param>
+        [HttpGet("get")]
+        [ProducesResponseType(typeof(DeviceViewModel), 200)]
+        [ProducesResponseType(typeof(void), 400)]
+        [ProducesResponseType(typeof(void), 500)]
         public async Task<IActionResult> Get(int? notification)
         {
             if (!notification.HasValue)
@@ -79,8 +94,14 @@ namespace ICT_LAB_Web.Controllers
             return Ok(result);
         }
 
-        // POST: api/notifications/create
-        [HttpPost]
+        /// <summary>
+        /// Creates a notification.
+        /// </summary>
+        /// <param name="model">Notification object</param>
+        [HttpPost("create")]
+        [ProducesResponseType(typeof(DeviceViewModel), 200)]
+        [ProducesResponseType(typeof(void), 400)]
+        [ProducesResponseType(typeof(void), 500)]
         public async Task<IActionResult> Create([FromBody]NotificationViewModel model)
         {
             if (model == null)
@@ -112,8 +133,14 @@ namespace ICT_LAB_Web.Controllers
             });
         }
 
-        // PUT: api/notifications/update
-        [HttpPut]
+        /// <summary>
+        /// Updates a notification.
+        /// </summary>
+        /// <param name="model">Notification object</param>
+        [HttpPut("update")]
+        [ProducesResponseType(typeof(DeviceViewModel), 200)]
+        [ProducesResponseType(typeof(void), 400)]
+        [ProducesResponseType(typeof(void), 500)]
         public async Task<IActionResult> Update([FromBody]NotificationViewModel model)
         {
             if (model == null)
@@ -145,8 +172,14 @@ namespace ICT_LAB_Web.Controllers
             });
         }
 
-        // DELETE: api/notifications/delete?notification=5
-        [HttpDelete]
+        /// <summary>
+        /// Deletes a notification.
+        /// </summary>
+        /// <param name="notification">Id of notification</param>
+        [HttpDelete("delete")]
+        [ProducesResponseType(typeof(DeviceViewModel), 200)]
+        [ProducesResponseType(typeof(void), 400)]
+        [ProducesResponseType(typeof(void), 500)]
         public async Task<IActionResult> Delete(int? notification)
         {
             if (!notification.HasValue)

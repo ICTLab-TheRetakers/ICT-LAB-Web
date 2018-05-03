@@ -4,11 +4,14 @@ using ICT_LAB_Web.Components.Services.Interfaces;
 using ICT_LAB_Web.Controllers.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ICT_LAB_Web.Controllers
 {
     [Produces("application/json")]
+    [Route("api/users/")]
     public class UsersController : Controller
     {
         private IUserRepository _userRepository;
@@ -18,8 +21,43 @@ namespace ICT_LAB_Web.Controllers
             this._userRepository = new UserRepository();
         }
 
-        // GET: api/users/getByEmail?email=admin@hr.nl
-        [HttpGet]
+        /// <summary>
+        /// Gets a list with all users.
+        /// </summary>
+        [HttpGet("getAll")]
+        [ProducesResponseType(typeof(IEnumerable<UserViewModel>), 200)]
+        [ProducesResponseType(typeof(void), 500)]
+        public async Task<IActionResult> GetAll()
+        {
+            //Get data
+            var data = await _userRepository.GetAllUsers();
+            if (data == null)
+            {
+                return StatusCode(500, "Users could not be found.");
+            }
+
+            //Convert to viewmodel
+            var result = data.Select(s => new UserViewModel
+            {
+                UserId = s.UserId,
+                Role = s.Role,
+                FirstName = s.FirstName,
+                LastName = s.LastName,
+                Email = s.Email,
+                Password = s.Password
+            });
+
+            return Ok(result);
+        }
+
+        /// <summary>
+        /// Gets a user by email.
+        /// </summary>
+        /// <param name="email">Email of user</param>
+        [HttpGet("getByEmail")]
+        [ProducesResponseType(typeof(UserViewModel), 200)]
+        [ProducesResponseType(typeof(void), 400)]
+        [ProducesResponseType(typeof(void), 500)]
         public async Task<IActionResult> GetByEmail(string email)
         {
             if (String.IsNullOrEmpty(email))
@@ -48,8 +86,14 @@ namespace ICT_LAB_Web.Controllers
             return Ok(result);
         }
 
-        // GET: api/users/get?user=5
-        [HttpGet]
+        /// <summary>
+        /// Gets a user by id.
+        /// </summary>
+        /// <param name="user">Id of user</param>
+        [HttpGet("get")]
+        [ProducesResponseType(typeof(UserViewModel), 200)]
+        [ProducesResponseType(typeof(void), 400)]
+        [ProducesResponseType(typeof(void), 500)]
         public async Task<IActionResult> Get(string user)
         {
             if (String.IsNullOrEmpty(user))
@@ -78,8 +122,15 @@ namespace ICT_LAB_Web.Controllers
             return Ok(result);
         }
 
-        // GET: api/users/checkCredentials?email=admin@hr.nl&password=123
-        [HttpGet]
+        /// <summary>
+        /// Checks if given email and password match a user.
+        /// </summary>
+        /// <param name="email">Email of user</param>
+        /// <param name="password">Password of user</param>
+        [HttpGet("checkCredentials")]
+        [ProducesResponseType(typeof(UserViewModel), 200)]
+        [ProducesResponseType(typeof(void), 400)]
+        [ProducesResponseType(typeof(void), 500)]
         public async Task<IActionResult> CheckCredentials(string email, string password)
         {
             if (String.IsNullOrEmpty(email) || String.IsNullOrEmpty(password))
@@ -108,8 +159,14 @@ namespace ICT_LAB_Web.Controllers
             return Ok(result);
         }
 
-        // POST: api/users/create
-        [HttpPost]
+        /// <summary>
+        /// Creates a user.
+        /// </summary>
+        /// <param name="model">User object</param>
+        [HttpPost("create")]
+        [ProducesResponseType(typeof(UserViewModel), 200)]
+        [ProducesResponseType(typeof(void), 400)]
+        [ProducesResponseType(typeof(void), 500)]
         public async Task<IActionResult> Create([FromBody]UserViewModel model)
         {
             if (model == null)
@@ -145,8 +202,14 @@ namespace ICT_LAB_Web.Controllers
             });
         }
 
-        // PUT: api/users/update
-        [HttpPut]
+        /// <summary>
+        /// Updates a user.
+        /// </summary>
+        /// <param name="model">User object</param>
+        [HttpPut("update")]
+        [ProducesResponseType(typeof(UserViewModel), 200)]
+        [ProducesResponseType(typeof(void), 400)]
+        [ProducesResponseType(typeof(void), 500)]
         public async Task<IActionResult> Update([FromBody]UserViewModel model)
         {
             if (model == null)
@@ -179,8 +242,14 @@ namespace ICT_LAB_Web.Controllers
             });
         }
 
-        // DELETE: api/users/delete?user=1
-        [HttpDelete]
+        /// <summary>
+        /// Deletes a user.
+        /// </summary>
+        /// <param name="user">Id of user</param>
+        [HttpDelete("delete")]
+        [ProducesResponseType(typeof(void), 200)]
+        [ProducesResponseType(typeof(void), 400)]
+        [ProducesResponseType(typeof(void), 500)]
         public async Task<IActionResult> Delete(string user)
         {
             if (String.IsNullOrEmpty(user))

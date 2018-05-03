@@ -2,11 +2,13 @@ using ICT_LAB_Web.Components.Services;
 using ICT_LAB_Web.Components.Services.Interfaces;
 using ICT_LAB_Web.Controllers.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace ICT_LAB_Web.Controllers
 {
     [Produces("application/json")]
+    [Route("api/roles/")]
     public class RolesController : Controller
     {
         private IRolesRepository _rolesRepository;
@@ -16,9 +18,14 @@ namespace ICT_LAB_Web.Controllers
             this._rolesRepository = new RoleRepository();
         }
 
-        // GET: api/roles/get
-        [HttpGet]
-        public async Task<IActionResult> Get()
+        /// <summary>
+        /// Gets a list with all roles.
+        /// </summary>
+        [HttpGet("getAll")]
+        [ProducesResponseType(typeof(IEnumerable<RoleViewModel>), 200)]
+        [ProducesResponseType(typeof(void), 400)]
+        [ProducesResponseType(typeof(void), 500)]
+        public async Task<IActionResult> GetAll()
         {
             //Get roles
             var data = await _rolesRepository.GetAll();
@@ -30,8 +37,14 @@ namespace ICT_LAB_Web.Controllers
             return Ok(data);
         }
 
-        // GET: api/roles/get?role=1
-        [HttpGet]
+        /// <summary>
+        /// Gets a role by id.
+        /// </summary>
+        /// <param name="role">Role id</param>
+        [HttpGet("get")]
+        [ProducesResponseType(typeof(RoleViewModel), 200)]
+        [ProducesResponseType(typeof(void), 400)]
+        [ProducesResponseType(typeof(void), 500)]
         public async Task<IActionResult> Get(int? role)
         {
             if (!role.HasValue)

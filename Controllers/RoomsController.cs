@@ -4,12 +4,14 @@ using ICT_LAB_Web.Components.Services.Interfaces;
 using ICT_LAB_Web.Controllers.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace ICT_LAB_Web.Controllers
 {
     [Produces("application/json")]
+    [Route("api/rooms/")]
     public class RoomsController : Controller
     {
         private IRoomRepository _roomRepository;
@@ -19,8 +21,14 @@ namespace ICT_LAB_Web.Controllers
             this._roomRepository = new RoomRepository();
         }
 
-        // GET: api/rooms/getByLocation?location=Wijnhaven 107
-        [HttpGet]
+        /// <summary>
+        /// Gets a list with all rooms of a certain location.
+        /// </summary>
+        /// <param name="location">Location of room(s)</param>
+        [HttpGet("getByLocation")]
+        [ProducesResponseType(typeof(IEnumerable<RoomViewModel>), 200)]
+        [ProducesResponseType(typeof(void), 400)]
+        [ProducesResponseType(typeof(void), 500)]
         public async Task<IActionResult> GetByLocation(string location)
         {
             if (String.IsNullOrEmpty(location))
@@ -49,7 +57,12 @@ namespace ICT_LAB_Web.Controllers
             return Ok(result);
         }
 
-        // GET: api/rooms/getAll
+        /// <summary>
+        /// Gets a list with all rooms.
+        /// </summary>
+        [HttpGet("getAll")]
+        [ProducesResponseType(typeof(IEnumerable<RoomViewModel>), 200)]
+        [ProducesResponseType(typeof(void), 500)]
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -61,7 +74,8 @@ namespace ICT_LAB_Web.Controllers
             }
 
             //Convert to view model
-            var result = data.Select(x => new RoomViewModel {
+            var result = data.Select(x => new RoomViewModel
+            {
                 RoomCode = x.RoomCode,
                 HasSmartboard = x.HasSmartboard,
                 HasComputer = x.HasComputer,
@@ -73,8 +87,14 @@ namespace ICT_LAB_Web.Controllers
             return Ok(result);
         }
 
-        // GET: api/rooms/get?room=WD.001.016
-        [HttpGet]
+        /// <summary>
+        /// Gets a room by room code.
+        /// </summary>
+        /// <param name="room">Room code</param>
+        [HttpGet("get")]
+        [ProducesResponseType(typeof(RoomViewModel), 200)]
+        [ProducesResponseType(typeof(void), 400)]
+        [ProducesResponseType(typeof(void), 500)]
         public async Task<IActionResult> Get(string room)
         {
             if (String.IsNullOrEmpty(room))
@@ -103,8 +123,14 @@ namespace ICT_LAB_Web.Controllers
             return Ok(result);
         }
 
-        // POST: api/rooms/create
-        [HttpPost]
+        /// <summary>
+        /// Creates a room.
+        /// </summary>
+        /// <param name="model">Room object</param>
+        [HttpPost("create")]
+        [ProducesResponseType(typeof(RoomViewModel), 200)]
+        [ProducesResponseType(typeof(void), 400)]
+        [ProducesResponseType(typeof(void), 500)]
         public async Task<IActionResult> Create([FromBody]RoomViewModel model)
         {
             if (model == null)
@@ -140,8 +166,14 @@ namespace ICT_LAB_Web.Controllers
             });
         }
 
-        // PUT: api/rooms/update
-        [HttpPut]
+        /// <summary>
+        /// Updates a room.
+        /// </summary>
+        /// <param name="model">Room object</param>
+        [HttpPut("update")]
+        [ProducesResponseType(typeof(RoomViewModel), 200)]
+        [ProducesResponseType(typeof(void), 400)]
+        [ProducesResponseType(typeof(void), 500)]
         public async Task<IActionResult> Update([FromBody]RoomViewModel model)
         {
             if (model == null)
@@ -177,8 +209,14 @@ namespace ICT_LAB_Web.Controllers
             });
         }
 
-        // DELETE: api/rooms/delete?room=WD.001.016
-        [HttpDelete]
+        /// <summary>
+        /// Deletes a room.
+        /// </summary>
+        /// <param name="room">Room code</param>
+        [HttpDelete("delete")]
+        [ProducesResponseType(typeof(void), 200)]
+        [ProducesResponseType(typeof(void), 400)]
+        [ProducesResponseType(typeof(void), 500)]
         public async Task<IActionResult> Delete(string room)
         {
             if (String.IsNullOrEmpty(room))

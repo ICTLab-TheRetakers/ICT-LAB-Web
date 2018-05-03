@@ -1,15 +1,17 @@
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 using ICT_LAB_Web.Components.Entities;
 using ICT_LAB_Web.Components.Services;
 using ICT_LAB_Web.Components.Services.Interfaces;
 using ICT_LAB_Web.Controllers.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace ICT_LAB_Web.Controllers
 {
     [Produces("application/json")]
+    [Route("api/readings/")]
     public class RoomReadingsController : Controller
     {
         private IRoomReadingRepository _roomReadingRepository;
@@ -19,8 +21,15 @@ namespace ICT_LAB_Web.Controllers
             this._roomReadingRepository = new RoomReadingRepository();
         }
 
-        // GET: api/readings/getByRoom?room=WD.001.016
-        [HttpGet]
+        /// <summary>
+        /// Gets a list with all readings of a certain room.
+        /// </summary>
+        /// <param name="room">Room code</param>
+        /// <param name="limit">Limit of readings</param>
+        [HttpGet("getByRoom")]
+        [ProducesResponseType(typeof(IEnumerable<RoomReadingViewModel>), 200)]
+        [ProducesResponseType(typeof(void), 400)]
+        [ProducesResponseType(typeof(void), 500)]
         public async Task<IActionResult> GetByRoom(string room, int? limit)
         {
             if (String.IsNullOrEmpty(room))
@@ -36,7 +45,8 @@ namespace ICT_LAB_Web.Controllers
             }
 
             //Convert to view model
-            var result = data.Select(x => new RoomReadingViewModel {
+            var result = data.Select(x => new RoomReadingViewModel
+            {
                 RoomCode = x.RoomCode,
                 Type = x.Type,
                 Value = x.Value,
@@ -46,8 +56,17 @@ namespace ICT_LAB_Web.Controllers
             return Ok(result);
         }
 
-        // GET: api/readings/get?room=WD.001.016&type=temp&from=2018-01-01T12:00:00&till=2018-01-02T16:00:00
-        [HttpGet]
+        /// <summary>
+        /// Gets a list with all readings of a certain room, based on type reading and between a certain datetime.
+        /// </summary>
+        /// <param name="room">Room code</param>
+        /// <param name="type">Type of reading: ex. temp, light or humidity</param>
+        /// <param name="from">Beginning of datetime readings</param>
+        /// <param name="till">End of datetine readings</param>
+        [HttpGet("get")]
+        [ProducesResponseType(typeof(IEnumerable<RoomReadingViewModel>), 200)]
+        [ProducesResponseType(typeof(void), 400)]
+        [ProducesResponseType(typeof(void), 500)]
         public async Task<IActionResult> Get(string room, string type, string from, string till)
         {
             if (String.IsNullOrEmpty(room) || String.IsNullOrEmpty(type))
@@ -62,7 +81,7 @@ namespace ICT_LAB_Web.Controllers
                 fromDate = DateTime.ParseExact(from, "yyyy-MM-ddTHH:mm:ss", null);
                 tillDate = DateTime.ParseExact(till, "yyyy-MM-ddTHH:mm:ss", null);
             }
-            
+
             //Get data
             var data = await _roomReadingRepository.Get(room, type, fromDate, tillDate);
             if (data == null)
@@ -82,8 +101,14 @@ namespace ICT_LAB_Web.Controllers
             return Ok(result);
         }
 
-        // POST: api/readings/create
-        [HttpPost]
+        /// <summary>
+        /// Creates a reading.
+        /// </summary>
+        /// <param name="model">Room reading object</param>
+        [HttpPost("create")]
+        [ProducesResponseType(typeof(RoomReadingViewModel), 200)]
+        [ProducesResponseType(typeof(void), 400)]
+        [ProducesResponseType(typeof(void), 500)]
         public async Task<IActionResult> Create([FromBody]RoomReadingViewModel model)
         {
             if (model == null)
@@ -106,16 +131,22 @@ namespace ICT_LAB_Web.Controllers
                 return StatusCode(500, "A problem occured while saving the record. Please try again!");
             }
 
-            return Ok(new RoomReadingViewModel {
+            return Ok(new RoomReadingViewModel
+            {
                 RoomCode = result.RoomCode,
                 CreatedOn = result.CreatedOn,
                 Type = result.Type,
                 Value = result.Value
             });
         }
-        
-        // DELETE: api/readings/delete?room=WD.001.016
-        [HttpDelete]
+        /// <summary>
+        /// Deletes all readings from a room.
+        /// </summary>
+        /// <param name="room">Room code</param>
+        [HttpDelete("delete")]
+        [ProducesResponseType(typeof(void), 200)]
+        [ProducesResponseType(typeof(void), 400)]
+        [ProducesResponseType(typeof(void), 500)]
         public async Task<IActionResult> Delete(string room)
         {
             if (String.IsNullOrEmpty(room))
