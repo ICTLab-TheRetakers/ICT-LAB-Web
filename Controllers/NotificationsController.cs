@@ -2,6 +2,7 @@ using ICT_LAB_Web.Components.Entities;
 using ICT_LAB_Web.Components.Services;
 using ICT_LAB_Web.Components.Services.Interfaces;
 using ICT_LAB_Web.Controllers.ViewModels;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace ICT_LAB_Web.Controllers
 {
+    [EnableCors("AllowAll")]
     [Produces("application/json")]
     [Route("api/notifications/")]
     public class NotificationsController : Controller
@@ -53,8 +55,7 @@ namespace ICT_LAB_Web.Controllers
             }
 
             //Convert to view model
-            var result = data.Select(x => new NotificationViewModel
-            {
+            var result = data.Select(x => new NotificationViewModel {
                 NotificationId = x.NotificationId,
                 UserId = x.UserId
             });
@@ -85,8 +86,7 @@ namespace ICT_LAB_Web.Controllers
             }
 
             //Convert to view model
-            var result = new NotificationViewModel
-            {
+            var result = new NotificationViewModel {
                 NotificationId = data.NotificationId,
                 UserId = data.UserId
             };
@@ -109,8 +109,7 @@ namespace ICT_LAB_Web.Controllers
                 return StatusCode(400, "Invalid parameter(s).");
             }
 
-            Notification notification = new Notification
-            {
+            Notification notification = new Notification {
                 NotificationId = model.NotificationId,
                 UserId = model.UserId,
                 CreatedOn = model.CreatedOn,
@@ -124,8 +123,7 @@ namespace ICT_LAB_Web.Controllers
                 return StatusCode(500, "A problem occured while saving the record. Please try again!");
             }
 
-            return Ok(new NotificationViewModel
-            {
+            return Ok(new NotificationViewModel {
                 NotificationId = result.NotificationId,
                 UserId = result.UserId,
                 CreatedOn = result.CreatedOn,
@@ -148,8 +146,7 @@ namespace ICT_LAB_Web.Controllers
                 return StatusCode(400, "Invalid parameter(s).");
             }
 
-            Notification notification = new Notification
-            {
+            Notification notification = new Notification {
                 NotificationId = model.NotificationId,
                 UserId = model.UserId,
                 CreatedOn = model.CreatedOn,
@@ -163,8 +160,7 @@ namespace ICT_LAB_Web.Controllers
                 return StatusCode(500, "A problem occured while updating the record. Please try again!");
             }
 
-            return Ok(new NotificationViewModel
-            {
+            return Ok(new NotificationViewModel {
                 NotificationId = result.NotificationId,
                 UserId = result.UserId,
                 CreatedOn = result.CreatedOn,

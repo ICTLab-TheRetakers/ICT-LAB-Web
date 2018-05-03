@@ -2,6 +2,7 @@ using ICT_LAB_Web.Components.Entities;
 using ICT_LAB_Web.Components.Services;
 using ICT_LAB_Web.Components.Services.Interfaces;
 using ICT_LAB_Web.Controllers.ViewModels;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace ICT_LAB_Web.Controllers
 {
+    [EnableCors("AllowAll")]
     [Produces("application/json")]
     [Route("api/rooms/")]
     public class RoomsController : Controller
@@ -44,8 +46,7 @@ namespace ICT_LAB_Web.Controllers
             }
 
             //Convert to view model
-            var result = data.Select(x => new RoomViewModel
-            {
+            var result = data.Select(x => new RoomViewModel {
                 RoomCode = x.RoomCode,
                 HasSmartboard = x.HasSmartboard,
                 HasComputer = x.HasComputer,
@@ -74,8 +75,7 @@ namespace ICT_LAB_Web.Controllers
             }
 
             //Convert to view model
-            var result = data.Select(x => new RoomViewModel
-            {
+            var result = data.Select(x => new RoomViewModel {
                 RoomCode = x.RoomCode,
                 HasSmartboard = x.HasSmartboard,
                 HasComputer = x.HasComputer,
@@ -110,8 +110,7 @@ namespace ICT_LAB_Web.Controllers
             }
 
             //Convert to view model
-            var result = new RoomViewModel
-            {
+            var result = new RoomViewModel {
                 RoomCode = data.RoomCode,
                 HasSmartboard = data.HasSmartboard,
                 HasComputer = data.HasComputer,
@@ -138,8 +137,7 @@ namespace ICT_LAB_Web.Controllers
                 return StatusCode(400, "Invalid parameter(s).");
             }
 
-            Room room = new Room
-            {
+            Room room = new Room {
                 RoomCode = model.RoomCode,
                 HasSmartboard = model.HasSmartboard,
                 HasComputer = model.HasComputer,
@@ -155,8 +153,7 @@ namespace ICT_LAB_Web.Controllers
                 return StatusCode(500, "A problem occured while saving the record. Please try again!");
             }
 
-            return Ok(new RoomViewModel
-            {
+            return Ok(new RoomViewModel {
                 RoomCode = result.RoomCode,
                 HasComputer = result.HasComputer,
                 HasSmartboard = result.HasSmartboard,
@@ -181,8 +178,7 @@ namespace ICT_LAB_Web.Controllers
                 return StatusCode(400, "Invalid parameter(s).");
             }
 
-            Room room = new Room
-            {
+            Room room = new Room {
                 RoomCode = model.RoomCode,
                 HasSmartboard = model.HasSmartboard,
                 HasComputer = model.HasComputer,
@@ -198,8 +194,7 @@ namespace ICT_LAB_Web.Controllers
                 return StatusCode(500, "A problem occured while updating the record. Please try again!");
             }
 
-            return Ok(new RoomViewModel
-            {
+            return Ok(new RoomViewModel {
                 RoomCode = result.RoomCode,
                 HasComputer = result.HasComputer,
                 HasSmartboard = result.HasSmartboard,

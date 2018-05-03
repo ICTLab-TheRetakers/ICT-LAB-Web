@@ -3,6 +3,7 @@ using ICT_LAB_Web.Components.Helper;
 using ICT_LAB_Web.Components.Services;
 using ICT_LAB_Web.Components.Services.Interfaces;
 using ICT_LAB_Web.Controllers.ViewModels;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace ICT_LAB_Web.Controllers
 {
+    [EnableCors("AllowAll")]
     [Produces("application/json")]
     [Route("api/reservations/")]
     public class ReservationsController : Controller
@@ -57,8 +59,7 @@ namespace ICT_LAB_Web.Controllers
             }
 
             //Convert to view model
-            var result = data.Select(x => new ReservationViewModel
-            {
+            var result = data.Select(x => new ReservationViewModel {
                 UserId = x.UserId,
                 RoomCode = x.RoomCode,
                 StartTime = x.StartTime,
@@ -141,8 +142,7 @@ namespace ICT_LAB_Web.Controllers
             }
 
             //Convert to view model
-            var result = data.Select(x => new ReservationViewModel
-            {
+            var result = data.Select(x => new ReservationViewModel {
                 UserId = x.UserId,
                 RoomCode = x.RoomCode,
                 StartTime = x.StartTime,
@@ -167,8 +167,7 @@ namespace ICT_LAB_Web.Controllers
                 return StatusCode(400, "Invalid parameter(s).");
             }
 
-            Reservation reservation = new Reservation
-            {
+            Reservation reservation = new Reservation {
                 RoomCode = model.RoomCode,
                 UserId = model.UserId,
                 StartTime = model.StartTime,
@@ -178,8 +177,7 @@ namespace ICT_LAB_Web.Controllers
             List<Participant> participants = new List<Participant>();
             foreach (var participant in model.Participants)
             {
-                var newParticipant = new Participant
-                {
+                var newParticipant = new Participant {
                     RoomCode = model.RoomCode,
                     StartTime = model.StartTime,
                     UserId = participant.UserId
@@ -209,14 +207,12 @@ namespace ICT_LAB_Web.Controllers
                 return StatusCode(500, "A problem occured while saving the participants. Please try again!");
             }
 
-            return Ok(new ReservationViewModel
-            {
+            return Ok(new ReservationViewModel {
                 UserId = result.UserId,
                 StartTime = result.StartTime,
                 EndTime = result.EndTime,
                 RoomCode = result.RoomCode,
-                Participants = returnedParticipants.Select(x => new ParticipantViewModel
-                {
+                Participants = returnedParticipants.Select(x => new ParticipantViewModel {
                     UserId = x.UserId,
                     RoomCode = x.RoomCode,
                     StartTime = x.StartTime
@@ -239,8 +235,7 @@ namespace ICT_LAB_Web.Controllers
                 return StatusCode(400, "Invalid parameter(s).");
             }
 
-            Reservation reservation = new Reservation
-            {
+            Reservation reservation = new Reservation {
                 RoomCode = model.RoomCode,
                 UserId = model.UserId,
                 StartTime = model.StartTime,
@@ -251,8 +246,7 @@ namespace ICT_LAB_Web.Controllers
             List<Participant> participants = new List<Participant>();
             foreach (var participant in model.Participants)
             {
-                var newParticipant = new Participant
-                {
+                var newParticipant = new Participant {
                     RoomCode = model.RoomCode,
                     StartTime = model.StartTime,
                     UserId = participant.UserId
@@ -289,14 +283,12 @@ namespace ICT_LAB_Web.Controllers
                 return StatusCode(500, "A problem occured while saving the participants. Please try again!");
             }
 
-            return Ok(new ReservationViewModel
-            {
+            return Ok(new ReservationViewModel {
                 UserId = result.UserId,
                 StartTime = result.StartTime,
                 EndTime = result.EndTime,
                 RoomCode = result.RoomCode,
-                Participants = returnedParticipants.Select(x => new ParticipantViewModel
-                {
+                Participants = returnedParticipants.Select(x => new ParticipantViewModel {
                     UserId = x.UserId,
                     RoomCode = x.RoomCode,
                     StartTime = x.StartTime

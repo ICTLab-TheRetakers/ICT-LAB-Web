@@ -2,6 +2,7 @@ using ICT_LAB_Web.Components.Entities;
 using ICT_LAB_Web.Components.Services;
 using ICT_LAB_Web.Components.Services.Interfaces;
 using ICT_LAB_Web.Controllers.ViewModels;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace ICT_LAB_Web.Controllers
 {
+    [EnableCors("AllowAll")]
     [Produces("application/json")]
     [Route("api/readings/")]
     public class RoomReadingsController : Controller
@@ -45,8 +47,7 @@ namespace ICT_LAB_Web.Controllers
             }
 
             //Convert to view model
-            var result = data.Select(x => new RoomReadingViewModel
-            {
+            var result = data.Select(x => new RoomReadingViewModel {
                 RoomCode = x.RoomCode,
                 Type = x.Type,
                 Value = x.Value,
@@ -90,8 +91,7 @@ namespace ICT_LAB_Web.Controllers
             }
 
             //Convert to view model
-            var result = data.Select(x => new RoomReadingViewModel
-            {
+            var result = data.Select(x => new RoomReadingViewModel {
                 RoomCode = x.RoomCode,
                 Type = x.Type,
                 Value = x.Value,
@@ -116,8 +116,7 @@ namespace ICT_LAB_Web.Controllers
                 return StatusCode(400, "Invalid parameter(s).");
             }
 
-            RoomReading roomReading = new RoomReading
-            {
+            RoomReading roomReading = new RoomReading {
                 RoomCode = model.RoomCode,
                 CreatedOn = model.CreatedOn,
                 Type = model.Type,
@@ -131,8 +130,7 @@ namespace ICT_LAB_Web.Controllers
                 return StatusCode(500, "A problem occured while saving the record. Please try again!");
             }
 
-            return Ok(new RoomReadingViewModel
-            {
+            return Ok(new RoomReadingViewModel {
                 RoomCode = result.RoomCode,
                 CreatedOn = result.CreatedOn,
                 Type = result.Type,

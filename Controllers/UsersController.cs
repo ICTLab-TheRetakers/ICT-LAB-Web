@@ -2,6 +2,7 @@ using ICT_LAB_Web.Components.Entities;
 using ICT_LAB_Web.Components.Services;
 using ICT_LAB_Web.Components.Services.Interfaces;
 using ICT_LAB_Web.Controllers.ViewModels;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace ICT_LAB_Web.Controllers
 {
+    [EnableCors("AllowAll")]
     [Produces("application/json")]
     [Route("api/users/")]
     public class UsersController : Controller
@@ -37,8 +39,7 @@ namespace ICT_LAB_Web.Controllers
             }
 
             //Convert to viewmodel
-            var result = data.Select(s => new UserViewModel
-            {
+            var result = data.Select(s => new UserViewModel {
                 UserId = s.UserId,
                 Role = s.Role,
                 FirstName = s.FirstName,
@@ -73,8 +74,7 @@ namespace ICT_LAB_Web.Controllers
             }
 
             //Convert to view model
-            var result = new UserViewModel
-            {
+            var result = new UserViewModel {
                 UserId = data.UserId,
                 Role = data.Role,
                 FirstName = data.FirstName,
@@ -109,8 +109,7 @@ namespace ICT_LAB_Web.Controllers
             }
 
             //Convert to view model
-            var result = new UserViewModel
-            {
+            var result = new UserViewModel {
                 UserId = data.UserId,
                 Role = data.Role,
                 FirstName = data.FirstName,
@@ -146,8 +145,7 @@ namespace ICT_LAB_Web.Controllers
             }
 
             //Convert to view model
-            var result = new UserViewModel
-            {
+            var result = new UserViewModel {
                 UserId = data.UserId,
                 Role = data.Role,
                 FirstName = data.FirstName,
@@ -174,8 +172,7 @@ namespace ICT_LAB_Web.Controllers
                 return StatusCode(400, "Invalid parameter(s).");
             }
 
-            User user = new User
-            {
+            User user = new User {
                 UserId = model.UserId,
                 Role = model.Role,
                 FirstName = model.FirstName,
@@ -191,8 +188,7 @@ namespace ICT_LAB_Web.Controllers
                 return StatusCode(500, "A problem occured while saving the record. Please try again!");
             }
 
-            return Ok(new UserViewModel
-            {
+            return Ok(new UserViewModel {
                 UserId = result.UserId,
                 Role = result.Role,
                 FirstName = result.FirstName,
@@ -217,8 +213,7 @@ namespace ICT_LAB_Web.Controllers
                 return StatusCode(400, "Invalid parameter(s).");
             }
 
-            User user = new User
-            {
+            User user = new User {
                 Role = model.Role,
                 FirstName = model.FirstName,
                 LastName = model.LastName
@@ -231,8 +226,7 @@ namespace ICT_LAB_Web.Controllers
                 return StatusCode(500, "A problem occured while updating the record. Please try again!");
             }
 
-            return Ok(new UserViewModel
-            {
+            return Ok(new UserViewModel {
                 UserId = result.UserId,
                 Role = result.Role,
                 FirstName = result.FirstName,
