@@ -16,7 +16,6 @@ export class SignInComponent implements OnInit {
     toastOptions: ToastOptions;
     email: string;
     password: string;
-    user: User;
 
     constructor(private route: ActivatedRoute, private userService: UserService, private roleService: RoleService,
         private router: Router, private authenticationService: AuthenticationService, private toastyService: ToastyService) {
@@ -38,9 +37,7 @@ export class SignInComponent implements OnInit {
     checkCredentials() {
         this.authenticationService.login(this.email, this.password).subscribe(
             (response) => {
-                this.checkRole();
-                localStorage.setItem('loggedInUser', JSON.stringify(response as User));
-                this.router.navigate(['/']);
+                this.checkRole(response as User);
             },
             (error) => {
                 this.toastyService.warning(this.toastOptions);
@@ -48,10 +45,16 @@ export class SignInComponent implements OnInit {
             });
     }
 
-    checkRole() {
+    saveLocal(user: User) {
+        localStorage.setItem('loggedInUser', JSON.stringify(user));
+        this.router.navigate(['/']);
+    }
+
+    checkRole(user: User) {
         this.roleService.getAll().subscribe(
             (response) => {
-                this.user.role = response.filter(f => f.role_id == this.user.role_id)[0].type;
+                user.role = response.filter(f => f.role_id == user.role_id)[0].type;
+                this.saveLocal(user);
             },
             (error) => Observable.throw(error)
         );
