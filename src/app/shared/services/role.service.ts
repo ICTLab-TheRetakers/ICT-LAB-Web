@@ -13,17 +13,15 @@ import Role from '../models/role.model';
 export class RoleService {
     private baseUrl = environment.roleApi;
 
-    constructor(public http: HttpClient) { }
+    constructor(private http: HttpClient) { }
 
     get(id: number): Observable<Role> {
         return this.http.get(this.baseUrl + 'get?role=' + id)
-            .map(res => res)
             .catch(this.handleError);
     }
 
     getAll(): Observable<Role[]> {
         return this.http.get(this.baseUrl + 'get')
-            .map(res => res)
             .catch(this.handleError);
     }
 

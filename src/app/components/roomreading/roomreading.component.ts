@@ -45,13 +45,13 @@ export class RoomReadingComponent implements OnInit {
 
     getLatestReadings() {
         this._readingService.getByRoomLimit(this.selectedRoom.room_code, this.limit).subscribe(
-            res => {
-                if (res != null || res.length > 0) {
-                    this.readings = res;
+            (response) => {
+                if (response != null || response.length > 0) {
+                    this.readings = response;
                     this.sortByLatest();
                 }
             },
-            (err) => {
+            (error) => {
                 this.toastOptions.msg = 'Unable to retrieve classroom information. Please try again!',
                 this.toastyService.error(this.toastOptions);
             }

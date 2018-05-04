@@ -13,29 +13,25 @@ import Notification from '../models/notification.model';
 export class NotificationService {
     private baseUrl = environment.notificationsApi;
 
-    constructor(public http: HttpClient) { }
+    constructor(private http: HttpClient) { }
 
     get(id: number): Observable<Notification> {
         return this.http.get(this.baseUrl + 'get?notification=' + id)
-            .map(res => res)
             .catch(this.handleError);
     }
 
     getByUser(user: string): Observable<Notification[]> {
         return this.http.get(this.baseUrl + 'getByUser?user=' + user)
-            .map(res => res)
             .catch(this.handleError);
     }
 
     create(notification: Notification): Observable<Notification> {
         return this.http.post(this.baseUrl + 'create', notification)
-            .map(res => res)
             .catch(this.handleError);
     }
 
     delete(id: number): Observable<boolean> {
         return this.http.delete(this.baseUrl + 'delete?notification=' + id)
-            .map(res => res)
             .catch(this.handleError);
     }
 

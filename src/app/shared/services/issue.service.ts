@@ -13,41 +13,35 @@ import Issue from '../models/issue.model';
 export class IssueService {
     private baseUrl = environment.issueApi;
 
-    constructor(public http: HttpClient) { }
+    constructor(private http: HttpClient) { }
 
     get(id: number): Observable<Issue> {
         return this.http.get(this.baseUrl + 'get?issue=' + id)
-            .map(res => res)
             .catch(this.handleError);
     }
 
     getByRoom(room: string): Observable<Issue[]> {
         return this.http.get(this.baseUrl + 'getByRoom?room=' + room)
-            .map(res => res)
             .catch(this.handleError);
     }
 
     create(issue: Issue): Observable<Issue> {
         return this.http.post(this.baseUrl + 'create', issue)
-            .map(res => res)
             .catch(this.handleError);
     }
 
     update(issue: Issue): Observable<Issue> {
         return this.http.put(this.baseUrl + 'update', issue)
-            .map(res => res)
             .catch(this.handleError);
     }
 
     delete(id: number): Observable<boolean> {
         return this.http.delete(this.baseUrl + 'delete?issue=' + id)
-            .map(res => res)
             .catch(this.handleError);
     }
 
     deleteFromRoom(room: string): Observable<boolean> {
         return this.http.delete(this.baseUrl + 'deleteFromRoom?room=' + room)
-            .map(res => res)
             .catch(this.handleError);
     }
 

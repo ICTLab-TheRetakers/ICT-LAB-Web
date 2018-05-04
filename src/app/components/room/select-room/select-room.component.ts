@@ -46,8 +46,8 @@ export class SelectRoomComponent implements OnInit {
 
     getAllRooms() {
         this._roomService.getAllRooms().subscribe(
-            values => this.rooms = values,
-            (err) => {
+            (response) => this.rooms = response,
+            (error) => {
                 this.toastyService.error(this.toastOptions);
             }
         );

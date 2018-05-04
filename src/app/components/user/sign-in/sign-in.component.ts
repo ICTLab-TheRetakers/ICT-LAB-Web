@@ -5,6 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../../../shared/services/user.service';
 import { AuthenticationService } from '../../../shared/authentication.service';
+import { RoleService } from '../../../shared/services/role.service';
 
 @Component({
     selector: 'app-sign-in',
@@ -17,7 +18,7 @@ export class SignInComponent implements OnInit {
     password: string;
     user: User;
 
-    constructor(private route: ActivatedRoute, private userService: UserService,
+    constructor(private route: ActivatedRoute, private userService: UserService, private roleService: RoleService,
         private router: Router, private authenticationService: AuthenticationService, private toastyService: ToastyService) {
 
         this.toastOptions = {
@@ -36,14 +37,24 @@ export class SignInComponent implements OnInit {
 
     checkCredentials() {
         this.authenticationService.login(this.email, this.password).subscribe(
-            user => {
-                localStorage.setItem('loggedInUser', JSON.stringify(user as User));
+            (response) => {
+                this.checkRole();
+                localStorage.setItem('loggedInUser', JSON.stringify(response as User));
                 this.router.navigate(['/']);
             },
-            error => {
+            (error) => {
                 this.toastyService.warning(this.toastOptions);
                 return Observable.throw(error);
             });
+    }
+
+    checkRole() {
+        this.roleService.getAll().subscribe(
+            (response) => {
+                this.user.role = response.filter(f => f.role_id == this.user.role_id)[0].type;
+            },
+            (error) => Observable.throw(error)
+        );
     }
 
 }

@@ -13,45 +13,40 @@ import User from '../models/user.model';
 export class UserService {
     private baseUrl = environment.userApi;
 
-    constructor(public http: HttpClient) { }
+    constructor(private http: HttpClient) { }
 
     getByEmail(email: string): Observable<User> {
         return this.http.get(this.baseUrl + 'getByEmail?email=' + email)
-            .map(res => res)
             .catch(this.handleError);
     }
 
     getById(id: string): Observable<User> {
         return this.http.get(this.baseUrl + 'get?user=' + id)
-            .map(res => res)
             .catch(this.handleError);
     }
 
     checkCredentials(email: string, password: string): Observable<User> {
         return this.http.get(this.baseUrl + 'checkCredentials?email=' + email + '&password=' + password)
-            .map(res => res)
             .catch(this.handleError);
     }
 
     create(user: User): Observable<User> {
         return this.http.post(this.baseUrl + 'create', user)
-            .map(res => res)
             .catch(this.handleError);
     }
 
     update(user: User): Observable<User> {
         return this.http.put(this.baseUrl + 'update', user)
-            .map(res => res)
             .catch(this.handleError);
     }
 
     delete(id: string): Observable<boolean> {
         return this.http.delete(this.baseUrl + 'delete?user=' + id)
-            .map(res => res)
             .catch(this.handleError);
     }
 
     private handleError(error: Response) {
-        return Observable.throw(error);
+        console.error(error);
+        return Observable.throw(error.json().error());
     }
 }

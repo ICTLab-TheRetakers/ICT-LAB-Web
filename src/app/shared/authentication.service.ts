@@ -18,7 +18,6 @@ export class AuthenticationService {
 
     login(email: string, password: string): any {
         return this.userService.checkCredentials(email, password)
-            .map(user => user)
             .catch(this.handleError);
     }
 

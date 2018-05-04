@@ -5,6 +5,7 @@ export default class User {
     last_name: string;
     email: string;
     password: string;
+    role: string;
 
     constructor(user_id: string, role_id: number, first_name: string,
         last_name: string, email: string, password: string) {
