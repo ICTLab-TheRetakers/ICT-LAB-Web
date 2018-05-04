@@ -4,6 +4,7 @@ using ICT_LAB_Web.Controllers.ViewModels;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ICT_LAB_Web.Controllers
@@ -36,7 +37,12 @@ namespace ICT_LAB_Web.Controllers
                 return StatusCode(500, "Roles not be found.");
             }
 
-            return Ok(data);
+            var result = data.Select(x => new RoleViewModel {
+				RoleId = x.RoleId,
+				Type = x.Type
+            });
+
+            return Ok(result);
         }
 
         /// <summary>

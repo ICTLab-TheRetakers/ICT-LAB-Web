@@ -6,6 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../../../shared/services/user.service';
 import { AuthenticationService } from '../../../shared/authentication.service';
 import { RoleService } from '../../../shared/services/role.service';
+import Role from '../../../shared/models/role.model';
 
 @Component({
     selector: 'app-sign-in',
