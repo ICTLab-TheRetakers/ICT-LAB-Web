@@ -21,7 +21,7 @@ export class RoleService {
     }
 
     getAll(): Observable<Role[]> {
-        return this.http.get(this.baseUrl + 'get')
+        return this.http.get(this.baseUrl + 'getAll')
             .catch(this.handleError);
     }
 
