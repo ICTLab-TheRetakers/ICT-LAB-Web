@@ -1,3 +1,4 @@
+using HtmlAgilityPack;
 using ICT_LAB_Web.Components.Entities;
 using ICT_LAB_Web.Components.Helper;
 using ICT_LAB_Web.Components.Services;
@@ -8,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace ICT_LAB_Web.Controllers
@@ -59,7 +61,8 @@ namespace ICT_LAB_Web.Controllers
             }
 
             //Convert to view model
-            var result = data.Select(x => new ReservationViewModel {
+            var result = data.Select(x => new ReservationViewModel
+            {
                 UserId = x.UserId,
                 RoomCode = x.RoomCode,
                 StartTime = x.StartTime,
@@ -110,6 +113,123 @@ namespace ICT_LAB_Web.Controllers
         }
 
         /// <summary>
+        /// Gets a list with all teachers to choose from in schedule
+        /// </summary>
+        /// <param name="department">Department within school</param>
+        /// <param name="quarter">Quarter of year</param>
+        [HttpGet("getAllTeachers")]
+        [ProducesResponseType(typeof(List<string>), 200)]
+        [ProducesResponseType(typeof(void), 400)]
+        [ProducesResponseType(typeof(void), 500)]
+        public async Task<IActionResult> GetAllTeachers(string department, int? quarter)
+        {
+            if (String.IsNullOrEmpty(department) || !quarter.HasValue)
+            {
+                return StatusCode(400, "Invalid parameter(s).");
+            }
+
+            var url = String.Format("http://misc.hro.nl/roosterdienst/webroosters/{0}/kw{1}/frames/navbar.htm", department, quarter);
+            var httpClient = new HttpClient();
+
+            var html = await httpClient.GetStringAsync(url);
+            var document = new HtmlDocument();
+            document.LoadHtml(html);
+
+            var script = document.DocumentNode.SelectNodes("/html/head/script[2]")[0].InnerHtml;
+            var teachers = script.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None)[26].Trim();
+
+            // Remove parts of string
+            teachers = teachers.Substring(16);
+            teachers = teachers.Remove(teachers.Length - 3);
+
+            var result = teachers.Split(',').ToList();
+            for (int i = 0; i < result.Count; i++)
+            {
+                result[i] = result[i].Replace("\"", "");
+            }
+
+            return Ok(result);
+        }
+
+        /// <summary>
+        /// Gets a list with all classes to choose from in schedule
+        /// </summary>
+        /// <param name="department">Department within school</param>
+        /// <param name="quarter">Quarter of year</param>
+        [HttpGet("getAllClasses")]
+        [ProducesResponseType(typeof(List<string>), 200)]
+        [ProducesResponseType(typeof(void), 400)]
+        [ProducesResponseType(typeof(void), 500)]
+        public async Task<IActionResult> GetAllClasses(string department, int? quarter)
+        {
+            if (String.IsNullOrEmpty(department) || !quarter.HasValue)
+            {
+                return StatusCode(400, "Invalid parameter(s).");
+            }
+
+            var url = String.Format("http://misc.hro.nl/roosterdienst/webroosters/{0}/kw{1}/frames/navbar.htm", department, quarter);
+            var httpClient = new HttpClient();
+
+            var html = await httpClient.GetStringAsync(url);
+            var document = new HtmlDocument();
+            document.LoadHtml(html);
+
+            var script = document.DocumentNode.SelectNodes("/html/head/script[2]")[0].InnerHtml;
+            var classes = script.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None)[25].Trim();
+
+            // Remove parts of string
+            classes = classes.Substring(16);
+            classes = classes.Remove(classes.Length - 3);
+
+            var result = classes.Split(',').ToList();
+            for (int i = 0; i < result.Count; i++)
+            {
+                result[i] = result[i].Replace("\"", "");
+            }
+
+            return Ok(result);
+        }
+
+        /// <summary>
+        /// Gets a list with all rooms to choose from in schedule
+        /// </summary>
+        /// <param name="department">Department within school</param>
+        /// <param name="quarter">Quarter of year</param>
+        [HttpGet("getAllRooms")]
+        [ProducesResponseType(typeof(List<string>), 200)]
+        [ProducesResponseType(typeof(void), 400)]
+        [ProducesResponseType(typeof(void), 500)]
+        public async Task<IActionResult> GetAllRooms(string department, int? quarter)
+        {
+            if (String.IsNullOrEmpty(department) || !quarter.HasValue)
+            {
+                return StatusCode(400, "Invalid parameter(s).");
+            }
+
+            var url = String.Format("http://misc.hro.nl/roosterdienst/webroosters/{0}/kw{1}/frames/navbar.htm", department, quarter);
+            var httpClient = new HttpClient();
+
+            var html = await httpClient.GetStringAsync(url);
+            var document = new HtmlDocument();
+            document.LoadHtml(html);
+
+            var script = document.DocumentNode.SelectNodes("/html/head/script[2]")[0].InnerHtml;
+            var rooms = script.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None)[27].Trim();
+
+            // Remove parts of string
+            rooms = rooms.Substring(16);
+            rooms = rooms.Remove(rooms.Length - 3);
+
+            var result = rooms.Split(',').ToList();
+            for (int i = 0; i < result.Count; i++)
+            {
+                result[i] = result[i].Replace("\"", "");
+            }
+
+            return Ok(result);
+        }
+
+        /// <summary>
         /// Gets a list with all reservations based on user and between a certain datetime.
         /// </summary>
         /// <param name="user">Id of user</param>
@@ -142,7 +262,8 @@ namespace ICT_LAB_Web.Controllers
             }
 
             //Convert to view model
-            var result = data.Select(x => new ReservationViewModel {
+            var result = data.Select(x => new ReservationViewModel
+            {
                 UserId = x.UserId,
                 RoomCode = x.RoomCode,
                 StartTime = x.StartTime,
@@ -167,7 +288,8 @@ namespace ICT_LAB_Web.Controllers
                 return StatusCode(400, "Invalid parameter(s).");
             }
 
-            Reservation reservation = new Reservation {
+            Reservation reservation = new Reservation
+            {
                 RoomCode = model.RoomCode,
                 UserId = model.UserId,
                 StartTime = model.StartTime,
@@ -177,7 +299,8 @@ namespace ICT_LAB_Web.Controllers
             List<Participant> participants = new List<Participant>();
             foreach (var participant in model.Participants)
             {
-                var newParticipant = new Participant {
+                var newParticipant = new Participant
+                {
                     RoomCode = model.RoomCode,
                     StartTime = model.StartTime,
                     UserId = participant.UserId
@@ -207,12 +330,14 @@ namespace ICT_LAB_Web.Controllers
                 return StatusCode(500, "A problem occured while saving the participants. Please try again!");
             }
 
-            return Ok(new ReservationViewModel {
+            return Ok(new ReservationViewModel
+            {
                 UserId = result.UserId,
                 StartTime = result.StartTime,
                 EndTime = result.EndTime,
                 RoomCode = result.RoomCode,
-                Participants = returnedParticipants.Select(x => new ParticipantViewModel {
+                Participants = returnedParticipants.Select(x => new ParticipantViewModel
+                {
                     UserId = x.UserId,
                     RoomCode = x.RoomCode,
                     StartTime = x.StartTime
@@ -235,7 +360,8 @@ namespace ICT_LAB_Web.Controllers
                 return StatusCode(400, "Invalid parameter(s).");
             }
 
-            Reservation reservation = new Reservation {
+            Reservation reservation = new Reservation
+            {
                 RoomCode = model.RoomCode,
                 UserId = model.UserId,
                 StartTime = model.StartTime,
@@ -246,7 +372,8 @@ namespace ICT_LAB_Web.Controllers
             List<Participant> participants = new List<Participant>();
             foreach (var participant in model.Participants)
             {
-                var newParticipant = new Participant {
+                var newParticipant = new Participant
+                {
                     RoomCode = model.RoomCode,
                     StartTime = model.StartTime,
                     UserId = participant.UserId
@@ -283,12 +410,14 @@ namespace ICT_LAB_Web.Controllers
                 return StatusCode(500, "A problem occured while saving the participants. Please try again!");
             }
 
-            return Ok(new ReservationViewModel {
+            return Ok(new ReservationViewModel
+            {
                 UserId = result.UserId,
                 StartTime = result.StartTime,
                 EndTime = result.EndTime,
                 RoomCode = result.RoomCode,
-                Participants = returnedParticipants.Select(x => new ParticipantViewModel {
+                Participants = returnedParticipants.Select(x => new ParticipantViewModel
+                {
                     UserId = x.UserId,
                     RoomCode = x.RoomCode,
                     StartTime = x.StartTime
