@@ -17,3 +17,7 @@ table, th, td {
     background-color: #BD012F;
     color: white;
 }
+
+.table {
+    font-size: 11px;
+}
