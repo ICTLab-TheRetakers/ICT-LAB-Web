@@ -1,13 +1,13 @@
 export default class Lesson {
     teacher: string;
-    classNumber: string;
+    class: string;
     course: string;
     start_time: string;
 
-    constructor(teacher: string, classNumber: string, course: string, start_time: string) {
-        this.teacher = teacher;
-        this.classNumber = classNumber;
-        this.course = course;
-        this.start_time = start_time;
+    constructor(_teacher: string, _class: string, _course: string, _start_time: string) {
+        this.teacher = _teacher;
+        this.class = _class;
+        this.course = _course;
+        this.start_time = _start_time;
     }
 }

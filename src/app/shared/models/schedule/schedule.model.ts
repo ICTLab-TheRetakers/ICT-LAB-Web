@@ -1,16 +1,18 @@
 import Day from "./day.model";
 
 export default class Schedule {
-    classroom: string;
+    identifier: string;
+    schedule_type: string;
     week: number;
-    quarter: number;
+    quarter_of_year: number;
     department: string;
     days: Day[];
 
-    constructor(classroom: string, week: number, quarter: number, department: string) {
-        this.classroom = classroom;
+    constructor(identifier: string, type: string, week: number, quarter: number, department: string) {
+        this.identifier = identifier;
+        this.schedule_type = type;
         this.week = week;
-        this.quarter = quarter;
+        this.quarter_of_year = quarter;
         this.department = department;
         this.days = [];
     }

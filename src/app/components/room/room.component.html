@@ -2,7 +2,7 @@
     <app-select-room (chosenRoom)="getRoomChoice($event)"></app-select-room>
     <h4 class="text-center mt-4 mb-0" *ngIf="selectedRoom != null">{{ selectedRoom.room_code }}</h4>
 
-    <h3 class="mt-3" *ngIf="schedule != null">Week {{ schedule.week }}</h3>
+	<h3 class="mt-3" *ngIf="schedule != null">{{ schedule.identifier }} - Week {{ schedule.week }}</h3>
     <table class="table mb-3 mx-auto" *ngIf="schedule != null">
         <thead>
             <tr>
