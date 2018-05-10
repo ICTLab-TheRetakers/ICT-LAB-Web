@@ -178,7 +178,7 @@ namespace ICT_LAB_Web.Components.Helper
                         switch (lessonInfo.Count)
                         {
                             case 0:
-                                newLesson.Course = "Geen les";
+                                newLesson.Course = String.Empty;
                                 newLesson.Class = String.Empty;
                                 newLesson.Teacher = String.Empty;
                                 break;
