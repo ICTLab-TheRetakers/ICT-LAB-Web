@@ -1,5 +1,5 @@
 <div class="col-sm-12 col-md-10 offset-md-1  mx-auto text-center">
-    <app-select-room (chosenRoom)="getRoomChoice($event)"></app-select-room>
+    <app-select-room [onlyAllowRooms]="true" [getSchedule]="false" (chosenObject)="getRoomChoice($event)"></app-select-room>
 
     <div class="card-deck mx-auto mt-4">
 

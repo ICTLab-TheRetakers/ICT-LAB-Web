@@ -197,6 +197,11 @@ namespace ICT_LAB_Web.Components.Helper
                                 newLesson.Class = RemoveChars(lessonInfo[0].InnerText, true);
                                 newLesson.Teacher = RemoveChars(lessonInfo[1].InnerText, false);
                                 break;
+                            case 5:
+                                newLesson.Course = RemoveChars(lessonInfo[0].InnerText, false);
+                                newLesson.Class = lessonInfo[2].InnerText.Contains(",") ? RemoveChars(lessonInfo[2].InnerText.Split(',')[0], true) : RemoveChars(lessonInfo[2].InnerText, true);
+                                newLesson.Teacher = RemoveChars(lessonInfo[0].InnerText, false);
+                                break;
                             case 6:
                                 newLesson.Course = RemoveChars(lessonInfo[2].InnerText, false);
                                 newLesson.Class = lessonInfo[1].InnerText.Contains(",") ? RemoveChars(lessonInfo[1].InnerText.Split(',')[0], true) : RemoveChars(lessonInfo[1].InnerText, true);

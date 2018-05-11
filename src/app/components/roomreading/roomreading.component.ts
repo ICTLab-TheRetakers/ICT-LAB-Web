@@ -53,7 +53,7 @@ export class RoomReadingComponent implements OnInit {
             },
             (error) => {
                 this.toastOptions.msg = 'Unable to retrieve classroom information. Please try again!',
-                this.toastyService.error(this.toastOptions);
+                    this.toastyService.error(this.toastOptions);
             }
         );
     }
@@ -96,7 +96,10 @@ export class RoomReadingComponent implements OnInit {
     }
 
     getRoomChoice(event: any) {
-        this.selectedRoom = event;
-        this.getLatestReadings();
+        this.selectedRoom = <Room>event;
+
+        setTimeout(() => {
+            this.getLatestReadings();
+        }, 500);
     }
 }
