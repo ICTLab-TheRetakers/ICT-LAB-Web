@@ -26,6 +26,21 @@ export class ReservationService {
             .catch(this.handleError);
     }
 
+    getAllTeachers(department: string, quarter: number): Observable<string[]> {
+        return this.http.get(this.baseUrl + 'getAllTeachers?department=' + department + '&quarter=' + quarter)
+            .catch(this.handleError);
+    }
+
+    getAllRooms(department: string, quarter: number): Observable<string[]> {
+        return this.http.get(this.baseUrl + 'getAllRooms?department=' + department + '&quarter=' + quarter)
+            .catch(this.handleError);
+    }
+
+    getAllClasses(department: string, quarter: number): Observable<string[]> {
+        return this.http.get(this.baseUrl + 'getAllClasses?department=' + department + '&quarter=' + quarter)
+            .catch(this.handleError);
+    }
+
     getLessonsByWeek(type: string, index: string, department: string, quarter: number, week: number): Observable<Schedule> {
         return this.http.get(this.baseUrl + 'getLessonsByWeek?type=' + type + '&index=' + index + '&department=' + department + '&week=' + week + '&quarter=' + quarter)
             .catch(this.handleError);
