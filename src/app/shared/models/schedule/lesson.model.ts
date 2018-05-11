@@ -12,22 +12,4 @@ export default class Lesson {
         this.course = _course;
         this.start_time = _start_time;
     }
-
-    public valid(): boolean {
-        let valid = false;
-        let count = 0;
-
-        for (var key in this) {
-            if (key != '') {
-                count++;
-            }
-        }
-        if (count > 1) {
-            valid = true;
-        } else if (count == 1) {
-            valid = false;
-        }
-
-        return valid;
-    }
 }
