@@ -189,13 +189,23 @@ namespace ICT_LAB_Web.Components.Helper
                                 break;
                             case 2:
                                 newLesson.Course = RemoveChars(lessonInfo[1].InnerText, false);
-                                newLesson.Class = RemoveChars(lessonInfo[0].InnerText, false);
+                                newLesson.Class = RemoveChars(lessonInfo[0].InnerText, true);
                                 newLesson.Teacher = String.Empty;
                                 break;
                             case 3:
                                 newLesson.Course = RemoveChars(lessonInfo[2].InnerText, false);
-                                newLesson.Class = RemoveChars(lessonInfo[0].InnerText, false);
+                                newLesson.Class = RemoveChars(lessonInfo[0].InnerText, true);
                                 newLesson.Teacher = RemoveChars(lessonInfo[1].InnerText, false);
+                                break;
+                            case 6:
+                                newLesson.Course = RemoveChars(lessonInfo[2].InnerText, false);
+                                newLesson.Class = lessonInfo[1].InnerText.Contains(",") ? RemoveChars(lessonInfo[1].InnerText.Split(',')[0], true) : RemoveChars(lessonInfo[1].InnerText, true);
+                                newLesson.Teacher = RemoveChars(lessonInfo[0].InnerText, false);
+                                break;
+                            case 7:
+                                newLesson.Course = lessonInfo[2].InnerText.Contains(".") ? RemoveChars(lessonInfo[3].InnerText, false) : RemoveChars(lessonInfo[2].InnerText, false);
+                                newLesson.Class = lessonInfo[1].InnerText.Contains(",") ? RemoveChars(lessonInfo[1].InnerText.Split(',')[0], true) : RemoveChars(lessonInfo[1].InnerText, true);
+                                newLesson.Teacher = RemoveChars(lessonInfo[0].InnerText, false);
                                 break;
                         }
 
