@@ -96,7 +96,7 @@ export class RoomReadingComponent implements OnInit {
     }
 
     getRoomChoice(event: any) {
-        this.selectedRoom = event;
+        this.selectedRoom = <Room>event;
         this.getLatestReadings();
     }
 }

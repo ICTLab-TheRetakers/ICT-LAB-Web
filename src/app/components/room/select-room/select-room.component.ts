@@ -1,8 +1,11 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import Room from '../../../shared/models/room.model';
 import { ToastOptions, ToastyService, ToastyConfig } from 'ng2-toasty';
 
 import { RoomService } from '../../../shared/services/room.service';
+import Schedule from '../../../shared/models/schedule/schedule.model';
+import { ReservationService } from '../../../shared/services/reservation.service';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
     selector: 'app-select-room',
@@ -10,47 +13,109 @@ import { RoomService } from '../../../shared/services/room.service';
     styleUrls: ['./select-room.component.css']
 })
 export class SelectRoomComponent implements OnInit {
-    location: string = '';
-    rooms: Room[] = [];
-    selectedRoom: Room = null;
-    toastOptions: ToastOptions;
+    schedule: Schedule = null;
+    department: string = null;
+    type: string = null;
+    index: number = null;
+    options: string[] = null;
 
-    @Output() chosenRoom = new EventEmitter<Room>();
+    @Input() onlyAllowRooms = new EventEmitter<boolean>();
+    @Input() getSchedule = new EventEmitter<boolean>();
+    @Output() chosenObject = new EventEmitter<any>();
 
-    constructor(private _roomService: RoomService, private toastyService: ToastyService,
-        private toastyConfig: ToastyConfig) {
+    constructor(private _roomService: RoomService, private _reservationService: ReservationService) { }
 
-        //Set toast theme
-        this.toastyConfig.theme = 'bootstrap';
-        this.toastOptions = {
-            title: 'Oops, an error occured',
-            msg: 'Unable to retrieve available rooms. Please try again!',
-            timeout: 5000,
-            showClose: true,
-            theme: 'bootstrap'
-        };
+    ngOnInit() { }
+
+    setDepartment(event: any) {
+        this.department = event.target.value;
+        this.reset();
     }
 
-    ngOnInit() {
-        this.getAllRooms();
+    setType(event: any) {
+        this.options = [];
+        this.type = event.target.value;
+
+        if (this.type == "r") {
+            this._reservationService.getAllRooms(this.department, 4).subscribe(
+                (response) => this.options = response,
+                (error) => {
+                    return Observable.throw(error)
+                }
+            );
+        } else if (this.type == "c") {
+            this._reservationService.getAllClasses(this.department, 4).subscribe(
+                (response) => this.options = response,
+                (error) => {
+                    return Observable.throw(error)
+                }
+            );
+        } else {
+            this._reservationService.getAllTeachers(this.department, 4).subscribe(
+                (response) => this.options = response,
+                (error) => {
+                    return Observable.throw(error)
+                }
+            );
+        }
     }
 
-    findRoomsByLocation(): Room[] {
-        return this.rooms.filter(f => f.location.includes(this.location));
-    }
+    selectOption(event: any, getSchedule: boolean) {
+        let identifier = '';
+        this.index = event.target.value;
 
-    setRoom(event: any) {
-        this.selectedRoom = this.rooms.filter(f => f.room_code == event.target.value)[0];
-        this.chosenRoom.emit(this.selectedRoom);
-    }
+        // Perform reset
+        this.schedule = null;
+        this.chosenObject.emit(null);
 
-    getAllRooms() {
-        this._roomService.getAllRooms().subscribe(
-            (response) => this.rooms = response,
-            (error) => {
-                this.toastyService.error(this.toastOptions);
+        if (getSchedule == false) {
+            // Emit room
+            var roomCode = this.options[(this.index - 1)];
+            var room = this._roomService.get(roomCode).subscribe(
+                (response) => {
+                    this.chosenObject.emit(response);
+                },
+                (error) => {
+                    return Observable.throw(error)
+                }
+            );
+
+        } else {
+            // Emit schedule
+            switch (this.index.toString().length) {
+                case 1:
+                    identifier = this.type + '0000' + this.index.toString();
+                    break;
+                case 2:
+                    identifier = this.type + '000' + this.index.toString();
+                    break;
+                case 3:
+                    identifier = this.type + '00' + this.index.toString();
+                    break;
+                case 4:
+                    identifier = this.type + '0' + this.index.toString();
+                    break;
+                default:
+                    identifier = this.type + '000' + this.index.toString();
+                    break;
             }
-        );
+
+            this._reservationService.getLessonsByWeek(this.type, identifier, this.department, 4, 20).subscribe(
+                (response) => {
+                    this.schedule = response;
+                    this.chosenObject.emit(this.schedule);
+                },
+                (error) => {
+                    return Observable.throw(error)
+                }
+            );
+        }
     }
 
+    reset() {
+        this.schedule = null;
+        this.type = null;
+        this.index = null;
+        this.options = null;
+    }
 }

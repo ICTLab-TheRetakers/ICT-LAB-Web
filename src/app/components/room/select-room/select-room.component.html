@@ -1,11 +1,29 @@
-<div class="text-center mt-4 w-50 mx-auto">
-    <input class="form-control mb-1" type="text" [(ngModel)]="location" placeholder="Search by location" />
-
-    <select class="custom-select" (change)="setRoom($event)">
-        <option class="list-group-item text-center" [value]="null">-- Select a classroom --</option>
-        <option class="list-group-item text-center" *ngFor="let room of findRoomsByLocation()"
-                [value]="room.room_code">
-            {{ room.room_code }} - {{ room.location }}
-        </option>
-    </select>
+<div class="row my-3 mx-auto text-center">
+    <div class="col-sm-12 col-md-4">
+        <select class="custom-select" (change)="setDepartment($event)" [(ngModel)]="department">
+            <option class="list-group-item" value="null">-- Choose department --</option>
+            <option class="list-group-item" value="cmi">CMI</option>
+            <option class="list-group-item" value="com">COM</option>
+            <option class="list-group-item" value="ap">IGO/AES</option>
+            <option class="list-group-item" value="ibk">IBK</option>
+            <option class="list-group-item" value="ifm">IFM</option>
+            <option class="list-group-item" value="iso">ISO</option>
+            <option class="list-group-item" value="ivg">IVG</option>
+            <option class="list-group-item" value="ivl">IVL</option>
+        </select>
+    </div>
+    <div class="col-sm-12 col-md-4">
+        <select class="custom-select" (change)="setType($event)" [(ngModel)]="type">
+            <option class="list-group-item" value="null">-- Choose type --</option>
+            <option class="list-group-item" value="c" [hidden]="onlyAllowRooms == true">Class</option>
+            <option class="list-group-item" value="r">Room</option>
+            <option class="list-group-item" value="t" [hidden]="onlyAllowRooms == true">Teacher</option>
+        </select>
+    </div>
+    <div class="col-sm-12 col-md-4">
+        <select class="custom-select" (change)="selectOption($event, getSchedule)" [(ngModel)]="index">
+            <option class="list-group-item" value="null">-- Choose an option --</option>
+            <option class="list-group-item" *ngFor="let option of options;let i = index" [value]="i + 1">{{ option }}</option>
+        </select>
+    </div>
 </div>

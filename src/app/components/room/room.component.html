@@ -1,19 +1,6 @@
 <div class="col-sm-12 col-md-10 offset-md-1 mb-3 mx-auto text-center">
-    <!--<app-select-room (chosenRoom)="getRoomChoice($event)"></app-select-room>-->
-    <input class="form-control" type="text" [(ngModel)]="department" placeholder="Department" />
-    <select class="custom-select" (change)="setScheduleType($event)">
-        <option value="null">-- Choose an option --</option>
-        <option value="c">Class</option>
-        <option value="r">Room</option>
-        <option value="t">Teacher</option>
-    </select>
-    <select class="custom-select" (change)="getSchedule($event)">
-        <option value="null">-- Choose an option --</option>
-        <option *ngFor="let option of options;let i = index" [value]="i + 1">{{ option }}</option>
-    </select>
-
-    <h4 class="text-center mt-4 mb-0" *ngIf="selectedRoom != null">{{ selectedRoom.room_code }}</h4>
-
+    <app-select-room [onlyAllowRooms]="false" [getSchedule]="true" (chosenObject)="getScheduleChoice($event)"></app-select-room>
+    
     <h3 class="mt-3" *ngIf="schedule != null">{{ schedule.identifier }} - Week {{ schedule.week }}</h3>
     <table class="table mb-3 mx-auto" *ngIf="schedule != null">
         <thead>
