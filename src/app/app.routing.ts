@@ -8,6 +8,7 @@ import { RoomReadingComponent } from './components/roomreading/roomreading.compo
 import { ReservationComponent } from './components/reservation/reservation.component';
 import { IssueComponent } from './components/issue/issue.component';
 import { NotificationComponent } from './components/notification/notification.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { AuthGuard } from './shared/authguard.service';
 import { SignInComponent } from './components/user/sign-in/sign-in.component';
 
@@ -45,6 +46,11 @@ const routes: Routes = [
     {
         path: 'readings',
         component: RoomReadingComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path: 'dashboard/:id',
+        component: DashboardComponent,
         canActivate: [AuthGuard]
     },
     {

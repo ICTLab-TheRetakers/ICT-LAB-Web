@@ -20,6 +20,7 @@ import { NotificationModule } from './components/notification/notification.modul
 import { IssueModule } from './components/issue/issue.module';
 import { ReservationModule } from './components/reservation/reservation.module';
 import { RoleModule } from './components/role/role.module';
+import { DashboardModule } from './components/dashboard/dashboard.module';
 
 import { SharedService } from './shared/services/shared.service';
 import { AuthGuard } from './shared/authguard.service';
@@ -42,6 +43,7 @@ import { CustomErrorHandler } from './shared/error-handler';
         IssueModule,
         ReservationModule,
         RoleModule,
+        DashboardModule,
         ToastyModule.forRoot(),
         QRCodeModule,
         AppRoutingModule //Keep at bottom
