@@ -8,6 +8,7 @@ namespace ICT_LAB_Web.Components.Helper.Models
 
         public string Teacher { get; set; }
         public string Class { get; set; }
+        public string Room { get; set; }
         public string Course { get; set; }
         public string StartTime { get; set; }
 

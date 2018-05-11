@@ -8,6 +8,8 @@ namespace ICT_LAB_Web.Controllers.ViewModels
         public string Teacher { get; set; }
         [JsonProperty("class")]
         public string Class { get; set; }
+        [JsonProperty("room")]
+        public string Room { get; set; }
         [JsonProperty("course")]
         public string Course { get; set; }
         [JsonProperty("start_time")]

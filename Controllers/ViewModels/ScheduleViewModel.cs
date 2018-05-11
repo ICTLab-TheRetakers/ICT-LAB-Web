@@ -31,6 +31,7 @@ namespace ICT_LAB_Web.Controllers.ViewModels
                 WeekDay = x.WeekDay,
                 Lessons = x.Lessons.Select(y => new LessonViewModel {
                     Class = y.Class,
+                    Room = y.Room,
                     Teacher = y.Teacher,
                     Course = y.Course,
                     StartTime = y.StartTime
