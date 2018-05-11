@@ -1,4 +1,3 @@
-using System.ComponentModel.DataAnnotations;
 using HtmlAgilityPack;
 
 namespace ICT_LAB_Web.Components.Helper.Models
@@ -7,8 +6,6 @@ namespace ICT_LAB_Web.Components.Helper.Models
     {
         #region Properties
 
-        [Key]
-        public string Id { get; set; }
         public int Hour { get; set; }
         public int Day { get; set; }
         public HtmlNode Lesson { get; set; }
@@ -19,9 +16,8 @@ namespace ICT_LAB_Web.Components.Helper.Models
 
         public MultiHourLesson() {}
 
-        public MultiHourLesson(string id, int hour, int day, HtmlNode lesson)
+        public MultiHourLesson(int hour, int day, HtmlNode lesson)
         {
-            this.Id = id;
             this.Hour = hour;
             this.Day = day;
             this.Lesson = lesson;

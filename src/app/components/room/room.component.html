@@ -17,19 +17,30 @@
                     <b>{{ hour }}</b>
                 </td>
                 <td>
-                    {{ getLesson('Monday', hour).course }} <br /> {{ getLesson('Monday', hour).class }} - {{ getLesson('Monday', hour).teacher }}
+                    {{ getLesson('Monday', hour).valid() }}
+                    <p *ngIf="getLesson('Monday', hour).valid() == true">
+                        {{ getLesson('Monday', hour).course }} <br /> {{ getLesson('Monday', hour).class }} - {{ getLesson('Monday', hour).teacher }}
+                    </p>
                 </td>
                 <td>
-                    {{ getLesson('Tuesday', hour).course }} <br /> {{ getLesson('Tuesday', hour).class }} - {{ getLesson('Tuesday', hour).teacher }}
+                    <p *ngIf="getLesson('Tuesday', hour).valid() == true">
+                        {{ getLesson('Tuesday', hour).course }} <br /> {{ getLesson('Tuesday', hour).class }} - {{ getLesson('Tuesday', hour).teacher }}
+                    </p>
                 </td>
                 <td>
-                    {{ getLesson('Wednesday', hour).course }} <br /> {{ getLesson('Wednesday', hour).class }} - {{ getLesson('Wednesday', hour).teacher }}
+                    <p *ngIf="getLesson('Wednesday', hour).valid() == true">
+                        {{ getLesson('Wednesday', hour).course }} <br /> {{ getLesson('Wednesday', hour).class }} - {{ getLesson('Wednesday', hour).teacher }}
+                    </p>
                 </td>
                 <td>
-                    {{ getLesson('Thursday', hour).course }} <br /> {{ getLesson('Thursday', hour).class }} - {{ getLesson('Thursday', hour).teacher }}
+                    <p *ngIf="getLesson('Thursday', hour).valid() == true">
+                        {{ getLesson('Thursday', hour).course }} <br /> {{ getLesson('Thursday', hour).class }} - {{ getLesson('Thursday', hour).teacher }}
+                    </p>
                 </td>
                 <td>
-                    {{ getLesson('Friday', hour).course }} <br /> {{ getLesson('Friday', hour).class }} - {{ getLesson('Friday', hour).teacher }}
+                    <p *ngIf="getLesson('Friday', hour).valid() == true">
+                        {{ getLesson('', hour).course }} <br /> {{ getLesson('Friday', hour).class }} - {{ getLesson('Friday', hour).teacher }}
+                    </p>
                 </td>
             </tr>
         </tbody>

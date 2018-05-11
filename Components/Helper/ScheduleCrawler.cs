@@ -211,7 +211,6 @@ namespace ICT_LAB_Web.Components.Helper
                                 if (lessonsToAddNextHour.FirstOrDefault(q => q.Lesson == currentLesson && q.Day == lesson && q.Hour == nextHour) == null)
                                 {
                                     var lessonNextHour = new MultiHourLesson();
-                                    lessonNextHour.Id = String.Format("{0}{1}", nextHour, lesson);
                                     lessonNextHour.Day = lesson;
                                     lessonNextHour.Hour = nextHour;
                                     lessonNextHour.Lesson = currentLesson;
