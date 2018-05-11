@@ -333,14 +333,14 @@ namespace ICT_LAB_Web.Components.Helper
                 else if (info.Count == 5)
                 {
                     lesson.Course = RemoveChars(info[0].InnerText, false);
-                    lesson.Class = info[1].InnerText.Contains(" ") ? RemoveChars(info[1].InnerText.Split(' ')[1], false) : RemoveChars(info[1].InnerText, false);
-                    lesson.Room = info[2].InnerText.Contains(" ") ? RemoveChars(info[2].InnerText.Split(' ')[0], true) : RemoveChars(info[2].InnerText, true);
+                    lesson.Class = info[2].InnerText.Contains(" ") ? RemoveChars(info[2].InnerText.Split(' ')[1], false) : RemoveChars(info[2].InnerText, false);
+                    lesson.Room = info[3].InnerText.Contains(" ") ? RemoveChars(info[3].InnerText.Split(' ')[0], true) : RemoveChars(info[3].InnerText, true);
                 }
                 else if (info.Count >= 5)
                 {
                     lesson.Course = RemoveChars(info[0].InnerText, false);
-                    lesson.Class = info[1].InnerText.Contains(" ") ? RemoveChars(info[1].InnerText.Split(' ')[1], false) : RemoveChars(info[1].InnerText, false);
-                    lesson.Room = info[2].InnerText.Contains(" ") ? RemoveChars(info[2].InnerText.Split(' ')[0], true) : RemoveChars(info[2].InnerText, true);
+                    lesson.Class = info[2].InnerText.Contains(" ") ? RemoveChars(info[2].InnerText.Split(' ')[1], false) : RemoveChars(info[2].InnerText, false);
+                    lesson.Room = info[3].InnerText.Contains(" ") ? RemoveChars(info[3].InnerText.Split(' ')[0], true) : RemoveChars(info[3].InnerText, true);
                 }
             }
 
