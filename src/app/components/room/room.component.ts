@@ -98,23 +98,30 @@ export class RoomComponent implements OnInit {
         }
 
         // When schedule type is Class
+        // If room and course are available
         // If room, teacher and course are available
-        // If room, teacher, course and course code are available
-        if (this.schedule.schedule_type == 'Class' && lesson.teacher != null && lesson.course_code == null && lesson.course != null && lesson.room != null) {
+        // If teacher and course code are available
+        // If room, teacher and course code are available
+        if (this.schedule.schedule_type == 'Class' && lesson.teacher == null && lesson.course_code != null && lesson.course != null && lesson.room != null) {
+            lessonString = lesson.room + ' - ' + lesson.course_code;
+        } else if (this.schedule.schedule_type == 'Class' && lesson.teacher != null && lesson.course_code == null && lesson.course != null && lesson.room != null) {
             lessonString = lesson.course + '<br />' + lesson.room + ' - ' + lesson.teacher;
         } else if (this.schedule.schedule_type == 'Class' && lesson.teacher != null && lesson.course_code != null && lesson.course != null && lesson.room == null) {
             lessonString = lesson.course_code + '<br />' + lesson.teacher;
+        } else if (this.schedule.schedule_type == 'Class' && lesson.teacher != null && lesson.course_code != null && lesson.course == null && lesson.room != null) {
+            lessonString = lesson.teacher + '<br />' + lesson.room + '<br />' + lesson.course_code;
         }
 
         // When schedule type is Teacher
         // If room and course are available
         // If class and course are available
-        if (this.schedule.schedule_type == 'Teacher' && lesson.teacher == null && lesson.course_code == null && lesson.course != null && lesson.room != null) {
+        // If room, class and course are available
+        if (this.schedule.schedule_type == 'Teacher' && lesson.course != null && lesson.room != null && lesson.class == null) {
             lessonString = lesson.course + '<br />' + lesson.room;
-        } else if (this.schedule.schedule_type == 'Teacher' && lesson.teacher != null && lesson.course_code == null && lesson.course != null && lesson.class != null) {
+        } else if (this.schedule.schedule_type == 'Teacher' && lesson.course != null && lesson.class != null && lesson.room == null) {
             lessonString = lesson.course + '<br />' + lesson.class;
-        } else if (this.schedule.schedule_type == 'Teacher' && lesson.teacher != null && lesson.course_code != null && lesson.course == null && lesson.class != null && lesson.room != null) {
-            lessonString = lesson.course + '<br />' + lesson.room + '<br />' + lesson.class;
+        } else if (this.schedule.schedule_type == 'Teacher' && lesson.course != null && lesson.class != null && lesson.room != null) {
+            lessonString = lesson.course + '<br />' + lesson.class + '<br />' + lesson.room;
         }
 
         return lessonString;
