@@ -17,6 +17,12 @@ namespace ICT_LAB_Web.Components.Helper.Models
 
         public Lesson()
         {
+            this.Teacher = "";
+            this.Class = "";
+            this.Room = "";
+            this.Course = "";
+            this.CourseCode = "";
+            this.StartTime = "";
         }
 
         #endregion

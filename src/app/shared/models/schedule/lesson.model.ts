@@ -1,5 +1,5 @@
 export default class Lesson {
-    teacher: string;
+    teacher: string ;
     room: string;
     class: string;
     course: string;

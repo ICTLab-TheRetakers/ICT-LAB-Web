@@ -170,7 +170,8 @@ namespace ICT_LAB_Web.Components.Helper
 
                     // Get lesson and info
                     var size = "1";
-                    if (this.Department == "CMI" || this.Department == "AP") { size = "2"; }
+                    if ((this.Department == "CMI" || this.Department == "AP") && this.ScheduleType != "t") { size = "2"; }
+
                     var lessonInfo = currentLesson.SelectSingleNode("table").ChildNodes.Descendants("font").Where(q => q.Attributes.Any(a => a.Name == "size"
                         && a.Value == size) && !q.InnerText.Contains(")") && !RemoveChars(q.InnerText, false).All(Char.IsDigit)).ToList();
 
@@ -297,13 +298,13 @@ namespace ICT_LAB_Web.Components.Helper
                         case 4:
                             lesson.Course = RemoveChars(info[3].InnerText, false);
                             lesson.CourseCode = RemoveChars(info[2].InnerText, false);
-                            lesson.Room = RemoveChars(info[1].InnerText, true);
+                            lesson.Room = info[1].InnerText.Contains(",") ? RemoveChars(info[1].InnerText.Split(',')[0], true) : RemoveChars(info[1].InnerText, true);
                             lesson.Teacher = RemoveChars(info[0].InnerText, false);
                             break;
                         case 5:
                             lesson.Course = RemoveChars(info[4].InnerText, false);
                             lesson.CourseCode = info[2].InnerText.Count(c => c == '.') >= 2 ? RemoveChars(info[3].InnerText, false) : RemoveChars(info[2].InnerText, false);
-                            lesson.Room = RemoveChars(info[1].InnerText, true);
+                            lesson.Room = info[1].InnerText.Contains(",") ? RemoveChars(info[1].InnerText.Split(',')[0], true) : RemoveChars(info[1].InnerText, true);
                             lesson.Teacher = RemoveChars(info[0].InnerText, false);
                             break;
                     }
@@ -337,7 +338,7 @@ namespace ICT_LAB_Web.Components.Helper
                             lesson.Course = String.Empty;
                             lesson.CourseCode = RemoveChars(info[0].InnerText, false);
                             lesson.Class = RemoveChars(info[1].InnerText, false);
-                            lesson.Room = RemoveChars(info[2].InnerText, true);
+                            lesson.Room = lesson.Room = info[2].InnerText.Contains(",") ? RemoveChars(info[2].InnerText.Split(',')[0], true) : RemoveChars(info[2].InnerText, true);
                             break;
                     }
                 }
@@ -352,7 +353,7 @@ namespace ICT_LAB_Web.Components.Helper
             lesson.StartTime = hour;
 
             var size = "1";
-            if (this.Department == "CMI" || this.Department == "AP") { size = "2"; }
+            if ((this.Department == "CMI" || this.Department == "AP") && this.ScheduleType != "t") { size = "2"; }
             var lessonInfo = node.SelectSingleNode("table").ChildNodes.Descendants("font").Where(q => q.Attributes.Any(a => a.Name == "size"
                                     && a.Value == size) && !q.InnerText.Contains(")") && !RemoveChars(q.InnerText, false).All(Char.IsDigit)).ToList(); if (lessonInfo != null)
             {
