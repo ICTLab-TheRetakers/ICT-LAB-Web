@@ -85,10 +85,11 @@ namespace ICT_LAB_Web.Components.Helper
             var document = new HtmlDocument();
             document.LoadHtml(html);
 
-            //Get and set room code
+            // Get and set identifier (ex. room code, teacher code or class code)
             var identifierCode = document.DocumentNode.SelectNodes("/html/body/center/font[2]")[0].InnerText;
             this.Identifier = RemoveChars(identifierCode, true).Trim();
 
+            // Get schedule
             var table = document.DocumentNode.SelectNodes("/html/body/center/table[1]")[0];
             var schedule = GetLessons(table);
 
@@ -97,7 +98,6 @@ namespace ICT_LAB_Web.Components.Helper
 
         private Schedule GetLessons(HtmlNode schedule)
         {
-            // Create list for multihour lessons
             var lessonsToAddNextHour = new List<MultiHourLesson>();
 
             //Create new schedule and set properties
@@ -118,25 +118,26 @@ namespace ICT_LAB_Web.Components.Helper
 
                 for (int lesson = 1; lesson < lessons.Count; lesson++)
                 {
-                    // Get current hour
-                    var hourNumber = RemoveChars(lessons[0].InnerText.Split(' ')[0], false);
-                    var currentHour = RemoveChars(lessons[0].InnerText.Split(' ')[1], false);
-
-                    // Create new lesson and set start time
-                    var newLesson = new Lesson();
-                    newLesson.StartTime = currentHour;
-
                     // Get current lesson and info
                     var currentLesson = lessons[lesson];
 
-                    // If contains key with tuple time and lesson, then add lesson of previous hour to this hour
+                    // Current hour
+                    var hourNumber = RemoveChars(lessons[0].InnerText.Split(' ')[0], false);
+                    var currentHour = RemoveChars(lessons[0].InnerText.Split(' ')[1], false);
+
+                    // Create lesson and set start time
+                    var newLesson = new Lesson();
+                    newLesson.StartTime = currentHour;
+
+                    // If list with HtmlNodes contains key with tuple of current time and lesson, then add lesson of previous hour to this hour
                     if (lessons.Count != 6)
                     {
-                        //var id = String.Format("{0}{1}", time, lesson);
                         if (lessonsToAddNextHour.FirstOrDefault(q => q.Hour == time && q.Day == lesson) != null ||
                             lessonsToAddNextHour.FirstOrDefault(q => q.Hour == (time + 2) && q.Day == lesson) != null)
                         {
-                            var previousLesson = lessonsToAddNextHour.FirstOrDefault(q => q.Hour == time && q.Day == lesson) != null ? lessonsToAddNextHour.FirstOrDefault(q => q.Hour == time && q.Day == lesson) : lessonsToAddNextHour.FirstOrDefault(q => q.Hour == (time + 2) && q.Day == lesson);
+                            var previousLesson = lessonsToAddNextHour.FirstOrDefault(q => q.Hour == time && q.Day == lesson) != null
+                                ? lessonsToAddNextHour.FirstOrDefault(q => q.Hour == time && q.Day == lesson) : lessonsToAddNextHour.FirstOrDefault(q => q.Hour == (time + 2) && q.Day == lesson);
+
                             if (previousLesson != null)
                             {
                                 lessons.Insert(lesson, previousLesson.Lesson);
@@ -151,7 +152,7 @@ namespace ICT_LAB_Web.Components.Helper
                         }
                     }
 
-                    // Set correct identifier based on schedule type
+                    // Set correct identifier of lesson based on schedule type
                     switch (this.ScheduleType)
                     {
                         case "c":
@@ -168,19 +169,11 @@ namespace ICT_LAB_Web.Components.Helper
                             break;
                     }
 
-                    // Get lesson and info
-                    var size = "1";
-                    if ((this.Department == "CMI" || this.Department == "AP") && this.ScheduleType != "t") { size = "2"; }
-
-                    var lessonInfo = currentLesson.SelectSingleNode("table").ChildNodes.Descendants("font").Where(q => q.Attributes.Any(a => a.Name == "size"
-                        && a.Value == size) && !q.InnerText.Contains(")") && !RemoveChars(q.InnerText, false).All(Char.IsDigit)).ToList();
-
-                    // Get lesson row span
+                    var lessonInfo = ParseHtml(currentLesson);
                     var rowSpan = Convert.ToInt32(currentLesson.Attributes["rowspan"].Value);
 
                     if (lessonInfo != null)
                     {
-                        // Set correct lesson info based on scbedule type
                         newLesson = SetLessonInfo(lessonInfo, newLesson, timeSchedule.ScheduleType);
 
                         // Add lesson to current day
@@ -195,8 +188,9 @@ namespace ICT_LAB_Web.Components.Helper
                             // Continue to next day
                             continue;
 
-                        } else if (timeSchedule.Days.FirstOrDefault(q => q.Id == lesson).Lessons
-                                .FirstOrDefault(q => q.StartTime == currentHour) == null)
+                        }
+                        else if (timeSchedule.Days.FirstOrDefault(q => q.Id == lesson).Lessons
+                              .FirstOrDefault(q => q.StartTime == currentHour) == null)
                         {
                             timeSchedule.Days.FirstOrDefault(q => q.Id == lesson).Lessons.Add(newLesson);
                         }
@@ -246,13 +240,17 @@ namespace ICT_LAB_Web.Components.Helper
             return timeSchedule;
         }
 
+        #region Lesson Info
+
+        // Method to set the correct information based on HtmlNodes, current lesson and schedule type
         private Lesson SetLessonInfo(List<HtmlNode> info, Lesson lesson, string scheduleType)
         {
             if (info.Count == 0)
             {
                 lesson.Course = String.Empty;
                 lesson.CourseCode = String.Empty;
-            } else
+            }
+            else
             {
                 // Check for specific indications per schedule type
                 if (scheduleType == "Room" || scheduleType == "r")
@@ -326,7 +324,8 @@ namespace ICT_LAB_Web.Components.Helper
                                 lesson.CourseCode = String.Empty;
                                 lesson.Class = String.Empty;
                                 lesson.Room = RemoveChars(info[1].InnerText, true);
-                            } else
+                            }
+                            else
                             {
                                 lesson.Course = RemoveChars(info[0].InnerText, false);
                                 lesson.CourseCode = String.Empty;
@@ -347,15 +346,14 @@ namespace ICT_LAB_Web.Components.Helper
             return lesson;
         }
 
+        // Method to convert HtmlNode to lesson object (HtmlAgilityPack)
         private Lesson ConvertToLesson(HtmlNode node, string hour)
         {
             Lesson lesson = new Lesson();
             lesson.StartTime = hour;
 
-            var size = "1";
-            if ((this.Department == "CMI" || this.Department == "AP") && this.ScheduleType != "t") { size = "2"; }
-            var lessonInfo = node.SelectSingleNode("table").ChildNodes.Descendants("font").Where(q => q.Attributes.Any(a => a.Name == "size"
-                                    && a.Value == size) && !q.InnerText.Contains(")") && !RemoveChars(q.InnerText, false).All(Char.IsDigit)).ToList(); if (lessonInfo != null)
+            var lessonInfo = ParseHtml(node);
+            if (lessonInfo != null)
             {
                 lesson = SetLessonInfo(lessonInfo, lesson, this.ScheduleType);
             }
@@ -375,6 +373,25 @@ namespace ICT_LAB_Web.Components.Helper
 
             return lesson;
         }
+
+        // Method to parse the html node for the correct information from the Html Node (HtmlAgilityPack)
+        private List<HtmlNode> ParseHtml(HtmlNode node)
+        {
+            var size = "1";
+            if ((this.Department == "CMI" || this.Department == "AP") && this.ScheduleType != "t")
+            {
+                size = "2";
+            }
+
+            var lessonInfo = node.SelectSingleNode("table").ChildNodes.Descendants("font").Where(q => q.Attributes.Any(a => a.Name == "size"
+                                    && a.Value == size) && !q.InnerText.Contains(")") && !RemoveChars(q.InnerText, false).All(Char.IsDigit)).ToList();
+
+            return lessonInfo;
+        }
+
+        #endregion
+
+        #region Helper Methods
 
         private string GetDay(int day)
         {
@@ -468,6 +485,8 @@ namespace ICT_LAB_Web.Components.Helper
 
             return textWithoutCharacters;
         }
+
+        #endregion
 
         #endregion
     }
