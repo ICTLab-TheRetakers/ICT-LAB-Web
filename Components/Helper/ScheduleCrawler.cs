@@ -152,20 +152,10 @@ namespace ICT_LAB_Web.Components.Helper
                     }
 
                     // Get lesson and info
-                    var size = "";
-                    switch (this.Department)
-                    {
-                        case "CMI":
-                            size = "2";
-                            break;
-                        case "IVG":
-                            size = "1";
-                            break;
-                        default:
-                            break;
-                    }
+                    var size = "1";
+                    if (this.Department == "CMI" || this.Department == "AP") { size = "2"; }
                     var lessonInfo = currentLesson.SelectSingleNode("table").ChildNodes.Descendants("font").Where(q => q.Attributes.Any(a => a.Name == "size"
-                            && a.Value == size) && !q.InnerText.Contains(")") && !RemoveChars(q.InnerText, false).All(Char.IsDigit)).ToList();
+                        && a.Value == size) && !q.InnerText.Contains(")") && !RemoveChars(q.InnerText, false).All(Char.IsDigit)).ToList();
 
                     // Get lesson row span
                     var rowSpan = Convert.ToInt32(currentLesson.Attributes["rowspan"].Value);
