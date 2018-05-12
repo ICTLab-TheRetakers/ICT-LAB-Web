@@ -35,7 +35,7 @@ export class RoomComponent implements OnInit {
         this.schedule = event;
         setTimeout(() => {
             this.initHelper();
-        }, 500);
+        }, 1500);
     }
 
     getLesson(day: string, hour: string): string {
