@@ -34,6 +34,7 @@ namespace ICT_LAB_Web.Controllers.ViewModels
                     Room = y.Room,
                     Teacher = y.Teacher,
                     Course = y.Course,
+                    CourseCode = y.CourseCode,
                     StartTime = y.StartTime
                 }).ToArray()
             }).ToArray();

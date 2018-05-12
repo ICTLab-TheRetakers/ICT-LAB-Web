@@ -1,10 +1,10 @@
+using HtmlAgilityPack;
+using ICT_LAB_Web.Components.Helper.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using HtmlAgilityPack;
-using ICT_LAB_Web.Components.Helper.Models;
 
 namespace ICT_LAB_Web.Components.Helper
 {
@@ -126,23 +126,6 @@ namespace ICT_LAB_Web.Components.Helper
                     var newLesson = new Lesson();
                     newLesson.StartTime = currentHour;
 
-                    // Set correct identifier based on schedule type
-                    switch (this.ScheduleType)
-                    {
-                        case "c":
-                            timeSchedule.ScheduleType = "Class";
-                            newLesson.Class = timeSchedule.Identifier;
-                            break;
-                        case "t":
-                            timeSchedule.ScheduleType = "Teacher";
-                            newLesson.Teacher = timeSchedule.Identifier;
-                            break;
-                        case "r":
-                            timeSchedule.ScheduleType = "Room";
-                            newLesson.Room = timeSchedule.Identifier;
-                            break;
-                    }
-
                     // Get current lesson and info
                     var currentLesson = lessons[lesson];
 
@@ -169,7 +152,20 @@ namespace ICT_LAB_Web.Components.Helper
                     }
 
                     // Get lesson and info
-                    var lessonInfo = currentLesson.SelectSingleNode("table").ChildNodes.Descendants("font").ToList();
+                    var size = "";
+                    switch (this.Department)
+                    {
+                        case "CMI":
+                            size = "2";
+                            break;
+                        case "IVG":
+                            size = "1";
+                            break;
+                        default:
+                            break;
+                    }
+                    var lessonInfo = currentLesson.SelectSingleNode("table").ChildNodes.Descendants("font").Where(q => q.Attributes.Any(a => a.Name == "size"
+                            && a.Value == size) && !q.InnerText.Contains(")") && !RemoveChars(q.InnerText, false).All(Char.IsDigit)).ToList();
 
                     // Get lesson row span
                     var rowSpan = Convert.ToInt32(currentLesson.Attributes["rowspan"].Value);
@@ -178,6 +174,23 @@ namespace ICT_LAB_Web.Components.Helper
                     {
                         // Set correct lesson info based on scbedule type
                         newLesson = SetLessonInfo(lessonInfo, newLesson, timeSchedule.ScheduleType);
+
+                        // Set correct identifier based on schedule type
+                        switch (this.ScheduleType)
+                        {
+                            case "c":
+                                timeSchedule.ScheduleType = "Class";
+                                newLesson.Class = timeSchedule.Identifier;
+                                break;
+                            case "t":
+                                timeSchedule.ScheduleType = "Teacher";
+                                newLesson.Teacher = timeSchedule.Identifier;
+                                break;
+                            case "r":
+                                timeSchedule.ScheduleType = "Room";
+                                newLesson.Room = timeSchedule.Identifier;
+                                break;
+                        }
 
                         // Add lesson to current day
                         if (addMultiHourLesson == true && timeSchedule.Days.FirstOrDefault(q => q.Id == lesson).Lessons
@@ -191,8 +204,9 @@ namespace ICT_LAB_Web.Components.Helper
                             // Continue to next day
                             continue;
 
-                        } else if (timeSchedule.Days.FirstOrDefault(q => q.Id == lesson).Lessons
-                                .FirstOrDefault(q => q.StartTime == currentHour) == null)
+                        }
+                        else if (timeSchedule.Days.FirstOrDefault(q => q.Id == lesson).Lessons
+                              .FirstOrDefault(q => q.StartTime == currentHour) == null)
                         {
                             timeSchedule.Days.FirstOrDefault(q => q.Id == lesson).Lessons.Add(newLesson);
                         }
@@ -244,112 +258,101 @@ namespace ICT_LAB_Web.Components.Helper
 
         private Lesson SetLessonInfo(List<HtmlNode> info, Lesson lesson, string scheduleType)
         {
-            if (scheduleType == "Room" || scheduleType == "r")
+            if (info.Count == 0)
             {
-                switch (info.Count)
-                {
-                    case 0:
-                        lesson.Course = String.Empty;
-                        lesson.Class = String.Empty;
-                        lesson.Teacher = String.Empty;
-                        break;
-                    case 1:
-                        lesson.Course = RemoveChars(info[0].InnerText, false);
-                        lesson.Class = String.Empty;
-                        lesson.Teacher = String.Empty;
-                        break;
-                    case 2:
-                        lesson.Course = RemoveChars(info[1].InnerText, false);
-                        lesson.Class = RemoveChars(info[0].InnerText, false);
-                        lesson.Teacher = String.Empty;
-                        break;
-                    case 3:
-                        lesson.Course = RemoveChars(info[2].InnerText, false);
-                        lesson.Class = RemoveChars(info[0].InnerText, false);
-                        lesson.Teacher = RemoveChars(info[1].InnerText, false);
-                        break;
-                }
-            } else if (scheduleType == "Class" || scheduleType == "c")
+                lesson.Course = String.Empty;
+                lesson.CourseCode = String.Empty;
+            }
+            else
             {
-                if (info.Count == 0)
+                // Check for specific indications per schedule type
+                if (scheduleType == "Room" || scheduleType == "r")
                 {
-                    lesson.Course = String.Empty;
-                    lesson.Room = String.Empty;
-                    lesson.Teacher = String.Empty;
-                } else if (info.Count > 0 && info.Count < 5)
-                {
-                    lesson.Course = RemoveChars(info[0].InnerText, false);
-                    lesson.Room = String.Empty;
-                    lesson.Teacher = String.Empty;
-                } else if (info.Count >= 5 && info.Count < 7)
-                {
-                    if (info[0].InnerText.Count(c => c == '.') >= 2)
+                    switch (info.Count)
                     {
-                        lesson.Course = RemoveChars(info[1].InnerText, false);
-                        lesson.Room = RemoveChars(info[0].InnerText.Split(',')[0], true);
-                        lesson.Teacher = String.Empty;
-                    } else if (info[1].InnerText.Count(c => c == '.') >= 2)
-                    {
-                        lesson.Course = RemoveChars(info[2].InnerText, false);
-                        lesson.Room = RemoveChars(info[1].InnerText.Split(',')[0], true);
-                        lesson.Teacher = RemoveChars(info[0].InnerText, false);
-                    } else
-                    {
-                        lesson.Course = RemoveChars(info[2].InnerText, false);
-                        lesson.Room = info[1].InnerText.Contains(",") ? RemoveChars(info[1].InnerText.Split(',')[0], true) : RemoveChars(info[1].InnerText, true);
-                        lesson.Teacher = RemoveChars(info[0].InnerText, false);
-                    }
-                } else if (info.Count == 7)
-                {
-                    if (info[1].InnerText.Contains(".") && info[2].InnerText.Contains("."))
-                    {
-                        lesson.Course = RemoveChars(info[3].InnerText, false);
-                        lesson.Room = RemoveChars(info[1].InnerText, true);
-                        lesson.Teacher = RemoveChars(info[0].InnerText, false);
-                    } else if (info[1].InnerText.Count(c => c == '.') >= 2)
-                    {
-                        lesson.Course = RemoveChars(info[2].InnerText, false);
-                        lesson.Room = RemoveChars(info[1].InnerText.Split(',')[0], true);
-                        lesson.Teacher = RemoveChars(info[0].InnerText, false);
-                    } else if (info[0].InnerText.Count(c => c == '.') >= 2)
-                    {
-                        lesson.Course = RemoveChars(info[1].InnerText, false);
-                        lesson.Room = RemoveChars(info[0].InnerText.Split(',')[0], true);
-                        lesson.Teacher = String.Empty;
-                    } else
-                    {
-                        lesson.Course = RemoveChars(info[3].InnerText, false);
-                        lesson.Room = info[1].InnerText.Contains(",") ? RemoveChars(info[1].InnerText.Split(',')[0], true) : RemoveChars(info[1].InnerText, true);
-                        lesson.Teacher = RemoveChars(info[0].InnerText, false);
+                        case 1:
+                            lesson.Class = String.Empty;
+                            lesson.Course = RemoveChars(info[0].InnerText, false);
+                            lesson.CourseCode = String.Empty;
+                            lesson.Teacher = String.Empty;
+                            break;
+                        case 2:
+                            lesson.Class = String.Empty;
+                            lesson.Course = String.Empty;
+                            lesson.CourseCode = RemoveChars(info[1].InnerText, false);
+                            lesson.Teacher = RemoveChars(info[0].InnerText, false);
+                            break;
+                        case 3:
+                            lesson.Class = RemoveChars(info[0].InnerText, false);
+                            lesson.Course = String.Empty;
+                            lesson.CourseCode = RemoveChars(info[2].InnerText, false);
+                            lesson.Teacher = RemoveChars(info[1].InnerText, false);
+                            break;
                     }
                 }
-            } else if (scheduleType == "Teacher" || scheduleType == "t")
-            {
-                if (info.Count == 0)
+                if (scheduleType == "Class" || scheduleType == "c")
                 {
-                    lesson.Course = String.Empty;
-                    lesson.Class = String.Empty;
-                    lesson.Room = String.Empty;
-                } else if (info.Count > 0 && info.Count < 5)
+                    switch (info.Count)
+                    {
+                        case 1:
+                            lesson.Course = RemoveChars(info[0].InnerText, false);
+                            lesson.CourseCode = String.Empty;
+                            lesson.Room = String.Empty;
+                            lesson.Teacher = String.Empty;
+                            break;
+                        case 3:
+                            lesson.Course = RemoveChars(info[1].InnerText, false);
+                            lesson.CourseCode = String.Empty;
+                            lesson.Room = RemoveChars(info[2].InnerText, true);
+                            lesson.Teacher = RemoveChars(info[0].InnerText, false);
+                            break;
+                        case 4:
+                            lesson.Course = RemoveChars(info[3].InnerText, false);
+                            lesson.CourseCode = RemoveChars(info[2].InnerText, false);
+                            lesson.Room = RemoveChars(info[1].InnerText, true);
+                            lesson.Teacher = RemoveChars(info[0].InnerText, false);
+                            break;
+                        case 5:
+                            lesson.Course = RemoveChars(info[4].InnerText, false);
+                            lesson.CourseCode = info[2].InnerText.Count(c => c == '.') >= 2 ? RemoveChars(info[3].InnerText, false) : RemoveChars(info[2].InnerText, false);
+                            lesson.Room = RemoveChars(info[1].InnerText, true);
+                            lesson.Teacher = RemoveChars(info[0].InnerText, false);
+                            break;
+                    }
+                }
+                if (scheduleType == "Teacher" || scheduleType == "t")
                 {
-                    lesson.Course = RemoveChars(info[0].InnerText, false);
-                    lesson.Class = String.Empty;
-                    lesson.Room = String.Empty;
-                } else if (info.Count == 5)
-                {
-                    lesson.Course = RemoveChars(info[0].InnerText, false);
-                    lesson.Class = info[2].InnerText.Contains(" ") ? RemoveChars(info[2].InnerText.Split(' ')[1], false) : RemoveChars(info[2].InnerText, false);
-                    lesson.Room = info[3].InnerText.Contains(" ") ? RemoveChars(info[3].InnerText.Split(' ')[0], true) : RemoveChars(info[3].InnerText, true);
-                } else if (info.Count == 6)
-                {
-                    lesson.Course = RemoveChars(info[0].InnerText, false);
-                    lesson.Class = info[1].InnerText.Contains(" ") ? RemoveChars(info[1].InnerText.Split(' ')[1], false) : RemoveChars(info[1].InnerText, false);
-                    lesson.Room = info[3].InnerText.Contains(" ") ? RemoveChars(info[3].InnerText.Split(' ')[0], true) : RemoveChars(info[3].InnerText, true);
-                } else if (info.Count > 6)
-                {
-                    lesson.Course = RemoveChars(info[0].InnerText, false);
-                    lesson.Class = info[2].InnerText.Contains(" ") ? RemoveChars(info[2].InnerText.Split(' ')[1], false) : RemoveChars(info[2].InnerText, false);
-                    lesson.Room = info[3].InnerText.Contains(" ") ? RemoveChars(info[3].InnerText.Split(' ')[0], true) : RemoveChars(info[3].InnerText, true);
+                    switch (info.Count)
+                    {
+                        case 1:
+                            lesson.Course = RemoveChars(info[0].InnerText, false);
+                            lesson.CourseCode = String.Empty;
+                            lesson.Room = String.Empty;
+                            lesson.Teacher = String.Empty;
+                            break;
+                        case 2:
+                            if (info[1].InnerText.Count(c => c == '.') >= 2)
+                            {
+                                lesson.Course = RemoveChars(info[0].InnerText, false);
+                                lesson.CourseCode = String.Empty;
+                                lesson.Class = String.Empty;
+                                lesson.Room = RemoveChars(info[1].InnerText, true);
+                            }
+                            else
+                            {
+                                lesson.Course = RemoveChars(info[0].InnerText, false);
+                                lesson.CourseCode = String.Empty;
+                                lesson.Class = RemoveChars(info[1].InnerText, false);
+                                lesson.Room = String.Empty;
+                            }
+                            break;
+                        case 3:
+                            lesson.Course = String.Empty;
+                            lesson.CourseCode = RemoveChars(info[0].InnerText, false);
+                            lesson.Class = RemoveChars(info[1].InnerText, false);
+                            lesson.Room = RemoveChars(info[2].InnerText, true);
+                            break;
+                    }
                 }
             }
 
