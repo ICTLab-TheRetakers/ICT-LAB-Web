@@ -29,7 +29,94 @@ export class RoomComponent implements OnInit {
         this.schedule = event;
     }
 
-    getLesson(day: string, hour: string): Lesson {
-        return this.schedule.days.filter(f => f.weekday == day)[0].lessons.filter(f => f.start_time == hour)[0];
+    getLesson(day: string, hour: string): string {
+        let lesson = this.schedule.days.filter(f => f.weekday == day)[0].lessons.filter(f => f.start_time == hour)[0];
+
+        return this.print(lesson);
+    }
+
+    print(lesson: Lesson): string {
+        let lessonString = '';
+
+        // If all are unavailable
+        if (lesson.course == null && lesson.teacher == null && lesson.room == null && lesson.course_code == null && lesson.class == null) {
+            lessonString = '';
+        }
+
+        // If all are available
+        if (lesson.course != null && lesson.teacher != null && lesson.room != null && lesson.course_code != null && lesson.class != null) {
+            lessonString = lesson.course_code + '<br />' + lesson.room + ' - ' + lesson.teacher;
+        }
+
+        // If only course is available
+        if (lesson.course != null && lesson.teacher == null && lesson.room == null && lesson.course_code == null && lesson.class == null) {
+            lessonString = lesson.course;
+        }
+
+        //// If teacher and course are available
+        //// If teacher and course code are available
+        //// If teacher, course and course code are available
+        //if (lesson.teacher != null && lesson.course_code == null && lesson.course != null && lesson.class == null && lesson.room == null) {
+        //    lessonString = lesson.course + '<br />' + lesson.teacher;
+        //} else if (lesson.teacher != null && lesson.course_code != null && lesson.course == null && lesson.class == null && lesson.room == null) {
+        //    lessonString = lesson.course_code + '<br />' + lesson.teacher;
+        //} else if (lesson.teacher != null && lesson.course_code != null && lesson.course != null && lesson.class == null && lesson.room == null) {
+        //    lessonString = lesson.course_code + '<br />' + lesson.teacher;
+        //}
+
+        //// If room and course are available
+        //// If room and course code are available
+        //// If room, course and course code are available
+        //if (this.schedule.schedule_type == 'Class' && lesson.teacher == null && lesson.course_code == null && lesson.course != null && lesson.class == null && lesson.room != null) {
+        //    lessonString = lesson.course + '<br />' + lesson.room;
+        //} else if (this.schedule.schedule_type == 'Class' && lesson.teacher == null && lesson.course_code != null && lesson.course == null && lesson.class == null && lesson.room != null) {
+        //    lessonString = lesson.course_code + '<br />' + lesson.room;
+        //} else if (this.schedule.schedule_type == 'Class' && lesson.teacher == null && lesson.course_code != null && lesson.course != null && lesson.class == null && lesson.room != null) {
+        //    lessonString = lesson.course_code + '<br />' + lesson.room;
+        //}
+
+        //// If class, teacher and course code are available
+        //// If class, teacher and course are available
+        //// If class, teacher, course and course code are available
+        //if (this.schedule.schedule_type == 'Room' && lesson.teacher != null && lesson.course_code != null && lesson.course == null && lesson.class != null && lesson.room == null) {
+        //    lessonString = lesson.course_code + '<br />' + lesson.class + ' - ' + lesson.teacher;
+        //} else if (this.schedule.schedule_type == 'Room' && lesson.teacher != null && lesson.course_code == null && lesson.course != null && lesson.class != null && lesson.room == null) {
+        //    lessonString = lesson.course + '<br />' + lesson.class + ' - ' + lesson.teacher;
+        //} else if (this.schedule.schedule_type == 'Room' && lesson.teacher != null && lesson.course_code != null && lesson.course != null && lesson.class != null && lesson.room == null) {
+        //    lessonString = lesson.course_code + '<br />' + lesson.class + ' - ' + lesson.teacher;
+        //}
+
+		// ------------------------------------------------------------------------------ //
+
+		// When schedule type is Room
+        // If class, teacher and course code are available
+        // If teacher and course code are available
+        if (this.schedule.schedule_type == 'Room' && lesson.teacher != null && lesson.course_code != null && lesson.course == null && lesson.class != null) {
+            lessonString = lesson.course_code + '<br />' + lesson.class + ' - ' + lesson.teacher;
+        } else if (this.schedule.schedule_type == 'Room' && lesson.teacher != null && lesson.course_code != null && lesson.course == null && lesson.class == null) {
+            lessonString = lesson.course + '<br />' + lesson.teacher;
+        }
+
+        // When schedule type is Class
+        // If room, teacher and course are available
+        // If room, teacher, course and course code are available
+        if (this.schedule.schedule_type == 'Class' && lesson.teacher != null && lesson.course_code == null && lesson.course != null && lesson.room != null) {
+            lessonString = lesson.course + '<br />' + lesson.room + ' - ' + lesson.teacher;
+        } else if (this.schedule.schedule_type == 'Class' && lesson.teacher != null && lesson.course_code != null && lesson.course != null && lesson.room == null) {
+            lessonString = lesson.course_code + '<br />' + lesson.teacher;
+        }
+
+        // When schedule type is Teacher
+        // If room and course are available
+        // If class and course are available
+        if (this.schedule.schedule_type == 'Teacher' && lesson.teacher == null && lesson.course_code == null && lesson.course != null && lesson.room != null) {
+            lessonString = lesson.course + '<br />' + lesson.room;
+        } else if (this.schedule.schedule_type == 'Teacher' && lesson.teacher != null && lesson.course_code == null && lesson.course != null && lesson.class != null) {
+            lessonString = lesson.course + '<br />' + lesson.class;
+        } else if (this.schedule.schedule_type == 'Teacher' && lesson.teacher != null && lesson.course_code != null && lesson.course == null && lesson.class != null && lesson.room != null) {
+            lessonString = lesson.course + '<br />' + lesson.room + '<br />' + lesson.class;
+        }
+
+        return lessonString;
     }
 }

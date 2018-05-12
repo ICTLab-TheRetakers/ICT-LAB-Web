@@ -151,6 +151,23 @@ namespace ICT_LAB_Web.Components.Helper
                         }
                     }
 
+                    // Set correct identifier based on schedule type
+                    switch (this.ScheduleType)
+                    {
+                        case "c":
+                            timeSchedule.ScheduleType = "Class";
+                            newLesson.Class = timeSchedule.Identifier;
+                            break;
+                        case "t":
+                            timeSchedule.ScheduleType = "Teacher";
+                            newLesson.Teacher = timeSchedule.Identifier;
+                            break;
+                        case "r":
+                            timeSchedule.ScheduleType = "Room";
+                            newLesson.Room = timeSchedule.Identifier;
+                            break;
+                    }
+
                     // Get lesson and info
                     var size = "1";
                     if (this.Department == "CMI" || this.Department == "AP") { size = "2"; }
@@ -165,23 +182,6 @@ namespace ICT_LAB_Web.Components.Helper
                         // Set correct lesson info based on scbedule type
                         newLesson = SetLessonInfo(lessonInfo, newLesson, timeSchedule.ScheduleType);
 
-                        // Set correct identifier based on schedule type
-                        switch (this.ScheduleType)
-                        {
-                            case "c":
-                                timeSchedule.ScheduleType = "Class";
-                                newLesson.Class = timeSchedule.Identifier;
-                                break;
-                            case "t":
-                                timeSchedule.ScheduleType = "Teacher";
-                                newLesson.Teacher = timeSchedule.Identifier;
-                                break;
-                            case "r":
-                                timeSchedule.ScheduleType = "Room";
-                                newLesson.Room = timeSchedule.Identifier;
-                                break;
-                        }
-
                         // Add lesson to current day
                         if (addMultiHourLesson == true && timeSchedule.Days.FirstOrDefault(q => q.Id == lesson).Lessons
                                 .FirstOrDefault(q => q.StartTime == currentHour) == null)
@@ -194,9 +194,8 @@ namespace ICT_LAB_Web.Components.Helper
                             // Continue to next day
                             continue;
 
-                        }
-                        else if (timeSchedule.Days.FirstOrDefault(q => q.Id == lesson).Lessons
-                              .FirstOrDefault(q => q.StartTime == currentHour) == null)
+                        } else if (timeSchedule.Days.FirstOrDefault(q => q.Id == lesson).Lessons
+                                .FirstOrDefault(q => q.StartTime == currentHour) == null)
                         {
                             timeSchedule.Days.FirstOrDefault(q => q.Id == lesson).Lessons.Add(newLesson);
                         }
@@ -252,8 +251,7 @@ namespace ICT_LAB_Web.Components.Helper
             {
                 lesson.Course = String.Empty;
                 lesson.CourseCode = String.Empty;
-            }
-            else
+            } else
             {
                 // Check for specific indications per schedule type
                 if (scheduleType == "Room" || scheduleType == "r")
@@ -327,8 +325,7 @@ namespace ICT_LAB_Web.Components.Helper
                                 lesson.CourseCode = String.Empty;
                                 lesson.Class = String.Empty;
                                 lesson.Room = RemoveChars(info[1].InnerText, true);
-                            }
-                            else
+                            } else
                             {
                                 lesson.Course = RemoveChars(info[0].InnerText, false);
                                 lesson.CourseCode = String.Empty;
@@ -354,8 +351,10 @@ namespace ICT_LAB_Web.Components.Helper
             Lesson lesson = new Lesson();
             lesson.StartTime = hour;
 
-            var lessonInfo = node.SelectSingleNode("table").ChildNodes.Descendants("font").ToList();
-            if (lessonInfo != null)
+            var size = "1";
+            if (this.Department == "CMI" || this.Department == "AP") { size = "2"; }
+            var lessonInfo = node.SelectSingleNode("table").ChildNodes.Descendants("font").Where(q => q.Attributes.Any(a => a.Name == "size"
+                                    && a.Value == size) && !q.InnerText.Contains(")") && !RemoveChars(q.InnerText, false).All(Char.IsDigit)).ToList(); if (lessonInfo != null)
             {
                 lesson = SetLessonInfo(lessonInfo, lesson, this.ScheduleType);
             }
