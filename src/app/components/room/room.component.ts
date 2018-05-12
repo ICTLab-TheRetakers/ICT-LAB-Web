@@ -33,13 +33,13 @@ export class RoomComponent implements OnInit {
 
     getScheduleChoice(event: any) {
         this.schedule = event;
-        setTimeout(() => {
-            this.initHelper();
-        }, 1500);
+        this.initHelper();
     }
 
     getLesson(day: string, hour: string): string {
         let lesson = this.schedule.days.filter(f => f.weekday == day)[0].lessons.filter(f => f.start_time == hour)[0];
+        setTimeout(() => {}, 1000);
+
         return this._scheduleHelper.print(lesson);
     }
 }
