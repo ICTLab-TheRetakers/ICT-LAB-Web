@@ -15,6 +15,8 @@ import { Observable } from 'rxjs/Observable';
 export class SelectRoomComponent implements OnInit {
     schedule: Schedule = null;
     department: string = null;
+    week: number = null;
+    quarter: number = null;
     type: string = null;
     index: number = null;
     options: string[] = null;
@@ -25,7 +27,15 @@ export class SelectRoomComponent implements OnInit {
 
     constructor(private _roomService: RoomService, private _reservationService: ReservationService) { }
 
-    ngOnInit() { }
+    ngOnInit() {
+        this.onlyAllowRooms.subscribe(
+            (response) => {
+                if (response == true) {
+                    this.type == 'r';
+                }
+            }
+        );
+    }
 
     setDepartment(event: any) {
         this.department = event.target.value;
@@ -37,21 +47,21 @@ export class SelectRoomComponent implements OnInit {
         this.type = event.target.value;
 
         if (this.type == "r") {
-            this._reservationService.getAllRooms(this.department, 4).subscribe(
+            this._reservationService.getAllRooms(this.department, this.quarter).subscribe(
                 (response) => this.options = response,
                 (error) => {
                     return Observable.throw(error)
                 }
             );
         } else if (this.type == "c") {
-            this._reservationService.getAllClasses(this.department, 4).subscribe(
+            this._reservationService.getAllClasses(this.department, this.quarter).subscribe(
                 (response) => this.options = response,
                 (error) => {
                     return Observable.throw(error)
                 }
             );
         } else {
-            this._reservationService.getAllTeachers(this.department, 4).subscribe(
+            this._reservationService.getAllTeachers(this.department, this.quarter).subscribe(
                 (response) => this.options = response,
                 (error) => {
                     return Observable.throw(error)
@@ -100,7 +110,7 @@ export class SelectRoomComponent implements OnInit {
                     break;
             }
 
-            this._reservationService.getLessonsByWeek(this.type, identifier, this.department, 4, 20).subscribe(
+            this._reservationService.getLessonsByWeek(this.type, identifier, this.department, this.quarter, this.week).subscribe(
                 (response) => {
                     this.schedule = response;
                     this.chosenObject.emit(this.schedule);
@@ -115,6 +125,8 @@ export class SelectRoomComponent implements OnInit {
     reset() {
         this.schedule = null;
         this.type = null;
+        this.week = null;
+        this.quarter = null;
         this.index = null;
         this.options = null;
     }
