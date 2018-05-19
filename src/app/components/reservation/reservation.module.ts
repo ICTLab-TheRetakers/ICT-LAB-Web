@@ -12,11 +12,14 @@ import { ReservationService } from '../../shared/services/reservation.service';
 import { CustomErrorHandler } from '../../shared/error-handler';
 import { AddReservationComponent } from './add/add-reservation.component';
 
+import { SelectRoomModule } from '../room/select-room/select-room.module';
+
 @NgModule({
     imports: [
         CommonModule,
         HttpClientModule,
         FormsModule,
+        SelectRoomModule,
         ToastyModule.forRoot(),
         ReservationRoutingModule
     ],

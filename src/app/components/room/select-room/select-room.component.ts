@@ -20,22 +20,15 @@ export class SelectRoomComponent implements OnInit {
     type: string = null;
     index: number = null;
     options: string[] = null;
+    hide: boolean = false;
 
     @Input() onlyAllowRooms = new EventEmitter<boolean>();
     @Input() getSchedule = new EventEmitter<boolean>();
     @Output() chosenObject = new EventEmitter<any>();
 
-    constructor(private _roomService: RoomService, private _reservationService: ReservationService) { }
+    constructor(private _roomService: RoomService, private _reservationService: ReservationService) {}
 
-    ngOnInit() {
-        this.onlyAllowRooms.subscribe(
-            (response) => {
-                if (response == true) {
-                    this.type == 'r';
-                }
-            }
-        );
-    }
+    ngOnInit() {}
 
     setDepartment(event: any) {
         this.department = event.target.value;
@@ -45,7 +38,9 @@ export class SelectRoomComponent implements OnInit {
     setType(event: any) {
         this.options = [];
         this.type = event.target.value;
+    }
 
+    getOptions() {
         if (this.type == "r") {
             this._reservationService.getAllRooms(this.department, this.quarter).subscribe(
                 (response) => this.options = response,
