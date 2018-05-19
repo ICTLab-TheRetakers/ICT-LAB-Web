@@ -67,7 +67,7 @@ export class AddReservationComponent implements OnInit {
         let start = moment(this.start_date + ' ' + this.start_time);
         let end = moment(this.end_date + ' ' + this.end_time);
 
-        this.reservation.start_time = start;
-        this.reservation.end_time = end;
+        this.reservation.start_time = start.toDate();
+        this.reservation.end_time = end.toDate();
     }
 }
