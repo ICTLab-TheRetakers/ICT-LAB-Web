@@ -42,4 +42,10 @@ export class RoomComponent implements OnInit {
 
         return this._scheduleHelper.print(lesson);
     }
+
+    resetSchedule(event: any) {
+        if (event == true) {
+            this.schedule = null;
+        }
+    }
 }

@@ -301,7 +301,7 @@ namespace ICT_LAB_Web.Components.Helper
                             break;
                         case 5:
                             lesson.Course = RemoveChars(info[4].InnerText, false);
-                            lesson.CourseCode = info[2].InnerText.Count(c => c == '.') >= 2 ? RemoveChars(info[3].InnerText, false) : RemoveChars(info[2].InnerText, false);
+                            lesson.CourseCode = info[2].InnerText.Count(c => c == '.') >= 1 ? RemoveChars(info[3].InnerText, false) : RemoveChars(info[2].InnerText, false);
                             lesson.Room = info[1].InnerText.Contains(",") ? RemoveChars(info[1].InnerText.Split(',')[0], true) : RemoveChars(info[1].InnerText, true);
                             lesson.Teacher = RemoveChars(info[0].InnerText, false);
                             break;

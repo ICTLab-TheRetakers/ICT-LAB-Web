@@ -27,20 +27,25 @@ export class SelectRoomComponent implements OnInit {
     @Input() onlyAllowRooms: boolean;
     @Input() getSchedule: boolean;
     @Output() chosenObject = new EventEmitter<any>();
+    @Output() resetSchedule = new EventEmitter<boolean>();
 
-    constructor(private _roomService: RoomService, private _reservationService: ReservationService) {}
+    constructor(private _roomService: RoomService, private _reservationService: ReservationService) { }
 
     ngOnInit() {
+        this.setRoomType();
+        this.setCurrentWeekAndQuarter();
+    }
+
+    setRoomType() {
         if (this.onlyAllowRooms == true) {
             this.type = 'r';
             this.hide = true;
         }
-
-        this.setCurrentWeekAndQuarter();
     }
 
     setCurrentWeekAndQuarter() {
         let today = new Date();
+        let dayOfWeek = moment(today).day();
         let quarter = moment(today).quarter();
 
         switch (quarter) {
@@ -59,52 +64,31 @@ export class SelectRoomComponent implements OnInit {
         }
 
         this.week = moment(today).week();
+        if (dayOfWeek == 0 || dayOfWeek == 6) {
+            this.week = this.week + 1;
+        }
     }
 
     setDepartment(event: any) {
         this.department = event.target.value;
         this.reset();
 
-        if (this.hide == true) {
-            this.getOptions();
-        }
+        this.getOptions();
     }
 
     setType(event: any) {
         this.options = [];
         this.type = event.target.value;
-    }
 
-    getOptions() {
-        if (this.week != null && this.quarter != null) {
-            if (this.type == "r") {
-                this._reservationService.getAllRooms(this.department, this.quarter).subscribe(
-                    (response) => this.options = response,
-                    (error) => {
-                        return Observable.throw(error)
-                    }
-                );
-            } else if (this.type == "c") {
-                this._reservationService.getAllClasses(this.department, this.quarter).subscribe(
-                    (response) => this.options = response,
-                    (error) => {
-                        return Observable.throw(error)
-                    }
-                );
-            } else if (this.type == "t") {
-                this._reservationService.getAllTeachers(this.department, this.quarter).subscribe(
-                    (response) => this.options = response,
-                    (error) => {
-                        return Observable.throw(error)
-                    }
-                );
-            }
-        }
+        this.getOptions();
     }
 
     selectOption(event: any, getSchedule: boolean) {
         let identifier = '';
-        this.index = event.target.value;
+
+        if (this.index == null) {
+            this.index = event.target.value;
+        }
 
         // Perform reset
         this.schedule = null;
@@ -162,5 +146,72 @@ export class SelectRoomComponent implements OnInit {
         if (this.hide == false) {
             this.type = null;
         }
+    }
+
+    getOptions() {
+        if (this.week != null && this.quarter != null && this.department != null && this.type != null) {
+            if (this.type == "r") {
+                this._reservationService.getAllRooms(this.department, this.quarter).subscribe(
+                    (response) => this.options = response,
+                    (error) => {
+                        return Observable.throw(error)
+                    }
+                );
+            } else if (this.type == "c") {
+                this._reservationService.getAllClasses(this.department, this.quarter).subscribe(
+                    (response) => this.options = response,
+                    (error) => {
+                        return Observable.throw(error)
+                    }
+                );
+            } else if (this.type == "t") {
+                this._reservationService.getAllTeachers(this.department, this.quarter).subscribe(
+                    (response) => this.options = response,
+                    (error) => {
+                        return Observable.throw(error)
+                    }
+                );
+            }
+        }
+    }
+
+    previousWeek() {
+        this.week = this.week - 1;
+
+        // Save variables
+        let index = this.index;
+        let dept = this.department;
+        let type = this.type;
+
+        this.reset();
+
+        // Set variables back
+        this.index = index;
+        this.department = dept;
+        this.type = type;
+
+        this.selectOption(null, true);
+        this.getOptions();
+        this.resetSchedule.emit(true);
+    }
+
+    nextWeek() {
+        this.week = this.week + 1;
+
+        // Save variables
+        let index = this.index;
+        let dept = this.department;
+        let type = this.type;
+
+        this.reset();
+
+        // Set variables back
+        this.index = index;
+        this.department = dept;
+        this.type = type;
+
+        this.selectOption(null, true);
+        this.getOptions();
+        this.resetSchedule.emit(true);
     }
 }
