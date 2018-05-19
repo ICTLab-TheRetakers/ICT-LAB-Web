@@ -1,5 +1,9 @@
 <div class="ReservationsContent">
     <h2>Your reservations</h2>
+
+    <a [routerLink]="['add']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+       class="btn btn-primary">Add</a>
+
     <table>
         <tr class="TableHeader">
             <th><p>Timeslot</p></th>
