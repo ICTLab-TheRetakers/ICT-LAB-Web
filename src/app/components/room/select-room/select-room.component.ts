@@ -7,6 +7,8 @@ import Schedule from '../../../shared/models/schedule/schedule.model';
 import { ReservationService } from '../../../shared/services/reservation.service';
 import { Observable } from 'rxjs/Observable';
 
+import * as moment from 'moment';
+
 @Component({
     selector: 'app-select-room',
     templateUrl: './select-room.component.html',
@@ -22,17 +24,50 @@ export class SelectRoomComponent implements OnInit {
     options: string[] = null;
     hide: boolean = false;
 
-    @Input() onlyAllowRooms = new EventEmitter<boolean>();
-    @Input() getSchedule = new EventEmitter<boolean>();
+    @Input() onlyAllowRooms: boolean;
+    @Input() getSchedule: boolean;
     @Output() chosenObject = new EventEmitter<any>();
 
     constructor(private _roomService: RoomService, private _reservationService: ReservationService) {}
 
-    ngOnInit() {}
+    ngOnInit() {
+        if (this.onlyAllowRooms == true) {
+            this.type = 'r';
+            this.hide = true;
+        }
+
+        this.setCurrentWeekAndQuarter();
+    }
+
+    setCurrentWeekAndQuarter() {
+        let today = new Date();
+        let quarter = moment(today).quarter();
+
+        switch (quarter) {
+            case 1:
+                this.quarter = 3;
+                break;
+            case 2:
+                this.quarter = 4;
+                break;
+            case 3:
+                this.quarter = 1;
+                break;
+            case 4:
+                this.quarter = 2;
+                break;
+        }
+
+        this.week = moment(today).week();
+    }
 
     setDepartment(event: any) {
         this.department = event.target.value;
         this.reset();
+
+        if (this.hide == true) {
+            this.getOptions();
+        }
     }
 
     setType(event: any) {
@@ -41,27 +76,29 @@ export class SelectRoomComponent implements OnInit {
     }
 
     getOptions() {
-        if (this.type == "r") {
-            this._reservationService.getAllRooms(this.department, this.quarter).subscribe(
-                (response) => this.options = response,
-                (error) => {
-                    return Observable.throw(error)
-                }
-            );
-        } else if (this.type == "c") {
-            this._reservationService.getAllClasses(this.department, this.quarter).subscribe(
-                (response) => this.options = response,
-                (error) => {
-                    return Observable.throw(error)
-                }
-            );
-        } else {
-            this._reservationService.getAllTeachers(this.department, this.quarter).subscribe(
-                (response) => this.options = response,
-                (error) => {
-                    return Observable.throw(error)
-                }
-            );
+        if (this.week != null && this.quarter != null) {
+            if (this.type == "r") {
+                this._reservationService.getAllRooms(this.department, this.quarter).subscribe(
+                    (response) => this.options = response,
+                    (error) => {
+                        return Observable.throw(error)
+                    }
+                );
+            } else if (this.type == "c") {
+                this._reservationService.getAllClasses(this.department, this.quarter).subscribe(
+                    (response) => this.options = response,
+                    (error) => {
+                        return Observable.throw(error)
+                    }
+                );
+            } else if (this.type == "t") {
+                this._reservationService.getAllTeachers(this.department, this.quarter).subscribe(
+                    (response) => this.options = response,
+                    (error) => {
+                        return Observable.throw(error)
+                    }
+                );
+            }
         }
     }
 
@@ -119,10 +156,11 @@ export class SelectRoomComponent implements OnInit {
 
     reset() {
         this.schedule = null;
-        this.type = null;
-        this.week = null;
-        this.quarter = null;
         this.index = null;
         this.options = null;
+
+        if (this.hide == false) {
+            this.type = null;
+        }
     }
 }

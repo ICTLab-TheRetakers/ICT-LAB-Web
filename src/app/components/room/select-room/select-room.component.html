@@ -2,11 +2,11 @@
 	<div class="col-sm-12 col-md-12">
 
 		<!-- If all options can be selected-->
-		<ng-container *ngIf="onlyAllowRooms === false">
+		<ng-container *ngIf="!hide">
 			<div class="form-row">
 				<div class="col-sm-12 col-md-3">
-					<select id="dept" class="custom-select" (change)="setDepartment($event)" [(ngModel)]="department">
-						<option class="list-group-item" value="null">Department..</option>
+					<select class="custom-select" (change)="setDepartment($event)" [(ngModel)]="department">
+						<option class="list-group-item" value="null">Department</option>
 						<option class="list-group-item" value="CMI">CMI</option>
 						<option class="list-group-item" value="COM">COM</option>
 						<option class="list-group-item" value="AP">IGO/AES</option>
@@ -18,7 +18,7 @@
 					</select>
 				</div>
 				<div class="col-sm-12 col-md-3">
-					<select id="type" class="custom-select" (change)="setType($event)" [(ngModel)]="type">
+					<select class="custom-select" (change)="setType($event)" [(ngModel)]="type">
 						<option class="list-group-item" value="null">Schedule for..</option>
 						<option class="list-group-item" value="c">Class</option>
 						<option class="list-group-item" value="r">Room</option>
@@ -26,14 +26,14 @@
 					</select>
 				</div>
 				<div class="col-sm-12 col-md-1">
-					<input id="week" type="number" class="form-control" [(ngModel)]="week" placeholder="Wk." />
+					<input type="number" class="form-control" [(ngModel)]="week" min="1" placeholder="Wk." (change)="getOptions()" />
 				</div>
 				<div class="col-sm-12 col-md-1">
-					<input id="quarter" type="number" class="form-control" [(ngModel)]="quarter" placeholder="Qt." (change)="getOptions()" />
+					<input type="number" class="form-control" [(ngModel)]="quarter" min="0" max="4" placeholder="Qt." (change)="getOptions()" />
 				</div>
 				<div class="col-sm-12 col-md-4">
-					<select id="opt" class="custom-select" (change)="selectOption($event, getSchedule)" [(ngModel)]="index">
-						<option class="list-group-item" value="null">Class/Room/Teacher</option>
+					<select class="custom-select" (change)="selectOption($event, getSchedule)" [(ngModel)]="index">
+						<option class="list-group-item" value="null"></option>
 						<option class="list-group-item" *ngFor="let option of options;let i = index" [value]="i + 1">{{ option }}</option>
 					</select>
 				</div>
@@ -41,31 +41,23 @@
 		</ng-container>
 
 		<!-- If only rooms can be selected-->
-		<ng-container *ngIf="onlyAllowRooms === true">
+		<ng-container *ngIf="hide">
 			<div class="form-row">
 				<div class="col-sm-12 col-md-5">
-					<label for="dept">Department</label>
-					<select id="dept" class="custom-select" (change)="setDepartment($event)" [(ngModel)]="department">
-						<option class="list-group-item" value="null"></option>
-						<option class="list-group-item" value="CMI">CMI</option>
-						<option class="list-group-item" value="COM">COM</option>
-						<option class="list-group-item" value="AP">IGO/AES</option>
-						<option class="list-group-item" value="IBK">IBK</option>
-						<option class="list-group-item" value="IFM">IFM</option>
-						<option class="list-group-item" value="ISO">ISO</option>
-						<option class="list-group-item" value="IVG">IVG</option>
-						<option class="list-group-item" value="IVL">IVL</option>
-					</select>
-				</div>
-				<div class="col-sm-12 col-md-1">
-					<input id="week" type="number" class="form-control" [(ngModel)]="week" placeholder="Wk." />
-				</div>
-				<div class="col-sm-12 col-md-1">
-					<input id="quarter" type="number" class="form-control" [(ngModel)]="quarter" placeholder="Qt." (change)="getOptions()" />
+                    <select class="custom-select" (change)="setDepartment($event)" [(ngModel)]="department">
+                        <option class="list-group-item" value="null">Department</option>
+                        <option class="list-group-item" value="CMI">CMI</option>
+                        <option class="list-group-item" value="COM">COM</option>
+                        <option class="list-group-item" value="AP">IGO/AES</option>
+                        <option class="list-group-item" value="IBK">IBK</option>
+                        <option class="list-group-item" value="IFM">IFM</option>
+                        <option class="list-group-item" value="ISO">ISO</option>
+                        <option class="list-group-item" value="IVG">IVG</option>
+                        <option class="list-group-item" value="IVL">IVL</option>
+                    </select>
 				</div>
 				<div class="col-sm-12 col-md-5">
-					<label for="opt">Option</label>
-					<select id="opt" class="custom-select" (change)="selectOption($event, getSchedule)" [(ngModel)]="index">
+					<select class="custom-select" (change)="selectOption($event, getSchedule)" [(ngModel)]="index">
 						<option class="list-group-item" value="null"></option>
 						<option class="list-group-item" *ngFor="let option of options;let i = index" [value]="i + 1">{{ option }}</option>
 					</select>
