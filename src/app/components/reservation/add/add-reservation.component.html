@@ -1,0 +1,33 @@
+<div class="col-sm-12 col-md-10 offset-md-1  mx-auto text-center">
+    <div class="form-horizontal">
+
+        <div class="form-row">
+            <div class="col-sm-12 col-md-12">
+                <app-select-room [onlyAllowRooms]="true" [getSchedule]="false" (chosenObject)="getRoomChoice($event)"></app-select-room>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="col-sm-12 col-md-6">
+                <label for="ssn">Start</label>
+                <input type="datetime" class="form-control" id="start" [(ngModel)]="reservation.start_time">
+            </div>
+            <div class="col-sm-12 col-md-6">
+                <label for="email">End</label>
+                <input type="datetime" class="form-control" id="end" [(ngModel)]="reservation.end_time">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="col-sm-12 col-md-6">
+                <label for="ssn">Start</label>
+                <input type="datetime" class="form-control" id="start" [(ngModel)]="reservation.start_time">
+            </div>
+            <div class="col-sm-12 col-md-6">
+                <label for="email">End</label>
+                <input type="datetime" class="form-control" id="end" [(ngModel)]="reservation.end_time">
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -10,6 +10,7 @@ import { ReservationRoutingModule } from './reservation.routing';
 import { ReservationComponent } from './reservation.component';
 import { ReservationService } from '../../shared/services/reservation.service';
 import { CustomErrorHandler } from '../../shared/error-handler';
+import { AddComponent } from './add/add.component';
 
 @NgModule({
     imports: [
@@ -19,7 +20,7 @@ import { CustomErrorHandler } from '../../shared/error-handler';
         ToastyModule.forRoot(),
         ReservationRoutingModule
     ],
-    declarations: [ReservationComponent],
+    declarations: [ReservationComponent, AddComponent],
     providers: [
         ReservationService,
         { provide: LocationStrategy, useClass: PathLocationStrategy },

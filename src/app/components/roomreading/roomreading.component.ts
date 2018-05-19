@@ -41,7 +41,7 @@ export class RoomReadingComponent implements OnInit {
         };
     }
 
-    ngOnInit() {}
+    ngOnInit() { }
 
     getLatestReadings() {
         this._readingService.getByRoomLimit(this.selectedRoom.room_code, this.limit).subscribe(
