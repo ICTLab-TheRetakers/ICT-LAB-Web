@@ -61,8 +61,7 @@ namespace ICT_LAB_Web.Controllers
             }
 
             //Convert to view model
-            var result = data.Select(x => new ReservationViewModel
-            {
+            var result = data.Select(x => new ReservationViewModel {
                 UserId = x.UserId,
                 RoomCode = x.RoomCode,
                 StartTime = x.StartTime,
@@ -262,8 +261,7 @@ namespace ICT_LAB_Web.Controllers
             }
 
             //Convert to view model
-            var result = data.Select(x => new ReservationViewModel
-            {
+            var result = data.Select(x => new ReservationViewModel {
                 UserId = x.UserId,
                 RoomCode = x.RoomCode,
                 StartTime = x.StartTime,
@@ -288,25 +286,12 @@ namespace ICT_LAB_Web.Controllers
                 return StatusCode(400, "Invalid parameter(s).");
             }
 
-            Reservation reservation = new Reservation
-            {
+            Reservation reservation = new Reservation {
                 RoomCode = model.RoomCode,
                 UserId = model.UserId,
                 StartTime = model.StartTime,
                 EndTime = model.EndTime
             };
-
-            List<Participant> participants = new List<Participant>();
-            foreach (var participant in model.Participants)
-            {
-                var newParticipant = new Participant
-                {
-                    RoomCode = model.RoomCode,
-                    StartTime = model.StartTime,
-                    UserId = participant.UserId
-                };
-                participants.Add(newParticipant);
-            }
 
             //Insert reservation
             var result = await _reservationRepository.Add(reservation);
@@ -315,33 +300,11 @@ namespace ICT_LAB_Web.Controllers
                 return StatusCode(500, "A problem occured while saving the record. Please try again!");
             }
 
-            //Insert participant(s)
-            var returnedParticipants = new List<Participant>();
-            foreach (var p in participants)
-            {
-                var participantResult = await _participantRepository.Add(p);
-                if (participantResult != null)
-                {
-                    returnedParticipants.Add(p);
-                }
-            }
-            if (returnedParticipants.Count != participants.Count)
-            {
-                return StatusCode(500, "A problem occured while saving the participants. Please try again!");
-            }
-
-            return Ok(new ReservationViewModel
-            {
+            return Ok(new ReservationViewModel {
                 UserId = result.UserId,
                 StartTime = result.StartTime,
                 EndTime = result.EndTime,
-                RoomCode = result.RoomCode,
-                Participants = returnedParticipants.Select(x => new ParticipantViewModel
-                {
-                    UserId = x.UserId,
-                    RoomCode = x.RoomCode,
-                    StartTime = x.StartTime
-                }).ToList()
+                RoomCode = result.RoomCode
             });
         }
 
@@ -360,33 +323,12 @@ namespace ICT_LAB_Web.Controllers
                 return StatusCode(400, "Invalid parameter(s).");
             }
 
-            Reservation reservation = new Reservation
-            {
+            Reservation reservation = new Reservation {
                 RoomCode = model.RoomCode,
                 UserId = model.UserId,
                 StartTime = model.StartTime,
                 EndTime = model.EndTime
             };
-
-            //Get possible new participants
-            List<Participant> participants = new List<Participant>();
-            foreach (var participant in model.Participants)
-            {
-                var newParticipant = new Participant
-                {
-                    RoomCode = model.RoomCode,
-                    StartTime = model.StartTime,
-                    UserId = participant.UserId
-                };
-                participants.Add(newParticipant);
-            }
-
-            //Get current participants
-            var currentParticipants = await _participantRepository.GetByRoom(model.RoomCode, model.StartTime);
-
-            //Get difference betweens current and possibly new participants
-            var newParticipants = participants.Except(currentParticipants).ToList();
-            newParticipants.RemoveAll(a => currentParticipants.Contains(a));
 
             //Update reservation
             var result = await _reservationRepository.Update(reservation);
@@ -395,33 +337,11 @@ namespace ICT_LAB_Web.Controllers
                 return StatusCode(500, "A problem occured while updating the record. Please try again!");
             }
 
-            //Insert participant(s)
-            var returnedParticipants = new List<Participant>();
-            foreach (var p in newParticipants)
-            {
-                var participantResult = await _participantRepository.Add(p);
-                if (participantResult != null)
-                {
-                    returnedParticipants.Add(p);
-                }
-            }
-            if (returnedParticipants.Count != newParticipants.Count)
-            {
-                return StatusCode(500, "A problem occured while saving the participants. Please try again!");
-            }
-
-            return Ok(new ReservationViewModel
-            {
+            return Ok(new ReservationViewModel {
                 UserId = result.UserId,
                 StartTime = result.StartTime,
                 EndTime = result.EndTime,
-                RoomCode = result.RoomCode,
-                Participants = returnedParticipants.Select(x => new ParticipantViewModel
-                {
-                    UserId = x.UserId,
-                    RoomCode = x.RoomCode,
-                    StartTime = x.StartTime
-                }).ToList()
+                RoomCode = result.RoomCode
             });
         }
 
@@ -454,15 +374,8 @@ namespace ICT_LAB_Web.Controllers
                 return StatusCode(500, "A problem occured while removing the record. Please try again!");
             }
 
-            //Remove all participants
-            var participants = await _participantRepository.GetByRoom(room, startDate.Value);
-            foreach (var participant in participants)
-            {
-                await _participantRepository.Delete(participant.UserId);
-            }
-
             return Ok();
+            }
         }
     }
-}
 
