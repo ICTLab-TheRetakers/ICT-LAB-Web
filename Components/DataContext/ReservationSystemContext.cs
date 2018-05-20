@@ -121,6 +121,8 @@ namespace ICT_LAB_Web.Components.DataContext
                 entity.Property(e => e.RoomCode).HasColumnName("room_code");
 
                 entity.Property(e => e.UserId).HasColumnName("user_id");
+
+                entity.Property(e => e.Description).HasColumnName("description");
             });
 
 
