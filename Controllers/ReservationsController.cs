@@ -65,7 +65,8 @@ namespace ICT_LAB_Web.Controllers
                 UserId = x.UserId,
                 RoomCode = x.RoomCode,
                 StartTime = x.StartTime,
-                EndTime = x.EndTime
+                EndTime = x.EndTime,
+                Description = x.Description
             });
 
             return Ok(result);
@@ -265,7 +266,8 @@ namespace ICT_LAB_Web.Controllers
                 UserId = x.UserId,
                 RoomCode = x.RoomCode,
                 StartTime = x.StartTime,
-                EndTime = x.EndTime
+                EndTime = x.EndTime,
+                Description = x.Description
             });
 
             return Ok(result);
@@ -290,7 +292,8 @@ namespace ICT_LAB_Web.Controllers
                 RoomCode = model.RoomCode,
                 UserId = model.UserId,
                 StartTime = model.StartTime,
-                EndTime = model.EndTime
+                EndTime = model.EndTime,
+                Description = model.Description
             };
 
             //Insert reservation
@@ -304,7 +307,8 @@ namespace ICT_LAB_Web.Controllers
                 UserId = result.UserId,
                 StartTime = result.StartTime,
                 EndTime = result.EndTime,
-                RoomCode = result.RoomCode
+                RoomCode = result.RoomCode,
+                Description = result.Description
             });
         }
 
@@ -327,7 +331,8 @@ namespace ICT_LAB_Web.Controllers
                 RoomCode = model.RoomCode,
                 UserId = model.UserId,
                 StartTime = model.StartTime,
-                EndTime = model.EndTime
+                EndTime = model.EndTime,
+                Description = model.Description
             };
 
             //Update reservation
@@ -341,7 +346,8 @@ namespace ICT_LAB_Web.Controllers
                 UserId = result.UserId,
                 StartTime = result.StartTime,
                 EndTime = result.EndTime,
-                RoomCode = result.RoomCode
+                RoomCode = result.RoomCode,
+                Description = result.Description
             });
         }
 

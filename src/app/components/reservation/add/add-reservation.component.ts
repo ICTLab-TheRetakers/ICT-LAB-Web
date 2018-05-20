@@ -27,7 +27,6 @@ export class AddReservationComponent implements OnInit {
     end_date: string;
     end_time: string = '8:30-9:20';
 
-
     constructor(private _reservationService: ReservationService, private router: Router) { }
 
     ngOnInit() { }
