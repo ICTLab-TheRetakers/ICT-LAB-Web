@@ -8,6 +8,8 @@ import Reservation from '../../../shared/models/reservation.model';
 import User from '../../../shared/models/user.model';
 
 import * as moment from 'moment';
+import { ReservationService } from '../../../shared/services/reservation.service';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-add-reservation',
@@ -26,12 +28,18 @@ export class AddReservationComponent implements OnInit {
     end_time: string = '8:30-9:20';
 
 
-    constructor() { }
+    constructor(private _reservationService: ReservationService, private router: Router) { }
 
     ngOnInit() { }
 
     submitForm() {
         this.convertDatetime();
+        this.setReservationInfo();
+
+        this._reservationService.create(this.reservation).subscribe(
+            (response) => this.router.navigate(['/reservations']),
+            (err) => console.log(err)
+        );;
     }
 
     getRoomChoice(event: any) {
@@ -44,7 +52,6 @@ export class AddReservationComponent implements OnInit {
 
     getCurrentUser() {
         this.currentUser = JSON.parse(localStorage.getItem('loggedInUser'));
-        this.setReservationInfo();
     }
 
     setReservationInfo() {

@@ -14,7 +14,5 @@ namespace ICT_LAB_Web.Controllers.ViewModels
         public DateTime EndTime { get; set; }
         [JsonProperty("room_code")]
         public string RoomCode { get; set; }
-        [JsonProperty("participants")]
-        public List<ParticipantViewModel> Participants { get; set; }
     }
 }
