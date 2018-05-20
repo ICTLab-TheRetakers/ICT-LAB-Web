@@ -36,6 +36,9 @@ export class AddReservationComponent implements OnInit {
         this.convertDatetime();
         this.setReservationInfo();
 
+        console.log('Start = ' + this.reservation.start_time);
+        console.log('End = ' + this.reservation.end_time);
+
         this._reservationService.create(this.reservation).subscribe(
             (response) => this.router.navigate(['/reservations']),
             (err) => console.log(err)
@@ -71,8 +74,8 @@ export class AddReservationComponent implements OnInit {
             this.end_time = '0' + this.end_time;
         }
 
-        let start = moment(this.start_date + ' ' + this.start_time);
-        let end = moment(this.end_date + ' ' + this.end_time);
+        let start = moment.utc(this.start_date + ' ' + this.start_time);
+        let end = moment.utc(this.end_date + ' ' + this.end_time);
 
         this.reservation.start_time = start.toDate();
         this.reservation.end_time = end.toDate();
