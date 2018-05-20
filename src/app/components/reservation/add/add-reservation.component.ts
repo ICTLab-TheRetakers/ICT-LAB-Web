@@ -36,9 +36,6 @@ export class AddReservationComponent implements OnInit {
         this.convertDatetime();
         this.setReservationInfo();
 
-        console.log('Start = ' + this.reservation.start_time);
-        console.log('End = ' + this.reservation.end_time);
-
         this._reservationService.create(this.reservation).subscribe(
             (response) => this.router.navigate(['/reservations']),
             (err) => console.log(err)
