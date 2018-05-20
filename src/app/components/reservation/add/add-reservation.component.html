@@ -29,11 +29,11 @@
         </div>
 
         <div class="form-row">
-            <div class="col-sm-6 col-md-6">
+            <div class="col-sm-6 col-md-5">
                 <label for="desc">Description</label>
-                <textarea id="desc" class="form-control" [(ngModel)]="reservation.description"></textarea>
+                <textarea id="desc" class="form-control" [(ngModel)]="reservation.description" rows="3"></textarea>
             </div>
-            <div class="col-sm-6 col-md-6"></div>
+            <div class="col-sm-6 col-md-7"></div>
         </div>
 
         <button type="button" class="btn btn-primary float-right my-4" (click)="submitForm()">Add Reservation</button>
