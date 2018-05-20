@@ -16,7 +16,7 @@ export class ReservationService {
 
     constructor(private http: HttpClient) { }
 
-    get(user: string): Observable<Reservation> {
+    get(user: string): Observable<Reservation[]> {
         return this.http.get(this.baseUrl + 'get?user=' + user)
             .catch(this.handleError);
     }

@@ -10,6 +10,7 @@ import User from '../../../shared/models/user.model';
 import * as moment from 'moment';
 import { ReservationService } from '../../../shared/services/reservation.service';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
     selector: 'app-add-reservation',
@@ -37,7 +38,7 @@ export class AddReservationComponent implements OnInit {
 
         this._reservationService.create(this.reservation).subscribe(
             (response) => this.router.navigate(['/reservations']),
-            (err) => console.log(err)
+            (err) => { return Observable.throw(err); }
         );;
     }
 
