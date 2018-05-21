@@ -64,6 +64,22 @@ namespace ICT_LAB_Web.Components.Services
             return response;
         }
 
+        public async Task<Reservation> GetByStart(string user, DateTime? start)
+        {
+            Reservation response;
+            if (!start.HasValue)
+            {
+                response = await _dbContext.Reservations.FirstOrDefaultAsync(q => q.UserId == user);
+            }
+            else
+            {
+                response = await _dbContext.Reservations.FirstOrDefaultAsync(q => q.UserId == user
+                        && q.StartTime >= start.Value);
+            }
+
+            return response;
+        }
+
         public async Task<List<Reservation>> GetByRoom(string room, DateTime? from, DateTime? till)
         {
             List<Reservation> response;

@@ -230,6 +230,48 @@ namespace ICT_LAB_Web.Controllers
         }
 
         /// <summary>
+        /// Gets a reservation based on user and begin datetime
+        /// </summary>
+        /// <param name="user">Id of user</param>
+        /// <param name="start">Beginning of datetime reservations</param>
+        [HttpGet("getByStart")]
+        [ProducesResponseType(typeof(ReservationViewModel), 200)]
+        [ProducesResponseType(typeof(void), 400)]
+        [ProducesResponseType(typeof(void), 500)]
+        public async Task<IActionResult> GetByStart(string user, string start)
+        {
+            if (String.IsNullOrEmpty(user))
+            {
+                return StatusCode(400, "Invalid parameter(s).");
+            }
+
+            DateTime? startDate = null;
+            if (!String.IsNullOrEmpty(start))
+            {
+                startDate = DateTime.ParseExact(start, "yyyy-MM-ddTHH:mm:ss", null);
+            }
+
+            //Get reservations
+            var data = await _reservationRepository.GetByStart(user, startDate);
+            if (data == null)
+            {
+                return StatusCode(500, "Reservations could not be found.");
+            }
+
+            //Convert to view model
+            var result = new ReservationViewModel
+            {
+                UserId = data.UserId,
+                RoomCode = data.RoomCode,
+                StartTime = data.StartTime,
+                EndTime = data.EndTime,
+                Description = data.Description
+            };
+
+            return Ok(result);
+        }
+
+        /// <summary>
         /// Gets a list with all reservations based on user and between a certain datetime.
         /// </summary>
         /// <param name="user">Id of user</param>
@@ -250,14 +292,8 @@ namespace ICT_LAB_Web.Controllers
             DateTime? tillDate = null;
             if (!String.IsNullOrEmpty(from) || !String.IsNullOrEmpty(till))
             {
-                if (!String.IsNullOrEmpty(from))
-                {
-                    fromDate = DateTime.ParseExact(from, "yyyy-MM-ddTHH:mm:ss", null);
-                }
-                if (!String.IsNullOrEmpty(till))
-                {
-                    tillDate = DateTime.ParseExact(till, "yyyy-MM-ddTHH:mm:ss", null);
-                }
+                fromDate = DateTime.ParseExact(from, "yyyy-MM-ddTHH:mm:ss", null);
+                tillDate = DateTime.ParseExact(till, "yyyy-MM-ddTHH:mm:ss", null);
             }
 
             //Get reservations
