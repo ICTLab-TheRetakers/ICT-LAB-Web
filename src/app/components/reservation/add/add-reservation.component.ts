@@ -23,7 +23,7 @@ export class AddReservationComponent implements OnInit {
     selectedRoom: Room = null;
     currentUser: User = null;
 
-    date: string;
+    date: Date;
     start_time: string = '8:30-9:20';
     end_time: string = '8:30-9:20';
 
@@ -60,6 +60,7 @@ export class AddReservationComponent implements OnInit {
 
     convertDatetime() {
         this.start_time = this.start_time.split('-')[0];
+        this.end_time = this.end_time.split('-')[1];
 
         // Add leading zero to time
         if (this.start_time.substr(0, 1) != '1' || this.start_time.substr(0, 1) != '2') {
@@ -69,10 +70,10 @@ export class AddReservationComponent implements OnInit {
             this.end_time = '0' + this.end_time;
         }
 
-        let start = moment.utc(this.date + ' ' + this.start_time);
-        let end = moment.utc(this.date + ' ' + this.end_time);
+        let start = moment(this.date).format('YYYY-MM-DD') + ' ' + this.start_time;
+        let end = moment(this.date).format('YYYY-MM-DD') + ' ' + this.end_time;
 
-        this.reservation.start_time = start.toDate();
-        this.reservation.end_time = end.toDate();
+        this.reservation.start_time = moment.utc(start).toDate();
+        this.reservation.end_time = moment.utc(end).toDate();
     }
 }
