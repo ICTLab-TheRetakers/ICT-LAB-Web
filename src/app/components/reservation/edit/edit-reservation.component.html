@@ -1,39 +1,39 @@
 <div class="col-sm-12 col-md-10 offset-md-1 mx-auto mt-4">
-    <div class="form-horizontal">
+	<div class="form-horizontal" *ngIf="reservation != null">
 
-        <div class="form-row">
-            <div class="col-sm-12 col-md-4">
-                <label for="start">Date</label>
-                <input id="start" type="date" class="form-control" [(ngModel)]="start_date">
-            </div>
-            <div class="col-sm-12 col-md-8"></div>
-        </div>
+		<div class="form-row">
+			<div class="col-sm-12 col-md-4">
+				<label for="start">Date</label>
+				<input id="start" type="date" class="form-control" [(ngModel)]="date">
+			</div>
+			<div class="col-sm-12 col-md-8"></div>
+		</div>
 
-        <div class="form-row">
-            <div class="col-sm-6 col-md-4">
-                <label>&nbsp;</label>
-                <select class="custom-select" [(ngModel)]="start_time">
-                    <option *ngFor="let hour of hours" [value]="hour">{{ hour }}</option>
-                </select>
-            </div>
-            <div class="col-sm-6 col-md-4">
-                <label>&nbsp;</label>
-                <select class="custom-select" [(ngModel)]="end_time">
-                    <option *ngFor="let hour of hours" [value]="hour">{{ hour }}</option>
-                </select>
-            </div>
-            <div class="col-sm-12 col-md-4"></div>
-        </div>
+		<div class="form-row">
+			<div class="col-sm-6 col-md-4">
+				<label>&nbsp;</label>
+				<select class="custom-select" [(ngModel)]="start_time">
+					<option *ngFor="let hour of hours" [value]="hour">{{ hour }}</option>
+				</select>
+			</div>
+			<div class="col-sm-6 col-md-4">
+				<label>&nbsp;</label>
+				<select class="custom-select" [(ngModel)]="end_time">
+					<option *ngFor="let hour of hours" [value]="hour">{{ hour }}</option>
+				</select>
+			</div>
+			<div class="col-sm-12 col-md-4"></div>
+		</div>
 
-        <div class="form-row">
-            <div class="col-sm-6 col-md-5">
-                <label for="desc">Description</label>
-                <textarea id="desc" class="form-control" [(ngModel)]="reservation.description" rows="3"></textarea>
-            </div>
-            <div class="col-sm-6 col-md-7"></div>
-        </div>
+		<div class="form-row">
+			<div class="col-sm-6 col-md-5">
+				<label for="desc">Description</label>
+				<textarea id="desc" class="form-control" [(ngModel)]="reservation.description" rows="3"></textarea>
+			</div>
+			<div class="col-sm-6 col-md-7"></div>
+		</div>
 
-        <button type="button" class="btn btn-primary float-right my-4" (click)="submitForm()">Save</button>
+		<button type="button" class="btn btn-primary float-right my-4" (click)="submitForm()">Save</button>
 
-    </div>
+	</div>
 </div>

@@ -56,19 +56,31 @@ export class EditReservationComponent implements OnInit {
     }
 
     setDatetime() {
-        this.date = this.reservation.start_time.toString().split('T')[0];
-        this.start_time = this.reservation.start_time.toString().split('T')[1];
-        this.end_time = this.reservation.end_time.toString().split('T')[1];
+        this.date = moment(new Date(this.reservation.start_time.toString().split('T')[0])).format('YYYY-MM-DD');
+        this.start_time = this.reservation.start_time.toString().split('T')[1].substring(0, 5);
+        this.end_time = this.reservation.end_time.toString().split('T')[1].substring(0, 5);
 
         // Get lesson time
-        this.start_time = this.hours.filter(f => f.split('-')[0] == this.start_time)[0];
-        this.end_time = this.hours.filter(f => f.split('-')[1] == this.end_time)[0];
+        if (this.start_time.substring(0, 1) == '0') {
+            this.start_time = this.start_time.substring(1, 8);
+            this.start_time = this.hours.filter(f => f.split('-')[0] == this.start_time)[0];
+        } else {
+            this.start_time = this.hours.filter(f => f.split('-')[0] == this.start_time)[0];
+        }
+
+        if (this.end_time.substring(0, 1) == '0') {
+            this.end_time = this.end_time.substring(1, 8);
+            this.end_time = this.hours.filter(f => f.split('-')[1] == this.end_time)[0];
+        } else {
+            this.end_time = this.hours.filter(f => f.split('-')[1] == this.end_time)[0];
+        }
     }
 
     getReservation() {
         this._reservationService.getByStart(this.userId, this.start).subscribe(
             (response) => {
                 this.reservation = response;
+                this.setDatetime();
                 this.getCurrentUser();
             },
             (err) => { return Observable.throw(err); }
