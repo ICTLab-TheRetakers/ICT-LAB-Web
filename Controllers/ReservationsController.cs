@@ -250,8 +250,14 @@ namespace ICT_LAB_Web.Controllers
             DateTime? tillDate = null;
             if (!String.IsNullOrEmpty(from) || !String.IsNullOrEmpty(till))
             {
-                fromDate = DateTime.ParseExact(from, "yyyy-MM-ddTHH:mm:ss", null);
-                tillDate = DateTime.ParseExact(till, "yyyy-MM-ddTHH:mm:ss", null);
+                if (!String.IsNullOrEmpty(from))
+                {
+                    fromDate = DateTime.ParseExact(from, "yyyy-MM-ddTHH:mm:ss", null);
+                }
+                if (!String.IsNullOrEmpty(till))
+                {
+                    tillDate = DateTime.ParseExact(till, "yyyy-MM-ddTHH:mm:ss", null);
+                }
             }
 
             //Get reservations

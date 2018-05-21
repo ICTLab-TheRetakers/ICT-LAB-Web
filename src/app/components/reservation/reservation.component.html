@@ -21,8 +21,12 @@
                     </td>
                     <td>{{ reservation.room_code }}</td>
                     <td>{{ reservation.description }}</td>
-                    <td>edit</td>
-                    <td>delete</td>
+                    <td>
+                        <a [routerLink]="['edit', currentUser.user_id, reservation.room_code, reservation.start_time]">Edit</a>
+                    </td>
+                    <td>
+                        <a href="" (click)="deleteReservation(reservation.room_code, reservation.start_time)">Delete</a>
+                    </td>
                 </tr>
             </tbody>
         </table>
@@ -30,5 +34,4 @@
 
     <a [routerLink]="['add']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
        class="btn btn-primary mt-4">Create Reservation</a>
-
 </div>

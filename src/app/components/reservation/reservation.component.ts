@@ -7,6 +7,8 @@ import { ReservationService } from '../../shared/services/reservation.service';
 import User from '../../shared/models/user.model';
 import Reservation from '../../shared/models/reservation.model';
 
+import * as moment from 'moment';
+
 @Component({
     selector: 'app-reservation',
     templateUrl: './reservation.component.html',
@@ -30,6 +32,13 @@ export class ReservationComponent implements OnInit {
     getReservationsByUser() {
         this._reservationService.get(this.currentUser.user_id).subscribe(
             (response) => this.reservations = response,
+            (err) => { return Observable.throw(err); }
+        );
+    }
+
+    deleteReservation(room: string, start_time: Date) {
+        this._reservationService.delete(room, moment(start_time).format('yyyy-MM-dd HH:mm:ss')).subscribe(
+            (response) => { },
             (err) => { return Observable.throw(err); }
         );
     }

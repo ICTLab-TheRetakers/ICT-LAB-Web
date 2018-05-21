@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { environment } from '../../../../environments/environment';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 
 import { ReservationService } from '../../../shared/services/reservation.service';
+import { RoomService } from '../../../shared/services/room.service';
 import { SelectRoomComponent } from '../../room/select-room/select-room.component';
 
 import Room from '../../../shared/models/room.model';
@@ -13,53 +14,70 @@ import User from '../../../shared/models/user.model';
 import * as moment from 'moment';
 
 @Component({
-    selector: 'app-add-reservation',
-    templateUrl: './add-reservation.component.html',
-    styleUrls: ['./add-reservation.component.css']
+    selector: 'app-edit-reservation',
+    templateUrl: './edit-reservation.component.html',
+    styleUrls: ['./edit-reservation.component.css']
 })
-export class AddReservationComponent implements OnInit {
+export class EditReservationComponent implements OnInit {
+    roomCode: string;
+    start: string;
+    userId: string;
+
     hours: string[] = environment.hours;
-    reservation: Reservation = new Reservation();
-    selectedRoom: Room = null;
+    reservation: Reservation;
     currentUser: User = null;
 
     date: string;
-    start_time: string = '8:30-9:20';
-    end_time: string = '8:30-9:20';
+    start_time: string;
+    end_time: string;
 
-    constructor(private _reservationService: ReservationService, private router: Router) { }
+    constructor(private _reservationService: ReservationService, private _roomService: RoomService,
+        private router: Router, private route: ActivatedRoute) { }
 
-    ngOnInit() { }
+    ngOnInit() {
+        this.route.params.subscribe(
+            (params) => {
+                this.userId = params['user'];
+                this.roomCode = params['room'];
+                this.start = params['start'];
+
+                this.getReservation();
+            }
+        );
+    }
 
     submitForm() {
         this.convertDatetime();
-        this.setReservationInfo();
 
-        this._reservationService.create(this.reservation).subscribe(
+        this._reservationService.update(this.reservation).subscribe(
             (response) => this.router.navigate(['/reservations']),
             (err) => { return Observable.throw(err); }
         );
     }
 
-    getRoomChoice(event: any) {
-        this.selectedRoom = <Room>event;
+    setDatetime() {
+        this.date = this.reservation.start_time.toDateString();
+        this.start_time = this.reservation.start_time.toTimeString();
+        this.end_time = this.reservation.end_time.toTimeString();
+    }
 
-        setTimeout(() => {
-            this.getCurrentUser();
-        }, 500);
+    getReservation() {
+        this._reservationService.getByDate(this.userId, this.start, null).subscribe(
+            (response) => {
+                this.reservation = response[0];
+                this.getCurrentUser();
+            },
+            (err) => { return Observable.throw(err); }
+        );
     }
 
     getCurrentUser() {
         this.currentUser = JSON.parse(localStorage.getItem('loggedInUser'));
     }
 
-    setReservationInfo() {
-        this.reservation.room_code = this.selectedRoom.room_code;
-        this.reservation.user_id = this.currentUser.user_id;
-    }
-
     convertDatetime() {
         this.start_time = this.start_time.split('-')[0];
+        this.end_time = this.end_time.split('-')[1];
 
         // Add leading zero to time
         if (this.start_time.substr(0, 1) != '1' || this.start_time.substr(0, 1) != '2') {

@@ -13,6 +13,7 @@ import { CustomErrorHandler } from '../../shared/error-handler';
 import { AddReservationComponent } from './add/add-reservation.component';
 
 import { SelectRoomModule } from '../room/select-room/select-room.module';
+import { EditReservationComponent } from './edit/edit-reservation.component';
 
 @NgModule({
     imports: [
@@ -23,7 +24,7 @@ import { SelectRoomModule } from '../room/select-room/select-room.module';
         ToastyModule.forRoot(),
         ReservationRoutingModule
     ],
-    declarations: [ReservationComponent, AddReservationComponent],
+    declarations: [ReservationComponent, AddReservationComponent, EditReservationComponent],
     providers: [
         ReservationService,
         { provide: LocationStrategy, useClass: PathLocationStrategy },
