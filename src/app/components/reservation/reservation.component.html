@@ -25,7 +25,7 @@
                         <a [routerLink]="['edit', currentUser.user_id, reservation.room_code, reservation.start_time]">Edit</a>
                     </td>
                     <td>
-                        <a href="" (click)="deleteReservation(reservation.room_code, reservation.start_time)">Delete</a>
+                        <button type="button" (click)="deleteReservation(reservation.room_code, reservation.start_time)">Delete</button>
                     </td>
                 </tr>
             </tbody>
