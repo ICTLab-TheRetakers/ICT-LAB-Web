@@ -56,9 +56,13 @@ export class EditReservationComponent implements OnInit {
     }
 
     setDatetime() {
-        this.date = this.reservation.start_time.toDateString();
-        this.start_time = this.reservation.start_time.toTimeString();
-        this.end_time = this.reservation.end_time.toTimeString();
+        this.date = this.reservation.start_time.toString().split('T')[0];
+        this.start_time = this.reservation.start_time.toString().split('T')[1];
+        this.end_time = this.reservation.end_time.toString().split('T')[1];
+
+        // Get lesson time
+        this.start_time = this.hours.filter(f => f.split('-')[0] == this.start_time)[0];
+        this.end_time = this.hours.filter(f => f.split('-')[1] == this.end_time)[0];
     }
 
     getReservation() {
