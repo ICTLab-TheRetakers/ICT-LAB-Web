@@ -62,9 +62,9 @@ export class EditReservationComponent implements OnInit {
     }
 
     getReservation() {
-        this._reservationService.getByDate(this.userId, this.start, null).subscribe(
+        this._reservationService.getByStart(this.userId, this.start).subscribe(
             (response) => {
-                this.reservation = response[0];
+                this.reservation = response;
                 this.getCurrentUser();
             },
             (err) => { return Observable.throw(err); }

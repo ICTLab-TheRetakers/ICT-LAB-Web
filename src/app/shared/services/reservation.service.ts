@@ -26,6 +26,11 @@ export class ReservationService {
             .catch(this.handleError);
     }
 
+    getByStart(user: string, start: string): Observable<Reservation> {
+        return this.http.get(this.baseUrl + 'getByStart?user=' + user + '&start=' + start)
+            .catch(this.handleError);
+    }
+
     getAllTeachers(department: string, quarter: number): Observable<string[]> {
         return this.http.get(this.baseUrl + 'getAllTeachers?department=' + department + '&quarter=' + quarter)
             .catch(this.handleError);
@@ -75,5 +80,5 @@ export class ReservationService {
     private handleError(error: Response) {
         console.error(error);
         return Observable.throw(error.json().error());
-    } 
+    }
 }
