@@ -36,11 +36,18 @@ export class ReservationComponent implements OnInit {
         );
     }
 
-    deleteReservation(room: string, start_time: Date) {
-        this._reservationService.delete(room, moment(start_time).format('yyyy-MM-dd HH:mm:ss')).subscribe(
+    deleteReservation(room: string, start_time: string) {
+        this._reservationService.delete(room, start_time).subscribe(
             (response) => { },
             (err) => { return Observable.throw(err); }
         );
+
+        if (confirm('Are you sure you want to delete this reservation?')) {
+            this._reservationService.delete(room, start_time).subscribe(
+                (response) => this.ngOnInit(),
+                (err) => { return Observable.throw(err); }
+            );
+        }
     }
 
 }
