@@ -19,61 +19,59 @@ import * as moment from 'moment';
 })
 export class AddReservationComponent implements OnInit {
     hours: string[] = environment.hours;
-    reservation: Reservation = new Reservation();
+    reservations: Reservation[] = [];
     selectedRoom: Room = null;
     currentUser: User = null;
 
-    date: Date;
-    start_time: string = '8:30-9:20';
-    end_time: string = '8:30-9:20';
-
     constructor(private _reservationService: ReservationService, private router: Router) { }
 
-    ngOnInit() { }
+    ngOnInit() {
+        this.getCurrentUser();
+        this.addRow();
+    }
 
     submitForm() {
-        this.convertDatetime();
-        this.setReservationInfo();
+        this.reservations.forEach(reservation => {
+            reservation = this.convertDatetime(reservation);
+            reservation.room_code = this.selectedRoom.room_code;
+            
+            this._reservationService.create(reservation).subscribe(
+                (response) => { },
+                (err) => { return Observable.throw(err); }
+            );
+        });
 
-        this._reservationService.create(this.reservation).subscribe(
-            (response) => this.router.navigate(['/reservations']),
-            (err) => { return Observable.throw(err); }
-        );
+        this.router.navigate(['/reservations']);
     }
 
     getRoomChoice(event: any) {
         this.selectedRoom = <Room>event;
-
-        setTimeout(() => {
-            this.getCurrentUser();
-        }, 500);
     }
 
     getCurrentUser() {
         this.currentUser = JSON.parse(localStorage.getItem('loggedInUser'));
     }
 
-    setReservationInfo() {
-        this.reservation.room_code = this.selectedRoom.room_code;
-        this.reservation.user_id = this.currentUser.user_id;
+    addRow() {
+        let reservation = new Reservation();
+        reservation.user_id = this.currentUser.user_id;
+
+        this.reservations.push(reservation);
     }
 
-    convertDatetime() {
-        this.start_time = this.start_time.split('-')[0];
-        this.end_time = this.end_time.split('-')[1];
+    removeRow(index: number) {
+        this.reservations = this.reservations.splice(index, 1);
+    }
 
-        // Add leading zero to time
-        if (this.start_time.substr(0, 1) != '1' || this.start_time.substr(0, 1) != '2') {
-            this.start_time = '0' + this.start_time;
-        }
-        if (this.end_time.substr(0, 1) != '1' || this.end_time.substr(0, 1) != '2') {
-            this.end_time = '0' + this.end_time;
-        }
+    convertDatetime(reservation: Reservation): Reservation {
+        // Convert to datetime string
+        let start = moment(reservation.date).format('YYYY-MM-DD') + ' ' + reservation.begin;
+        let end = moment(reservation.date).format('YYYY-MM-DD') + ' ' + reservation.end
 
-        let start = moment(this.date).format('YYYY-MM-DD') + ' ' + this.start_time;
-        let end = moment(this.date).format('YYYY-MM-DD') + ' ' + this.end_time;
+        // Set reservation start and end time
+        reservation.start_time = moment.utc(start).toDate();
+        reservation.end_time = moment.utc(end).toDate();
 
-        this.reservation.start_time = moment.utc(start).toDate();
-        this.reservation.end_time = moment.utc(end).toDate();
+        return reservation;
     }
 }

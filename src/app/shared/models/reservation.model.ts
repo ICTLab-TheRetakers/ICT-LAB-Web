@@ -6,4 +6,8 @@ export default class Reservation {
     description: string;
     start_time: Date;
     end_time: Date;
+
+    date: Date;
+    begin: string;
+    end: string;
 }

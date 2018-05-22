@@ -23,13 +23,10 @@ export class EditReservationComponent implements OnInit {
     start: string;
     userId: string;
 
+    date: string;
     hours: string[] = environment.hours;
     reservation: Reservation;
     currentUser: User = null;
-
-    date: string;
-    start_time: string;
-    end_time: string;
 
     constructor(private _reservationService: ReservationService, private _roomService: RoomService,
         private router: Router, private route: ActivatedRoute) { }
@@ -55,33 +52,12 @@ export class EditReservationComponent implements OnInit {
         );
     }
 
-    setDatetime() {
-        this.date = moment(new Date(this.reservation.start_time.toString().split('T')[0])).format('YYYY-MM-DD');
-        this.start_time = this.reservation.start_time.toString().split('T')[1].substring(0, 5);
-        this.end_time = this.reservation.end_time.toString().split('T')[1].substring(0, 5);
-
-        // Get lesson time
-        if (this.start_time.substring(0, 1) == '0') {
-            this.start_time = this.start_time.substring(1, 8);
-            this.start_time = this.hours.filter(f => f.split('-')[0] == this.start_time)[0];
-        } else {
-            this.start_time = this.hours.filter(f => f.split('-')[0] == this.start_time)[0];
-        }
-
-        if (this.end_time.substring(0, 1) == '0') {
-            this.end_time = this.end_time.substring(1, 8);
-            this.end_time = this.hours.filter(f => f.split('-')[1] == this.end_time)[0];
-        } else {
-            this.end_time = this.hours.filter(f => f.split('-')[1] == this.end_time)[0];
-        }
-    }
-
     getReservation() {
         this._reservationService.getByStart(this.userId, this.start).subscribe(
             (response) => {
                 this.reservation = response;
-                this.setDatetime();
                 this.getCurrentUser();
+                this.setDatetime();
             },
             (err) => { return Observable.throw(err); }
         );
@@ -92,21 +68,20 @@ export class EditReservationComponent implements OnInit {
     }
 
     convertDatetime() {
-        this.start_time = this.start_time.split('-')[0];
-        this.end_time = this.end_time.split('-')[1];
+        // Convert to datetime string
+        let start = this.date + ' ' + this.reservation.begin;
+        let end = this.date + ' ' + this.reservation.end
 
-        // Add leading zero to time
-        if (this.start_time.substr(0, 1) != '1' || this.start_time.substr(0, 1) != '2') {
-            this.start_time = '0' + this.start_time;
-        }
-        if (this.end_time.substr(0, 1) != '1' || this.end_time.substr(0, 1) != '2') {
-            this.end_time = '0' + this.end_time;
-        }
+        // Set reservation start and end time
+        this.reservation.start_time = moment.utc(start).toDate();
+        this.reservation.end_time = moment.utc(end).toDate();
 
-        let start = moment.utc(this.date + ' ' + this.start_time);
-        let end = moment.utc(this.date + ' ' + this.end_time);
+        return this.reservation;
+    }
 
-        this.reservation.start_time = start.toDate();
-        this.reservation.end_time = end.toDate();
+    setDatetime() {
+        this.date = moment(new Date(this.reservation.start_time.toString().split('T')[0])).format('YYYY-MM-DD');
+        this.reservation.begin = this.reservation.start_time.toString().split('T')[1];
+        this.reservation.end = this.reservation.end_time.toString().split('T')[1];
     }
 }
