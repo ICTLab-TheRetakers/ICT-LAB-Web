@@ -58,5 +58,10 @@ namespace ICT_LAB_Web.Components.Services
         {
             return _dbContext.Rooms.Where(q => q.Location.ToLower() == location.ToLower()).ToListAsync();
         }
+
+        public Task<List<Room>> GetByDepartment(string department)
+        {
+            return _dbContext.Rooms.Where(q => q.Department.ToLower() == department.ToLower()).ToListAsync();
+        }
     }
 }

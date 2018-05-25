@@ -132,7 +132,7 @@ namespace ICT_LAB_Web.Controllers
                 return StatusCode(400, "Invalid parameter(s).");
             }
 
-            //Remove room
+            //Remove device
             var succeeded = await _deviceRepository.Delete(device.Value);
             if (!succeeded)
             {

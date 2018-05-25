@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <None Remove="src\app\shared\error.handler.ts" />
+    <None Remove="src\app\shared\models\department.model.ts" />
     <None Remove="src\app\shared\models\device.model.ts" />
     <None Remove="src\app\shared\models\issue.model.ts" />
     <None Remove="src\app\shared\models\notification.model.ts" />
@@ -22,6 +23,7 @@
     <None Remove="src\app\shared\models\room.model.ts" />
     <None Remove="src\app\shared\models\user.model.ts" />
     <None Remove="src\app\shared\services\authentication.service.ts" />
+    <None Remove="src\app\shared\services\department.service.ts" />
     <None Remove="src\app\shared\services\device.service.ts" />
     <None Remove="src\app\shared\services\issue.service.ts" />
     <None Remove="src\app\shared\services\notification.service.ts" />
@@ -58,6 +60,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <TypeScriptCompile Include="src\app\shared\models\department.model.ts" />
     <TypeScriptCompile Include="src\app\shared\models\device.model.ts" />
     <TypeScriptCompile Include="src\app\shared\models\issue.model.ts" />
     <TypeScriptCompile Include="src\app\shared\models\notification.model.ts" />
@@ -68,6 +71,7 @@
     <TypeScriptCompile Include="src\app\shared\models\reading.model.ts" />
     <TypeScriptCompile Include="src\app\shared\models\user.model.ts" />
     <TypeScriptCompile Include="src\app\shared\authentication.service.ts" />
+    <TypeScriptCompile Include="src\app\shared\services\department.service.ts" />
     <TypeScriptCompile Include="src\app\shared\services\reservation.service.ts" />
     <TypeScriptCompile Include="src\app\shared\services\notification.service.ts" />
     <TypeScriptCompile Include="src\app\shared\services\role.service.ts" />
