@@ -16,5 +16,7 @@ namespace ICT_LAB_Web.Controllers.ViewModels
         public int? StudentCapacity { get; set; }
         [JsonProperty("location")]
         public string Location { get; set; }
+        [JsonProperty("department")]
+        public string Department { get; set; }
     }
 }

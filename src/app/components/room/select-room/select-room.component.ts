@@ -151,12 +151,29 @@ export class SelectRoomComponent implements OnInit {
     getOptions() {
         if (this.week != null && this.quarter != null && this.department != null && this.type != null) {
             if (this.type == "r") {
-                this._reservationService.getAllRooms(this.department, this.quarter).subscribe(
-                    (response) => this.options = response,
-                    (error) => {
-                        return Observable.throw(error)
-                    }
-                );
+                if (this.onlyAllowRooms == true) {
+                    this._roomService.getByDepartment(this.department)
+                        .map((rooms: Array<any>) => {
+                            let result: Array<string> = [];
+                            if (rooms) {
+                                rooms.forEach((erg) => {
+                                    result.push(erg.room_code);
+                                });
+                            }
+                            return result;
+                        }).subscribe((response) => this.options = response,
+                            (error) => {
+                                return Observable.throw(error)
+                            }
+                        );
+                } else {
+                    this._reservationService.getAllRooms(this.department, this.quarter).subscribe(
+                        (response) => this.options = response,
+                        (error) => {
+                            return Observable.throw(error)
+                        }
+                    );
+                }
             } else if (this.type == "c") {
                 this._reservationService.getAllClasses(this.department, this.quarter).subscribe(
                     (response) => this.options = response,

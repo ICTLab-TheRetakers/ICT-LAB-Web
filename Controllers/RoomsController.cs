@@ -52,7 +52,45 @@ namespace ICT_LAB_Web.Controllers
                 HasComputer = x.HasComputer,
                 HasWindows = x.HasWindows,
                 StudentCapacity = x.StudentCapacity,
-                Location = x.Location
+                Location = x.Location,
+                Department = x.Department
+            });
+
+            return Ok(result);
+        }
+
+        /// <summary>
+        /// Gets a list with all rooms by department.
+        /// </summary>
+        /// <param name="department">Department of room(s)</param>
+        [HttpGet("getByDepartment")]
+        [ProducesResponseType(typeof(IEnumerable<RoomViewModel>), 200)]
+        [ProducesResponseType(typeof(void), 400)]
+        [ProducesResponseType(typeof(void), 500)]
+        public async Task<IActionResult> GetByDepartment(string department)
+        {
+            if (String.IsNullOrEmpty(department))
+            {
+                return StatusCode(400, "Invalid parameter(s).");
+            }
+
+            //Get rooms
+            var data = await _roomRepository.GetByDepartment(department);
+            if (data == null)
+            {
+                return StatusCode(500, "Room(s) could not be found.");
+            }
+
+            //Convert to view model
+            var result = data.Select(x => new RoomViewModel
+            {
+                RoomCode = x.RoomCode,
+                HasSmartboard = x.HasSmartboard,
+                HasComputer = x.HasComputer,
+                HasWindows = x.HasWindows,
+                StudentCapacity = x.StudentCapacity,
+                Location = x.Location,
+                Department = x.Department
             });
 
             return Ok(result);
@@ -81,7 +119,8 @@ namespace ICT_LAB_Web.Controllers
                 HasComputer = x.HasComputer,
                 HasWindows = x.HasWindows,
                 StudentCapacity = x.StudentCapacity,
-                Location = x.Location
+                Location = x.Location,
+                Department = x.Department
             });
 
             return Ok(result);
@@ -116,7 +155,8 @@ namespace ICT_LAB_Web.Controllers
                 HasComputer = data.HasComputer,
                 HasWindows = data.HasWindows,
                 StudentCapacity = data.StudentCapacity,
-                Location = data.Location
+                Location = data.Location,
+                Department = data.Department
             };
 
             return Ok(result);
@@ -143,7 +183,8 @@ namespace ICT_LAB_Web.Controllers
                 HasComputer = model.HasComputer,
                 HasWindows = model.HasWindows,
                 StudentCapacity = model.StudentCapacity,
-                Location = model.Location
+                Location = model.Location,
+                Department = model.Department
             };
 
             //Insert room
@@ -159,7 +200,8 @@ namespace ICT_LAB_Web.Controllers
                 HasSmartboard = result.HasSmartboard,
                 HasWindows = result.HasWindows,
                 StudentCapacity = result.StudentCapacity,
-                Location = result.Location
+                Location = result.Location,
+                Department = result.Department
             });
         }
 
@@ -184,7 +226,8 @@ namespace ICT_LAB_Web.Controllers
                 HasComputer = model.HasComputer,
                 HasWindows = model.HasWindows,
                 StudentCapacity = model.StudentCapacity,
-                Location = model.Location
+                Location = model.Location,
+                Department = model.Department
             };
 
             //Update room
@@ -200,7 +243,8 @@ namespace ICT_LAB_Web.Controllers
                 HasSmartboard = result.HasSmartboard,
                 HasWindows = result.HasWindows,
                 StudentCapacity = result.StudentCapacity,
-                Location = result.Location
+                Location = result.Location,
+                Department = result.Department
             });
         }
 

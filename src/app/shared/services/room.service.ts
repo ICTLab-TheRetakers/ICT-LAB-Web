@@ -30,6 +30,11 @@ export class RoomService {
             .catch(this.handleError);
     }
 
+    getByDepartment(department: string): Observable<Room[]> {
+        return this.http.get(this.baseUrl + 'getByDepartment?department=' + department)
+            .catch(this.handleError);
+    }
+
     create(room: Room): Observable<Room> {
         return this.http.post(this.baseUrl + 'create', room)
             .catch(this.handleError);
