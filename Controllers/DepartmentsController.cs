@@ -11,7 +11,7 @@ namespace ICT_LAB_Web.Controllers
 {
     [EnableCors("AllowAll")]
     [Produces("application/json")]
-    [Route("api/devices/")]
+    [Route("api/departments/")]
     public class DepartmentsController : Controller
     {
         private IDepartmentRepository _departmentRepository;
