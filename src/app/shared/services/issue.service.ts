@@ -20,6 +20,11 @@ export class IssueService {
             .catch(this.handleError);
     }
 
+    getAll(): Observable<Issue[]> {
+        return this.http.get(this.baseUrl + 'getAll')
+            .catch(this.handleError);
+    }
+
     getByRoom(room: string): Observable<Issue[]> {
         return this.http.get(this.baseUrl + 'getByRoom?room=' + room)
             .catch(this.handleError);

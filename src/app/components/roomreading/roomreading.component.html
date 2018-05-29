@@ -68,4 +68,7 @@
             </div>
         </div>
     </div>
+
+    <a *ngIf="selectedRoom != null" [routerLink]="['/issues/report', selectedRoom.room_code]" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+       class="btn btn-primary mt-4">Report Issue</a>
 </div>

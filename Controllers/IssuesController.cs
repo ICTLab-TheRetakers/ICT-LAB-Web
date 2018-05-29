@@ -27,7 +27,7 @@ namespace ICT_LAB_Web.Controllers
         /// </summary>
         /// <param name="room">Room code</param>
         [HttpGet("getByRoom")]
-        [ProducesResponseType(typeof(DeviceViewModel), 200)]
+        [ProducesResponseType(typeof(IssueViewModel), 200)]
         [ProducesResponseType(typeof(void), 400)]
         [ProducesResponseType(typeof(void), 500)]
         public async Task<IActionResult> GetByRoom(string room)
@@ -57,11 +57,40 @@ namespace ICT_LAB_Web.Controllers
         }
 
         /// <summary>
+        /// Gets a list of issues.
+        /// </summary>
+        [HttpGet("getAll")]
+        [ProducesResponseType(typeof(IssueViewModel), 200)]
+        [ProducesResponseType(typeof(void), 400)]
+        [ProducesResponseType(typeof(void), 500)]
+        public async Task<IActionResult> GetAll()
+        {
+            //Get issues
+            var data = await _issueRepository.GetAll();
+            if (data == null)
+            {
+                return StatusCode(500, "Issue(s) could not be found.");
+            }
+
+            //Convert to view model
+            var result = data.Select(x => new IssueViewModel
+            {
+                IssueId = x.IssueId,
+                RoomCode = x.RoomCode,
+                CreatedOn = x.CreatedOn,
+                Resolved = x.Resolved,
+                Description = x.Description
+            });
+
+            return Ok(result);
+        }
+
+        /// <summary>
         /// Gets aa issue by id.
         /// </summary>
         /// <param name="issue">Id of issue</param>
-        [HttpGet("getByRoom")]
-        [ProducesResponseType(typeof(DeviceViewModel), 200)]
+        [HttpGet("get")]
+        [ProducesResponseType(typeof(IssueViewModel), 200)]
         [ProducesResponseType(typeof(void), 400)]
         [ProducesResponseType(typeof(void), 500)]
         public async Task<IActionResult> Get(int? issue)
@@ -95,7 +124,7 @@ namespace ICT_LAB_Web.Controllers
         /// </summary>
         /// <param name="model">Issue object</param>
         [HttpPost("create")]
-        [ProducesResponseType(typeof(DeviceViewModel), 200)]
+        [ProducesResponseType(typeof(IssueViewModel), 200)]
         [ProducesResponseType(typeof(void), 400)]
         [ProducesResponseType(typeof(void), 500)]
         public async Task<IActionResult> Create([FromBody]IssueViewModel model)
@@ -134,7 +163,7 @@ namespace ICT_LAB_Web.Controllers
         /// </summary>
         /// <param name="model">Issue object</param>
         [HttpPut("update")]
-        [ProducesResponseType(typeof(DeviceViewModel), 200)]
+        [ProducesResponseType(typeof(IssueViewModel), 200)]
         [ProducesResponseType(typeof(void), 400)]
         [ProducesResponseType(typeof(void), 500)]
         public async Task<IActionResult> Update([FromBody]IssueViewModel model)
@@ -173,7 +202,7 @@ namespace ICT_LAB_Web.Controllers
         /// </summary>
         /// <param name="issue">Id of issue</param>
         [HttpDelete("delete")]
-        [ProducesResponseType(typeof(DeviceViewModel), 200)]
+        [ProducesResponseType(typeof(IssueViewModel), 200)]
         [ProducesResponseType(typeof(void), 400)]
         [ProducesResponseType(typeof(void), 500)]
         public async Task<IActionResult> Delete(int? issue)
@@ -198,7 +227,7 @@ namespace ICT_LAB_Web.Controllers
         /// </summary>
         /// <param name="room">Room code</param>
         [HttpDelete("deleteFromRoom")]
-        [ProducesResponseType(typeof(DeviceViewModel), 200)]
+        [ProducesResponseType(typeof(IssueViewModel), 200)]
         [ProducesResponseType(typeof(void), 400)]
         [ProducesResponseType(typeof(void), 500)]
         public async Task<IActionResult> DeleteFromRoom(string room)

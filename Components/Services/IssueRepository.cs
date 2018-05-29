@@ -62,5 +62,10 @@ namespace ICT_LAB_Web.Components.Services
         {
             return _dbContext.Issues.Where(q => q.RoomCode.ToLower() == room.ToLower()).ToListAsync();
         }
+
+        public Task<List<Issue>> GetAll()
+        {
+            return _dbContext.Issues.ToListAsync();
+        }
     }
 }

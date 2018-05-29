@@ -10,6 +10,7 @@ import { IssueRoutingModule } from './issue.routing';
 import { IssueComponent } from './issue.component';
 import { IssueService } from '../../shared/services/issue.service';
 import { CustomErrorHandler } from '../../shared/error-handler';
+import { ReportIssueComponent } from './report-issue/report-issue.component';
 
 @NgModule({
     imports: [
@@ -19,7 +20,7 @@ import { CustomErrorHandler } from '../../shared/error-handler';
         ToastyModule.forRoot(),
         IssueRoutingModule
     ],
-    declarations: [IssueComponent],
+    declarations: [IssueComponent, ReportIssueComponent],
     providers: [
         IssueService,
         { provide: LocationStrategy, useClass: PathLocationStrategy },
