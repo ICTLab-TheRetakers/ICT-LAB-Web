@@ -2,7 +2,7 @@
     <div class="col-sm-12 col-md-10 offset-md-1">
         <h3 class="text-center">Departments</h3>
 
-        <ul class="list-group">
+        <ul class="list-group" *ngIf="departments != null">
             <li class="list-group-item" *ngFor="let department of departments">
                 <a [routerLink]="['details', department.department_code]">
                     {{department.name}}
