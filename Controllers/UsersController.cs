@@ -45,7 +45,8 @@ namespace ICT_LAB_Web.Controllers
                 FirstName = s.FirstName,
                 LastName = s.LastName,
                 Email = s.Email,
-                Password = s.Password
+                Password = s.Password,
+                Picture = s.Picture
             });
 
             return Ok(result);
@@ -80,7 +81,8 @@ namespace ICT_LAB_Web.Controllers
                 FirstName = data.FirstName,
                 LastName = data.LastName,
                 Email = data.Email,
-                Password = data.Password
+                Password = data.Password,
+                Picture = data.Picture
             };
 
             return Ok(result);
@@ -115,7 +117,8 @@ namespace ICT_LAB_Web.Controllers
                 FirstName = data.FirstName,
                 LastName = data.LastName,
                 Email = data.Email,
-                Password = data.Password
+                Password = data.Password,
+                Picture = data.Picture
             };
 
             return Ok(result);
@@ -151,7 +154,8 @@ namespace ICT_LAB_Web.Controllers
                 FirstName = data.FirstName,
                 LastName = data.LastName,
                 Email = data.Email,
-                Password = data.Password
+                Password = data.Password,
+                Picture = data.Picture
             };
 
             return Ok(result);
@@ -178,7 +182,8 @@ namespace ICT_LAB_Web.Controllers
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 Email = model.Email,
-                Password = model.Password
+                Password = model.Password,
+                Picture = model.Picture
             };
 
             //Insert user
@@ -194,7 +199,8 @@ namespace ICT_LAB_Web.Controllers
                 FirstName = result.FirstName,
                 LastName = result.LastName,
                 Email = result.Email,
-                Password = result.Password
+                Password = result.Password,
+                Picture = result.Picture
             });
         }
 
@@ -216,7 +222,8 @@ namespace ICT_LAB_Web.Controllers
             User user = new User {
                 Role = model.Role,
                 FirstName = model.FirstName,
-                LastName = model.LastName
+                LastName = model.LastName,
+                Picture = model.Picture
             };
 
             //Update user
@@ -232,7 +239,8 @@ namespace ICT_LAB_Web.Controllers
                 FirstName = result.FirstName,
                 LastName = result.LastName,
                 Email = result.Email,
-                Password = result.Password
+                Password = result.Password,
+                Picture = result.Picture
             });
         }
 

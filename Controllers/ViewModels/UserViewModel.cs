@@ -16,5 +16,7 @@ namespace ICT_LAB_Web.Controllers.ViewModels
         public string UserId { get; set; }
         [JsonProperty("password")]
         public string Password { get; set; }
+        [JsonProperty("picture")]
+        public string Picture { get; set; }
     }
 }

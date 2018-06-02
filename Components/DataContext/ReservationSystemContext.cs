@@ -230,6 +230,8 @@ namespace ICT_LAB_Web.Components.DataContext
 
                 entity.Property(e => e.LastName).HasColumnName("last_name");
 
+                entity.Property(e => e.Picture).HasColumnName("picture");
+
                 entity.Property(e => e.Password)
                     .IsRequired()
                     .HasColumnName("password");
