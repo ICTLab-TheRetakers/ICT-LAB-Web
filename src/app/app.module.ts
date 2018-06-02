@@ -27,11 +27,11 @@ import { AuthGuard } from './shared/authguard.service';
 import { AuthenticationService } from './shared/authentication.service';
 import { CustomErrorHandler } from './shared/error-handler';
 import { DepartmentComponent } from './components/department/department.component';
+import { DepartmentModule } from './components/department/department.module';
 
 @NgModule({
     declarations: [
-        AppComponent,
-        DepartmentComponent
+        AppComponent
     ],
     imports: [
         BrowserModule,
@@ -39,6 +39,7 @@ import { DepartmentComponent } from './components/department/department.componen
         HttpModule,
         RoomModule,
         UserModule,
+        DepartmentModule,
         RoomreadingsModule,
         DeviceModule,
         NotificationModule,
