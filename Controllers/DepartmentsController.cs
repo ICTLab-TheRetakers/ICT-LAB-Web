@@ -5,6 +5,8 @@ using ICT_LAB_Web.Controllers.ViewModels;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ICT_LAB_Web.Controllers
@@ -49,6 +51,31 @@ namespace ICT_LAB_Web.Controllers
                 Name = data.Name,
                 DepartmentCode = data.DepartmentCode
             };
+
+            return Ok(result);
+        }
+
+        /// <summary>
+        /// Gets all departments
+        /// </summary>
+        [HttpGet("getAll")]
+        [ProducesResponseType(typeof(IEnumerable<DepartmentViewModel>), 200)]
+        [ProducesResponseType(typeof(void), 400)]
+        [ProducesResponseType(typeof(void), 500)]
+        public async Task<IActionResult> GetAll()
+        {
+            //Get departments
+            var data = await _departmentRepository.GetAll();
+            if (data == null)
+            {
+                return StatusCode(500, "Departments could not be found.");
+            }
+
+            //Convert to view model
+            var result = data.Select(s => new DepartmentViewModel {
+                Name = s.Name,
+                DepartmentCode = s.DepartmentCode
+            });
 
             return Ok(result);
         }
@@ -111,6 +138,41 @@ namespace ICT_LAB_Web.Controllers
             if (result == null)
             {
                 return StatusCode(500, "A problem occured while saving the record. Please try again!");
+            }
+
+            return Ok(new DepartmentViewModel
+            {
+                Name = result.Name,
+                DepartmentCode = result.DepartmentCode
+            });
+        }
+
+        /// <summary>
+        /// Updates a department.
+        /// </summary>
+        /// <param name="model">Department object</param>
+        [HttpPut("update")]
+        [ProducesResponseType(typeof(DepartmentViewModel), 200)]
+        [ProducesResponseType(typeof(void), 400)]
+        [ProducesResponseType(typeof(void), 500)]
+        public async Task<IActionResult> Update([FromBody]DepartmentViewModel model)
+        {
+            if (model == null)
+            {
+                return StatusCode(400, "Invalid parameter(s).");
+            }
+
+            Department department = new Department
+            {
+                Name = model.Name,
+                DepartmentCode = model.DepartmentCode
+            };
+
+            //Update department
+            var result = await _departmentRepository.Update(department);
+            if (result == null)
+            {
+                return StatusCode(500, "A problem occured while updating the record. Please try again!");
             }
 
             return Ok(new DepartmentViewModel

@@ -20,6 +20,11 @@ export class DepartmentService {
             .catch(this.handleError);
     }
 
+    getAll(): Observable<Department[]> {
+        return this.http.get(this.baseUrl + 'getAll')
+            .catch(this.handleError);
+    }
+
     getByName(name: string): Observable<Department> {
         return this.http.get(this.baseUrl + 'getByName?name=' + name)
             .catch(this.handleError);
@@ -27,6 +32,11 @@ export class DepartmentService {
 
     create(department: Department): Observable<Department> {
         return this.http.post(this.baseUrl + 'create', department)
+            .catch(this.handleError);
+    }
+
+    update(department: Department): Observable<Department> {
+        return this.http.put(this.baseUrl + 'update', department)
             .catch(this.handleError);
     }
 
