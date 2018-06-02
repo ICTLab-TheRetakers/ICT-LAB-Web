@@ -4,9 +4,7 @@
 
         <ul class="list-group" *ngIf="departments != null">
             <li class="list-group-item" *ngFor="let department of departments">
-                <a [routerLink]="['details', department.department_code]">
-                    {{department.name}}
-                </a>
+                {{department.name}} - {{department.department_code}}
                 <span class="list-icons">
                     <button class="btn-edit" [routerLink]="['edit', department.department_code]" title="Edit">
                         <i class="fa fa-edit"></i>
