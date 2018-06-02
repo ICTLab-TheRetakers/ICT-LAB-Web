@@ -30,6 +30,7 @@ main {
     overflow-y: auto;
     width: 100%;
     width: 84vw;
+	padding: 10px;
 }
 
 @media (max-width: 767.98px) {
