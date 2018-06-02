@@ -6,9 +6,10 @@ export default class User {
     email: string;
     password: string;
     role: string;
+    picture: string;
 
     constructor(user_id: string, role_id: number, first_name: string,
-        last_name: string, email: string, password: string) {
+        last_name: string, email: string, password: string, picture: string) {
 
         this.user_id = user_id;
         this.role_id = role_id;
@@ -16,5 +17,6 @@ export default class User {
         this.last_name = last_name;
         this.email = email;
         this.password = password;
+        this.picture = picture;
     }
 }
