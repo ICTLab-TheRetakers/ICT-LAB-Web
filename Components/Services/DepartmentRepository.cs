@@ -28,9 +28,9 @@ namespace ICT_LAB_Web.Components.Services
             }
 
             _dbContext.Entry(departmentToUpdate).CurrentValues.SetValues(department);
-            var result = await _dbContext.SaveChangesAsync();
+            await _dbContext.SaveChangesAsync();
 
-            return result == 1 ? department : null;
+            return department;
         }
 
         public async Task<bool> Delete(string departmentCode)
