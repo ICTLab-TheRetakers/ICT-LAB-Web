@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
-import { Response } from '@angular/http';
+import { Response, RequestOptions } from '@angular/http';
 import { environment } from '../../../environments/environment';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
@@ -46,7 +46,11 @@ export class UserService {
     }
 
     upload(file: any, user: User): Observable<User> {
-        return this.http.post(this.baseUrl + 'upload' , {file, user})
+        let formData = new FormData();
+        formData.append("file", file);
+        formData.append("model", JSON.stringify(user));
+
+        return this.http.post(this.baseUrl + 'upload', formData)
             .catch(this.handleError);
     }
 

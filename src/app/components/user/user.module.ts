@@ -11,6 +11,7 @@ import { UserRoutingModule } from './user.routing';
 import { UserComponent } from './user.component';
 import { UserService } from '../../shared/services/user.service';
 import { SignInComponent } from './sign-in/sign-in.component';
+import { AddUserComponent } from './add-user/add-user.component';
 
 @NgModule({
     imports: [
@@ -20,7 +21,7 @@ import { SignInComponent } from './sign-in/sign-in.component';
         ToastyModule.forRoot(),
         UserRoutingModule
     ],
-    declarations: [UserComponent, SignInComponent],
+    declarations: [UserComponent, SignInComponent, AddUserComponent],
     providers: [
         UserService,
         { provide: LocationStrategy, useClass: PathLocationStrategy },
