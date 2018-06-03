@@ -33,7 +33,7 @@ export class AddUserComponent implements OnInit {
         );
     }
 
-    insertUser() {
+    submitForm() {
         this._userService.create(this.user).subscribe(
             (response) => {
                 if (response != null) {

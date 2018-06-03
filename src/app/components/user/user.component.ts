@@ -1,22 +1,23 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastyService, ToastyConfig, ToastOptions, ToastData } from 'ng2-toasty';
+import User from '../../shared/models/user.model';
 
 @Component({
-  selector: 'app-user',
-  templateUrl: './user.component.html',
-  styleUrls: ['./user.component.css']
+    selector: 'app-user',
+    templateUrl: './user.component.html',
+    styleUrls: ['./user.component.css']
 })
 export class UserComponent implements OnInit {
+    user: User;
 
+    constructor() { }
 
-    firstName = JSON.parse(localStorage.getItem('loggedInUser')).first_name;
-    lastName = JSON.parse(localStorage.getItem('loggedInUser')).last_name;
-    role = JSON.parse(localStorage.getItem('loggedInUser')).role;
-    userId = JSON.parse(localStorage.getItem('loggedInUser')).user_id;
+    ngOnInit() {
+        this.getCurrentUser();
+    }
 
-  constructor() { }
-
-  ngOnInit() {
-  }
+    getCurrentUser() {
+        this.user = JSON.parse(localStorage.getItem('loggedInUser'));
+    }
 
 }

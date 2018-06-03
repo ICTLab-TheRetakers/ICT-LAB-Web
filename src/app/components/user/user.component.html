@@ -1,14 +1,14 @@
 <div class="UserPage">
     <h2>
-        Welkom {{firstName}}
+        Welkom {{ user.first_name }}
     </h2>
     <ul style="font-size: 1.5rem;">
-        <li>ID = {{userId}}</li>
-        <li>First name = {{firstName}}</li>
-        <li>Last Name = {{lastName}}</li>
-        <li>Role = {{role}}</li>
+        <li>ID = {{ user.user_id }}</li>
+        <li>First name = {{ user.first_name }}</li>
+        <li>Last Name = {{ user.last_name }}</li>
+        <li>Role = {{ user.role }}</li>
     </ul>
-    <img src="http://velve.lv/templates/velve/design/icons/svg/personal.svg" />
+    <img src="{{ user.picture }}" />
 </div>
 
 <a href="#" [routerLink]="['add']" class="btn btn-primary btn-sm mt-3" title="Add user">

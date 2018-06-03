@@ -26,7 +26,7 @@ namespace ICT_LAB_Web.Components.Services
 
         public async Task<User> Update(User user)
         {
-            var userToUpdate = await _dbContext.Rooms.FindAsync(user.UserId);
+            var userToUpdate = await _dbContext.Users.FindAsync(user.UserId);
             if (userToUpdate == null)
             {
                 return null;

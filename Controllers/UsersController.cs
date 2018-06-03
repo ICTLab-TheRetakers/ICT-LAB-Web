@@ -4,7 +4,6 @@ using ICT_LAB_Web.Components.Services.Interfaces;
 using ICT_LAB_Web.Controllers.ViewModels;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Primitives;
 using Newtonsoft.Json;
@@ -184,7 +183,7 @@ namespace ICT_LAB_Web.Controllers
             }
 
             User user = new User {
-                UserId = model.UserId,
+                UserId = model.Email.Split("@")[0],
                 Role = model.Role,
                 FirstName = model.FirstName,
                 LastName = model.LastName,
@@ -219,10 +218,10 @@ namespace ICT_LAB_Web.Controllers
         [ProducesResponseType(typeof(void), 500)]
         public async Task<IActionResult> Upload()
         {
-            var file = Request.Form.Files.FirstOrDefault();
-
             StringValues json;
             Request.Form.TryGetValue("model", out json);
+
+            var file = Request.Form.Files.FirstOrDefault();
             var model = JsonConvert.DeserializeObject<UserViewModel>(json);
 
             if (model == null || file == null)
@@ -235,6 +234,9 @@ namespace ICT_LAB_Web.Controllers
                 return StatusCode(400, "File is empty.");
             }
 
+			// Get user
+            var userToUpdate = await _userRepository.GetByEmail(model.Email);
+
             var path = Path.Combine(_hostingEnvironment.WebRootPath, "images");
             if (!Directory.Exists(path))
             {
@@ -243,23 +245,15 @@ namespace ICT_LAB_Web.Controllers
 
             // Save locally
             var extension = file.FileName.Split(".")[1];
-            var filePath = Path.Combine(path, model.UserId + "." + extension);
+            var filePath = Path.Combine(path, userToUpdate.UserId + "." + extension);
             using (var fileStream = new FileStream(filePath, FileMode.Create))
             {
                 await file.CopyToAsync(fileStream);
             }
 
             // Update user
-            model.Picture = filePath;
-            await _userRepository.Update(new User {
-                UserId = model.UserId,
-                Email = model.Email,
-                Password = model.Password,
-                FirstName = model.FirstName,
-                LastName = model.LastName,
-                Role = model.Role,
-                Picture = model.Picture
-            });
+            userToUpdate.Picture = filePath;
+            await _userRepository.Update(userToUpdate);
 
             return Ok(model);
         }
