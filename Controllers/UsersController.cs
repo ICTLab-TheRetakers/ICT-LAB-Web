@@ -237,7 +237,7 @@ namespace ICT_LAB_Web.Controllers
 			// Get user
             var userToUpdate = await _userRepository.GetByEmail(model.Email);
 
-            var path = Path.Combine(_hostingEnvironment.ContentRootPath, "src", "assets", "images");
+            var path = Path.Combine(_hostingEnvironment.ContentRootPath, "src", "images");
             if (!Directory.Exists(path))
             {
                 Directory.CreateDirectory(path);

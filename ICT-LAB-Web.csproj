@@ -79,4 +79,8 @@
     <TypeScriptCompile Include="src\app\shared\services\user.service.ts" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="src\images\" />
+  </ItemGroup>
+
 </Project>
