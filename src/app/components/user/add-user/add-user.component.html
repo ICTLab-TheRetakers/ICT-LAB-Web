@@ -30,7 +30,7 @@
                     <div class="col-sm-12 col-md-6">
                         <label>Role</label>
                         <select class="custom-select" [(ngModel)]="user.role_id">
-                            <option *ngFor="let role for roles" [value]="role.role_id">{{ role.type }}</option>
+                            <option *ngFor="let role of roles" [value]="role.role_id">{{ role.type }}</option>
                         </select>
                     </div>
                     <div class="col-sm-12 col-md-6">
