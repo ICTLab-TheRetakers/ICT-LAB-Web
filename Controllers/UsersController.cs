@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Primitives;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -211,14 +213,18 @@ namespace ICT_LAB_Web.Controllers
         /// <summary>
         /// Uploads an image and adds path to user
         /// </summary>
-        /// <param name="file">Image object</param>
-        /// <param name="model">User object</param>
         [HttpPost("upload")]
         [ProducesResponseType(typeof(UserViewModel), 200)]
         [ProducesResponseType(typeof(void), 400)]
         [ProducesResponseType(typeof(void), 500)]
-        public async Task<IActionResult> Upload(IFormFile file, User model)
+        public async Task<IActionResult> Upload()
         {
+            var file = Request.Form.Files.FirstOrDefault();
+
+            StringValues json;
+            Request.Form.TryGetValue("model", out json);
+            var model = JsonConvert.DeserializeObject<UserViewModel>(json);
+
             if (model == null || file == null)
             {
                 return StatusCode(400, "Invalid parameter(s).");
@@ -229,20 +235,31 @@ namespace ICT_LAB_Web.Controllers
                 return StatusCode(400, "File is empty.");
             }
 
-            var path = Path.Combine(_hostingEnvironment.WebRootPath + "\\images\\", model.UserId);
-            using (Stream stream = file.OpenReadStream())
+            var path = Path.Combine(_hostingEnvironment.WebRootPath, "images");
+            if (!Directory.Exists(path))
             {
-                using (var reader = new BinaryReader(stream))
-                {
-                    // Save locally
-                    var fileContent = reader.ReadBytes((int)file.Length);
-                    await System.IO.File.WriteAllBytesAsync(path, fileContent);
-
-                    // Update user
-                    model.Picture = path;
-                    await _userRepository.Update(model);
-                }
+                Directory.CreateDirectory(path);
             }
+
+            // Save locally
+            var extension = file.FileName.Split(".")[1];
+            var filePath = Path.Combine(path, model.UserId + "." + extension);
+            using (var fileStream = new FileStream(filePath, FileMode.Create))
+            {
+                await file.CopyToAsync(fileStream);
+            }
+
+            // Update user
+            model.Picture = filePath;
+            await _userRepository.Update(new User {
+                UserId = model.UserId,
+                Email = model.Email,
+                Password = model.Password,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                Role = model.Role,
+                Picture = model.Picture
+            });
 
             return Ok(model);
         }

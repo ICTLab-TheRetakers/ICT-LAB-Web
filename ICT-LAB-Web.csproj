@@ -11,6 +11,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="wwwroot\images\**" />
+    <Content Remove="wwwroot\images\**" />
+    <EmbeddedResource Remove="wwwroot\images\**" />
+    <None Remove="wwwroot\images\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="src\app\shared\error.handler.ts" />
     <None Remove="src\app\shared\models\department.model.ts" />
     <None Remove="src\app\shared\models\device.model.ts" />
@@ -32,10 +39,6 @@
     <None Remove="src\app\shared\services\role.service.ts" />
     <None Remove="src\app\shared\services\room.service.ts" />
     <None Remove="src\app\shared\services\user.service.ts" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="wwwroot\images\" />
   </ItemGroup>
 
   <ItemGroup>
