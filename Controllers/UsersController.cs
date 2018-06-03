@@ -3,9 +3,12 @@ using ICT_LAB_Web.Components.Services;
 using ICT_LAB_Web.Components.Services.Interfaces;
 using ICT_LAB_Web.Controllers.ViewModels;
 using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -17,10 +20,12 @@ namespace ICT_LAB_Web.Controllers
     public class UsersController : Controller
     {
         private IUserRepository _userRepository;
+        private IHostingEnvironment _hostingEnvironment;
 
-        public UsersController()
+        public UsersController(IHostingEnvironment hostingEnvironment)
         {
             this._userRepository = new UserRepository();
+            this._hostingEnvironment = hostingEnvironment;
         }
 
         /// <summary>
@@ -176,6 +181,18 @@ namespace ICT_LAB_Web.Controllers
                 return StatusCode(400, "Invalid parameter(s).");
             }
 
+            // User picture
+            byte[] imageData = null;
+            if (Request.Form.Files.Count > 0)
+            {
+                IFormFile imgFile = Request.Form.Files["picture"];
+
+                using (var binary = new BinaryReader(imgFile.OpenReadStream()))
+                {
+                    imageData = binary.ReadBytes((int)imgFile.Length);
+                }
+            }
+
             User user = new User {
                 UserId = model.UserId,
                 Role = model.Role,
@@ -183,7 +200,7 @@ namespace ICT_LAB_Web.Controllers
                 LastName = model.LastName,
                 Email = model.Email,
                 Password = model.Password,
-                Picture = model.Picture
+                Picture = imageData
             };
 
             //Insert user

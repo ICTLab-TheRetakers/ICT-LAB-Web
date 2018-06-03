@@ -16,7 +16,7 @@ namespace ICT_LAB_Web.Components.Entities
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public int Role { get; set; }
-        public string Picture { get; set; }
+        public byte[] Picture { get; set; }
 
         public Role RoleNavigation { get; set; }
         public ICollection<Notification> Notifications { get; set; }
