@@ -1,12 +1,14 @@
-<div class="col-sm-12 col-md-10 offset-md-1 mx-auto">
-    <div class="form-horizontal">
-        <div class="form-row">
-            <div class="col-sm-12 col-md-12">
-                <label for="issue">Report Issue</label>
-                <textarea id="issue" class="form-control" rows="5" [(ngModel)]="issue.description"></textarea>
+<div class="row">
+    <div class="col-sm-12 col-md-10 offset-md-1 mx-auto">
+        <form class="form-horizontal" *ngIf="issue">
+            <div class="form-row">
+                <div class="col-sm-12 col-md-12">
+                    <label for="issue">Report Issue</label>
+                    <textarea id="issue" class="form-control" rows="5" [(ngModel)]="issue.description" required></textarea>
+                </div>
             </div>
-        </div>
 
-        <button type="button" class="btn btn-primary float-right my-4" (click)="submitForm()">Submit</button>
+            <button type="button" class="btn btn-primary float-right my-4" (click)="submitForm()">Submit</button>
+        </form>
     </div>
 </div>

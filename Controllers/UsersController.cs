@@ -188,7 +188,8 @@ namespace ICT_LAB_Web.Controllers
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 Email = model.Email,
-                Password = model.Password
+                Password = model.Password,
+                Picture = ""
             };
 
             //Insert user
