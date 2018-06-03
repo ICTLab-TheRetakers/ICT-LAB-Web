@@ -1,14 +1,14 @@
 <div class="UserPage">
-    <h2>
-        Welkom {{ user.first_name }}
-    </h2>
-    <ul style="font-size: 1.5rem;">
-        <li>ID = {{ user.user_id }}</li>
-        <li>First name = {{ user.first_name }}</li>
-        <li>Last Name = {{ user.last_name }}</li>
-        <li>Role = {{ user.role }}</li>
-    </ul>
-    <img src="{{ user.picture }}" />
+	<h2>
+		Welkom {{ user.first_name }}
+	</h2>
+	<ul style="font-size: 1.5rem;">
+		<li>ID = {{ user.user_id }}</li>
+		<li>First name = {{ user.first_name }}</li>
+		<li>Last Name = {{ user.last_name }}</li>
+		<li>Role = {{ user.role }}</li>
+	</ul>
+	<img src="../../../assets/images/{{ user.picture }}" />
 </div>
 
 <a href="#" [routerLink]="['add']" class="btn btn-primary btn-sm mt-3" title="Add user">

@@ -237,7 +237,7 @@ namespace ICT_LAB_Web.Controllers
 			// Get user
             var userToUpdate = await _userRepository.GetByEmail(model.Email);
 
-            var path = Path.Combine(_hostingEnvironment.WebRootPath, "images");
+            var path = Path.Combine(_hostingEnvironment.ContentRootPath, "src", "assets", "images");
             if (!Directory.Exists(path))
             {
                 Directory.CreateDirectory(path);
@@ -245,14 +245,15 @@ namespace ICT_LAB_Web.Controllers
 
             // Save locally
             var extension = file.FileName.Split(".")[1];
-            var filePath = Path.Combine(path, userToUpdate.UserId + "." + extension);
+            var picture = userToUpdate.UserId + "." + extension;
+            var filePath = Path.Combine(path, picture);
             using (var fileStream = new FileStream(filePath, FileMode.Create))
             {
                 await file.CopyToAsync(fileStream);
             }
 
             // Update user
-            userToUpdate.Picture = filePath;
+            userToUpdate.Picture = picture;
             await _userRepository.Update(userToUpdate);
 
             return Ok(model);
