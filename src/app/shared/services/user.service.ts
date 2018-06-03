@@ -45,6 +45,11 @@ export class UserService {
             .catch(this.handleError);
     }
 
+    upload(file: any, user: User): Observable<User> {
+        return this.http.post(this.baseUrl + 'upload' , {file, user})
+            .catch(this.handleError);
+    }
+
     private handleError(error: Response) {
         console.error(error);
         return Observable.throw(error.json().error());

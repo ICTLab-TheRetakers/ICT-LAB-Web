@@ -181,26 +181,13 @@ namespace ICT_LAB_Web.Controllers
                 return StatusCode(400, "Invalid parameter(s).");
             }
 
-            // User picture
-            byte[] imageData = null;
-            if (Request.Form.Files.Count > 0)
-            {
-                IFormFile imgFile = Request.Form.Files["picture"];
-
-                using (var binary = new BinaryReader(imgFile.OpenReadStream()))
-                {
-                    imageData = binary.ReadBytes((int)imgFile.Length);
-                }
-            }
-
             User user = new User {
                 UserId = model.UserId,
                 Role = model.Role,
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 Email = model.Email,
-                Password = model.Password,
-                Picture = imageData
+                Password = model.Password
             };
 
             //Insert user
@@ -219,6 +206,45 @@ namespace ICT_LAB_Web.Controllers
                 Password = result.Password,
                 Picture = result.Picture
             });
+        }
+
+        /// <summary>
+        /// Uploads an image and adds path to user
+        /// </summary>
+        /// <param name="file">Image object</param>
+        /// <param name="model">User object</param>
+        [HttpPost("upload")]
+        [ProducesResponseType(typeof(UserViewModel), 200)]
+        [ProducesResponseType(typeof(void), 400)]
+        [ProducesResponseType(typeof(void), 500)]
+        public async Task<IActionResult> Upload(IFormFile file, User model)
+        {
+            if (model == null || file == null)
+            {
+                return StatusCode(400, "Invalid parameter(s).");
+            }
+
+            if (file.Length == 0)
+            {
+                return StatusCode(400, "File is empty.");
+            }
+
+            var path = Path.Combine(_hostingEnvironment.WebRootPath + "\\images\\", model.UserId);
+            using (Stream stream = file.OpenReadStream())
+            {
+                using (var reader = new BinaryReader(stream))
+                {
+                    // Save locally
+                    var fileContent = reader.ReadBytes((int)file.Length);
+                    await System.IO.File.WriteAllBytesAsync(path, fileContent);
+
+                    // Update user
+                    model.Picture = path;
+                    await _userRepository.Update(model);
+                }
+            }
+
+            return Ok(model);
         }
 
         /// <summary>
