@@ -132,8 +132,6 @@ export class SelectRoomComponent implements OnInit {
 
     reset() {
         this.schedule = null;
-        this.index = null;
-        this.options = null;
 
         if (this.hide == false) {
             this.type = null;
@@ -198,7 +196,6 @@ export class SelectRoomComponent implements OnInit {
         this.type = type;
 
         this.selectOption(null, true);
-        this.getOptions();
         this.resetSchedule.emit(true);
     }
 
@@ -216,7 +213,6 @@ export class SelectRoomComponent implements OnInit {
         this.type = type;
 
         this.selectOption(null, true);
-        this.getOptions();
         this.resetSchedule.emit(true);
     }
 }
