@@ -24,7 +24,10 @@ namespace ICT_LAB_Web.Components.Helper
 
         #region Constructor
 
-        public ScheduleCrawler() { }
+        public ScheduleCrawler()
+        {
+            this.httpClient = new HttpClient();
+        }
 
         public ScheduleCrawler(string scheduleType, string index, int quarter, int week)
         {
