@@ -15,7 +15,6 @@ namespace ICT_LAB_Web.Components.Entities
         public bool HasComputer { get; set; }
         public bool HasWindows { get; set; }
         public int? StudentCapacity { get; set; }
-        public string Location { get; set; }
         public string Department { get; set; }
 
         public Department DepartmentNavigation { get; set; }

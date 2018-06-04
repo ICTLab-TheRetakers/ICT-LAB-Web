@@ -199,8 +199,6 @@ namespace ICT_LAB_Web.Components.DataContext
                     .HasColumnName("has_windows")
                     .HasColumnType("bit");
 
-                entity.Property(e => e.Location).HasColumnName("location");
-
                 entity.Property(e => e.Department).HasColumnName("department");
 
                 entity.Property(e => e.StudentCapacity).HasColumnName("student_capacity");

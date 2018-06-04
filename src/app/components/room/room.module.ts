@@ -15,6 +15,7 @@ import { SharedService } from '../../shared/services/shared.service';
 import { RoomService } from '../../shared/services/room.service';
 import { CustomErrorHandler } from '../../shared/error-handler';
 import { ReservationService } from '../../shared/services/reservation.service';
+import { AddRoomComponent } from './add-room/add-room.component';
 
 @NgModule({
     imports: [
@@ -26,7 +27,8 @@ import { ReservationService } from '../../shared/services/reservation.service';
         RoomRoutingModule,
     ],
     declarations: [
-        RoomComponent
+        RoomComponent,
+        AddRoomComponent
     ],
     providers: [
         RoomService,
