@@ -16,7 +16,6 @@ import * as moment from 'moment';
 })
 export class SelectRoomComponent implements OnInit {
     schedule: Schedule = null;
-    department: string = null;
     week: number = null;
     quarter: number = null;
     type: string = null;
@@ -69,13 +68,6 @@ export class SelectRoomComponent implements OnInit {
         }
     }
 
-    setDepartment(event: any) {
-        this.department = event.target.value;
-        this.reset();
-
-        this.getOptions();
-    }
-
     setType(event: any) {
         this.options = [];
         this.type = event.target.value;
@@ -126,7 +118,7 @@ export class SelectRoomComponent implements OnInit {
                     break;
             }
 
-            this._reservationService.getLessonsByWeek(this.type, identifier, this.department, this.quarter, this.week).subscribe(
+            this._reservationService.getLessonsByWeek(this.type, identifier, this.quarter, this.week).subscribe(
                 (response) => {
                     this.schedule = response;
                     this.chosenObject.emit(this.schedule);
@@ -149,10 +141,10 @@ export class SelectRoomComponent implements OnInit {
     }
 
     getOptions() {
-        if (this.week != null && this.quarter != null && this.department != null && this.type != null) {
+        if (this.week != null && this.quarter != null && this.type != null) {
             if (this.type == "r") {
                 if (this.onlyAllowRooms == true) {
-                    this._roomService.getByDepartment(this.department)
+                    this._roomService.getByDepartment('CMI')
                         .map((rooms: Array<any>) => {
                             let result: Array<string> = [];
                             if (rooms) {
@@ -167,7 +159,7 @@ export class SelectRoomComponent implements OnInit {
                             }
                         );
                 } else {
-                    this._reservationService.getAllRooms(this.department, this.quarter).subscribe(
+                    this._reservationService.getAllRooms('CMI', this.quarter).subscribe(
                         (response) => this.options = response,
                         (error) => {
                             return Observable.throw(error)
@@ -175,14 +167,14 @@ export class SelectRoomComponent implements OnInit {
                     );
                 }
             } else if (this.type == "c") {
-                this._reservationService.getAllClasses(this.department, this.quarter).subscribe(
+                this._reservationService.getAllClasses('CMI', this.quarter).subscribe(
                     (response) => this.options = response,
                     (error) => {
                         return Observable.throw(error)
                     }
                 );
             } else if (this.type == "t") {
-                this._reservationService.getAllTeachers(this.department, this.quarter).subscribe(
+                this._reservationService.getAllTeachers('CMI', this.quarter).subscribe(
                     (response) => this.options = response,
                     (error) => {
                         return Observable.throw(error)
@@ -197,14 +189,12 @@ export class SelectRoomComponent implements OnInit {
 
         // Save variables
         let index = this.index;
-        let dept = this.department;
         let type = this.type;
 
         this.reset();
 
         // Set variables back
         this.index = index;
-        this.department = dept;
         this.type = type;
 
         this.selectOption(null, true);
@@ -217,14 +207,12 @@ export class SelectRoomComponent implements OnInit {
 
         // Save variables
         let index = this.index;
-        let dept = this.department;
         let type = this.type;
 
         this.reset();
 
         // Set variables back
         this.index = index;
-        this.department = dept;
         this.type = type;
 
         this.selectOption(null, true);

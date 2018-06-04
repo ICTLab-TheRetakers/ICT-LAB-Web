@@ -14,7 +14,7 @@ namespace ICT_LAB_Web.Components.Helper
 
         private string ScheduleType;
         private string Identifier;
-        private string Department;
+        private string Department = "CMI";
         private int Week;
         private int Quarter;
         private string Index;
@@ -25,10 +25,9 @@ namespace ICT_LAB_Web.Components.Helper
 
         public ScheduleCrawler() { }
 
-        public ScheduleCrawler(string scheduleType, string index, string department, int quarter, int week)
+        public ScheduleCrawler(string scheduleType, string index, int quarter, int week)
         {
             this.ScheduleType = scheduleType;
-            this.Department = department;
             this.Week = week;
             this.Quarter = quarter;
             this.Index = index;
@@ -41,11 +40,6 @@ namespace ICT_LAB_Web.Components.Helper
         public void SetScheduleType(string type)
         {
             this.ScheduleType = type;
-        }
-
-        public void SetDepartment(string department)
-        {
-            this.Department = department;
         }
 
         public void SetWeek(int week)
@@ -69,19 +63,21 @@ namespace ICT_LAB_Web.Components.Helper
 
         public async Task<Schedule> StartCrawlingAsync()
         {
-            return await GetSchedule(this.ScheduleType, this.Index, this.Department, this.Quarter, this.Week);
+            return await GetSchedule(this.ScheduleType, this.Index, this.Quarter, this.Week);
         }
 
         #endregion
 
         #region Private Methods
 
-        private async Task<Schedule> GetSchedule(string scheduleType, string identifier, string department, int quarterOfYear, int week)
+        private async Task<Schedule> GetSchedule(string scheduleType, string identifier, int quarterOfYear, int week)
         {
-            var url = String.Format("http://misc.hro.nl/roosterdienst/webroosters/{0}/kw{1}/{2}/{3}/{4}.htm", department, quarterOfYear, week, scheduleType, identifier);
+            var url = String.Format("http://misc.hro.nl/roosterdienst/webroosters/{0}/kw{1}/{2}/{3}/{4}.htm", this.Department, quarterOfYear, week, scheduleType, identifier);
             var httpClient = new HttpClient();
 
             var html = await httpClient.GetStringAsync(url);
+            httpClient.Dispose();
+
             var document = new HtmlDocument();
             document.LoadHtml(html);
 

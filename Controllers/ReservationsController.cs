@@ -61,7 +61,8 @@ namespace ICT_LAB_Web.Controllers
             }
 
             //Convert to view model
-            var result = data.Select(x => new ReservationViewModel {
+            var result = data.Select(x => new ReservationViewModel
+            {
                 UserId = x.UserId,
                 RoomCode = x.RoomCode,
                 StartTime = x.StartTime,
@@ -84,9 +85,9 @@ namespace ICT_LAB_Web.Controllers
         [ProducesResponseType(typeof(ScheduleViewModel), 200)]
         [ProducesResponseType(typeof(void), 400)]
         [ProducesResponseType(typeof(void), 500)]
-        public async Task<IActionResult> GetLessonsByWeek(string type, string index, string department, int? week, int? quarter)
+        public async Task<IActionResult> GetLessonsByWeek(string type, string index, int? week, int? quarter)
         {
-            if (String.IsNullOrEmpty(type) || String.IsNullOrEmpty(index) || String.IsNullOrEmpty(department) || !week.HasValue
+            if (String.IsNullOrEmpty(type) || String.IsNullOrEmpty(index) || !week.HasValue
                 || !quarter.HasValue)
             {
                 return StatusCode(400, "Invalid parameter(s).");
@@ -96,7 +97,6 @@ namespace ICT_LAB_Web.Controllers
             var crawler = new ScheduleCrawler();
             crawler.SetScheduleType(type);
             crawler.SetIndex(index);
-            crawler.SetDepartment(department);
             crawler.SetWeek(week.Value);
             crawler.SetQuarterOfYear(quarter.Value);
 
@@ -115,20 +115,19 @@ namespace ICT_LAB_Web.Controllers
         /// <summary>
         /// Gets a list with all teachers to choose from in schedule
         /// </summary>
-        /// <param name="department">Department within school</param>
         /// <param name="quarter">Quarter of year</param>
         [HttpGet("getAllTeachers")]
         [ProducesResponseType(typeof(List<string>), 200)]
         [ProducesResponseType(typeof(void), 400)]
         [ProducesResponseType(typeof(void), 500)]
-        public async Task<IActionResult> GetAllTeachers(string department, int? quarter)
+        public async Task<IActionResult> GetAllTeachers(int? quarter)
         {
-            if (String.IsNullOrEmpty(department) || !quarter.HasValue)
+            if (!quarter.HasValue)
             {
                 return StatusCode(400, "Invalid parameter(s).");
             }
 
-            var url = String.Format("http://misc.hro.nl/roosterdienst/webroosters/{0}/kw{1}/frames/navbar.htm", department, quarter);
+            var url = String.Format("http://misc.hro.nl/roosterdienst/webroosters/{0}/kw{1}/frames/navbar.htm", "CMI", quarter);
             var httpClient = new HttpClient();
 
             var html = await httpClient.GetStringAsync(url);
@@ -154,20 +153,19 @@ namespace ICT_LAB_Web.Controllers
         /// <summary>
         /// Gets a list with all classes to choose from in schedule
         /// </summary>
-        /// <param name="department">Department within school</param>
         /// <param name="quarter">Quarter of year</param>
         [HttpGet("getAllClasses")]
         [ProducesResponseType(typeof(List<string>), 200)]
         [ProducesResponseType(typeof(void), 400)]
         [ProducesResponseType(typeof(void), 500)]
-        public async Task<IActionResult> GetAllClasses(string department, int? quarter)
+        public async Task<IActionResult> GetAllClasses(int? quarter)
         {
-            if (String.IsNullOrEmpty(department) || !quarter.HasValue)
+            if (!quarter.HasValue)
             {
                 return StatusCode(400, "Invalid parameter(s).");
             }
 
-            var url = String.Format("http://misc.hro.nl/roosterdienst/webroosters/{0}/kw{1}/frames/navbar.htm", department, quarter);
+            var url = String.Format("http://misc.hro.nl/roosterdienst/webroosters/{0}/kw{1}/frames/navbar.htm", "CMI", quarter);
             var httpClient = new HttpClient();
 
             var html = await httpClient.GetStringAsync(url);
@@ -193,20 +191,19 @@ namespace ICT_LAB_Web.Controllers
         /// <summary>
         /// Gets a list with all rooms to choose from in schedule
         /// </summary>
-        /// <param name="department">Department within school</param>
         /// <param name="quarter">Quarter of year</param>
         [HttpGet("getAllRooms")]
         [ProducesResponseType(typeof(List<string>), 200)]
         [ProducesResponseType(typeof(void), 400)]
         [ProducesResponseType(typeof(void), 500)]
-        public async Task<IActionResult> GetAllRooms(string department, int? quarter)
+        public async Task<IActionResult> GetAllRooms(int? quarter)
         {
-            if (String.IsNullOrEmpty(department) || !quarter.HasValue)
+            if (!quarter.HasValue)
             {
                 return StatusCode(400, "Invalid parameter(s).");
             }
 
-            var url = String.Format("http://misc.hro.nl/roosterdienst/webroosters/{0}/kw{1}/frames/navbar.htm", department, quarter);
+            var url = String.Format("http://misc.hro.nl/roosterdienst/webroosters/{0}/kw{1}/frames/navbar.htm", "CMI", quarter);
             var httpClient = new HttpClient();
 
             var html = await httpClient.GetStringAsync(url);
@@ -304,7 +301,8 @@ namespace ICT_LAB_Web.Controllers
             }
 
             //Convert to view model
-            var result = data.Select(x => new ReservationViewModel {
+            var result = data.Select(x => new ReservationViewModel
+            {
                 UserId = x.UserId,
                 RoomCode = x.RoomCode,
                 StartTime = x.StartTime,
@@ -330,7 +328,8 @@ namespace ICT_LAB_Web.Controllers
                 return StatusCode(400, "Invalid parameter(s).");
             }
 
-            Reservation reservation = new Reservation {
+            Reservation reservation = new Reservation
+            {
                 RoomCode = model.RoomCode,
                 UserId = model.UserId,
                 StartTime = model.StartTime,
@@ -345,7 +344,8 @@ namespace ICT_LAB_Web.Controllers
                 return StatusCode(500, "A problem occured while saving the record. Please try again!");
             }
 
-            return Ok(new ReservationViewModel {
+            return Ok(new ReservationViewModel
+            {
                 UserId = result.UserId,
                 StartTime = result.StartTime,
                 EndTime = result.EndTime,
@@ -369,7 +369,8 @@ namespace ICT_LAB_Web.Controllers
                 return StatusCode(400, "Invalid parameter(s).");
             }
 
-            Reservation reservation = new Reservation {
+            Reservation reservation = new Reservation
+            {
                 RoomCode = model.RoomCode,
                 UserId = model.UserId,
                 StartTime = model.StartTime,
@@ -384,7 +385,8 @@ namespace ICT_LAB_Web.Controllers
                 return StatusCode(500, "A problem occured while updating the record. Please try again!");
             }
 
-            return Ok(new ReservationViewModel {
+            return Ok(new ReservationViewModel
+            {
                 UserId = result.UserId,
                 StartTime = result.StartTime,
                 EndTime = result.EndTime,
@@ -423,7 +425,7 @@ namespace ICT_LAB_Web.Controllers
             }
 
             return Ok();
-            }
         }
     }
+}
 

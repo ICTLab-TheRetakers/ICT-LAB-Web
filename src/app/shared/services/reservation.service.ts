@@ -46,8 +46,8 @@ export class ReservationService {
             .catch(this.handleError);
     }
 
-    getLessonsByWeek(type: string, index: string, department: string, quarter: number, week: number): Observable<Schedule> {
-        return this.http.get(this.baseUrl + 'getLessonsByWeek?type=' + type + '&index=' + index + '&department=' + department + '&week=' + week + '&quarter=' + quarter)
+    getLessonsByWeek(type: string, index: string, quarter: number, week: number): Observable<Schedule> {
+        return this.http.get(this.baseUrl + 'getLessonsByWeek?type=' + type + '&index=' + index + '&week=' + week + '&quarter=' + quarter)
             .map(res => res)
             .catch(this.handleError);
     }
