@@ -18,6 +18,7 @@ namespace ICT_LAB_Web.Components.Helper
         private int Week;
         private int Quarter;
         private string Index;
+        private HttpClient httpClient;
 
         #endregion
 
@@ -31,6 +32,7 @@ namespace ICT_LAB_Web.Components.Helper
             this.Week = week;
             this.Quarter = quarter;
             this.Index = index;
+            this.httpClient = new HttpClient();
         }
 
         #endregion
@@ -73,11 +75,8 @@ namespace ICT_LAB_Web.Components.Helper
         private async Task<Schedule> GetSchedule(string scheduleType, string identifier, int quarterOfYear, int week)
         {
             var url = String.Format("http://misc.hro.nl/roosterdienst/webroosters/{0}/kw{1}/{2}/{3}/{4}.htm", this.Department, quarterOfYear, week, scheduleType, identifier);
-            var httpClient = new HttpClient();
 
             var html = await httpClient.GetStringAsync(url);
-            httpClient.Dispose();
-
             var document = new HtmlDocument();
             document.LoadHtml(html);
 
