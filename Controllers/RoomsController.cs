@@ -52,7 +52,6 @@ namespace ICT_LAB_Web.Controllers
                 HasComputer = x.HasComputer,
                 HasWindows = x.HasWindows,
                 StudentCapacity = x.StudentCapacity,
-                Location = x.Location,
                 Department = x.Department
             });
 
@@ -89,7 +88,6 @@ namespace ICT_LAB_Web.Controllers
                 HasComputer = x.HasComputer,
                 HasWindows = x.HasWindows,
                 StudentCapacity = x.StudentCapacity,
-                Location = x.Location,
                 Department = x.Department
             });
 
@@ -119,7 +117,6 @@ namespace ICT_LAB_Web.Controllers
                 HasComputer = x.HasComputer,
                 HasWindows = x.HasWindows,
                 StudentCapacity = x.StudentCapacity,
-                Location = x.Location,
                 Department = x.Department
             });
 
@@ -155,7 +152,6 @@ namespace ICT_LAB_Web.Controllers
                 HasComputer = data.HasComputer,
                 HasWindows = data.HasWindows,
                 StudentCapacity = data.StudentCapacity,
-                Location = data.Location,
                 Department = data.Department
             };
 
@@ -183,7 +179,6 @@ namespace ICT_LAB_Web.Controllers
                 HasComputer = model.HasComputer,
                 HasWindows = model.HasWindows,
                 StudentCapacity = model.StudentCapacity,
-                Location = model.Location,
                 Department = model.Department
             };
 
@@ -200,7 +195,6 @@ namespace ICT_LAB_Web.Controllers
                 HasSmartboard = result.HasSmartboard,
                 HasWindows = result.HasWindows,
                 StudentCapacity = result.StudentCapacity,
-                Location = result.Location,
                 Department = result.Department
             });
         }
@@ -226,7 +220,6 @@ namespace ICT_LAB_Web.Controllers
                 HasComputer = model.HasComputer,
                 HasWindows = model.HasWindows,
                 StudentCapacity = model.StudentCapacity,
-                Location = model.Location,
                 Department = model.Department
             };
 
@@ -243,7 +236,6 @@ namespace ICT_LAB_Web.Controllers
                 HasSmartboard = result.HasSmartboard,
                 HasWindows = result.HasWindows,
                 StudentCapacity = result.StudentCapacity,
-                Location = result.Location,
                 Department = result.Department
             });
         }
