@@ -24,41 +24,6 @@ namespace ICT_LAB_Web.Controllers
         }
 
         /// <summary>
-        /// Gets a list with all rooms of a certain location.
-        /// </summary>
-        /// <param name="location">Location of room(s)</param>
-        [HttpGet("getByLocation")]
-        [ProducesResponseType(typeof(IEnumerable<RoomViewModel>), 200)]
-        [ProducesResponseType(typeof(void), 400)]
-        [ProducesResponseType(typeof(void), 500)]
-        public async Task<IActionResult> GetByLocation(string location)
-        {
-            if (String.IsNullOrEmpty(location))
-            {
-                return StatusCode(400, "Invalid parameter(s).");
-            }
-
-            //Get rooms
-            var data = await _roomRepository.GetByLocation(location);
-            if (data == null)
-            {
-                return StatusCode(500, "Room(s) could not be found.");
-            }
-
-            //Convert to view model
-            var result = data.Select(x => new RoomViewModel {
-                RoomCode = x.RoomCode,
-                HasSmartboard = x.HasSmartboard,
-                HasComputer = x.HasComputer,
-                HasWindows = x.HasWindows,
-                StudentCapacity = x.StudentCapacity,
-                Department = x.Department
-            });
-
-            return Ok(result);
-        }
-
-        /// <summary>
         /// Gets a list with all rooms by department.
         /// </summary>
         /// <param name="department">Department of room(s)</param>

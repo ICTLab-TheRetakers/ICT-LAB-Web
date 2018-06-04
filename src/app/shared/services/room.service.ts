@@ -25,11 +25,6 @@ export class RoomService {
             .catch(this.handleError);
     }
 
-    getByLocation(location: string): Observable<Room[]> {
-        return this.http.get(this.baseUrl + 'getByLocation?location=' + location)
-            .catch(this.handleError);
-    }
-
     getByDepartment(department: string): Observable<Room[]> {
         return this.http.get(this.baseUrl + 'getByDepartment?department=' + department)
             .catch(this.handleError);
