@@ -39,6 +39,7 @@ export class SelectRoomComponent implements OnInit {
         if (this.onlyAllowRooms == true) {
             this.type = 'r';
             this.hide = true;
+            this.getRoomOptions();
         }
     }
 
@@ -141,29 +142,12 @@ export class SelectRoomComponent implements OnInit {
     getOptions() {
         if (this.week != null && this.quarter != null && this.type != null) {
             if (this.type == "r") {
-                if (this.onlyAllowRooms == true) {
-                    this._roomService.getByDepartment('CMI')
-                        .map((rooms: Array<any>) => {
-                            let result: Array<string> = [];
-                            if (rooms) {
-                                rooms.forEach((erg) => {
-                                    result.push(erg.room_code);
-                                });
-                            }
-                            return result;
-                        }).subscribe((response) => this.options = response,
-                            (error) => {
-                                return Observable.throw(error)
-                            }
-                        );
-                } else {
-                    this._reservationService.getAllRooms('CMI', this.quarter).subscribe(
-                        (response) => this.options = response,
-                        (error) => {
-                            return Observable.throw(error)
-                        }
-                    );
-                }
+                this._reservationService.getAllRooms('CMI', this.quarter).subscribe(
+                    (response) => this.options = response,
+                    (error) => {
+                        return Observable.throw(error)
+                    }
+                );
             } else if (this.type == "c") {
                 this._reservationService.getAllClasses('CMI', this.quarter).subscribe(
                     (response) => this.options = response,
@@ -179,6 +163,17 @@ export class SelectRoomComponent implements OnInit {
                     }
                 );
             }
+        }
+    }
+
+    getRoomOptions() {
+        if (this.onlyAllowRooms == true) {
+            this._roomService.getAllRooms().subscribe(
+                (response) => this.options = response.map(m => m.room_code),
+                (error) => {
+                    return Observable.throw(error)
+                }
+            );
         }
     }
 
