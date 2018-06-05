@@ -11,6 +11,7 @@ import Reservation from '../../../shared/models/reservation.model';
 import User from '../../../shared/models/user.model';
 
 import * as moment from 'moment';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
     selector: 'app-add-reservation',
@@ -36,12 +37,10 @@ export class AddReservationComponent implements OnInit {
             reservation.room_code = this.selectedRoom.room_code;
             
             this._reservationService.create(reservation).subscribe(
-                (response) => { },
-                (err) => { return Observable.throw(err); }
+                (response) => this.router.navigate(['/reservations']),
+                (error: HttpErrorResponse) => { throw error; }
             );
         });
-
-        this.router.navigate(['/reservations']);
     }
 
     getRoomChoice(event: any) {

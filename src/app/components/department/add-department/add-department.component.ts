@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/router';
 
 import Department from '../../../shared/models/department.model';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
     selector: 'app-add-department',
@@ -21,7 +22,7 @@ export class AddDepartmentComponent implements OnInit {
     submitForm() {
         this._departmentService.create(this.department).subscribe(
             (response) => this.router.navigate(['/departments']),
-            (error) => { return Observable.throw(error); }
+            (error: HttpErrorResponse) => { throw error; }
         );
     }
 }

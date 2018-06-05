@@ -8,6 +8,7 @@ import Issue from '../../../shared/models/issue.model';
 import Room from '../../../shared/models/room.model';
 
 import * as moment from 'moment';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
     selector: 'app-report-issue',
@@ -34,8 +35,8 @@ export class ReportIssueComponent implements OnInit {
         this.issue.room_code = this.room;
 
         this._issueService.create(this.issue).subscribe(
-            (response) => { this.router.navigate(['/readings']); },
-            (error) => { return Observable.throw(error); }
+            (response) => this.router.navigate(['/readings']),
+            (error: HttpErrorResponse) => { throw error; }
         );
     }
 

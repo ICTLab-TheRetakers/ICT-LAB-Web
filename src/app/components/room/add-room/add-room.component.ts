@@ -6,6 +6,7 @@ import { Observable } from 'rxjs/Observable';
 
 import Room from '../../../shared/models/room.model';
 import Department from '../../../shared/models/department.model';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
     selector: 'app-add-room',
@@ -25,14 +26,14 @@ export class AddRoomComponent implements OnInit {
     getDepartments() {
         this._departmentService.getAll().subscribe(
             (response) => this.departments = response,
-            (error) => { return Observable.throw(error); }
+            (error: HttpErrorResponse) => { throw error; }
         );
     }
 
     submitForm() {
         this._roomService.create(this.room).subscribe(
             (response) => this.router.navigate(['/rooms']),
-            (error) => { return Observable.throw(error); }
+            (error: HttpErrorResponse) => { throw error; }
         );
     }
 

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DepartmentService } from '../../shared/services/department.service';
 import Department from '../../shared/models/department.model';
 import { Observable } from 'rxjs/Observable';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
     selector: 'app-department',
@@ -20,7 +21,7 @@ export class DepartmentComponent implements OnInit {
     getDepartments() {
         this._departmentService.getAll().subscribe(
             (response) => this.departments = response,
-            (error) => { return Observable.throw(error); }
+            (error: HttpErrorResponse) => { throw error; }
         );
     }
 
@@ -28,7 +29,7 @@ export class DepartmentComponent implements OnInit {
         if (confirm('Are you sure you want to delete this department?')) {
             this._departmentService.delete(department).subscribe(
                 (response) => this.ngOnInit(),
-                (error) => { return Observable.throw(error); }
+                (error: HttpErrorResponse) => { throw error; }
             );
         }
     }

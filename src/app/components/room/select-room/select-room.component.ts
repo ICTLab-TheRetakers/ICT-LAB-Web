@@ -8,6 +8,7 @@ import { ReservationService } from '../../../shared/services/reservation.service
 import { Observable } from 'rxjs/Observable';
 
 import * as moment from 'moment';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
     selector: 'app-select-room',
@@ -39,6 +40,7 @@ export class SelectRoomComponent implements OnInit {
         if (this.onlyAllowRooms == true) {
             this.type = 'r';
             this.hide = true;
+            this.getRoomOptions();
         }
     }
 
@@ -93,9 +95,7 @@ export class SelectRoomComponent implements OnInit {
                 (response) => {
                     this.chosenObject.emit(response);
                 },
-                (error) => {
-                    return Observable.throw(error)
-                }
+                (error: HttpErrorResponse) => { throw error; }
             );
 
         } else {
@@ -123,9 +123,7 @@ export class SelectRoomComponent implements OnInit {
                     this.schedule = response;
                     this.chosenObject.emit(this.schedule);
                 },
-                (error) => {
-                    return Observable.throw(error)
-                }
+                (error: HttpErrorResponse) => { throw error; }
             );
         }
     }
@@ -141,44 +139,34 @@ export class SelectRoomComponent implements OnInit {
     getOptions() {
         if (this.week != null && this.quarter != null && this.type != null) {
             if (this.type == "r") {
-                if (this.onlyAllowRooms == true) {
-                    this._roomService.getByDepartment('CMI')
-                        .map((rooms: Array<any>) => {
-                            let result: Array<string> = [];
-                            if (rooms) {
-                                rooms.forEach((erg) => {
-                                    result.push(erg.room_code);
-                                });
-                            }
-                            return result;
-                        }).subscribe((response) => this.options = response,
-                            (error) => {
-                                return Observable.throw(error)
-                            }
-                        );
-                } else {
-                    this._reservationService.getAllRooms('CMI', this.quarter).subscribe(
-                        (response) => this.options = response,
-                        (error) => {
-                            return Observable.throw(error)
-                        }
-                    );
-                }
-            } else if (this.type == "c") {
-                this._reservationService.getAllClasses('CMI', this.quarter).subscribe(
+                this._reservationService.getAllRooms('CMI', this.quarter).subscribe(
                     (response) => this.options = response,
                     (error) => {
                         return Observable.throw(error)
                     }
+                );
+            } else if (this.type == "c") {
+                this._reservationService.getAllClasses('CMI', this.quarter).subscribe(
+                    (response) => this.options = response,
+                    (error: HttpErrorResponse) => { throw error; }
                 );
             } else if (this.type == "t") {
                 this._reservationService.getAllTeachers('CMI', this.quarter).subscribe(
                     (response) => this.options = response,
-                    (error) => {
-                        return Observable.throw(error)
-                    }
+                    (error: HttpErrorResponse) => { throw error; }
                 );
             }
+        }
+    }
+
+    getRoomOptions() {
+        if (this.onlyAllowRooms == true) {
+            this._roomService.getAllRooms().subscribe(
+                (response) => this.options = response.map(m => m.room_code),
+                (error) => {
+                    return Observable.throw(error)
+                }
+            );
         }
     }
 

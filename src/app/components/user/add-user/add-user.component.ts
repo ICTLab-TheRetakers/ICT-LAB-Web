@@ -5,6 +5,7 @@ import User from '../../../shared/models/user.model';
 import { Observable } from 'rxjs/Observable';
 import Role from '../../../shared/models/role.model';
 import { Router } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
     selector: 'app-add-user',
@@ -29,7 +30,7 @@ export class AddUserComponent implements OnInit {
                 this.roles = response;
                 this.roles = this.roles.filter(f => f.role_id != 1);
             },
-            (error) => { return Observable.throw(error); }
+            (error: HttpErrorResponse) => { throw error; }
         );
     }
 
@@ -40,7 +41,7 @@ export class AddUserComponent implements OnInit {
                     this.fileUpload();
                 }
             },
-            (error) => { return Observable.throw(error); }
+            (error: HttpErrorResponse) => { throw error; }
         );
     }
 

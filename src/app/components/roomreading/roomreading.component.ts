@@ -9,6 +9,7 @@ import Room from '../../shared/models/room.model';
 import ReadingViewModel from '../../shared/models/viewmodels/reading.viewmodel';
 
 import { SelectRoomComponent } from '../room/select-room/select-room.component';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
     selector: 'app-roomreadings',
@@ -51,10 +52,7 @@ export class RoomReadingComponent implements OnInit {
                     this.sortByLatest();
                 }
             },
-            (error) => {
-                this.toastOptions.msg = 'Unable to retrieve classroom information. Please try again!',
-                    this.toastyService.error(this.toastOptions);
-            }
+            (error: HttpErrorResponse) => { throw error; }
         );
     }
 

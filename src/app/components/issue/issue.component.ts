@@ -5,6 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import { IssueService } from '../../shared/services/issue.service';
 
 import Issue from '../../shared/models/issue.model';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
     selector: 'app-issue',
@@ -23,7 +24,7 @@ export class IssueComponent implements OnInit {
     getIssues() {
         this._issueService.getAll().subscribe(
             (response) => this.issues = response,
-            (error) => { return Observable.throw(error); }
+            (error: HttpErrorResponse) => { throw error; }
         );
     }
 
