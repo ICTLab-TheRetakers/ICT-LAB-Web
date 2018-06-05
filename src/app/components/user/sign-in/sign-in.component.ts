@@ -7,6 +7,7 @@ import { UserService } from '../../../shared/services/user.service';
 import { AuthenticationService } from '../../../shared/authentication.service';
 import { RoleService } from '../../../shared/services/role.service';
 import Role from '../../../shared/models/role.model';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
     selector: 'app-sign-in',
@@ -40,10 +41,7 @@ export class SignInComponent implements OnInit {
             (response) => {
                 this.checkRole(response as User);
             },
-            (error) => {
-                this.toastyService.warning(this.toastOptions);
-                return Observable.throw(error);
-            });
+            (error: HttpErrorResponse) => { throw error; }
     }
 
     saveLocal(user: User) {
@@ -57,7 +55,7 @@ export class SignInComponent implements OnInit {
                 user.role = response.filter(f => f.role_id == user.role_id)[0].type;
                 this.saveLocal(user);
             },
-            (error) => Observable.throw(error)
+            (error: HttpErrorResponse) => { throw error; }
         );
     }
 

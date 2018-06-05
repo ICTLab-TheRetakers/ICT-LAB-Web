@@ -28,14 +28,14 @@ export class EditDepartmentComponent implements OnInit {
     submitForm() {
         this._departmentService.update(this.department).subscribe(
             (response) => this.router.navigate(['/departments']),
-            (error) => { return Observable.throw(error); }
+            (error: HttpErrorResponse) => { throw error; }
         );
     }
 
     getDepartment() {
         this._departmentService.get(this.department_code).subscribe(
             (response) => this.department = response,
-            (error) => { return Observable.throw(error); }
+            (error: HttpErrorResponse) => { throw error; }
         );
     }
 }

@@ -37,7 +37,7 @@ export class AddReservationComponent implements OnInit {
             
             this._reservationService.create(reservation).subscribe(
                 (response) => { },
-                (err) => { return Observable.throw(err); }
+                (error: HttpErrorResponse) => { throw error; }
             );
         });
 

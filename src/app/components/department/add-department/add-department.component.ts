@@ -21,7 +21,7 @@ export class AddDepartmentComponent implements OnInit {
     submitForm() {
         this._departmentService.create(this.department).subscribe(
             (response) => this.router.navigate(['/departments']),
-            (error) => { return Observable.throw(error); }
+            (error: HttpErrorResponse) => { throw error; }
         );
     }
 }

@@ -35,7 +35,7 @@ export class ReportIssueComponent implements OnInit {
 
         this._issueService.create(this.issue).subscribe(
             (response) => { this.router.navigate(['/readings']); },
-            (error) => { return Observable.throw(error); }
+            (error: HttpErrorResponse) => { throw error; }
         );
     }
 

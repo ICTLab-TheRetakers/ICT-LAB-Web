@@ -9,7 +9,7 @@ export class CustomErrorHandler implements ErrorHandler {
 
     constructor(private ngZone: NgZone, private toastyService: ToastyService) {
         this.toastOptions = {
-            title: 'Oops, an error occured',
+            title: 'Error',
             msg: '',
             theme: ' bootstrap',
             showClose: true,
@@ -25,7 +25,7 @@ export class CustomErrorHandler implements ErrorHandler {
 
                 // Set message based on error
                 if (error instanceof HttpErrorResponse) {
-                    this.toastOptions.msg = 'An error occured while your request was being processed, please try again!';
+                    this.toastOptions.msg = error.error;
                     console.error(date, 'HTTP Error.', error.message, 'Status code:', (<HttpErrorResponse>error).status);
                 } else if (error instanceof TypeError) {
                     this.toastOptions.msg = 'An error occured, please try again!';

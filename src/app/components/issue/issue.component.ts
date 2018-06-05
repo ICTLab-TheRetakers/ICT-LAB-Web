@@ -23,7 +23,7 @@ export class IssueComponent implements OnInit {
     getIssues() {
         this._issueService.getAll().subscribe(
             (response) => this.issues = response,
-            (error) => { return Observable.throw(error); }
+            (error: HttpErrorResponse) => { throw error; }
         );
     }
 

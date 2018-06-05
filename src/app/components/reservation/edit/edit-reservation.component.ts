@@ -12,6 +12,7 @@ import Reservation from '../../../shared/models/reservation.model';
 import User from '../../../shared/models/user.model';
 
 import * as moment from 'moment';
+import { HttpErrorResponse } from '@angular/common/http/src/response';
 
 @Component({
     selector: 'app-edit-reservation',
@@ -48,7 +49,7 @@ export class EditReservationComponent implements OnInit {
 
         this._reservationService.update(this.reservation).subscribe(
             (response) => this.router.navigate(['/reservations']),
-            (err) => { return Observable.throw(err); }
+            (err: HttpErrorResponse) => { throw err; }
         );
     }
 
@@ -59,7 +60,7 @@ export class EditReservationComponent implements OnInit {
                 this.getCurrentUser();
                 this.setDatetime();
             },
-            (err) => { return Observable.throw(err); }
+            (err: HttpErrorResponse) => { throw err; }
         );
     }
 

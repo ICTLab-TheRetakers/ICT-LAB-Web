@@ -77,8 +77,7 @@ export class ReservationService {
             .catch(this.handleError);
     }
 
-    private handleError(error: Response) {
-        console.error(error);
-        return Observable.throw(error.json().error());
+    private handleError(error: any) {
+        return Observable.throw(error);
     }
 }
