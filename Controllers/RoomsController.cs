@@ -36,11 +36,12 @@ namespace ICT_LAB_Web.Controllers
             var data = await _roomRepository.GetAll();
             if (data == null)
             {
-                return StatusCode(500, "Rooms could not be found.");
+                return StatusCode(404, String.Format("Unable to find any rooms."));
             }
 
             //Convert to view model
-            var result = data.Select(x => new RoomViewModel {
+            var result = data.Select(x => new RoomViewModel
+            {
                 RoomCode = x.RoomCode,
                 HasSmartboard = x.HasSmartboard,
                 HasComputer = x.HasComputer,
@@ -70,11 +71,12 @@ namespace ICT_LAB_Web.Controllers
             var data = await _roomRepository.Get(room);
             if (data == null)
             {
-                return StatusCode(500, "Room could not be found.");
+                return StatusCode(404, String.Format("Unable to find any room with code '{0}'.", room));
             }
 
             //Convert to view model
-            var result = new RoomViewModel {
+            var result = new RoomViewModel
+            {
                 RoomCode = data.RoomCode,
                 HasSmartboard = data.HasSmartboard,
                 HasComputer = data.HasComputer,
@@ -100,7 +102,8 @@ namespace ICT_LAB_Web.Controllers
                 return StatusCode(400, "Invalid parameter(s).");
             }
 
-            Room room = new Room {
+            Room room = new Room
+            {
                 RoomCode = model.RoomCode,
                 HasSmartboard = model.HasSmartboard,
                 HasComputer = model.HasComputer,
@@ -112,10 +115,11 @@ namespace ICT_LAB_Web.Controllers
             var result = await _roomRepository.Add(room);
             if (result == null)
             {
-                return StatusCode(500, "A problem occured while saving the record. Please try again!");
+                return StatusCode(500, "A problem occured while saving the room. Please try again!");
             }
 
-            return Ok(new RoomViewModel {
+            return Ok(new RoomViewModel
+            {
                 RoomCode = result.RoomCode,
                 HasComputer = result.HasComputer,
                 HasSmartboard = result.HasSmartboard,
@@ -139,7 +143,8 @@ namespace ICT_LAB_Web.Controllers
                 return StatusCode(400, "Invalid parameter(s).");
             }
 
-            Room room = new Room {
+            Room room = new Room
+            {
                 RoomCode = model.RoomCode,
                 HasSmartboard = model.HasSmartboard,
                 HasComputer = model.HasComputer,
@@ -151,10 +156,11 @@ namespace ICT_LAB_Web.Controllers
             var result = await _roomRepository.Update(room);
             if (result == null)
             {
-                return StatusCode(500, "A problem occured while updating the record. Please try again!");
+                return StatusCode(500, "A problem occured while updating the room. Please try again!");
             }
 
-            return Ok(new RoomViewModel {
+            return Ok(new RoomViewModel
+            {
                 RoomCode = result.RoomCode,
                 HasComputer = result.HasComputer,
                 HasSmartboard = result.HasSmartboard,
@@ -182,7 +188,7 @@ namespace ICT_LAB_Web.Controllers
             var succeeded = await _roomRepository.Delete(room);
             if (!succeeded)
             {
-                return StatusCode(500, "A problem occured while removing the record. Please try again!");
+                return StatusCode(500, "A problem occured while removing the room. Please try again!");
             }
 
             return Ok();

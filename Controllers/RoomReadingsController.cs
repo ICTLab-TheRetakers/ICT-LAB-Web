@@ -43,11 +43,12 @@ namespace ICT_LAB_Web.Controllers
             var data = limit.HasValue ? await _roomReadingRepository.GetByRoom(room, limit.Value) : await _roomReadingRepository.GetByRoom(room);
             if (data == null)
             {
-                return StatusCode(500, "Room readings could not be found.");
+                return StatusCode(404, String.Format("Unable to find any room readings in room '{0}'.", room));
             }
 
             //Convert to view model
-            var result = data.Select(x => new RoomReadingViewModel {
+            var result = data.Select(x => new RoomReadingViewModel
+            {
                 RoomCode = x.RoomCode,
                 Type = x.Type,
                 Value = x.Value,
@@ -87,11 +88,13 @@ namespace ICT_LAB_Web.Controllers
             var data = await _roomReadingRepository.Get(room, type, fromDate, tillDate);
             if (data == null)
             {
-                return StatusCode(500, "Room readings could not be found.");
+                return StatusCode(404, String.Format("Unable to find any {0} readings in room '{1}' between '{2}' and '{3}'.", type, room,
+                    fromDate.Value.ToString("dd-MM HH:mm"), tillDate.Value.ToString("dd-MM HH:mm")));
             }
 
             //Convert to view model
-            var result = data.Select(x => new RoomReadingViewModel {
+            var result = data.Select(x => new RoomReadingViewModel
+            {
                 RoomCode = x.RoomCode,
                 Type = x.Type,
                 Value = x.Value,
@@ -116,7 +119,8 @@ namespace ICT_LAB_Web.Controllers
                 return StatusCode(400, "Invalid parameter(s).");
             }
 
-            RoomReading roomReading = new RoomReading {
+            RoomReading roomReading = new RoomReading
+            {
                 RoomCode = model.RoomCode,
                 CreatedOn = model.CreatedOn,
                 Type = model.Type,
@@ -127,10 +131,11 @@ namespace ICT_LAB_Web.Controllers
             var result = await _roomReadingRepository.Add(roomReading);
             if (result == null)
             {
-                return StatusCode(500, "A problem occured while saving the record. Please try again!");
+                return StatusCode(500, "A problem occured while saving the reading. Please try again!");
             }
 
-            return Ok(new RoomReadingViewModel {
+            return Ok(new RoomReadingViewModel
+            {
                 RoomCode = result.RoomCode,
                 CreatedOn = result.CreatedOn,
                 Type = result.Type,
@@ -156,7 +161,7 @@ namespace ICT_LAB_Web.Controllers
             var succeeded = await _roomReadingRepository.Delete(room);
             if (!succeeded)
             {
-                return StatusCode(500, "A problem occured while removing the records. Please try again!");
+                return StatusCode(500, "A problem occured while removing the readings. Please try again!");
             }
 
             return Ok();

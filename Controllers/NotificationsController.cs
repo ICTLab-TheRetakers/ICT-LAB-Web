@@ -5,6 +5,7 @@ using ICT_LAB_Web.Controllers.ViewModels;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -29,7 +30,7 @@ namespace ICT_LAB_Web.Controllers
         /// <param name="from">Beginning of datetime reservations</param>
         /// <param name="till">End of datetine reservations</param>
         [HttpGet("getByUser")]
-        [ProducesResponseType(typeof(DeviceViewModel), 200)]
+        [ProducesResponseType(typeof(IEnumerable<NotificationViewModel>), 200)]
         [ProducesResponseType(typeof(void), 400)]
         [ProducesResponseType(typeof(void), 500)]
         public async Task<IActionResult> GetByUser(string user, string from, string till)
@@ -51,11 +52,13 @@ namespace ICT_LAB_Web.Controllers
             var data = await _notificationRepository.GetByUser(user, fromDate, tillDate);
             if (data == null)
             {
-                return StatusCode(500, "Notification(s) could not be found.");
+                return StatusCode(404, String.Format("Unable to find any notification(s) for '{0}' between '{1}' and '{2}'.", user,
+                                    fromDate.Value.ToString("dd-MM HH:mm"), tillDate.Value.ToString("dd-MM HH:mm")));
             }
 
             //Convert to view model
-            var result = data.Select(x => new NotificationViewModel {
+            var result = data.Select(x => new NotificationViewModel
+            {
                 NotificationId = x.NotificationId,
                 UserId = x.UserId
             });
@@ -68,7 +71,7 @@ namespace ICT_LAB_Web.Controllers
         /// </summary>
         /// <param name="notification">Id of notification</param>
         [HttpGet("get")]
-        [ProducesResponseType(typeof(DeviceViewModel), 200)]
+        [ProducesResponseType(typeof(NotificationViewModel), 200)]
         [ProducesResponseType(typeof(void), 400)]
         [ProducesResponseType(typeof(void), 500)]
         public async Task<IActionResult> Get(int? notification)
@@ -82,11 +85,12 @@ namespace ICT_LAB_Web.Controllers
             var data = await _notificationRepository.Get(notification.Value);
             if (data == null)
             {
-                return StatusCode(500, "Notification could not be found.");
+                return StatusCode(404, String.Format("Unable to find notification with ID '{0}'.", notification.Value));
             }
 
             //Convert to view model
-            var result = new NotificationViewModel {
+            var result = new NotificationViewModel
+            {
                 NotificationId = data.NotificationId,
                 UserId = data.UserId
             };
@@ -99,7 +103,7 @@ namespace ICT_LAB_Web.Controllers
         /// </summary>
         /// <param name="model">Notification object</param>
         [HttpPost("create")]
-        [ProducesResponseType(typeof(DeviceViewModel), 200)]
+        [ProducesResponseType(typeof(NotificationViewModel), 200)]
         [ProducesResponseType(typeof(void), 400)]
         [ProducesResponseType(typeof(void), 500)]
         public async Task<IActionResult> Create([FromBody]NotificationViewModel model)
@@ -109,7 +113,8 @@ namespace ICT_LAB_Web.Controllers
                 return StatusCode(400, "Invalid parameter(s).");
             }
 
-            Notification notification = new Notification {
+            Notification notification = new Notification
+            {
                 NotificationId = model.NotificationId,
                 UserId = model.UserId,
                 CreatedOn = model.CreatedOn,
@@ -120,10 +125,11 @@ namespace ICT_LAB_Web.Controllers
             var result = await _notificationRepository.Add(notification);
             if (result == null)
             {
-                return StatusCode(500, "A problem occured while saving the record. Please try again!");
+                return StatusCode(500, "A problem occured while saving the notification. Please try again!");
             }
 
-            return Ok(new NotificationViewModel {
+            return Ok(new NotificationViewModel
+            {
                 NotificationId = result.NotificationId,
                 UserId = result.UserId,
                 CreatedOn = result.CreatedOn,
@@ -146,7 +152,8 @@ namespace ICT_LAB_Web.Controllers
                 return StatusCode(400, "Invalid parameter(s).");
             }
 
-            Notification notification = new Notification {
+            Notification notification = new Notification
+            {
                 NotificationId = model.NotificationId,
                 UserId = model.UserId,
                 CreatedOn = model.CreatedOn,
@@ -157,10 +164,11 @@ namespace ICT_LAB_Web.Controllers
             var result = await _notificationRepository.Update(notification);
             if (result == null)
             {
-                return StatusCode(500, "A problem occured while updating the record. Please try again!");
+                return StatusCode(500, "A problem occured while updating the notification. Please try again!");
             }
 
-            return Ok(new NotificationViewModel {
+            return Ok(new NotificationViewModel
+            {
                 NotificationId = result.NotificationId,
                 UserId = result.UserId,
                 CreatedOn = result.CreatedOn,
@@ -187,7 +195,7 @@ namespace ICT_LAB_Web.Controllers
             var succeeded = await _notificationRepository.Delete(notification.Value);
             if (!succeeded)
             {
-                return StatusCode(500, "A problem occured while removing the record. Please try again!");
+                return StatusCode(500, "A problem occured while removing the notification. Please try again!");
             }
 
             return Ok();

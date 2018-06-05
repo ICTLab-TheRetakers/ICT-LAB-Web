@@ -41,11 +41,12 @@ namespace ICT_LAB_Web.Controllers
             var data = await _deviceRepository.Get(device.Value);
             if (data == null)
             {
-                return StatusCode(500, "Device could not be found.");
+                return StatusCode(404, String.Format("Unable to find device with ID '{0}'.", device.Value));
             }
 
             //Convert to view model
-            var result = new DeviceViewModel {
+            var result = new DeviceViewModel
+            {
                 DeviceId = data.DeviceId,
                 RoomCode = data.RoomCode
             };
@@ -72,11 +73,12 @@ namespace ICT_LAB_Web.Controllers
             var data = await _deviceRepository.GetByRoom(room);
             if (data == null)
             {
-                return StatusCode(500, "Device(s) could not be found.");
+                return StatusCode(404, String.Format("Unable to find any devices in room '{0}'.", room));
             }
 
             //Convert to view model
-            var result = data.Select(x => new DeviceViewModel {
+            var result = data.Select(x => new DeviceViewModel
+            {
                 DeviceId = x.DeviceId,
                 RoomCode = x.RoomCode
             });
@@ -99,7 +101,8 @@ namespace ICT_LAB_Web.Controllers
                 return StatusCode(400, "Invalid parameter(s).");
             }
 
-            Device device = new Device {
+            Device device = new Device
+            {
                 DeviceId = model.DeviceId,
                 RoomCode = model.RoomCode
             };
@@ -108,10 +111,11 @@ namespace ICT_LAB_Web.Controllers
             var result = await _deviceRepository.Add(device);
             if (result == null)
             {
-                return StatusCode(500, "A problem occured while saving the record. Please try again!");
+                return StatusCode(500, "A problem occured while saving the device. Please try again!");
             }
 
-            return Ok(new DeviceViewModel {
+            return Ok(new DeviceViewModel
+            {
                 DeviceId = result.DeviceId,
                 RoomCode = result.RoomCode
             });
@@ -136,7 +140,7 @@ namespace ICT_LAB_Web.Controllers
             var succeeded = await _deviceRepository.Delete(device.Value);
             if (!succeeded)
             {
-                return StatusCode(500, "A problem occured while removing the record. Please try again!");
+                return StatusCode(500, "A problem occured while removing the device. Please try again!");
             }
 
             return Ok();

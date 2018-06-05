@@ -57,7 +57,8 @@ namespace ICT_LAB_Web.Controllers
             var data = await _reservationRepository.GetByRoom(room, fromDate, tillDate);
             if (data == null)
             {
-                return StatusCode(500, "Reservations could not be found.");
+                return StatusCode(404, String.Format("Unable to find any reservation(s) in room '{0}' between '{1}' and '{2}'.", room,
+                    fromDate.Value.ToString("dd-MM HH:mm"), tillDate.Value.ToString("dd-MM HH:mm")));
             }
 
             //Convert to view model
@@ -102,7 +103,7 @@ namespace ICT_LAB_Web.Controllers
             var data = await crawler.StartCrawlingAsync();
             if (data == null)
             {
-                return StatusCode(500, "Lessons could not be found.");
+                return StatusCode(404, "Lessons could not be found.");
             }
 
             //Convert to view model
@@ -251,7 +252,7 @@ namespace ICT_LAB_Web.Controllers
             var data = await _reservationRepository.GetByStart(user, startDate);
             if (data == null)
             {
-                return StatusCode(500, "Reservations could not be found.");
+                return StatusCode(404, String.Format("Unable to find reservation for '{0}' on '{1}'.", user, startDate.Value.ToString("dd-MM HH:mm")));
             }
 
             //Convert to view model
@@ -296,7 +297,8 @@ namespace ICT_LAB_Web.Controllers
             var data = await _reservationRepository.Get(user, fromDate, tillDate);
             if (data == null)
             {
-                return StatusCode(500, "Reservations could not be found.");
+                return StatusCode(404, String.Format("Unable to find any reservation(s) for '{0}' between '{1}' and '{2}'.", user,
+                                    fromDate.Value.ToString("dd-MM HH:mm"), tillDate.Value.ToString("dd-MM HH:mm")));
             }
 
             //Convert to view model
@@ -340,7 +342,7 @@ namespace ICT_LAB_Web.Controllers
             var result = await _reservationRepository.Add(reservation);
             if (result == null)
             {
-                return StatusCode(500, "A problem occured while saving the record. Please try again!");
+                return StatusCode(500, "A problem occured while saving the reservation. Please try again!");
             }
 
             return Ok(new ReservationViewModel
@@ -381,7 +383,7 @@ namespace ICT_LAB_Web.Controllers
             var result = await _reservationRepository.Update(reservation);
             if (result == null)
             {
-                return StatusCode(500, "A problem occured while updating the record. Please try again!");
+                return StatusCode(500, "A problem occured while updating the reservation. Please try again!");
             }
 
             return Ok(new ReservationViewModel
@@ -420,7 +422,7 @@ namespace ICT_LAB_Web.Controllers
             var succeeded = await _reservationRepository.Delete(room, startDate.Value);
             if (!succeeded)
             {
-                return StatusCode(500, "A problem occured while removing the record. Please try again!");
+                return StatusCode(500, "A problem occured while removing the reservation. Please try again!");
             }
 
             return Ok();

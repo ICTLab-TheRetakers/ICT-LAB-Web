@@ -41,11 +41,12 @@ namespace ICT_LAB_Web.Controllers
             var data = await _issueRepository.GetByRoom(room);
             if (data == null)
             {
-                return StatusCode(500, "Issue(s) could not be found.");
+                return StatusCode(404, String.Format("Unable to find any issues in room '{0}'.", room));
             }
 
             //Convert to view model
-            var result = data.Select(x => new IssueViewModel {
+            var result = data.Select(x => new IssueViewModel
+            {
                 IssueId = x.IssueId,
                 RoomCode = x.RoomCode,
                 CreatedOn = x.CreatedOn,
@@ -69,7 +70,7 @@ namespace ICT_LAB_Web.Controllers
             var data = await _issueRepository.GetAll();
             if (data == null)
             {
-                return StatusCode(500, "Issue(s) could not be found.");
+                return StatusCode(404, String.Format("Unable to find any issues."));
             }
 
             //Convert to view model
@@ -104,11 +105,12 @@ namespace ICT_LAB_Web.Controllers
             var data = await _issueRepository.Get(issue.Value);
             if (data == null)
             {
-                return StatusCode(500, "Issue could not be found.");
+                return StatusCode(404, String.Format("Unable to find issue with ID '{0}'.", issue.Value));
             }
 
             //Convert to view model
-            var result = new IssueViewModel {
+            var result = new IssueViewModel
+            {
                 IssueId = data.IssueId,
                 RoomCode = data.RoomCode,
                 CreatedOn = data.CreatedOn,
@@ -134,7 +136,8 @@ namespace ICT_LAB_Web.Controllers
                 return StatusCode(400, "Invalid parameter(s).");
             }
 
-            Issue issue = new Issue {
+            Issue issue = new Issue
+            {
                 IssueId = model.IssueId,
                 RoomCode = model.RoomCode,
                 CreatedOn = model.CreatedOn,
@@ -146,10 +149,11 @@ namespace ICT_LAB_Web.Controllers
             var result = await _issueRepository.Add(issue);
             if (result == null)
             {
-                return StatusCode(500, "A problem occured while saving the record. Please try again!");
+                return StatusCode(500, "A problem occured while saving the issue. Please try again!");
             }
 
-            return Ok(new IssueViewModel {
+            return Ok(new IssueViewModel
+            {
                 IssueId = result.IssueId,
                 RoomCode = result.RoomCode,
                 Description = result.Description,
@@ -173,7 +177,8 @@ namespace ICT_LAB_Web.Controllers
                 return StatusCode(400, "Invalid parameter(s).");
             }
 
-            Issue issue = new Issue {
+            Issue issue = new Issue
+            {
                 IssueId = model.IssueId,
                 RoomCode = model.RoomCode,
                 CreatedOn = model.CreatedOn,
@@ -185,10 +190,11 @@ namespace ICT_LAB_Web.Controllers
             var result = await _issueRepository.Update(issue);
             if (result == null)
             {
-                return StatusCode(500, "A problem occured while updating the record. Please try again!");
+                return StatusCode(500, "A problem occured while updating the issue. Please try again!");
             }
 
-            return Ok(new IssueViewModel {
+            return Ok(new IssueViewModel
+            {
                 IssueId = result.IssueId,
                 RoomCode = result.RoomCode,
                 Description = result.Description,
@@ -216,7 +222,7 @@ namespace ICT_LAB_Web.Controllers
             var succeeded = await _issueRepository.Delete(issue.Value);
             if (!succeeded)
             {
-                return StatusCode(500, "A problem occured while removing the record. Please try again!");
+                return StatusCode(500, "A problem occured while removing the issue. Please try again!");
             }
 
             return Ok();
@@ -241,7 +247,7 @@ namespace ICT_LAB_Web.Controllers
             var succeeded = await _issueRepository.DeleteFromRoom(room);
             if (!succeeded)
             {
-                return StatusCode(500, "A problem occured while removing the record. Please try again!");
+                return StatusCode(500, "A problem occured while removing the issue. Please try again!");
             }
 
             return Ok();

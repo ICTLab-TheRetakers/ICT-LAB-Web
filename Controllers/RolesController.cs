@@ -34,12 +34,13 @@ namespace ICT_LAB_Web.Controllers
             var data = await _rolesRepository.GetAll();
             if (data == null)
             {
-                return StatusCode(500, "Roles not be found.");
+                return StatusCode(404, "Roles not be found.");
             }
 
-            var result = data.Select(x => new RoleViewModel {
-				RoleId = x.RoleId,
-				Type = x.Type
+            var result = data.Select(x => new RoleViewModel
+            {
+                RoleId = x.RoleId,
+                Type = x.Type
             });
 
             return Ok(result);
@@ -64,11 +65,12 @@ namespace ICT_LAB_Web.Controllers
             var data = await _rolesRepository.Get(role.Value);
             if (data == null)
             {
-                return StatusCode(500, "Role not be found.");
+                return StatusCode(404, string.Format("Unable to find role with ID '{0}'.", role.Value));
             }
 
             //Convert to view model
-            var result = new RoleViewModel {
+            var result = new RoleViewModel
+            {
                 RoleId = data.RoleId,
                 Type = data.Type
             };

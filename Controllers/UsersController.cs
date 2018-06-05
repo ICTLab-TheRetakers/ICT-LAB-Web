@@ -41,7 +41,7 @@ namespace ICT_LAB_Web.Controllers
             var data = await _userRepository.GetAllUsers();
             if (data == null)
             {
-                return StatusCode(500, "Users could not be found.");
+                return StatusCode(404, String.Format("Unable to find any users."));
             }
 
             //Convert to viewmodel
@@ -77,7 +77,7 @@ namespace ICT_LAB_Web.Controllers
             var data = await _userRepository.GetByEmail(email);
             if (data == null)
             {
-                return StatusCode(500, "User could not be found.");
+                return StatusCode(404, String.Format("Unable to find any user with e-mail address '{0}'.", email));
             }
 
             //Convert to view model
@@ -113,7 +113,7 @@ namespace ICT_LAB_Web.Controllers
             var data = await _userRepository.Get(user);
             if (data == null)
             {
-                return StatusCode(500, "User could not be found.");
+                return StatusCode(404, String.Format("Unable to find any user with ID '{0}'.", user));
             }
 
             //Convert to view model
@@ -150,7 +150,7 @@ namespace ICT_LAB_Web.Controllers
             var data = await _userRepository.CheckCredentials(email, password);
             if (data == null)
             {
-                return StatusCode(500, "Invalid credentials.");
+                return StatusCode(500, String.Format("Incorrext e-mail/password combination."));
             }
 
             //Convert to view model
@@ -196,7 +196,7 @@ namespace ICT_LAB_Web.Controllers
             var result = await _userRepository.Add(user);
             if (result == null)
             {
-                return StatusCode(500, "A problem occured while saving the record. Please try again!");
+                return StatusCode(500, "A problem occured while saving the user. Please try again!");
             }
 
             return Ok(new UserViewModel {
@@ -286,7 +286,7 @@ namespace ICT_LAB_Web.Controllers
             var result = await _userRepository.Update(user);
             if (result == null)
             {
-                return StatusCode(500, "A problem occured while updating the record. Please try again!");
+                return StatusCode(500, "A problem occured while updating the user. Please try again!");
             }
 
             return Ok(new UserViewModel {
@@ -319,7 +319,7 @@ namespace ICT_LAB_Web.Controllers
             var succeeded = await _userRepository.Delete(user);
             if (!succeeded)
             {
-                return StatusCode(500, "A problem occured while removing the record. Please try again!");
+                return StatusCode(500, "A problem occured while removing the user. Please try again!");
             }
 
             return Ok();
