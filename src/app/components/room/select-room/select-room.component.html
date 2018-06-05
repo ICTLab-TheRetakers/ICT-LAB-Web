@@ -25,7 +25,7 @@
 
             <div class="form-row" [hidden]="schedule == null">
                 <div class="col-sm-4 col-md-2 offset-md-2">
-                    <button type="button" class="btn btn-primary" (click)="previousWeek()">Previous</button>
+                    <button [disabled]="currentWeek <= startWeek" type="button" class="btn btn-primary" (click)="previousWeek()">Previous</button>
                 </div>
                 <div class="col-sm-4 col-md-2 offset-md-2">
                     <button type="button" class="btn btn-primary" (click)="nextWeek()">Next</button>

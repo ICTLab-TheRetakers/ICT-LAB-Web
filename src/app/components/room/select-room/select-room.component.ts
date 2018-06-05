@@ -18,7 +18,8 @@ import * as moment from 'moment';
 })
 export class SelectRoomComponent implements OnInit {
     schedule: Schedule = null;
-    week: number = null;
+    startWeek: number = null;
+    currentWeek: number = null;
     quarter: number = null;
     type: string = null;
     index: number = null;
@@ -33,15 +34,19 @@ export class SelectRoomComponent implements OnInit {
     constructor(private _roomService: RoomService, private _reservationService: ReservationService) { }
 
     ngOnInit() {
-        this.setRoomType();
+        this.setRoomOptions();
         this.setCurrentWeekAndQuarter();
     }
 
-    setRoomType() {
+    setRoomOptions() {
         if (this.onlyAllowRooms == true) {
             this.type = 'r';
             this.hide = true;
-            this.getRoomOptions();
+
+            this._roomService.getAllRooms().subscribe(
+                (response) => this.options = response.map(m => m.room_code),
+				(error: HttpErrorResponse) => { throw error; }
+            );
         }
     }
 
@@ -65,10 +70,12 @@ export class SelectRoomComponent implements OnInit {
                 break;
         }
 
-        this.week = moment(today).week();
+        this.startWeek = moment(today).week();
         if (dayOfWeek == 0 || dayOfWeek == 6) {
-            this.week = this.week + 1;
+            this.startWeek = this.startWeek + 1;
         }
+
+        this.currentWeek = this.startWeek;
     }
 
     setType(event: any) {
@@ -119,7 +126,7 @@ export class SelectRoomComponent implements OnInit {
                     break;
             }
 
-            this._reservationService.getLessonsByWeek(this.type, identifier, this.quarter, this.week).subscribe(
+            this._reservationService.getLessonsByWeek(this.type, identifier, this.quarter, this.currentWeek).subscribe(
                 (response) => {
                     this.schedule = response;
                     this.chosenObject.emit(this.schedule);
@@ -129,22 +136,12 @@ export class SelectRoomComponent implements OnInit {
         }
     }
 
-    reset() {
-        this.schedule = null;
-
-        if (this.hide == false) {
-            this.type = null;
-        }
-    }
-
     getOptions() {
-        if (this.week != null && this.quarter != null && this.type != null) {
+        if (this.currentWeek != null && this.quarter != null && this.type != null) {
             if (this.type == "r") {
                 this._reservationService.getAllRooms(this.quarter).subscribe(
                     (response) => this.options = response,
-                    (error) => {
-                        return Observable.throw(error)
-                    }
+                    (error: HttpErrorResponse) => { throw error; }
                 );
             } else if (this.type == "c") {
                 this._reservationService.getAllClasses(this.quarter).subscribe(
@@ -160,19 +157,8 @@ export class SelectRoomComponent implements OnInit {
         }
     }
 
-    getRoomOptions() {
-        if (this.onlyAllowRooms == true) {
-            this._roomService.getAllRooms().subscribe(
-                (response) => this.options = response.map(m => m.room_code),
-                (error) => {
-                    return Observable.throw(error)
-                }
-            );
-        }
-    }
-
     previousWeek() {
-        this.week = this.week - 1;
+        this.currentWeek = this.currentWeek - 1;
 
         // Save variables
         let index = this.index;
@@ -189,7 +175,7 @@ export class SelectRoomComponent implements OnInit {
     }
 
     nextWeek() {
-        this.week = this.week + 1;
+        this.currentWeek = this.currentWeek + 1;
 
         // Save variables
         let index = this.index;
@@ -203,5 +189,13 @@ export class SelectRoomComponent implements OnInit {
 
         this.selectOption(null, true);
         this.resetSchedule.emit(true);
+    }
+
+    reset() {
+        this.schedule = null;
+
+        if (this.hide == false) {
+            this.type = null;
+        }
     }
 }

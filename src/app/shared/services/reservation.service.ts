@@ -42,7 +42,7 @@ export class ReservationService {
     }
 
     getAllClasses(quarter: number): Observable<string[]> {
-        return this.http.get(this.baseUrl + 'getAllClasses??quarter=' + quarter)
+        return this.http.get(this.baseUrl + 'getAllClasses?quarter=' + quarter)
             .catch(this.handleError);
     }
 
