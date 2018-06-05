@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DepartmentService } from '../../shared/services/department.service';
 import Department from '../../shared/models/department.model';
 import { Observable } from 'rxjs/Observable';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
     selector: 'app-department',

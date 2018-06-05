@@ -42,6 +42,7 @@ export class SignInComponent implements OnInit {
                 this.checkRole(response as User);
             },
             (error: HttpErrorResponse) => { throw error; }
+        );
     }
 
     saveLocal(user: User) {

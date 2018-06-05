@@ -5,6 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import { IssueService } from '../../shared/services/issue.service';
 
 import Issue from '../../shared/models/issue.model';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
     selector: 'app-issue',

@@ -8,6 +8,7 @@ import User from '../../shared/models/user.model';
 import Reservation from '../../shared/models/reservation.model';
 
 import * as moment from 'moment';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
     selector: 'app-reservation',

@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/router';
 
 import Department from '../../../shared/models/department.model';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
     selector: 'app-add-department',
