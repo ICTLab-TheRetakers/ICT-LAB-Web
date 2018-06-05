@@ -140,19 +140,19 @@ export class SelectRoomComponent implements OnInit {
     getOptions() {
         if (this.week != null && this.quarter != null && this.type != null) {
             if (this.type == "r") {
-                this._reservationService.getAllRooms('CMI', this.quarter).subscribe(
+                this._reservationService.getAllRooms(this.quarter).subscribe(
                     (response) => this.options = response,
                     (error) => {
                         return Observable.throw(error)
                     }
                 );
             } else if (this.type == "c") {
-                this._reservationService.getAllClasses('CMI', this.quarter).subscribe(
+                this._reservationService.getAllClasses(this.quarter).subscribe(
                     (response) => this.options = response,
                     (error: HttpErrorResponse) => { throw error; }
                 );
             } else if (this.type == "t") {
-                this._reservationService.getAllTeachers('CMI', this.quarter).subscribe(
+                this._reservationService.getAllTeachers(this.quarter).subscribe(
                     (response) => this.options = response,
                     (error: HttpErrorResponse) => { throw error; }
                 );

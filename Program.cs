@@ -14,6 +14,7 @@ namespace ICT_LAB_Web
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
                 .UseIISIntegration()
+                .UseUrls("http://*:80/")
                 .Build();
     }
 }
