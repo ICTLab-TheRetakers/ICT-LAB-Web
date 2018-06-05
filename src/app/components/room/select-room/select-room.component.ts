@@ -1,14 +1,15 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
-import Room from '../../../shared/models/room.model';
 import { ToastOptions, ToastyService, ToastyConfig } from 'ng2-toasty';
+import { HttpErrorResponse } from '@angular/common/http';
 
 import { RoomService } from '../../../shared/services/room.service';
-import Schedule from '../../../shared/models/schedule/schedule.model';
 import { ReservationService } from '../../../shared/services/reservation.service';
 import { Observable } from 'rxjs/Observable';
 
+import Room from '../../../shared/models/room.model';
+import Schedule from '../../../shared/models/schedule/schedule.model';
+
 import * as moment from 'moment';
-import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
     selector: 'app-select-room',

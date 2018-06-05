@@ -7,12 +7,7 @@
                     <label>Room Code</label>
                     <input type="text" class="form-control" [(ngModel)]="room.room_code" name="room_code">
                 </div>
-                <div class="col-sm-12 col-md-6">
-                    <label>Department</label>
-                    <select class="custom-select" [(ngModel)]="room.department" name="department">
-                        <option *ngFor="let department of departments" [value]="department.department_code">{{ department.name }}</option>
-                    </select>
-                </div>
+                <div class="col-sm-12 col-md-6"></div>
             </div>
 
             <div class="form-row my-4">

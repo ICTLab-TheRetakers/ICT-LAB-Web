@@ -26,8 +26,6 @@ import { SharedService } from './shared/services/shared.service';
 import { AuthGuard } from './shared/authguard.service';
 import { AuthenticationService } from './shared/authentication.service';
 import { CustomErrorHandler } from './shared/error-handler';
-import { DepartmentComponent } from './components/department/department.component';
-import { DepartmentModule } from './components/department/department.module';
 
 @NgModule({
     declarations: [
@@ -39,7 +37,6 @@ import { DepartmentModule } from './components/department/department.module';
         HttpModule,
         RoomModule,
         UserModule,
-        DepartmentModule,
         RoomreadingsModule,
         DeviceModule,
         NotificationModule,

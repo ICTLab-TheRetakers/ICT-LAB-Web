@@ -8,7 +8,6 @@ namespace ICT_LAB_Web.Components.Services.Interfaces
     {
         Task<Room> Get(string room);
         Task<List<Room>> GetAll();
-        Task<List<Room>> GetByDepartment(string department);
         Task<Room> Add(Room room);
         Task<Room> Update(Room room);
         Task<bool> Delete(string room);

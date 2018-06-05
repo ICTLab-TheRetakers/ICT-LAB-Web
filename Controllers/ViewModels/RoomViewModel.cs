@@ -14,7 +14,5 @@ namespace ICT_LAB_Web.Controllers.ViewModels
         public bool HasWindows { get; set; }
         [JsonProperty("student_capacity")]
         public int? StudentCapacity { get; set; }
-        [JsonProperty("department")]
-        public string Department { get; set; }
     }
 }

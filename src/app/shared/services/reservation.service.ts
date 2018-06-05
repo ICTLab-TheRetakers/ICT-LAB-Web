@@ -31,18 +31,18 @@ export class ReservationService {
             .catch(this.handleError);
     }
 
-    getAllTeachers(department: string, quarter: number): Observable<string[]> {
-        return this.http.get(this.baseUrl + 'getAllTeachers?department=' + department + '&quarter=' + quarter)
+    getAllTeachers(quarter: number): Observable<string[]> {
+        return this.http.get(this.baseUrl + 'getAllTeachers?quarter=' + quarter)
             .catch(this.handleError);
     }
 
-    getAllRooms(department: string, quarter: number): Observable<string[]> {
-        return this.http.get(this.baseUrl + 'getAllRooms?department=' + department + '&quarter=' + quarter)
+    getAllRooms(quarter: number): Observable<string[]> {
+        return this.http.get(this.baseUrl + 'getAllRooms?quarter=' + quarter)
             .catch(this.handleError);
     }
 
-    getAllClasses(department: string, quarter: number): Observable<string[]> {
-        return this.http.get(this.baseUrl + 'getAllClasses?department=' + department + '&quarter=' + quarter)
+    getAllClasses(quarter: number): Observable<string[]> {
+        return this.http.get(this.baseUrl + 'getAllClasses??quarter=' + quarter)
             .catch(this.handleError);
     }
 

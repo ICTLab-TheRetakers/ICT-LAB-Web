@@ -1,10 +1,9 @@
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using ICT_LAB_Web.Components.DataContext;
 using ICT_LAB_Web.Components.Entities;
 using ICT_LAB_Web.Components.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ICT_LAB_Web.Components.Services
 {
@@ -52,11 +51,6 @@ namespace ICT_LAB_Web.Components.Services
         public async Task<List<Room>> GetAll()
         {
             return await _dbContext.Rooms.ToListAsync();
-        }
-
-        public Task<List<Room>> GetByDepartment(string department)
-        {
-            return _dbContext.Rooms.Where(q => q.Department.ToLower() == department.ToLower()).ToListAsync();
         }
     }
 }

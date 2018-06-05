@@ -78,7 +78,6 @@ namespace ICT_LAB_Web.Controllers
         /// </summary>
         /// <param name="type">Type of schedule: ex. class, room or teacher</param>
         /// <param name="index">Index in list</param>
-        /// <param name="department">Department within school</param>
         /// <param name="quarter">Quarter of year</param>
         /// <param name="week">Week number</param>
         [HttpGet("getLessonsByWeek")]

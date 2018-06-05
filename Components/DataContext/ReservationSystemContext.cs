@@ -6,7 +6,6 @@ namespace ICT_LAB_Web.Components.DataContext
     public partial class ReservationSystemContext : DbContext
     {
         public virtual DbSet<Device> Devices { get; set; }
-        public virtual DbSet<Department> Departments { get; set; }
         public virtual DbSet<Issue> Issues { get; set; }
         public virtual DbSet<Notification> Notifications { get; set; }
         public virtual DbSet<Participant> Participants { get; set; }
@@ -44,23 +43,6 @@ namespace ICT_LAB_Web.Components.DataContext
                     .IsRequired()
                     .HasColumnName("room_code");
             });
-
-            modelBuilder.Entity<Department>(entity =>
-            {
-                entity.HasKey(e => e.DepartmentCode);
-
-                entity.ToTable("departments");
-
-                entity.Property(e => e.Name)
-                    .HasColumnName("name")
-                    .ValueGeneratedNever();
-
-                entity.Property(e => e.DepartmentCode)
-                    .IsRequired()
-                    .HasColumnName("department_code");
-
-            });
-
 
             modelBuilder.Entity<Issue>(entity =>
             {
@@ -199,15 +181,8 @@ namespace ICT_LAB_Web.Components.DataContext
                     .HasColumnName("has_windows")
                     .HasColumnType("bit");
 
-                entity.Property(e => e.Department).HasColumnName("department");
-
                 entity.Property(e => e.StudentCapacity).HasColumnName("student_capacity");
 
-                entity.HasOne(d => d.DepartmentNavigation)
-                    .WithMany(p => p.Rooms)
-                    .HasForeignKey(d => d.Department)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("departments_rooms_fk");
             });
 
             modelBuilder.Entity<User>(entity =>

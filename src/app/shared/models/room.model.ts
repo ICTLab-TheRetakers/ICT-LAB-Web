@@ -4,5 +4,4 @@ export default class Room {
     has_computer: boolean;
     has_windows: boolean;
     student_capacity: number;
-    department: string;
 }

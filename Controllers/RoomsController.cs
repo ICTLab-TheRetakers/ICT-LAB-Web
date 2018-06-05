@@ -24,42 +24,6 @@ namespace ICT_LAB_Web.Controllers
         }
 
         /// <summary>
-        /// Gets a list with all rooms by department.
-        /// </summary>
-        /// <param name="department">Department of room(s)</param>
-        [HttpGet("getByDepartment")]
-        [ProducesResponseType(typeof(IEnumerable<RoomViewModel>), 200)]
-        [ProducesResponseType(typeof(void), 400)]
-        [ProducesResponseType(typeof(void), 500)]
-        public async Task<IActionResult> GetByDepartment(string department)
-        {
-            if (String.IsNullOrEmpty(department))
-            {
-                return StatusCode(400, "Invalid parameter(s).");
-            }
-
-            //Get rooms
-            var data = await _roomRepository.GetByDepartment(department);
-            if (data == null)
-            {
-                return StatusCode(500, "Room(s) could not be found.");
-            }
-
-            //Convert to view model
-            var result = data.Select(x => new RoomViewModel
-            {
-                RoomCode = x.RoomCode,
-                HasSmartboard = x.HasSmartboard,
-                HasComputer = x.HasComputer,
-                HasWindows = x.HasWindows,
-                StudentCapacity = x.StudentCapacity,
-                Department = x.Department
-            });
-
-            return Ok(result);
-        }
-
-        /// <summary>
         /// Gets a list with all rooms.
         /// </summary>
         [HttpGet("getAll")]
@@ -81,8 +45,7 @@ namespace ICT_LAB_Web.Controllers
                 HasSmartboard = x.HasSmartboard,
                 HasComputer = x.HasComputer,
                 HasWindows = x.HasWindows,
-                StudentCapacity = x.StudentCapacity,
-                Department = x.Department
+                StudentCapacity = x.StudentCapacity
             });
 
             return Ok(result);
@@ -116,8 +79,7 @@ namespace ICT_LAB_Web.Controllers
                 HasSmartboard = data.HasSmartboard,
                 HasComputer = data.HasComputer,
                 HasWindows = data.HasWindows,
-                StudentCapacity = data.StudentCapacity,
-                Department = data.Department
+                StudentCapacity = data.StudentCapacity
             };
 
             return Ok(result);
@@ -143,8 +105,7 @@ namespace ICT_LAB_Web.Controllers
                 HasSmartboard = model.HasSmartboard,
                 HasComputer = model.HasComputer,
                 HasWindows = model.HasWindows,
-                StudentCapacity = model.StudentCapacity,
-                Department = model.Department
+                StudentCapacity = model.StudentCapacity
             };
 
             //Insert room
@@ -159,8 +120,7 @@ namespace ICT_LAB_Web.Controllers
                 HasComputer = result.HasComputer,
                 HasSmartboard = result.HasSmartboard,
                 HasWindows = result.HasWindows,
-                StudentCapacity = result.StudentCapacity,
-                Department = result.Department
+                StudentCapacity = result.StudentCapacity
             });
         }
 
@@ -184,8 +144,7 @@ namespace ICT_LAB_Web.Controllers
                 HasSmartboard = model.HasSmartboard,
                 HasComputer = model.HasComputer,
                 HasWindows = model.HasWindows,
-                StudentCapacity = model.StudentCapacity,
-                Department = model.Department
+                StudentCapacity = model.StudentCapacity
             };
 
             //Update room
@@ -200,8 +159,7 @@ namespace ICT_LAB_Web.Controllers
                 HasComputer = result.HasComputer,
                 HasSmartboard = result.HasSmartboard,
                 HasWindows = result.HasWindows,
-                StudentCapacity = result.StudentCapacity,
-                Department = result.Department
+                StudentCapacity = result.StudentCapacity
             });
         }
 

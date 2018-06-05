@@ -11,7 +11,6 @@ import { NotificationComponent } from './components/notification/notification.co
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { AuthGuard } from './shared/authguard.service';
 import { SignInComponent } from './components/user/sign-in/sign-in.component';
-import { DepartmentComponent } from './components/department/department.component';
 
 const routes: Routes = [
     {
@@ -57,11 +56,6 @@ const routes: Routes = [
     {
         path: 'notifications',
         component: NotificationComponent,
-        canActivate: [AuthGuard]
-    },
-    {
-        path: 'departments',
-        component: DepartmentComponent,
         canActivate: [AuthGuard]
     },
     {
