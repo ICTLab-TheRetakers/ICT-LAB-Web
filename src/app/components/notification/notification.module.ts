@@ -19,6 +19,7 @@ import { CustomErrorHandler } from '../../shared/error-handler';
         ToastyModule.forRoot(),
         NotificationRoutingModule
     ],
+    exports: [NotificationComponent],
     declarations: [NotificationComponent],
     providers: [
         NotificationService,

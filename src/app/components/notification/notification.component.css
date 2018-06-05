@@ -1,0 +1,50 @@
+h4 {
+    color: #fff;
+    padding: 0;
+    margin-bottom: 25px;
+    padding-bottom: 4px;
+}
+
+p {
+    color: #fff;
+    padding-bottom: 15px;
+    width: 100%;
+    border-bottom: 2px solid white;
+}
+
+h3 {
+    color: #fff;
+    padding: 10px;
+}
+
+li a {
+    padding: 10px;
+    font-size: 1.1em;
+    display: block;
+}
+
+li a:hover {
+        color: #7386D5;
+        background: #fff;
+    }
+
+li.active > a, a[aria-expanded="true"] {
+    color: #fff;
+    background: #6d7fcc;
+}
+
+ul a {
+    font-size: 0.9em !important;
+    padding-left: 30px !important;
+    background: #6d7fcc;
+}
+
+.nav-item {
+    color: #fff;
+    width: 100%;
+    font-family: 'Nunito', sans-serif;
+    border-bottom: 1px solid white;
+    padding: 15px 2px;
+    font-size: 15px;
+    line-height: 15px;
+}
