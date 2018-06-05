@@ -1,18 +1,5 @@
 <h4>Alerts</h4>
-<ul class="nav nav-pills flex-column">
-    <li class="nav-item">
-        Yur sadheadsd gesc oegapfe kgamemvel smvmes ejfneajnsjk
-    </li>
-    <li class="nav-item">
-        PReasd ka skdsakdkme how thes doesitdo fnacs macwe
-    </li>
-    <li class="nav-item">
-        Notifaca stassa dasd
-    </li>
-</ul>
-
-<!--<h4>Alerts</h4>
-<ul class="nav nav-pills flex-column">
+<!--<ul class="nav nav-pills flex-column">
     <li class="nav-item">
         Your reservation for room H.4.212 has been canceled
     </li>
@@ -23,4 +10,11 @@
         Some more text about reservations and stuff
     </li>
 </ul>-->
+
+<ul class="nav nav-pills flex-column" *ngFor="let alert of alerts">
+    <li class="nav-item">
+        {{ alert.description }}
+    </li>
+</ul>
+
 
