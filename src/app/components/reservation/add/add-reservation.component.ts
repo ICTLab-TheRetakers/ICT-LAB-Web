@@ -12,7 +12,7 @@ import User from '../../../shared/models/user.model';
 
 import * as moment from 'moment';
 import { HttpErrorResponse } from '@angular/common/http';
-import {ToastyService} from 'ng2-toasty';
+import { ToastyService } from 'ng2-toasty';
 
 @Component({
     selector: 'app-add-reservation',
@@ -31,7 +31,7 @@ export class AddReservationComponent implements OnInit {
     ngOnInit() {
         this.getCurrentUser();
         this.addRow();
-}
+    }
 
     submitForm() {
         this.reservations.forEach(reservation => {
@@ -45,7 +45,7 @@ export class AddReservationComponent implements OnInit {
                 reservation = this.convertDatetime(reservation);
                 reservation.room_code = this.selectedRoom.room_code;
                 console.log(reservation.begin);
-               this._reservationService.create(reservation).subscribe(
+                this._reservationService.create(reservation).subscribe(
                     (response) => this.router.navigate(['/reservations']),
                     (error: HttpErrorResponse) => { throw error; }
                 );

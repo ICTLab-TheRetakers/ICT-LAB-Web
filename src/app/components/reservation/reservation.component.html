@@ -12,7 +12,7 @@
                     <th></th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody *ngIf="reservations != null">
                 <tr *ngFor="let reservation of reservations">
                     <td>
                         <b>{{ reservation.start_time | date: 'EEEE dd MMM' }}</b>

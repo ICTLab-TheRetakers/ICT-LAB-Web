@@ -279,7 +279,7 @@ namespace ICT_LAB_Web.Controllers
         [HttpGet("get")]
         [ProducesResponseType(typeof(IEnumerable<ReservationViewModel>), 200)]
         [ProducesResponseType(typeof(void), 400)]
-        [ProducesResponseType(typeof(void), 500)]
+        [ProducesResponseType(typeof(void), 404)]
         public async Task<IActionResult> Get(string user, string from, string till)
         {
             if (String.IsNullOrEmpty(user))
@@ -299,8 +299,15 @@ namespace ICT_LAB_Web.Controllers
             var data = await _reservationRepository.Get(user, fromDate, tillDate);
             if (data == null)
             {
-                return StatusCode(404, String.Format("Unable to find any reservation(s) for '{0}' between '{1}' and '{2}'.", user,
+                if (!String.IsNullOrEmpty(from) || !String.IsNullOrEmpty(till))
+                {
+                    return StatusCode(404, String.Format("Unable to find any reservation(s) for '{0}'.", user));
+                }
+                else
+                {
+                    return StatusCode(404, String.Format("Unable to find any reservation(s) for '{0}' between '{1}' and '{2}'.", user,
                                     fromDate.Value.ToString("dd-MM HH:mm"), tillDate.Value.ToString("dd-MM HH:mm")));
+                }
             }
 
             //Convert to view model
