@@ -49,8 +49,6 @@ export class AddReservationComponent implements OnInit {
                     (response) => this.router.navigate(['/reservations']),
                     (error: HttpErrorResponse) => { throw error; }
                 );
-            } if (reservation.begin > reservation.end) {
-                console.log('fout');
             }
         });
     }
