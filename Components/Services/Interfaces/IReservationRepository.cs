@@ -8,10 +8,11 @@ namespace ICT_LAB_Web.Components.Services.Interfaces
     public interface IReservationRepository
     {
         Task<List<Reservation>> Get(string user, DateTime? from, DateTime? till);
+        Task<Reservation> GetById(int? id);
         Task<Reservation> GetByStart(string user, DateTime? start);
         Task<List<Reservation>> GetByRoom(string room, DateTime? from, DateTime? till);
         Task<Reservation> Add(Reservation reservation);
         Task<Reservation> Update(Reservation reservation);
-        Task<bool> Delete(string room, DateTime start);
+        Task<bool> Delete(int? id);
     }
 }

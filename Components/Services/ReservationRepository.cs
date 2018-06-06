@@ -1,11 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using ICT_LAB_Web.Components.DataContext;
 using ICT_LAB_Web.Components.Entities;
 using ICT_LAB_Web.Components.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace ICT_LAB_Web.Components.Services
 {
@@ -24,8 +24,7 @@ namespace ICT_LAB_Web.Components.Services
         public async Task<Reservation> Update(Reservation reservation)
         {
             var reservationToUpdate = await _dbContext.Reservations.FirstOrDefaultAsync(q => q.UserId == reservation.UserId
-                && q.RoomCode.ToLower() == reservation.RoomCode.ToLower() 
-                && q.StartTime == reservation.StartTime);
+                && q.ReservationId == reservation.ReservationId);
 
             if (reservationToUpdate == null)
             {
@@ -38,10 +37,9 @@ namespace ICT_LAB_Web.Components.Services
             return result == 1 ? reservation : null;
         }
 
-        public async Task<bool> Delete(string room, DateTime start)
+        public async Task<bool> Delete(int? id)
         {
-            Reservation reservationToDelete = await _dbContext.Reservations.FirstOrDefaultAsync(q => q.RoomCode.ToLower() == room.ToLower()
-                    && q.StartTime == start);
+            Reservation reservationToDelete = await _dbContext.Reservations.FirstOrDefaultAsync(q => q.ReservationId == id.Value)
             _dbContext.Reservations.Remove(reservationToDelete);
 
             var result = await _dbContext.SaveChangesAsync();
@@ -61,6 +59,12 @@ namespace ICT_LAB_Web.Components.Services
                         && q.StartTime >= from.Value && q.EndTime <= till.Value).ToListAsync();
             }
 
+            return response;
+        }
+
+        public async Task<Reservation> GetById(int? id)
+        {
+            var response = await _dbContext.Reservations.FirstOrDefaultAsync(q => q.ReservationId == id.Value);
             return response;
         }
 

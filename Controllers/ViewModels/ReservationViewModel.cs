@@ -5,6 +5,8 @@ namespace ICT_LAB_Web.Controllers.ViewModels
 {
     public class ReservationViewModel
     {
+        [JsonProperty("reservation_id")]
+        public int ReservationId { get; set; }
         [JsonProperty("user_id")]
         public string UserId { get; set; }
         [JsonProperty("room_code")]

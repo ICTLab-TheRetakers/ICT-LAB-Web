@@ -64,6 +64,7 @@ namespace ICT_LAB_Web.Controllers
             //Convert to view model
             var result = data.Select(x => new ReservationViewModel
             {
+                ReservationId = data.ReservationId,
                 UserId = x.UserId,
                 RoomCode = x.RoomCode,
                 StartTime = x.StartTime,
@@ -258,6 +259,7 @@ namespace ICT_LAB_Web.Controllers
             //Convert to view model
             var result = new ReservationViewModel
             {
+                ReservationId = data.ReservationId,
                 UserId = data.UserId,
                 RoomCode = data.RoomCode,
                 StartTime = data.StartTime,
@@ -304,12 +306,49 @@ namespace ICT_LAB_Web.Controllers
             //Convert to view model
             var result = data.Select(x => new ReservationViewModel
             {
+                ReservationId = x.ReservationId,
                 UserId = x.UserId,
                 RoomCode = x.RoomCode,
                 StartTime = x.StartTime,
                 EndTime = x.EndTime,
                 Description = x.Description
             });
+
+            return Ok(result);
+        }
+
+        /// <summary>
+        /// Gets a list with all reservations based on user and between a certain datetime.
+        /// </summary>
+        /// <param name="reservation">Id of reservation</param>
+        [HttpGet("getById")]
+        [ProducesResponseType(typeof(IEnumerable<ReservationViewModel>), 200)]
+        [ProducesResponseType(typeof(void), 400)]
+        [ProducesResponseType(typeof(void), 500)]
+        public async Task<IActionResult> GetById(int? reservation)
+        {
+            if (!reservation.HasValue)
+            {
+                return StatusCode(400, "Invalid parameter(s).");
+            }
+
+            //Get reservations
+            var data = await _reservationRepository.GetById(reservation.Value);
+            if (data == null)
+            {
+                return StatusCode(404, String.Format("Unable to find reservation with ID '{0}'.", reservation.Value));
+            }
+
+            //Convert to view model
+            var result = new ReservationViewModel
+            {
+                ReservationId = data.ReservationId,
+                UserId = data.UserId,
+                RoomCode = data.RoomCode,
+                StartTime = data.StartTime,
+                EndTime = data.EndTime,
+                Description = data.Description
+            };
 
             return Ok(result);
         }
@@ -357,6 +396,7 @@ namespace ICT_LAB_Web.Controllers
 
             return Ok(new ReservationViewModel
             {
+                ReservationId = result.ReservationId,
                 UserId = result.UserId,
                 StartTime = result.StartTime,
                 EndTime = result.EndTime,
@@ -382,6 +422,7 @@ namespace ICT_LAB_Web.Controllers
 
             Reservation reservation = new Reservation
             {
+                ReservationId = model.ReservationId,
                 RoomCode = model.RoomCode,
                 UserId = model.UserId,
                 StartTime = model.StartTime,
@@ -408,6 +449,7 @@ namespace ICT_LAB_Web.Controllers
 
             return Ok(new ReservationViewModel
             {
+                ReservationId = result.ReservationId,
                 UserId = result.UserId,
                 StartTime = result.StartTime,
                 EndTime = result.EndTime,
@@ -419,27 +461,20 @@ namespace ICT_LAB_Web.Controllers
         /// <summary>
         /// Deletes a reservation.
         /// </summary>
-        /// <param name="room">Room code</param>
-        /// <param name="start">Datetime of start reservation(s)</param>
+        /// <param name="reservation">Reservation Id</param>
         [HttpDelete("delete")]
         [ProducesResponseType(typeof(IEnumerable<ReservationViewModel>), 200)]
         [ProducesResponseType(typeof(void), 400)]
         [ProducesResponseType(typeof(void), 500)]
-        public async Task<IActionResult> Delete(string room, string start)
+        public async Task<IActionResult> Delete(int? reservation)
         {
-            if (String.IsNullOrEmpty(room))
+            if (!reservation.HasValue)
             {
                 return StatusCode(400, "Invalid parameter(s).");
             }
 
-            DateTime? startDate = null;
-            if (!String.IsNullOrEmpty(start))
-            {
-                startDate = DateTime.ParseExact(start, "yyyy-MM-ddTHH:mm:ss", null);
-            }
-
             //Remove reservation
-            var succeeded = await _reservationRepository.Delete(room, startDate.Value);
+            var succeeded = await _reservationRepository.Delete(reservation.Value);
             if (!succeeded)
             {
                 return StatusCode(500, "A problem occured while removing the reservation. Please try again!");

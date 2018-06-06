@@ -1,6 +1,7 @@
 import Participant from './participant.model';
 
 export default class Reservation {
+    reservation_id: number
     user_id: string;
     room_code: string;
     description: string;

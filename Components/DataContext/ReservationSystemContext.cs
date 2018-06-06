@@ -110,9 +110,11 @@ namespace ICT_LAB_Web.Components.DataContext
 
             modelBuilder.Entity<Reservation>(entity =>
             {
-                entity.HasKey(e => new { e.StartTime, e.RoomCode, e.UserId });
+                entity.HasKey(e => new { e.ReservationId });
 
                 entity.ToTable("reservations");
+
+                entity.Property(e => e.ReservationId).HasColumnName("reservation_id");
 
                 entity.Property(e => e.StartTime).HasColumnName("start_time");
 
