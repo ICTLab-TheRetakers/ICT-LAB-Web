@@ -146,11 +146,17 @@ namespace ICT_LAB_Web.Controllers
                 return StatusCode(400, "Invalid parameter(s).");
             }
 
+            // Check if email address is valid
+            if (!email.Contains("@") || !email.Contains("."))
+            {
+                return StatusCode(400, "E-mail is not valid.");
+            }
+
             //Get user
             var data = await _userRepository.CheckCredentials(email, password);
             if (data == null)
             {
-                return StatusCode(500, String.Format("Incorrext e-mail/password combination."));
+                return StatusCode(500, String.Format("Incorrect e-mail/password combination."));
             }
 
             //Convert to view model
@@ -180,6 +186,12 @@ namespace ICT_LAB_Web.Controllers
             if (model == null)
             {
                 return StatusCode(400, "Invalid parameter(s).");
+            }
+
+            // Check if email address is valid
+            if (!model.Email.Contains("@") || !model.Email.Contains("."))
+            {
+                return StatusCode(400, "E-mail is not valid.");
             }
 
             User user = new User {

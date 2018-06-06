@@ -338,6 +338,16 @@ namespace ICT_LAB_Web.Controllers
                 Description = model.Description
             };
 
+            // Return error message when date is not valid
+            if (IsDateValid(reservation.StartTime))
+            {
+                return StatusCode(400, "Start date and/or time is not valid");
+            }
+            if (IsDateValid(reservation.EndTime))
+            {
+                return StatusCode(400, "End date and/or time is not valid");
+            }
+
             //Insert reservation
             var result = await _reservationRepository.Add(reservation);
             if (result == null)
@@ -378,6 +388,16 @@ namespace ICT_LAB_Web.Controllers
                 EndTime = model.EndTime,
                 Description = model.Description
             };
+
+            // Return error message when date is not valid
+            if (IsDateValid(reservation.StartTime))
+            {
+                return StatusCode(400, "Start date and/or time is not valid");
+            }
+            if (IsDateValid(reservation.EndTime))
+            {
+                return StatusCode(400, "End date and/or time is not valid");
+            }
 
             //Update reservation
             var result = await _reservationRepository.Update(reservation);
@@ -426,6 +446,26 @@ namespace ICT_LAB_Web.Controllers
             }
 
             return Ok();
+        }
+
+        private bool IsDateValid(DateTime dateTime)
+        {
+            var valid = false;
+            var today = DateTime.Now;
+            var todayInTwoMonths = DateTime.Now.AddMonths(2);
+
+            // Check if date is later than two months
+            if (dateTime > todayInTwoMonths)
+            {
+                valid = false;
+            }
+            // Check if date is equal or greater than todays date
+            if (dateTime < today)
+            {
+                valid = false;
+            }
+
+            return valid;
         }
     }
 }
