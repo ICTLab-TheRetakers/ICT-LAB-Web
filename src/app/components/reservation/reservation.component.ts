@@ -37,9 +37,9 @@ export class ReservationComponent implements OnInit {
         );
     }
 
-    deleteReservation(room: string, start_time: string) {
+    deleteReservation(id: number) {
         if (confirm('Are you sure you want to delete this reservation?')) {
-            this._reservationService.delete(room, start_time).subscribe(
+            this._reservationService.delete(id).subscribe(
                 (response) => this.ngOnInit(),
                 (error: HttpErrorResponse) => { throw error; }
             );

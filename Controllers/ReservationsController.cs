@@ -64,7 +64,7 @@ namespace ICT_LAB_Web.Controllers
             //Convert to view model
             var result = data.Select(x => new ReservationViewModel
             {
-                ReservationId = data.ReservationId,
+                ReservationId = x.ReservationId,
                 UserId = x.UserId,
                 RoomCode = x.RoomCode,
                 StartTime = x.StartTime,
@@ -322,7 +322,7 @@ namespace ICT_LAB_Web.Controllers
         /// </summary>
         /// <param name="reservation">Id of reservation</param>
         [HttpGet("getById")]
-        [ProducesResponseType(typeof(IEnumerable<ReservationViewModel>), 200)]
+        [ProducesResponseType(typeof(ReservationViewModel), 200)]
         [ProducesResponseType(typeof(void), 400)]
         [ProducesResponseType(typeof(void), 500)]
         public async Task<IActionResult> GetById(int? reservation)

@@ -20,9 +20,7 @@ import { HttpErrorResponse } from '@angular/common/http/src/response';
     styleUrls: ['./edit-reservation.component.css']
 })
 export class EditReservationComponent implements OnInit {
-    roomCode: string;
-    start: string;
-    userId: string;
+    reservationId: number;
 
     date: string;
     hours: string[] = environment.hours;
@@ -35,10 +33,7 @@ export class EditReservationComponent implements OnInit {
     ngOnInit() {
         this.route.params.subscribe(
             (params) => {
-                this.userId = params['user'];
-                this.roomCode = params['room'];
-                this.start = params['start'];
-
+                this.reservationId = params['id'];
                 this.getReservation();
             }
         );
@@ -54,7 +49,7 @@ export class EditReservationComponent implements OnInit {
     }
 
     getReservation() {
-        this._reservationService.getByStart(this.userId, this.start).subscribe(
+        this._reservationService.getById(this.reservationId).subscribe(
             (response) => {
                 this.reservation = response;
                 this.getCurrentUser();

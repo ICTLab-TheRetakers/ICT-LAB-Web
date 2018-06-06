@@ -22,10 +22,10 @@
                     <td>{{ reservation.room_code }}</td>
                     <td>{{ reservation.description }}</td>
                     <td>
-                        <a [routerLink]="['edit', currentUser.user_id, reservation.room_code, reservation.start_time]">Edit</a>
+                        <a [routerLink]="['edit', reservation.reservation_id]">Edit</a>
                     </td>
                     <td>
-                        <button type="button" (click)="deleteReservation(reservation.room_code, reservation.start_time)">Delete</button>
+                        <button type="button" (click)="deleteReservation(reservation.reservation_id)">Delete</button>
                     </td>
                 </tr>
             </tbody>

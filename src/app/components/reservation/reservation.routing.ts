@@ -13,7 +13,7 @@ const routes: Routes = [
         children: [
             { path: '', component: ReservationComponent, canActivate: [AuthGuard] },
             { path: 'add', component: AddReservationComponent, canActivate: [AuthGuard] },
-            { path: 'edit/:user/:room/:start', component: EditReservationComponent, canActivate: [AuthGuard] }
+            { path: 'edit/:id', component: EditReservationComponent, canActivate: [AuthGuard] }
         ]
     }
 ];

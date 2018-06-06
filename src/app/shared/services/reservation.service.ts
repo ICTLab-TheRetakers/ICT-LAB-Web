@@ -62,6 +62,11 @@ export class ReservationService {
             .catch(this.handleError);
     }
 
+    getById(id: number): Observable<Reservation> {
+        return this.http.get(this.baseUrl + 'getById?reservation=' + id)
+            .catch(this.handleError);
+    }
+
     create(reservation: Reservation): Observable<Reservation> {
         return this.http.post(this.baseUrl + 'create', reservation)
             .catch(this.handleError);
@@ -72,8 +77,8 @@ export class ReservationService {
             .catch(this.handleError);
     }
 
-    delete(room: string, start: string): Observable<Reservation[]> {
-        return this.http.delete(this.baseUrl + 'delete?room=' + room + '&start=' + start)
+    delete(id: number): Observable<Reservation[]> {
+        return this.http.delete(this.baseUrl + 'delete?reservation=' + id)
             .catch(this.handleError);
     }
 
