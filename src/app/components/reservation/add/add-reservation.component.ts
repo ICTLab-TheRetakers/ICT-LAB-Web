@@ -12,6 +12,7 @@ import User from '../../../shared/models/user.model';
 
 import * as moment from 'moment';
 import { HttpErrorResponse } from '@angular/common/http';
+import {ToastyService} from 'ng2-toasty';
 
 @Component({
     selector: 'app-add-reservation',
@@ -23,23 +24,34 @@ export class AddReservationComponent implements OnInit {
     reservations: Reservation[] = [];
     selectedRoom: Room = null;
     currentUser: User = null;
+    date;
 
-    constructor(private _reservationService: ReservationService, private router: Router) { }
+    constructor(private _reservationService: ReservationService, private router: Router, private toastyService: ToastyService) { }
 
     ngOnInit() {
         this.getCurrentUser();
         this.addRow();
-    }
+}
 
     submitForm() {
         this.reservations.forEach(reservation => {
-            reservation = this.convertDatetime(reservation);
-            reservation.room_code = this.selectedRoom.room_code;
-            
-            this._reservationService.create(reservation).subscribe(
-                (response) => this.router.navigate(['/reservations']),
-                (error: HttpErrorResponse) => { throw error; }
-            );
+            this.date = reservation.date.toString();
+            if (!moment(this.date).isBetween(moment().subtract(1, 'days'), moment().add(2, 'months'))) {
+                this.toastyService.error('You can only reserve a room within two months');
+
+            } else if (reservation.begin > reservation.end) {
+                this.toastyService.error('Ending time cannot be earlier than starting time.');
+            } else {
+                reservation = this.convertDatetime(reservation);
+                reservation.room_code = this.selectedRoom.room_code;
+                console.log(reservation.begin);
+               this._reservationService.create(reservation).subscribe(
+                    (response) => this.router.navigate(['/reservations']),
+                    (error: HttpErrorResponse) => { throw error; }
+                );
+            } if (reservation.begin > reservation.end) {
+                console.log('fout');
+            }
         });
     }
 
@@ -70,6 +82,7 @@ export class AddReservationComponent implements OnInit {
         // Set reservation start and end time
         reservation.start_time = moment.utc(start).toDate();
         reservation.end_time = moment.utc(end).toDate();
+
 
         return reservation;
     }
