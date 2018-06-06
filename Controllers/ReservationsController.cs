@@ -296,7 +296,7 @@ namespace ICT_LAB_Web.Controllers
             }
 
             //Get reservations
-            var data = await _reservationRepository.Get(user, fromDate, tillDate);
+            var data = await _reservationRepository.Get(user, fromDate.Value, tillDate.Value);
             if (data == null)
             {
                 if (!String.IsNullOrEmpty(from) || !String.IsNullOrEmpty(till))

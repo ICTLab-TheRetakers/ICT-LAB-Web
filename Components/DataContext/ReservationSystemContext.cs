@@ -114,7 +114,9 @@ namespace ICT_LAB_Web.Components.DataContext
 
                 entity.ToTable("reservations");
 
-                entity.Property(e => e.ReservationId).HasColumnName("reservation_id");
+                entity.Property(e => e.ReservationId)
+                                    .HasColumnName("reservation_id")
+                                    .ValueGeneratedOnAdd();
 
                 entity.Property(e => e.StartTime).HasColumnName("start_time");
 
