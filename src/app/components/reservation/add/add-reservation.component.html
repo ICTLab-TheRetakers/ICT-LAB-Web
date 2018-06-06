@@ -1,8 +1,8 @@
 <div class="row">
     <div class="col-sm-12 col-md-10 offset-md-1 mx-auto">
-        <app-select-room [onlyAllowRooms]="true" [getSchedule]="false" (chosenObject)="getRoomChoice($event)"></app-select-room>
+        <form class="form-horizontal" #reservationForm="ngForm">
+            <app-select-room [onlyAllowRooms]="true" [getSchedule]="false" (chosenObject)="getRoomChoice($event)"></app-select-room>
 
-        <form class="form-horizontal">
             <div class="form-row">
                 <div class="col-sm-12 col-md-12">
                     <table class="table">
@@ -18,28 +18,28 @@
                         <tbody>
                             <tr *ngFor="let reservation of reservations;let i = index;">
                                 <td>
-                                    <input type="date" class="form-control" name="date" [(ngModel)]="reservation.date">
+                                    <input type="date" class="form-control" name="date" [(ngModel)]="reservation.date" required />
                                 </td>
                                 <td>
-                                    <input class="form-control" type="time" name="begin" [(ngModel)]="reservation.begin" step="600" min="08:00" max="22:00" />
+                                    <input class="form-control" type="time" name="begin" [(ngModel)]="reservation.begin" step="600" min="08:00" max="22:00" required />
                                 </td>
                                 <td>
-                                    <input class="form-control" type="time" name="end" [(ngModel)]="reservation.end" step="600" min="08:00" max="22:00" />
+                                    <input class="form-control" type="time" name="end" [(ngModel)]="reservation.end" step="600" min="08:00" max="22:00" required />
                                 </td>
                                 <td>
                                     <input class="form-control" name="desc" [(ngModel)]="reservation.description" />
                                 </td>
-                                <td [hidden]="i < 1 || currentUser.role == 'Student'">
+                                <td [hidden]="i < 1">
                                     <button type="button" class="btn btn-danger" (click)="removeRow(i)">X</button>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
-                    <button type="button" class="btn btn-primary" (click)="addRow()">+</button>
+                    <button [hidden]="currentUser.role == 'Student'" type="button" class="btn btn-primary" (click)="addRow()">+</button>
                 </div>
             </div>
 
-            <button type="button" class="btn btn-primary float-right my-4" (click)="submitForm()">Add Reservation</button>
+            <button type="button" [disabled]="!reservationForm.form.valid" class="btn btn-primary float-right my-4" (click)="submitForm()">Add Reservation</button>
         </form>
     </div>
 </div>

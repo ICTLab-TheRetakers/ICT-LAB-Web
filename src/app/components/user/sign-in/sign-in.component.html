@@ -1,19 +1,37 @@
 <div class="row">
     <div class="col-sm-12 col-md-10 offset-md-1">
-        <form class="form-horizontal">
+        <form class="form-horizontal" #userForm="ngForm">
 
             <!-- User ID and email -->
             <div class="form-row mb-2">
                 <div class="col-sm-12 col-md-8 offset-md-2 my-3">
                     <label for="email">E-mail</label>
-                    <input type="email" class="form-control" id="email" name="email" [(ngModel)]="email">
+                    <input type="email" class="form-control" id="email" name="email" [(ngModel)]="email"
+                           pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" #emailModel="ngModel" required>
+
+                    <!-- Email errors -->
+                    <div *ngIf="emailModel.errors && (emailModel.dirty || emailModel.touched)" class="alert alert-danger">
+                        <div [hidden]="!emailModel.errors.required">
+                            E-mail address is required!
+                        </div>
+                        <div [hidden]="!emailModel.errors.pattern">
+                            E-mail address is not valid!
+                        </div>
+                    </div>
                 </div>
                 <div class="col-sm-12 col-md-8 offset-md-2 my-3">
                     <label for="password">Password</label>
-                    <input type="password" class="form-control" id="password" name="password" [(ngModel)]="password">
+                    <input type="password" class="form-control" id="password" name="password" [(ngModel)]="password" #passwordModel="ngModel" required>
+
+                    <!-- Password errors -->
+                    <div *ngIf="passwordModel.errors && (passwordModel.dirty || passwordModel.touched)" class="alert alert-danger">
+                        <div [hidden]="!passwordModel.errors.required">
+                            Password is required!
+                        </div>
+                    </div>
                 </div>
                 <div class="col-sm-12 col-md-8 offset-md-2 mt-4 text-center">
-                    <input type="button" class="btn btn-primary mb-4 mx-auto" value="Sign In" (click)="checkCredentials()" />
+                    <button type="button" [disabled]="!userForm.form.valid" class="btn btn-primary mb-4 mx-auto" (click)="checkCredentials()">Sign In</button>
                 </div>
             </div>
         </form>

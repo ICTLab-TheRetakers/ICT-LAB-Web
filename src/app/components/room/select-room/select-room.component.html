@@ -1,49 +1,46 @@
-<div class="row mt-4">
-    <div class="col-sm-12 col-md-12">
-
-        <!-- If all options can be selected-->
-        <ng-container *ngIf="!hide">
-            <div class="form-row mb-4 mx-auto">
-                <div class="col-sm-12 col-md-4 offset-md-2">
-                    <select class="custom-select" (change)="setType($event)" [(ngModel)]="type">
-                        <option class="list-group-item" value="null">View schedule for..</option>
-                        <option class="list-group-item" value="c">Class</option>
-                        <option class="list-group-item" value="r">Room</option>
-                        <option class="list-group-item" value="t">Teacher</option>
-                    </select>
-                </div>
-                <div class="col-sm-12 col-md-4">
-                    <select *ngIf="type != null" class="custom-select" (change)="selectOption($event, getSchedule)" [(ngModel)]="index">
-                        <option *ngIf="type == 'c'" class="list-group-item" value="null">Select a class</option>
-                        <option *ngIf="type == 't'" class="list-group-item" value="null">Select a teacher</option>
-                        <option *ngIf="type == 'r'" class="list-group-item" value="null">Select a room</option>
-
-                        <option class="list-group-item" *ngFor="let option of options;let i = index" [value]="i + 1">{{ option }}</option>
-                    </select>
-                </div>
+<div class="form-horizontal mt-4 mb-2 mx-auto">
+    <!-- If all options can be selected-->
+    <ng-container *ngIf="!hide">
+        <div class="form-row">
+            <div class="col-sm-12 col-md-4 offset-md-2">
+                <select class="custom-select" (change)="setType($event)" [(ngModel)]="type">
+                    <option class="list-group-item" value="null">View schedule for..</option>
+                    <option class="list-group-item" value="c">Class</option>
+                    <option class="list-group-item" value="r">Room</option>
+                    <option class="list-group-item" value="t">Teacher</option>
+                </select>
             </div>
+            <div class="col-sm-12 col-md-4">
+                <select *ngIf="type != null" class="custom-select" (change)="selectOption($event, getSchedule)" [(ngModel)]="index">
+                    <option *ngIf="type == 'c'" class="list-group-item" value="null">Select a class</option>
+                    <option *ngIf="type == 't'" class="list-group-item" value="null">Select a teacher</option>
+                    <option *ngIf="type == 'r'" class="list-group-item" value="null">Select a room</option>
 
-            <div class="form-row" [hidden]="schedule == null">
-                <div class="col-sm-4 col-md-2 offset-md-2">
-                    <button [disabled]="currentWeek <= startWeek" type="button" class="btn btn-primary" (click)="previousWeek()">Previous</button>
-                </div>
-                <div class="col-sm-4 col-md-2 offset-md-2">
-                    <button type="button" class="btn btn-primary" (click)="nextWeek()">Next</button>
-                </div>
+                    <option class="list-group-item" *ngFor="let option of options;let i = index" [value]="i + 1">{{ option }}</option>
+                </select>
             </div>
-        </ng-container>
+        </div>
 
-        <!-- If only rooms can be selected-->
-        <ng-container *ngIf="hide">
-            <div class="form-row mb-4 mx-auto">
-                <div class="col-sm-12 col-md-4 offset-md-4">
-                    <select class="custom-select" (change)="selectOption($event, getSchedule)" [(ngModel)]="index">
-                        <option class="list-group-item" value="null">Select a room</option>
-                        <option class="list-group-item" *ngFor="let option of options;let i = index" [value]="i + 1">{{ option }}</option>
-                    </select>
-                </div>
+        <div class="form-row" [hidden]="schedule == null">
+            <div class="col-sm-4 col-md-2 offset-md-2">
+                <button [disabled]="currentWeek <= startWeek" type="button" class="btn btn-primary" (click)="previousWeek()">Previous</button>
             </div>
-        </ng-container>
+            <div class="col-sm-4 col-md-2 offset-md-2">
+                <button type="button" class="btn btn-primary" (click)="nextWeek()">Next</button>
+            </div>
+        </div>
+    </ng-container>
 
-    </div>
+    <!-- If only rooms can be selected-->
+    <ng-container *ngIf="hide">
+        <div class="form-row">
+            <div class="col-sm-12 col-md-4 offset-md-4">
+                <select class="custom-select" (change)="selectOption($event, getSchedule)" [(ngModel)]="index">
+                    <option class="list-group-item" value="null">Select a room</option>
+                    <option class="list-group-item" *ngFor="let option of options;let i = index" [value]="i + 1">{{ option }}</option>
+                </select>
+            </div>
+        </div>
+    </ng-container>
+
 </div>
