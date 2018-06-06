@@ -438,7 +438,7 @@ namespace ICT_LAB_Web.Controllers
             };
 
             // Return error message when date is not valid
-            if (IsDateValid(reservation.StartTime) || IsDateValid(reservation.EndTime))
+            if (!IsDateValid(reservation.StartTime) || !IsDateValid(reservation.EndTime))
             {
                 return StatusCode(400, "The date or time is not valid.");
             }
