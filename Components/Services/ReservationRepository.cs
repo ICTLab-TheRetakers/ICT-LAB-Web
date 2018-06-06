@@ -39,7 +39,7 @@ namespace ICT_LAB_Web.Components.Services
 
         public async Task<bool> Delete(int? id)
         {
-            Reservation reservationToDelete = await _dbContext.Reservations.FirstOrDefaultAsync(q => q.ReservationId == id.Value)
+            Reservation reservationToDelete = await _dbContext.Reservations.FirstOrDefaultAsync(q => q.ReservationId == id.Value);
             _dbContext.Reservations.Remove(reservationToDelete);
 
             var result = await _dbContext.SaveChangesAsync();
