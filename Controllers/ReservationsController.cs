@@ -450,7 +450,7 @@ namespace ICT_LAB_Web.Controllers
 
         private bool IsDateValid(DateTime dateTime)
         {
-            var valid = false;
+            var valid = true;
             var today = DateTime.Now;
             var todayInTwoMonths = DateTime.Now.AddMonths(2);
 
