@@ -339,13 +339,13 @@ namespace ICT_LAB_Web.Controllers
             };
 
             // Return error message when date is not valid
-            if (IsDateValid(reservation.StartTime))
+            if (IsDateValid(reservation.StartTime) || IsDateValid(reservation.EndTime))
             {
-                return StatusCode(400, "Start date or time is not valid");
+                return StatusCode(400, "The date or time is not valid.");
             }
-            if (IsDateValid(reservation.EndTime))
+            if (reservation.StartTime > reservation.EndTime)
             {
-                return StatusCode(400, "End date or time is not valid");
+                return StatusCode(400, "Start time cannot be later than end time.");
             }
 
             //Insert reservation
@@ -390,13 +390,13 @@ namespace ICT_LAB_Web.Controllers
             };
 
             // Return error message when date is not valid
-            if (IsDateValid(reservation.StartTime))
+            if (IsDateValid(reservation.StartTime) || IsDateValid(reservation.EndTime))
             {
-                return StatusCode(400, "Start date or time is not valid");
+                return StatusCode(400, "The date or time is not valid.");
             }
-            if (IsDateValid(reservation.EndTime))
+            if (reservation.StartTime > reservation.EndTime)
             {
-                return StatusCode(400, "End date or time is not valid");
+                return StatusCode(400, "Start time cannot be later than end time.");
             }
 
             //Update reservation
