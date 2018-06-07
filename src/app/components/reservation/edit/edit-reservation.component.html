@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-sm-12 col-md-10 offset-md-1 mx-auto">
 
-        <form class="form-horizontal">
+        <form class="form-horizontal" *ngIf="reservation != null">
             <div class="form-row">
                 <div class="col-sm-12 col-md-12">
                     <table class="table" *ngIf="reservation != null">
