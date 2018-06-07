@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { environment } from '../../../environments/environment';
+import { HttpErrorResponse } from '@angular/common/http/src/response';
 
 import { SelectRoomComponent } from './select-room/select-room.component';
 
@@ -18,33 +19,28 @@ import Lesson from '../../shared/models/schedule/lesson.model';
     styleUrls: ['./room.component.css']
 })
 export class RoomComponent implements OnInit {
-    hours: string[] = environment.hours;
-    _scheduleHelper: ScheduleHelper;
-    schedule: Schedule = null;
+    rooms: Room[];
 
-    constructor(private _roomService: RoomService, private _reservationService: ReservationService) { }
+    constructor(private _roomService: RoomService) { }
 
-    ngOnInit() { }
-
-    initHelper() {
-        this._scheduleHelper = new ScheduleHelper(this.schedule);
+    ngOnInit() {
+        this.getRooms();
     }
 
-    getScheduleChoice(event: any) {
-        this.schedule = event;
-        this.initHelper();
+    getRooms() {
+        this._roomService.getAllRooms().subscribe(
+            (response) => this.rooms = response,
+            (error: HttpErrorResponse) => { throw error; }
+        );
     }
 
-    getLesson(day: string, hour: string): string {
-        let lesson = this.schedule.days.filter(f => f.weekday == day)[0].lessons.filter(f => f.start_time == hour)[0];
-        setTimeout(() => { }, 1000);
-
-        return this._scheduleHelper.print(lesson);
-    }
-
-    resetSchedule(event: any) {
-        if (event == true) {
-            this.schedule = null;
+    deleteRoom(room: string) {
+        if (confirm('Are you sure you want to delete this room?')) {
+            this._roomService.delete(room).subscribe(
+                (response) => this.ngOnInit(),
+                (error: HttpErrorResponse) => { throw error; }
+            );
         }
     }
+
 }

@@ -1,0 +1,43 @@
+<div class="row">
+    <div class="col-sm-12 col-md-10 offset-md-1">
+        <form class="form-horizontal" *ngIf="room">
+
+            <div class="form-row my-4">
+                <div class="col-sm-12 col-md-6">
+                    <label>Room Code</label>
+                    <input type="text" class="form-control" [(ngModel)]="room.room_code" name="room_code">
+                </div>
+                <div class="col-sm-12 col-md-6"></div>
+            </div>
+
+            <div class="form-row my-4">
+                <div class="col-sm-12 col-md-6">
+                    <label>Smartboard available</label>
+                    <input type="radio" name="smartboard" [(ngModel)]="room.has_smartboard" [value]="true" /> Yes
+                    <input type="radio" name="smartboard" [(ngModel)]="room.has_smartboard" [value]="false" /> No
+                </div>
+                <div class="col-sm-12 col-md-6">
+                    <label>Computer available</label>
+                    <input type="radio" name="computer" [(ngModel)]="room.has_computer" [value]="true" /> Yes
+                    <input type="radio" name="computer" [(ngModel)]="room.has_computer" [value]="false" /> No
+                </div>
+            </div>
+
+            <div class="form-row my-4">
+                <div class="col-sm-12 col-md-6">
+                    <label>Room has windows</label>
+                    <input type="radio" name="windows" [(ngModel)]="room.has_windows" [value]="true" /> Yes
+                    <input type="radio" name="windows" [(ngModel)]="room.has_windows" [value]="false" /> No
+                </div>
+                <div class="col-sm-12 col-md-6">
+                    <label>Student capacity</label>
+                    <input type="number" name="capacity" [(ngModel)]="room.student_capacity" />
+                </div>
+            </div>
+
+            <hr />
+
+            <button type="button" class="btn btn-primary float-right" (click)="submitForm()">Save</button>
+        </form>
+    </div>
+</div>

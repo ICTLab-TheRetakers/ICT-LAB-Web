@@ -21,6 +21,7 @@ import { IssueModule } from './components/issue/issue.module';
 import { ReservationModule } from './components/reservation/reservation.module';
 import { RoleModule } from './components/role/role.module';
 import { DashboardModule } from './components/dashboard/dashboard.module';
+import { ScheduleModule } from './components/schedule/schedule.module';
 
 import { SharedService } from './shared/services/shared.service';
 import { AuthGuard } from './shared/authguard.service';
@@ -44,6 +45,7 @@ import { CustomErrorHandler } from './shared/error-handler';
         ReservationModule,
         RoleModule,
         DashboardModule,
+        ScheduleModule,
         ToastyModule.forRoot(),
         QRCodeModule,
         AppRoutingModule //Keep at bottom

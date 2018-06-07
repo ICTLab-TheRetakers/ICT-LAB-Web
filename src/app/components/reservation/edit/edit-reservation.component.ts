@@ -20,13 +20,11 @@ import { HttpErrorResponse } from '@angular/common/http/src/response';
     styleUrls: ['./edit-reservation.component.css']
 })
 export class EditReservationComponent implements OnInit {
-    reservationId: number;
-
-    date: string;
-    hours: string[] = environment.hours;
     reservation: Reservation;
     currentUser: User = null;
-
+    reservationId: number;
+    date: string;
+    
     constructor(private _reservationService: ReservationService, private _roomService: RoomService,
         private router: Router, private route: ActivatedRoute) { }
 
