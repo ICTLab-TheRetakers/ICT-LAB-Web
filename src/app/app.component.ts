@@ -21,6 +21,11 @@ export class AppComponent implements OnInit {
         this.checkIfLoggedIn();
     }
 
+    ngOnDestroy() {
+        // Clear local storage, like current user
+        localStorage.clear();
+    }
+
     checkIfLoggedIn() {
         this.user = JSON.parse(localStorage.getItem('loggedInUser'));
         if (this.user != null) {
