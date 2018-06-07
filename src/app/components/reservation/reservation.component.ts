@@ -27,7 +27,7 @@ export class ReservationComponent implements OnInit {
     }
 
     getCurrentUser() {
-        this.currentUser = JSON.parse(localStorage.getItem('loggedInUser'));
+        this.currentUser = JSON.parse(sessionStorage.getItem('loggedInUser'));
     }
 
     getReservationsByUser() {

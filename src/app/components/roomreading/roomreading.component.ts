@@ -11,6 +11,7 @@ import Room from '../../shared/models/room.model';
 import ReadingViewModel from '../../shared/models/viewmodels/reading.viewmodel';
 
 import { SelectRoomComponent } from '../room/select-room/select-room.component';
+import { SharedService } from '../../shared/services/shared.service';
 
 
 @Component({
@@ -31,27 +32,18 @@ export class RoomReadingComponent implements OnInit {
     humidity: number;
     created_on: Date;
 
-    hideSelect: boolean = false;
+    constructor(private _readingService: RoomReadingService, private _roomService: RoomService, private _sharedService: SharedService,
+        private route: ActivatedRoute, private router: Router) {}
 
-    constructor(private _readingService: RoomReadingService, private _roomService: RoomService, private route: ActivatedRoute, private router: Router) {
-        if (this.route.params != null) {
-            this.route.params.subscribe(
-                (params) => {
-                    this.roomCode = params['room'];
-                    this.hideSelect = true;
-                    this.getRoom();
-                }
-            );
-        }
+    ngOnInit() {
+        this.checkIfRoomAvailable();
     }
 
-    ngOnInit() { }
-
-    getRoom() {
-        this._roomService.get(this.roomCode).subscribe(
-            (response) => this.selectedRoom = response,
-            (error: HttpErrorResponse) => { throw error; }
-        );
+    checkIfRoomAvailable() {
+        if (this._sharedService.getData('room') != null) {
+            this.selectedRoom = this._sharedService.getData('room').value;
+            this.getLatestReadings();
+        }
     }
 
     getLatestReadings() {

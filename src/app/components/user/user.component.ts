@@ -17,7 +17,7 @@ export class UserComponent implements OnInit {
     }
 
     getCurrentUser() {
-        this.user = JSON.parse(localStorage.getItem('loggedInUser'));
+        this.user = JSON.parse(sessionStorage.getItem('loggedInUser'));
     }
 
 }

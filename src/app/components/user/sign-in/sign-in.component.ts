@@ -39,7 +39,7 @@ export class SignInComponent implements OnInit {
     }
 
     saveLocal(user: User) {
-        localStorage.setItem('loggedInUser', JSON.stringify(user));
+        sessionStorage.setItem('loggedInUser', JSON.stringify(user));
         this.router.navigate(['/']);
     }
 

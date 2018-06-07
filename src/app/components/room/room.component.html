@@ -14,7 +14,7 @@
             <tbody>
                 <tr *ngFor="let room of rooms">
                     <td>
-                        <a [routerLink]="['/readings', room.room_code]">{{ room.room_code }}</a>
+                        <a (click)="redirectToInfo(room)">{{ room.room_code }}</a>
                     </td>
                     <td>{{ room.student_capacity }}</td>
                     <td>

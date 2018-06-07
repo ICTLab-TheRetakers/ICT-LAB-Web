@@ -12,7 +12,7 @@ import Notification from '../../shared/models/notification.model';
 })
 export class NotificationComponent implements OnInit {
     alerts: Notification[] = [];
-    user: User = JSON.parse(localStorage.getItem('loggedInUser'));
+    user: User = JSON.parse(sessionStorage.getItem('loggedInUser'));
     toastOptions: ToastOptions;
 
     constructor(private _readingService: NotificationService,

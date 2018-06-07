@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { SharedService } from './shared/services/shared.service';
 import User from './shared/models/user.model';
 import { AuthenticationService } from './shared/authentication.service';
@@ -21,13 +21,8 @@ export class AppComponent implements OnInit {
         this.checkIfLoggedIn();
     }
 
-    ngOnDestroy() {
-        // Clear local storage, like current user
-        localStorage.clear();
-    }
-
     checkIfLoggedIn() {
-        this.user = JSON.parse(localStorage.getItem('loggedInUser'));
+        this.user = JSON.parse(sessionStorage.getItem('loggedInUser'));
         if (this.user != null) {
             this.isLoggedIn = true;
         } else {

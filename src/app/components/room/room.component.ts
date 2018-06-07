@@ -12,6 +12,8 @@ import { ScheduleHelper } from '../../shared/schedule.helper';
 import Room from '../../shared/models/room.model';
 import Schedule from '../../shared/models/schedule/schedule.model';
 import Lesson from '../../shared/models/schedule/lesson.model';
+import { SharedService } from '../../shared/services/shared.service';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-room',
@@ -21,7 +23,7 @@ import Lesson from '../../shared/models/schedule/lesson.model';
 export class RoomComponent implements OnInit {
     rooms: Room[];
 
-    constructor(private _roomService: RoomService) { }
+    constructor(private _roomService: RoomService, private _sharedService: SharedService, private router: Router) { }
 
     ngOnInit() {
         this.getRooms();
@@ -41,6 +43,11 @@ export class RoomComponent implements OnInit {
                 (error: HttpErrorResponse) => { throw error; }
             );
         }
+    }
+
+    redirectToInfo(room: Room) {
+        this._sharedService.setData('room', room);
+        this.router.navigate(['/readings']);
     }
 
 }
