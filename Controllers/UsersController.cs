@@ -262,7 +262,7 @@ namespace ICT_LAB_Web.Controllers
             }
 
             // Update user
-            userToUpdate.Picture = "data:image/png;base64," +  imageBinary;
+            userToUpdate.Picture = "data:image/" + extension + ";base64," +  imageBinary;
             await _userRepository.Update(userToUpdate);
 
             return Ok(model);
