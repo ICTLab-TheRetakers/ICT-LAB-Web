@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-sm-12 col-md-10 offset-md-1">
-        <form class="form-horizontal" method="post" enctype="multipart/form-data" #userForm="ngForm">
+        <form class="form-horizontal" method="post" enctype="multipart/form-data" #userForm="ngForm" >
 
             <div class="form-row my-4">
                 <div class="col-sm-12 col-md-6">
@@ -30,18 +30,7 @@
             <div class="form-row my-4">
                 <div class="col-sm-12 col-md-6">
                     <label>Email</label>
-                    <input type="email" class="form-control" [(ngModel)]="user.email" name="email"
-                           pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" required #emailModel="ngModel">
-
-                    <!-- Email errors -->
-                    <div *ngIf="emailModel.errors && (emailModel.dirty || emailModel.touched)" class="alert alert-danger">
-                        <div [hidden]="!emailModel.errors.required">
-                            E-mail address is required!
-                        </div>
-                        <div [hidden]="!emailModel.errors.pattern">
-                            E-mail address is not valid!
-                        </div>
-                    </div>
+                    <input type="email" class="form-control" [(ngModel)]="user.email" name="email" readonly>
                 </div>
                 <div class="col-sm-12 col-md-6">
                     <label>Password</label>
@@ -71,7 +60,7 @@
 
             <hr />
 
-            <button [disabled]="!userForm.form.valid" type="button" class="btn btn-primary float-right" (click)="submitForm()">Add</button>
+            <button [disabled]="!userForm.form.valid" type="button" class="btn btn-primary float-right" (click)="submitForm()">Save</button>
         </form>
     </div>
 </div>

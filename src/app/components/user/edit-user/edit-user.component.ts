@@ -4,24 +4,40 @@ import { RoleService } from '../../../shared/services/role.service';
 import User from '../../../shared/models/user.model';
 import { Observable } from 'rxjs/Observable';
 import Role from '../../../shared/models/role.model';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
-    selector: 'app-add-user',
-    templateUrl: './add-user.component.html',
-    styleUrls: ['./add-user.component.css']
+    selector: 'app-edit-user',
+    templateUrl: './edit-user.component.html',
+    styleUrls: ['./edit-user.component.css']
 })
-export class AddUserComponent implements OnInit {
-    user: User = new User();
+export class EditUserComponent implements OnInit {
+    user: User;
+    userId: string;
     roles: Role[];
 
     @ViewChild('fileInput') fileInput: ElementRef;
 
-    constructor(private _userService: UserService, private _roleService: RoleService, private router: Router) { }
+    constructor(private _userService: UserService, private _roleService: RoleService, private router: Router, private route: ActivatedRoute) { }
 
     ngOnInit() {
-        this.getRoles();
+        this.route.params.subscribe(
+            (params) => {
+                this.userId = params['user'];
+                this.getUser(this.userId);
+            }
+        );
+    }
+
+    getUser(email: string) {
+        this._userService.getByEmail(email).subscribe(
+            (response) => {
+                this.user = response;
+                this.getRoles();
+            },
+            (error: HttpErrorResponse) => { throw error; }
+        );
     }
 
     getRoles() {
@@ -34,7 +50,7 @@ export class AddUserComponent implements OnInit {
     }
 
     submitForm() {
-        this._userService.create(this.user).subscribe(
+        this._userService.update(this.user).subscribe(
             (response) => {
                 if (response != null) {
                     this.fileUpload();
