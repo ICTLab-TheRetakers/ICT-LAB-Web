@@ -8,7 +8,7 @@ import { AuthenticationService } from '../../../shared/authentication.service';
 import { RoleService } from '../../../shared/services/role.service';
 import Role from '../../../shared/models/role.model';
 import { HttpErrorResponse } from '@angular/common/http';
-import { DomSanitizer } from '@angular/platform-browser/src/security/dom_sanitization_service';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
     selector: 'app-sign-in',
