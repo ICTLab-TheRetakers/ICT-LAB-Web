@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Directive } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { Response, RequestOptions } from '@angular/http';
@@ -8,12 +8,13 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/throw';
 
 import User from '../models/user.model';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Injectable()
 export class UserService {
     private baseUrl = environment.userApi;
 
-    constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient, private sanitizer: DomSanitizer) { }
 
     getByEmail(email: string): Observable<User> {
         return this.http.get(this.baseUrl + 'getByEmail?email=' + email)

@@ -250,23 +250,19 @@ namespace ICT_LAB_Web.Controllers
 			// Get user
             var userToUpdate = await _userRepository.GetByEmail(model.Email);
 
-            var path = Path.Combine(_hostingEnvironment.ContentRootPath, "src", "images");
-            if (!Directory.Exists(path))
-            {
-                Directory.CreateDirectory(path);
-            }
-
-            // Save locally
+            // Add image to user
             var extension = file.FileName.Split(".")[1];
-            var picture = userToUpdate.UserId + "." + extension;
-            var filePath = Path.Combine(path, picture);
-            using (var fileStream = new FileStream(filePath, FileMode.Create))
+            string imageBinary;
+
+            using (var ms = new MemoryStream())
             {
-                await file.CopyToAsync(fileStream);
+                file.CopyTo(ms);
+                var fileBytes = ms.ToArray();
+                imageBinary = Convert.ToBase64String(fileBytes);
             }
 
             // Update user
-            userToUpdate.Picture = picture;
+            userToUpdate.Picture = "data:image/png;base64," +  imageBinary;
             await _userRepository.Update(userToUpdate);
 
             return Ok(model);
@@ -291,6 +287,9 @@ namespace ICT_LAB_Web.Controllers
                 Role = model.Role,
                 FirstName = model.FirstName,
                 LastName = model.LastName,
+                Email = model.Email,
+                Password = model.Password,
+                UserId = model.UserId,
                 Picture = model.Picture
             };
 

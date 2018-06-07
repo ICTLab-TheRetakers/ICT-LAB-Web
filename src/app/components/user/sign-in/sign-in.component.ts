@@ -8,6 +8,7 @@ import { AuthenticationService } from '../../../shared/authentication.service';
 import { RoleService } from '../../../shared/services/role.service';
 import Role from '../../../shared/models/role.model';
 import { HttpErrorResponse } from '@angular/common/http';
+import { DomSanitizer } from '@angular/platform-browser/src/security/dom_sanitization_service';
 
 @Component({
     selector: 'app-sign-in',
@@ -20,16 +21,7 @@ export class SignInComponent implements OnInit {
     password: string;
 
     constructor(private route: ActivatedRoute, private userService: UserService, private roleService: RoleService,
-        private router: Router, private authenticationService: AuthenticationService, private toastyService: ToastyService) {
-
-        this.toastOptions = {
-            title: 'Oops',
-            msg: 'You\'ve entered the wrong credentials, please try again!',
-            theme: 'bootstrap',
-            showClose: true,
-            timeout: 4000
-        };
-    }
+        private router: Router, private authenticationService: AuthenticationService, private sanitizer: DomSanitizer) { }
 
     ngOnInit() {
         // reset login status
@@ -39,7 +31,10 @@ export class SignInComponent implements OnInit {
     checkCredentials() {
         this.authenticationService.login(this.email, this.password).subscribe(
             (response) => {
-                this.checkRole(response as User);
+                let user = response as User;
+                user.picture = this.sanitizer.bypassSecurityTrustUrl(user.picture);
+
+                this.checkRole(user);
             },
             (error: HttpErrorResponse) => { throw error; }
         );
