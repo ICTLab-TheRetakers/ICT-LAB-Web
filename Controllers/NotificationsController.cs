@@ -60,7 +60,9 @@ namespace ICT_LAB_Web.Controllers
             var result = data.Select(x => new NotificationViewModel
             {
                 NotificationId = x.NotificationId,
-                UserId = x.UserId
+                UserId = x.UserId,
+                Description = x.Description,
+                CreatedOn = x.CreatedOn
             });
 
             return Ok(result);
@@ -92,7 +94,9 @@ namespace ICT_LAB_Web.Controllers
             var result = new NotificationViewModel
             {
                 NotificationId = data.NotificationId,
-                UserId = data.UserId
+                UserId = data.UserId,
+                Description = data.Description,
+                CreatedOn = data.CreatedOn
             };
 
             return Ok(result);
