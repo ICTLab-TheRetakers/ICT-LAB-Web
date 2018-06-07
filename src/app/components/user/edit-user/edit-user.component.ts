@@ -31,7 +31,7 @@ export class EditUserComponent implements OnInit {
     }
 
     getUser(email: string) {
-        this._userService.getByEmail(email).subscribe(
+        this._userService.getById(email).subscribe(
             (response) => {
                 this.user = response;
                 this.getRoles();
