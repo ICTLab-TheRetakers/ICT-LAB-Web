@@ -32,8 +32,6 @@ export class SignInComponent implements OnInit {
         this.authenticationService.login(this.email, this.password).subscribe(
             (response) => {
                 let user = response as User;
-                user.picture = this.sanitizer.bypassSecurityTrustUrl(user.picture);
-
                 this.checkRole(user);
             },
             (error: HttpErrorResponse) => { throw error; }
