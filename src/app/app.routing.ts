@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+import { AuthGuard } from './shared/authguard.service';
+
 import { UserComponent } from './components/user/user.component';
 import { DeviceComponent } from './components/device/device.component';
 import { RoomComponent } from './components/room/room.component';
@@ -9,13 +11,13 @@ import { ReservationComponent } from './components/reservation/reservation.compo
 import { IssueComponent } from './components/issue/issue.component';
 import { NotificationComponent } from './components/notification/notification.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { AuthGuard } from './shared/authguard.service';
 import { SignInComponent } from './components/user/sign-in/sign-in.component';
+import { ScheduleComponent } from './components/schedule/schedule.component';
 
 const routes: Routes = [
     {
         path: '',
-        component: RoomComponent,
+        component: ScheduleComponent,
         canActivate: [AuthGuard]
     },
     {

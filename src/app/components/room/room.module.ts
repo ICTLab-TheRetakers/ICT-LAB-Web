@@ -16,6 +16,7 @@ import { RoomService } from '../../shared/services/room.service';
 import { CustomErrorHandler } from '../../shared/error-handler';
 import { ReservationService } from '../../shared/services/reservation.service';
 import { AddRoomComponent } from './add-room/add-room.component';
+import { EditRoomComponent } from './edit-room/edit-room.component';
 
 @NgModule({
     imports: [
@@ -28,7 +29,8 @@ import { AddRoomComponent } from './add-room/add-room.component';
     ],
     declarations: [
         RoomComponent,
-        AddRoomComponent
+        AddRoomComponent,
+        EditRoomComponent
     ],
     providers: [
         RoomService,
