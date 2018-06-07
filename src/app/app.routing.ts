@@ -51,6 +51,11 @@ const routes: Routes = [
         canActivate: [AuthGuard]
     },
     {
+        path: 'readings/:room',
+        component: RoomReadingComponent,
+        canActivate: [AuthGuard]
+    },
+    {
         path: 'dashboard/:id',
         component: DashboardComponent,
         canActivate: [AuthGuard]

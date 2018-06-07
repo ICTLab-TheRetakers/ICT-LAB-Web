@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastyService, ToastyConfig, ToastOptions, ToastData } from 'ng2-toasty';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Router, ActivatedRoute } from '@angular/router';
 
 import { RoomReadingService } from '../../shared/services/reading.service';
 import { RoomService } from '../../shared/services/room.service';
@@ -9,7 +11,7 @@ import Room from '../../shared/models/room.model';
 import ReadingViewModel from '../../shared/models/viewmodels/reading.viewmodel';
 
 import { SelectRoomComponent } from '../room/select-room/select-room.component';
-import { HttpErrorResponse } from '@angular/common/http';
+
 
 @Component({
     selector: 'app-roomreadings',
@@ -18,6 +20,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class RoomReadingComponent implements OnInit {
     readings: Roomreading[] = [];
+    roomCode: string;
     selectedRoom: Room = null;
     toastOptions: ToastOptions;
     limit: number = 20;
@@ -28,21 +31,28 @@ export class RoomReadingComponent implements OnInit {
     humidity: number;
     created_on: Date;
 
-    constructor(private _readingService: RoomReadingService, private _roomService: RoomService,
-        private toastyService: ToastyService, private toastyConfig: ToastyConfig) {
+    hideSelect: boolean = false;
 
-        //Set toast theme
-        this.toastyConfig.theme = 'bootstrap';
-        this.toastOptions = {
-            title: 'Oops, an error occured',
-            msg: '',
-            timeout: 5000,
-            showClose: true,
-            theme: 'bootstrap'
-        };
+    constructor(private _readingService: RoomReadingService, private _roomService: RoomService, private route: ActivatedRoute, private router: Router) {
+        if (this.route.params != null) {
+            this.route.params.subscribe(
+                (params) => {
+                    this.roomCode = params['room'];
+                    this.hideSelect = true;
+                    this.getRoom();
+                }
+            );
+        }
     }
 
     ngOnInit() { }
+
+    getRoom() {
+        this._roomService.get(this.roomCode).subscribe(
+            (response) => this.selectedRoom = response,
+            (error: HttpErrorResponse) => { throw error; }
+        );
+    }
 
     getLatestReadings() {
         this._readingService.getByRoomLimit(this.selectedRoom.room_code, this.limit).subscribe(
