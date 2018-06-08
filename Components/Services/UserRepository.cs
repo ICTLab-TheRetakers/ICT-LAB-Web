@@ -32,6 +32,14 @@ namespace ICT_LAB_Web.Components.Services
                 return null;
             }
 
+            // Check if password has changed
+            var isChanged = userToUpdate.Password == user.Password;
+            if (isChanged)
+            {
+                //Encrypt password before updating
+                user.Password = _encryptor.Encrypt(user.Password);
+            }
+
             _dbContext.Entry(userToUpdate).CurrentValues.SetValues(user);
             var result = await _dbContext.SaveChangesAsync();
 
