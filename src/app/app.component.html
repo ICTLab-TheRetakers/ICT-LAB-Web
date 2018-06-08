@@ -20,8 +20,8 @@
                        class="nav-link">RESERVATIONS</a>
                 </li>
                 <li class="nav-item">
-                    <a [routerLink]="['/users']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
-                       class="nav-link">PROFIEL</a>
+                    <a [routerLink]="['/users/details/', user.user_id]" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+                       class="nav-link">PROFILE</a>
                 </li>
 				<li class="nav-item">
 					<a class="nav-link" style="cursor: pointer;" (click)="signOut()">SIGN OUT</a>

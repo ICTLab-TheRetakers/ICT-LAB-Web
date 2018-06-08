@@ -1,21 +1,30 @@
-.UserPage {
-    padding-top: 15px;
-    text-align: center;
+.list-group .list-group-item {
+    font-size: 14px;
+    line-height: 15px;
+    color: #333;
+    border: 1px solid rgba(0, 0, 0, 0.21);
+    border-bottom-color: rgb(128, 128, 128);
 }
-h2 {
-    font-weight: bold;
-    padding-bottom: 20px;
+
+.list-group .list-group-item a {
+    text-decoration: none;
 }
-img {
-    width: 200px;
-    display: inline-block;
+
+.list-group .list-group-item .list-icons {
+    position: relative;
+    float: right;
+    margin-right: 15px;
 }
-ul {
-    list-style: none;
-    display: inline-block;
-    text-align: left;
-    margin-right: 200px;
+
+.list-group .list-group-item .list-icons a {
+    font-size: 19px;
+    margin-left: 4px;
 }
-li {
-    padding-bottom: 10px;
+
+.list-group .list-group-item .list-icons a:nth-child(1) {
+    color: orange;
+}
+
+.list-group .list-group-item .list-icons a:nth-child(2) {
+    color: darkred;
 }

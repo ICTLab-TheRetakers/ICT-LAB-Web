@@ -1,16 +1,25 @@
-<div class="UserPage">
-	<h2>
-		Welkom {{ user.first_name }}
-	</h2>
-	<ul style="font-size: 1.5rem;">
-		<li>ID = {{ user.user_id }}</li>
-		<li>First name = {{ user.first_name }}</li>
-		<li>Last Name = {{ user.last_name }}</li>
-		<li>Role = {{ user.role }}</li>
-	</ul>
-	<img [src]="user.picture" />
-</div>
+<div class="row">
+    <div class="col-sm-12 col-md-10 offset-md-1">
 
-<a href="#" [routerLink]="['add']" class="btn btn-primary btn-sm mt-3" title="Add user">
-	<i class="fa fa-plus"></i>
-</a>
+        <ul class="list-group mt-4">
+            <li class="list-group-item" *ngFor="let user of users">
+                <a [routerLink]="['details', user.user_id]">
+                    {{ user.user_id }} - {{ user.first_name }} {{ user.last_name }}
+                </a>
+                <span class="list-icons">
+                    <button class="btn-edit" [routerLink]="['edit', user.user_id]" title="Edit">
+                        <i class="fa fa-edit"></i>
+                    </button>
+                    <button class="btn-delete" type="button" (click)="deleteUser(user.user_id)" title="Remove">
+                        <i class="fa fa-trash"></i>
+                    </button>
+                </span>
+            </li>
+        </ul>
+
+        <a href="#" [routerLink]="['add']" class="btn btn-primary btn-sm mt-3" title="Add user">
+            <i class="fa fa-plus"></i>
+        </a>
+
+    </div>
+</div>

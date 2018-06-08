@@ -8,13 +8,12 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/throw';
 
 import User from '../models/user.model';
-import { DomSanitizer } from '@angular/platform-browser';
 
 @Injectable()
 export class UserService {
     private baseUrl = environment.userApi;
 
-    constructor(private http: HttpClient, private sanitizer: DomSanitizer) { }
+    constructor(private http: HttpClient) { }
 
     getByEmail(email: string): Observable<User> {
         return this.http.get(this.baseUrl + 'getByEmail?email=' + email)
@@ -23,6 +22,11 @@ export class UserService {
 
     getById(id: string): Observable<User> {
         return this.http.get(this.baseUrl + 'get?user=' + id)
+            .catch(this.handleError);
+    }
+
+    getAll(): Observable<User[]> {
+        return this.http.get(this.baseUrl + 'getAll')
             .catch(this.handleError);
     }
 
