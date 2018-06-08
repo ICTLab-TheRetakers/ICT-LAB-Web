@@ -21,7 +21,7 @@ export class SignInComponent implements OnInit {
     password: string;
 
     constructor(private route: ActivatedRoute, private userService: UserService, private roleService: RoleService,
-        private router: Router, private authenticationService: AuthenticationService, private sanitizer: DomSanitizer) { }
+        private router: Router, private authenticationService: AuthenticationService) { }
 
     ngOnInit() {
         // reset login status

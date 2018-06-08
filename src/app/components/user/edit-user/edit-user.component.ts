@@ -71,6 +71,8 @@ export class EditUserComponent implements OnInit {
                     (error) => { return Observable.throw(error); }
                 );
             }
+        } else {
+            this.router.navigate(['/users']);
         }
     }
 

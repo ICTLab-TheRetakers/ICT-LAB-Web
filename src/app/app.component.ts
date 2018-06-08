@@ -12,7 +12,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 export class AppComponent implements OnInit {
     user: User = null;
-    isLoggedIn = false;
+    isLoggedIn: boolean = false;
 
     constructor(private authService: AuthenticationService, private route: ActivatedRoute,
         private router: Router) { }
