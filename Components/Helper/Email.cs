@@ -16,7 +16,7 @@ namespace ICT_LAB_Web.Components.Helper
         public Email()
         {
             this.EmailAddress = "";
-            this.password = "";
+            this.Password = "";
             this.Host = "smtp.gmail.com";
             this.Port = 587;
             this.EnableSSL = true;
