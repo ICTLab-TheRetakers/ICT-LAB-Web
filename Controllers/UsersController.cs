@@ -1,4 +1,5 @@
 using ICT_LAB_Web.Components.Entities;
+using ICT_LAB_Web.Components.Helper;
 using ICT_LAB_Web.Components.Services;
 using ICT_LAB_Web.Components.Services.Interfaces;
 using ICT_LAB_Web.Controllers.ViewModels;
@@ -22,11 +23,41 @@ namespace ICT_LAB_Web.Controllers
     {
         private IUserRepository _userRepository;
         private IHostingEnvironment _hostingEnvironment;
+        private Email _email;
 
         public UsersController(IHostingEnvironment hostingEnvironment)
         {
             this._userRepository = new UserRepository();
             this._hostingEnvironment = hostingEnvironment;
+            this._email = new Email();
+        }
+
+        /// <summary>
+        /// Resets a users password and sends an email.
+        /// </summary>
+		/// <param name="email">Email of user</param>
+        [HttpGet("resetPassword")]
+        [ProducesResponseType(typeof(void), 200)]
+        [ProducesResponseType(typeof(void), 500)]
+        public async Task<IActionResult> ResetPassword(string email)
+        {
+            if (String.IsNullOrEmpty(email))
+            {
+                return StatusCode(400, "Invalid parameter(s).");
+            }
+
+            // Reset password
+            var data = await _userRepository.ResetPassword(email);
+            if (String.IsNullOrEmpty(data))
+            {
+                return StatusCode(404, String.Format("Unable to reset your password."));
+            }
+            else if (!String.IsNullOrEmpty(data))
+            {
+                await _email.SendPasswordResetEmail(email, data);
+            }
+
+            return Ok();
         }
 
         /// <summary>
@@ -45,7 +76,8 @@ namespace ICT_LAB_Web.Controllers
             }
 
             //Convert to viewmodel
-            var result = data.Select(s => new UserViewModel {
+            var result = data.Select(s => new UserViewModel
+            {
                 UserId = s.UserId,
                 Role = s.Role,
                 FirstName = s.FirstName,
@@ -81,7 +113,8 @@ namespace ICT_LAB_Web.Controllers
             }
 
             //Convert to view model
-            var result = new UserViewModel {
+            var result = new UserViewModel
+            {
                 UserId = data.UserId,
                 Role = data.Role,
                 FirstName = data.FirstName,
@@ -117,7 +150,8 @@ namespace ICT_LAB_Web.Controllers
             }
 
             //Convert to view model
-            var result = new UserViewModel {
+            var result = new UserViewModel
+            {
                 UserId = data.UserId,
                 Role = data.Role,
                 FirstName = data.FirstName,
@@ -160,7 +194,8 @@ namespace ICT_LAB_Web.Controllers
             }
 
             //Convert to view model
-            var result = new UserViewModel {
+            var result = new UserViewModel
+            {
                 UserId = data.UserId,
                 Role = data.Role,
                 FirstName = data.FirstName,
@@ -194,7 +229,8 @@ namespace ICT_LAB_Web.Controllers
                 return StatusCode(400, "This e-mail address is not valid.");
             }
 
-            User user = new User {
+            User user = new User
+            {
                 UserId = model.Email.Split("@")[0],
                 Role = model.Role,
                 FirstName = model.FirstName,
@@ -211,7 +247,8 @@ namespace ICT_LAB_Web.Controllers
                 return StatusCode(500, "A problem occured while saving the user. Please try again!");
             }
 
-            return Ok(new UserViewModel {
+            return Ok(new UserViewModel
+            {
                 UserId = result.UserId,
                 Role = result.Role,
                 FirstName = result.FirstName,
@@ -247,7 +284,7 @@ namespace ICT_LAB_Web.Controllers
                 return StatusCode(400, "File is empty.");
             }
 
-			// Get user
+            // Get user
             var userToUpdate = await _userRepository.GetByEmail(model.Email);
 
             // Add image to user
@@ -262,7 +299,7 @@ namespace ICT_LAB_Web.Controllers
             }
 
             // Update user
-            userToUpdate.Picture = "data:image/" + extension + ";base64," +  imageBinary;
+            userToUpdate.Picture = "data:image/" + extension + ";base64," + imageBinary;
             await _userRepository.Update(userToUpdate);
 
             return Ok(model);
@@ -283,7 +320,8 @@ namespace ICT_LAB_Web.Controllers
                 return StatusCode(400, "Invalid parameter(s).");
             }
 
-            User user = new User {
+            User user = new User
+            {
                 Role = model.Role,
                 FirstName = model.FirstName,
                 LastName = model.LastName,
@@ -300,7 +338,8 @@ namespace ICT_LAB_Web.Controllers
                 return StatusCode(500, "A problem occured while updating the user. Please try again!");
             }
 
-            return Ok(new UserViewModel {
+            return Ok(new UserViewModel
+            {
                 UserId = result.UserId,
                 Role = result.Role,
                 FirstName = result.FirstName,

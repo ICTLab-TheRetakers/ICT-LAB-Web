@@ -3,6 +3,7 @@ using ICT_LAB_Web.Components.Entities;
 using ICT_LAB_Web.Components.Helper;
 using ICT_LAB_Web.Components.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -53,6 +54,23 @@ namespace ICT_LAB_Web.Components.Services
 
             var response = await _dbContext.Users.FirstOrDefaultAsync(q => q.Email.ToLower() == email.ToLower() && q.Password == encryptedPassword);
             return response;
+        }
+
+        public async Task<string> ResetPassword(string email)
+        {
+            // Generate random password
+            var tempPassword = new Guid().ToString();
+
+            // Update user with temporary password
+            var user = await _dbContext.Users.FirstOrDefaultAsync(q => q.Email.ToLower() == email.ToLower());
+            var updatedUser = await this.Update(user);
+
+            if (user.Password != updatedUser.Password)
+            {
+                return tempPassword;
+            }
+
+            return null;
         }
 
         public async Task<bool> Delete(string user)
