@@ -68,7 +68,7 @@ export class EditUserComponent implements OnInit {
             if (fileToUpload) {
                 this._userService.upload(fileToUpload, this.user).subscribe(
                     (response) => this.router.navigate(['/users']),
-                    (error) => { return Observable.throw(error); }
+                    (error: HttpErrorResponse) => { throw error; }
                 );
             }
         } else {

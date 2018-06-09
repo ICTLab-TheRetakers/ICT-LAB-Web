@@ -35,9 +35,9 @@ namespace ICT_LAB_Web.Components.Helper
 
             using (var message = new MailMessage(this.EmailAddress, toEmail)
             {
-
+                IsBodyHtml = true,
                 Subject = "HINT Reservation System - Password Reset",
-                Body = "Dear user,\n\nBeneath you will find your temporary password. When signed in, please change your password. \n\n<b>Password:<b> " + password
+                Body = "Dear user,<br /><br />Beneath you will find your temporary password. When signed in, please change your password. <br /><br /><b>Password:<b/> " + password
             })
             {
                 await smtpClient.SendMailAsync(message);
