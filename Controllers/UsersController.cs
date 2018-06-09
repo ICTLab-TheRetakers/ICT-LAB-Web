@@ -36,7 +36,7 @@ namespace ICT_LAB_Web.Controllers
         /// Resets a users password and sends an email.
         /// </summary>
 		/// <param name="email">Email of user</param>
-        [HttpPost("resetPassword")]
+        [HttpGet("resetPassword")]
         [ProducesResponseType(typeof(void), 200)]
         [ProducesResponseType(typeof(void), 500)]
         public async Task<IActionResult> ResetPassword(string email)
