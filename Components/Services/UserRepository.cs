@@ -59,7 +59,7 @@ namespace ICT_LAB_Web.Components.Services
         public async Task<string> ResetPassword(string email)
         {
             // Generate random password
-            var tempPassword = new Guid().ToString();
+            var tempPassword = Guid.NewGuid().ToString();
 
             // Update user with temporary password
             var user = await _dbContext.Users.FirstOrDefaultAsync(q => q.Email.ToLower() == email.ToLower());
