@@ -36,7 +36,7 @@ namespace ICT_LAB_Web.Controllers
         /// Resets a users password and sends an email.
         /// </summary>
 		/// <param name="email">Email of user</param>
-        [HttpGet("resetPassword")]
+        [HttpPost("resetPassword")]
         [ProducesResponseType(typeof(void), 200)]
         [ProducesResponseType(typeof(void), 500)]
         public async Task<IActionResult> ResetPassword(string email)
@@ -44,6 +44,12 @@ namespace ICT_LAB_Web.Controllers
             if (String.IsNullOrEmpty(email))
             {
                 return StatusCode(400, "Invalid parameter(s).");
+            }
+
+            // Check if email address is valid
+            if (!email.Contains("@") || !email.Contains("."))
+            {
+                return StatusCode(400, "This e-mail address is not valid.");
             }
 
             // Reset password
@@ -103,6 +109,12 @@ namespace ICT_LAB_Web.Controllers
             if (String.IsNullOrEmpty(email))
             {
                 return StatusCode(400, "Invalid parameter(s).");
+            }
+
+            // Check if email address is valid
+            if (!email.Contains("@") || !email.Contains("."))
+            {
+                return StatusCode(400, "This e-mail address is not valid.");
             }
 
             //Get user

@@ -63,9 +63,11 @@ namespace ICT_LAB_Web.Components.Services
 
             // Update user with temporary password
             var user = await _dbContext.Users.FirstOrDefaultAsync(q => q.Email.ToLower() == email.ToLower());
+            user.Password = tempPassword;
+
             var updatedUser = await this.Update(user);
 
-            if (user.Password != updatedUser.Password)
+            if (updatedUser.Password == tempPassword)
             {
                 return tempPassword;
             }
