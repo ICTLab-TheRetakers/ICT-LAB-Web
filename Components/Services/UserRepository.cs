@@ -36,7 +36,7 @@ namespace ICT_LAB_Web.Components.Services
             }
 
             // Check if password has changed
-            var isChanged = userToUpdate.Password == user.Password;
+            var isChanged = userToUpdate.Password != user.Password;
             if (isChanged)
             {
                 //Encrypt password before updating
