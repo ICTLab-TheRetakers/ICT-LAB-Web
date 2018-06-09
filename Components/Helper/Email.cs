@@ -15,8 +15,8 @@ namespace ICT_LAB_Web.Components.Helper
 
         public Email()
         {
-            this.EmailAddress = "bosbosjohan@gmail.com";
-            this.Password = "Rotterdam28";
+            this.EmailAddress = "";
+            this.Password = "";
             this.Host = "smtp.gmail.com";
             this.Port = 587;
             this.EnableSSL = true;
@@ -37,7 +37,7 @@ namespace ICT_LAB_Web.Components.Helper
             {
 
                 Subject = "HINT Reservation System - Password Reset",
-                Body = "Beneath you will find your temporary password. When signed in, please change. \n\nPassword: " + password
+                Body = "Dear user,\n\nBeneath you will find your temporary password. When signed in, please change your password. \n\n<b>Password:<b> " + password
             })
             {
                 await smtpClient.SendMailAsync(message);
