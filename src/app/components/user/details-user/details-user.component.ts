@@ -3,6 +3,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { UserService } from '../../../shared/services/user.service';
 import { RoleService } from '../../../shared/services/role.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { DomSanitizer } from '@angular/platform-browser';
 
 import User from '../../../shared/models/user.model';
 import Role from '../../../shared/models/role.model';
@@ -17,7 +18,8 @@ export class DetailsUserComponent implements OnInit {
     userId: string;
     roles: Role[];
 
-    constructor(private _userService: UserService, private _roleService: RoleService, private router: Router, private route: ActivatedRoute) { }
+    constructor(private _userService: UserService, private _roleService: RoleService, private router: Router, private route: ActivatedRoute,
+        private sanitizer: DomSanitizer) { }
 
     ngOnInit() {
         this.route.params.subscribe(
@@ -27,6 +29,7 @@ export class DetailsUserComponent implements OnInit {
             }
         );
     }
+
 
     getUser(email: string) {
         this._userService.getById(email).subscribe(

@@ -14,6 +14,7 @@ import { SignInComponent } from './sign-in/sign-in.component';
 import { AddUserComponent } from './add-user/add-user.component';
 import { EditUserComponent } from './edit-user/edit-user.component';
 import { DetailsUserComponent } from './details-user/details-user.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 @NgModule({
     imports: [
@@ -23,7 +24,7 @@ import { DetailsUserComponent } from './details-user/details-user.component';
         ToastyModule.forRoot(),
         UserRoutingModule
     ],
-    declarations: [UserComponent, SignInComponent, AddUserComponent, EditUserComponent, DetailsUserComponent],
+    declarations: [UserComponent, SignInComponent, AddUserComponent, EditUserComponent, DetailsUserComponent, ResetPasswordComponent],
     providers: [
         UserService,
         { provide: LocationStrategy, useClass: PathLocationStrategy },

@@ -59,6 +59,11 @@ export class UserService {
             .catch(this.handleError);
     }
 
+    resetPassword(email: string): Observable<any> {
+        return this.http.get(this.baseUrl + 'resetPassword?email=' + email)
+            .catch(this.handleError);
+    }
+
     private handleError(error: any) {
         return Observable.throw(error);
     }

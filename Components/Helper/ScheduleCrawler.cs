@@ -68,7 +68,8 @@ namespace ICT_LAB_Web.Components.Helper
 
         public async Task<Schedule> StartCrawlingAsync()
         {
-            return await GetSchedule(this.ScheduleType, this.Index, this.Quarter, this.Week);
+            var schedule = await Task.Run(() => GetSchedule(this.ScheduleType, this.Index, this.Quarter, this.Week));
+            return schedule;
         }
 
         #endregion

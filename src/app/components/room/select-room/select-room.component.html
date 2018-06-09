@@ -2,7 +2,7 @@
     <!-- If all options can be selected-->
     <ng-container *ngIf="!hide">
         <div class="form-row">
-            <div class="col-sm-12 col-md-4 offset-md-2">
+            <div [ngClass]="(type != null)? 'col-sm-12 col-md-4 offset-md-2' : 'col-sm-12 col-md-4 offset-md-4'" style="transition: 0.5s cubic-bezier(0, 0, 0.2, 1);">
                 <select class="custom-select" (change)="setType($event)" [(ngModel)]="type">
                     <option class="list-group-item" value="null">View schedule for..</option>
                     <option class="list-group-item" value="c">Class</option>
@@ -22,10 +22,11 @@
         </div>
 
         <div class="form-row" [hidden]="schedule == null">
-            <div class="col-sm-4 col-md-2 offset-md-2">
+            <div class="col-sm-4 col-md-2">
                 <button [disabled]="currentWeek <= startWeek" type="button" class="btn btn-primary" (click)="previousWeek()">Previous</button>
             </div>
-            <div class="col-sm-4 col-md-2 offset-md-2">
+            <div class="col-sm-4 col-md-8"></div>
+            <div class="col-sm-4 col-md-2">
                 <button type="button" class="btn btn-primary" (click)="nextWeek()">Next</button>
             </div>
         </div>

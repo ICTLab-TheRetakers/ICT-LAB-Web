@@ -3,7 +3,9 @@ using ICT_LAB_Web.Components.Entities;
 using ICT_LAB_Web.Components.Helper;
 using ICT_LAB_Web.Components.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ICT_LAB_Web.Components.Services
@@ -12,6 +14,7 @@ namespace ICT_LAB_Web.Components.Services
     {
         private ReservationSystemContext _dbContext = new ReservationSystemContext();
         private Encryptor _encryptor = new Encryptor();
+        private Random random = new Random();
 
         public async Task<User> Add(User user)
         {
@@ -55,6 +58,28 @@ namespace ICT_LAB_Web.Components.Services
             return response;
         }
 
+        public async Task<string> ResetPassword(string email)
+        {
+            // Generate random password
+            var tempPassword = this.GeneratePassword();
+            var oldPassword = "";
+
+            // Get user by email
+            var user = await _dbContext.Users.FirstOrDefaultAsync(q => q.Email.ToLower() == email.ToLower());
+            oldPassword = user.Password;
+
+            // Update password
+            user.Password = tempPassword;
+            var updatedUser = await this.Update(user);
+
+            if (updatedUser.Password != oldPassword)
+            {
+                return tempPassword;
+            }
+
+            return null;
+        }
+
         public async Task<bool> Delete(string user)
         {
             User userToDelete = await _dbContext.Users.FirstOrDefaultAsync(q => q.UserId.ToLower() == user.ToLower());
@@ -80,6 +105,14 @@ namespace ICT_LAB_Web.Components.Services
         {
             var response = await _dbContext.Users.FirstOrDefaultAsync(q => q.Email.ToLower() == email.ToLower());
             return response;
+        }
+
+        private string GeneratePassword()
+        {
+            const string pool = "abcdefghijklmnopqrstuvwxyz0123456789";
+            var chars = Enumerable.Range(0, 10)
+                .Select(x => pool[random.Next(0, pool.Length)]);
+            return new string(chars.ToArray());
         }
     }
 }
