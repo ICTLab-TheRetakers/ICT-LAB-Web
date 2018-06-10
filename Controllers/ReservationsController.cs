@@ -21,11 +21,13 @@ namespace ICT_LAB_Web.Controllers
     {
         private IReservationRepository _reservationRepository;
         private IParticipantRepository _participantRepository;
+        private ScheduleCrawler _crawler;
 
         public ReservationsController()
         {
             this._reservationRepository = new ReservationRepository();
             this._participantRepository = new ParticipantRepository();
+            this._crawler = new ScheduleCrawler();
         }
 
         /// <summary>
@@ -94,14 +96,14 @@ namespace ICT_LAB_Web.Controllers
                 return StatusCode(400, "Invalid parameter(s).");
             }
 
-            //Get lessons
-            var crawler = new ScheduleCrawler();
-            crawler.SetScheduleType(type);
-            crawler.SetIndex(index);
-            crawler.SetWeek(week.Value);
-            crawler.SetQuarterOfYear(quarter.Value);
+            // Set crawler properties
+            _crawler.SetScheduleType(type);
+            _crawler.SetIndex(index);
+            _crawler.SetWeek(week.Value);
+            _crawler.SetQuarterOfYear(quarter.Value);
 
-            var data = await crawler.StartCrawlingAsync();
+            // Get schedule
+            var data = await _crawler.StartCrawling();
             if (data == null)
             {
                 return StatusCode(404, "Lessons could not be found.");

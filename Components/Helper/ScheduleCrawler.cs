@@ -66,9 +66,9 @@ namespace ICT_LAB_Web.Components.Helper
 
         #region Public Methods
 
-        public async Task<Schedule> StartCrawlingAsync()
+        public async Task<Schedule> StartCrawling()
         {
-            var schedule = await Task.Run(() => GetSchedule(this.ScheduleType, this.Index, this.Quarter, this.Week));
+            var schedule = await Task.Run(() => GetSchedule(this.ScheduleType, this.Index, this.Quarter, this.Week)).ConfigureAwait(false);
             return schedule;
         }
 
@@ -80,7 +80,7 @@ namespace ICT_LAB_Web.Components.Helper
         {
             var url = String.Format("http://misc.hro.nl/roosterdienst/webroosters/{0}/kw{1}/{2}/{3}/{4}.htm", this.Department, quarterOfYear, week, scheduleType, identifier);
 
-            var html = await httpClient.GetStringAsync(url);
+            var html = await httpClient.GetStringAsync(url).ConfigureAwait(false);
             var document = new HtmlDocument();
             document.LoadHtml(html);
 
@@ -90,9 +90,9 @@ namespace ICT_LAB_Web.Components.Helper
 
             // Get schedule
             var table = document.DocumentNode.SelectNodes("/html/body/center/table[1]")[0];
-            var schedule = GetLessons(table);
+            var schedule = Task.Run(() => GetLessons(table));
 
-            return schedule;
+            return schedule.Result;
         }
 
         private Schedule GetLessons(HtmlNode schedule)

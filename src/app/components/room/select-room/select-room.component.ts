@@ -36,7 +36,6 @@ export class SelectRoomComponent implements OnInit {
     ngOnInit() {
         this.setRoomOptions();
         this.setCurrentWeekAndQuarter();
-
     }
 
     setRoomOptions() {
