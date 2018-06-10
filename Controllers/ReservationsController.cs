@@ -106,7 +106,7 @@ namespace ICT_LAB_Web.Controllers
             _crawler.SetQuarterOfYear(quarter.Value);
 
             // Get schedule
-            var data = await _crawler.StartCrawlingAsync();
+            var data = await _crawler.StartCrawling();
             if (data == null)
             {
                 return StatusCode(404, "Lessons could not be found.");
