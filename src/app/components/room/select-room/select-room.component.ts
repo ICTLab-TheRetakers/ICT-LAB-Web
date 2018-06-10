@@ -85,7 +85,7 @@ export class SelectRoomComponent implements OnInit {
         this.getOptions();
     }
 
-    selectOption(event: any, getSchedule: boolean) {
+    async selectOption(event: any, getSchedule: boolean) {
         let identifier = '';
 
         if (this.index == null) {

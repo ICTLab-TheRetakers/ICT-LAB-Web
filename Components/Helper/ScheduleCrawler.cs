@@ -68,7 +68,7 @@ namespace ICT_LAB_Web.Components.Helper
 
         public async Task<Schedule> StartCrawling()
         {
-            var schedule = await Task.Run(() => GetSchedule(this.ScheduleType, this.Index, this.Quarter, this.Week)).ConfigureAwait(false);
+            var schedule = await Task.Run(async () => await GetSchedule(this.ScheduleType, this.Index, this.Quarter, this.Week));
             return schedule;
         }
 

@@ -22,12 +22,15 @@ namespace ICT_LAB_Web.Controllers
         private IReservationRepository _reservationRepository;
         private IParticipantRepository _participantRepository;
         private ScheduleCrawler _crawler;
+        private HttpClient _httpClient;
+
 
         public ReservationsController()
         {
             this._reservationRepository = new ReservationRepository();
             this._participantRepository = new ParticipantRepository();
             this._crawler = new ScheduleCrawler();
+            this._httpClient = new HttpClient();
         }
 
         /// <summary>
@@ -103,7 +106,7 @@ namespace ICT_LAB_Web.Controllers
             _crawler.SetQuarterOfYear(quarter.Value);
 
             // Get schedule
-            var data = await _crawler.StartCrawling();
+            var data = await _crawler.StartCrawlingAsync();
             if (data == null)
             {
                 return StatusCode(404, "Lessons could not be found.");
@@ -131,24 +134,26 @@ namespace ICT_LAB_Web.Controllers
             }
 
             var url = String.Format("http://misc.hro.nl/roosterdienst/webroosters/{0}/kw{1}/frames/navbar.htm", "CMI", quarter);
-            var httpClient = new HttpClient();
-
-            var html = await httpClient.GetStringAsync(url);
-            var document = new HtmlDocument();
-            document.LoadHtml(html);
-
-            var script = document.DocumentNode.SelectNodes("/html/head/script[2]")[0].InnerHtml;
-            var teachers = script.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None)[26].Trim();
-
-            // Remove parts of string
-            teachers = teachers.Substring(16);
-            teachers = teachers.Remove(teachers.Length - 3);
-
-            var result = teachers.Split(',').ToList();
-            for (int i = 0; i < result.Count; i++)
+            var result = new List<string>();
+            await Task.Run(async () =>
             {
-                result[i] = result[i].Replace("\"", "");
-            }
+                var html = await _httpClient.GetStringAsync(url);
+                var document = new HtmlDocument();
+                document.LoadHtml(html);
+
+                var script = document.DocumentNode.SelectNodes("/html/head/script[2]")[0].InnerHtml;
+                var teachers = script.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None)[26].Trim();
+
+                // Remove parts of string
+                teachers = teachers.Substring(16);
+                teachers = teachers.Remove(teachers.Length - 3);
+
+                result = teachers.Split(',').ToList();
+                for (int i = 0; i < result.Count; i++)
+                {
+                    result[i] = result[i].Replace("\"", "");
+                }
+            });
 
             return Ok(result);
         }
@@ -169,24 +174,26 @@ namespace ICT_LAB_Web.Controllers
             }
 
             var url = String.Format("http://misc.hro.nl/roosterdienst/webroosters/{0}/kw{1}/frames/navbar.htm", "CMI", quarter);
-            var httpClient = new HttpClient();
-
-            var html = await httpClient.GetStringAsync(url);
-            var document = new HtmlDocument();
-            document.LoadHtml(html);
-
-            var script = document.DocumentNode.SelectNodes("/html/head/script[2]")[0].InnerHtml;
-            var classes = script.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None)[25].Trim();
-
-            // Remove parts of string
-            classes = classes.Substring(16);
-            classes = classes.Remove(classes.Length - 3);
-
-            var result = classes.Split(',').ToList();
-            for (int i = 0; i < result.Count; i++)
+            var result = new List<string>();
+            await Task.Run(async () =>
             {
-                result[i] = result[i].Replace("\"", "");
-            }
+                var html = await _httpClient.GetStringAsync(url);
+                var document = new HtmlDocument();
+                document.LoadHtml(html);
+
+                var script = document.DocumentNode.SelectNodes("/html/head/script[2]")[0].InnerHtml;
+                var classes = script.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None)[25].Trim();
+
+                // Remove parts of string
+                classes = classes.Substring(16);
+                classes = classes.Remove(classes.Length - 3);
+
+                result = classes.Split(',').ToList();
+                for (int i = 0; i < result.Count; i++)
+                {
+                    result[i] = result[i].Replace("\"", "");
+                }
+            });
 
             return Ok(result);
         }
@@ -207,24 +214,26 @@ namespace ICT_LAB_Web.Controllers
             }
 
             var url = String.Format("http://misc.hro.nl/roosterdienst/webroosters/{0}/kw{1}/frames/navbar.htm", "CMI", quarter);
-            var httpClient = new HttpClient();
-
-            var html = await httpClient.GetStringAsync(url);
-            var document = new HtmlDocument();
-            document.LoadHtml(html);
-
-            var script = document.DocumentNode.SelectNodes("/html/head/script[2]")[0].InnerHtml;
-            var rooms = script.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None)[27].Trim();
-
-            // Remove parts of string
-            rooms = rooms.Substring(16);
-            rooms = rooms.Remove(rooms.Length - 3);
-
-            var result = rooms.Split(',').ToList();
-            for (int i = 0; i < result.Count; i++)
+            var result = new List<string>();
+            await Task.Run(async () =>
             {
-                result[i] = result[i].Replace("\"", "");
-            }
+                var html = await _httpClient.GetStringAsync(url);
+                var document = new HtmlDocument();
+                document.LoadHtml(html);
+
+                var script = document.DocumentNode.SelectNodes("/html/head/script[2]")[0].InnerHtml;
+                var rooms = script.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None)[27].Trim();
+
+                // Remove parts of string
+                rooms = rooms.Substring(16);
+                rooms = rooms.Remove(rooms.Length - 3);
+
+                result = rooms.Split(',').ToList();
+                for (int i = 0; i < result.Count; i++)
+                {
+                    result[i] = result[i].Replace("\"", "");
+                }
+            });
 
             return Ok(result);
         }
