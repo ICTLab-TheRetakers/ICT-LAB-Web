@@ -3,12 +3,13 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { DeviceComponent } from './device.component';
 import { AuthGuard } from '../../shared/authguard.service';
+import {AddDeviceComponent} from './add-device/add-device.component';
 
 const routes: Routes = [
     {
         path: 'devices',
         children: [
-            { path: '', component: DeviceComponent, canActivate: [AuthGuard] }
+            { path: 'add/:room', component: AddDeviceComponent, canActivate: [AuthGuard] }
         ]
     }
 ];

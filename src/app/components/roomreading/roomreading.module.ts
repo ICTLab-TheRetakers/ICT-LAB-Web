@@ -8,7 +8,7 @@ import { ToastyModule } from 'ng2-toasty';
 import { RoomReadingRoutingModule } from './roomreading.routing';
 
 import { RoomReadingComponent } from './roomreading.component';
-
+import { DeviceRoutingModule } from '../device/device.routing';
 import { SharedService } from '../../shared/services/shared.service';
 import { RoomReadingService } from '../../shared/services/reading.service';
 import { RoomService } from '../../shared/services/room.service';
@@ -16,17 +16,20 @@ import { RoomService } from '../../shared/services/room.service';
 import { SelectRoomModule } from '../room/select-room/select-room.module';
 import { CustomErrorHandler } from '../../shared/error-handler';
 
+
 @NgModule({
     imports: [
         CommonModule,
         HttpClientModule,
         FormsModule,
         SelectRoomModule,
+        DeviceRoutingModule,
         ToastyModule.forRoot(),
         RoomReadingRoutingModule
     ],
     declarations: [
-        RoomReadingComponent
+        RoomReadingComponent,
+
     ],
     providers: [
         RoomReadingService,

@@ -10,6 +10,7 @@ import { DeviceRoutingModule } from './device.routing';
 import { DeviceComponent } from './device.component';
 import { DeviceService } from '../../shared/services/device.service';
 import { CustomErrorHandler } from '../../shared/error-handler';
+import { AddDeviceComponent } from './add-device/add-device.component';
 
 @NgModule({
     imports: [
@@ -19,7 +20,7 @@ import { CustomErrorHandler } from '../../shared/error-handler';
         ToastyModule.forRoot(),
         DeviceRoutingModule
     ],
-    declarations: [DeviceComponent],
+    declarations: [DeviceComponent, AddDeviceComponent],
     providers: [
         DeviceService,
         { provide: LocationStrategy, useClass: PathLocationStrategy },
