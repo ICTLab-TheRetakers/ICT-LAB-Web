@@ -2,8 +2,8 @@ using ICT_LAB_Web.Components.Entities;
 using ICT_LAB_Web.Components.Services;
 using ICT_LAB_Web.Components.Services.Interfaces;
 using ICT_LAB_Web.Controllers.ViewModels;
+using LightQuery;
 using LightQuery.Client;
-using LightQuery.EntityFrameworkCore;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -28,7 +28,7 @@ namespace ICT_LAB_Web.Controllers
         /// <summary>
         /// Room pagination.
         /// </summary>
-        [AsyncLightQuery(forcePagination: true, defaultPageSize: 3)]
+        [LightQuery]
         [HttpGet("pagination")]
         [ProducesResponseType(typeof(PaginationResult<RoomViewModel>), 200)]
         [ProducesResponseType(typeof(void), 500)]
@@ -53,6 +53,8 @@ namespace ICT_LAB_Web.Controllers
 
             var paging = new PaginationResult<RoomViewModel>();
             paging.Data = result.ToList();
+            paging.TotalCount = result.Count();
+            paging.PageSize = paging.TotalCount / 10;
 
             return Ok(paging);
         }
