@@ -2,6 +2,8 @@ using ICT_LAB_Web.Components.Entities;
 using ICT_LAB_Web.Components.Services;
 using ICT_LAB_Web.Components.Services.Interfaces;
 using ICT_LAB_Web.Controllers.ViewModels;
+using LightQuery.Client;
+using LightQuery.EntityFrameworkCore;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -21,6 +23,36 @@ namespace ICT_LAB_Web.Controllers
         public RoomsController()
         {
             this._roomRepository = new RoomRepository();
+        }
+
+        /// <summary>
+        /// Room pagination.
+        /// </summary>
+        [AsyncLightQuery(forcePagination: true, defaultPageSize: 3)]
+        [HttpGet("getAll")]
+        [ProducesResponseType(typeof(PaginationResult<RoomViewModel>), 200)]
+        [ProducesResponseType(typeof(void), 500)]
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            //Get rooms
+            var data = await _roomRepository.GetAll();
+            if (data == null)
+            {
+                return StatusCode(404, String.Format("Unable to find any rooms."));
+            }
+
+            //Convert to view model
+            var result = data.Select(x => new RoomViewModel
+            {
+                RoomCode = x.RoomCode,
+                HasSmartboard = x.HasSmartboard,
+                HasComputer = x.HasComputer,
+                HasWindows = x.HasWindows,
+                StudentCapacity = x.StudentCapacity
+            });
+
+            return Ok(result);
         }
 
         /// <summary>
