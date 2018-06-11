@@ -5,8 +5,8 @@ namespace ICT_LAB_Web.Controllers.ViewModels
 {
     public class RoomReadingViewModel
     {
-        [JsonProperty("room_code")]
-        public string RoomCode { get; set; }
+        [JsonProperty("device_id")]
+        public int DeviceId { get; set; }
         [JsonProperty("created_on")]
         public DateTime CreatedOn { get; set; }
         [JsonProperty("type")]

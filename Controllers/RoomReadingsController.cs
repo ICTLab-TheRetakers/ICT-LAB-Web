@@ -49,7 +49,7 @@ namespace ICT_LAB_Web.Controllers
             //Convert to view model
             var result = data.Select(x => new RoomReadingViewModel
             {
-                RoomCode = x.RoomCode,
+                DeviceId = x.DeviceId,
                 Type = x.Type,
                 Value = x.Value,
                 CreatedOn = x.CreatedOn
@@ -95,7 +95,7 @@ namespace ICT_LAB_Web.Controllers
             //Convert to view model
             var result = data.Select(x => new RoomReadingViewModel
             {
-                RoomCode = x.RoomCode,
+                DeviceId = x.DeviceId,
                 Type = x.Type,
                 Value = x.Value,
                 CreatedOn = x.CreatedOn
@@ -121,7 +121,7 @@ namespace ICT_LAB_Web.Controllers
 
             RoomReading roomReading = new RoomReading
             {
-                RoomCode = model.RoomCode,
+                DeviceId = model.DeviceId,
                 CreatedOn = model.CreatedOn,
                 Type = model.Type,
                 Value = model.Value
@@ -136,7 +136,7 @@ namespace ICT_LAB_Web.Controllers
 
             return Ok(new RoomReadingViewModel
             {
-                RoomCode = result.RoomCode,
+                DeviceId = result.DeviceId,
                 CreatedOn = result.CreatedOn,
                 Type = result.Type,
                 Value = result.Value
