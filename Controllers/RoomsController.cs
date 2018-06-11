@@ -29,11 +29,10 @@ namespace ICT_LAB_Web.Controllers
         /// Room pagination.
         /// </summary>
         [AsyncLightQuery(forcePagination: true, defaultPageSize: 3)]
-        [HttpGet("getAll")]
+        [HttpGet("pagination")]
         [ProducesResponseType(typeof(PaginationResult<RoomViewModel>), 200)]
         [ProducesResponseType(typeof(void), 500)]
-        [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> Pagination()
         {
             //Get rooms
             var data = await _roomRepository.GetAll();
@@ -52,7 +51,10 @@ namespace ICT_LAB_Web.Controllers
                 StudentCapacity = x.StudentCapacity
             });
 
-            return Ok(result);
+            var paging = new PaginationResult<RoomViewModel>();
+            paging.Data = result.ToList();
+
+            return Ok(paging);
         }
 
         /// <summary>
