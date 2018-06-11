@@ -22,6 +22,7 @@ import { ReservationModule } from './components/reservation/reservation.module';
 import { DashboardModule } from './components/dashboard/dashboard.module';
 import { ScheduleModule } from './components/schedule/schedule.module';
 
+import { RoleService } from './shared/services/role.service';
 import { SharedService } from './shared/services/shared.service';
 import { AuthGuard } from './shared/authguard.service';
 import { AuthenticationService } from './shared/authentication.service';
@@ -50,6 +51,7 @@ import { CustomErrorHandler } from './shared/error-handler';
     ],
     providers: [
         SharedService,
+        RoleService,
         { provide: LocationStrategy, useClass: PathLocationStrategy },
         { provide: AuthGuard, useClass: AuthGuard },
         { provide: AuthenticationService, useClass: AuthenticationService },

@@ -4,8 +4,8 @@
             <div class="form-row">
                 <div class="col-sm-12 col-md-12">
                     <label for="issue">Report Issue</label>
-                    <textarea id="issue" class="form-control" rows="5" [(ngModel)]="issue.description" required #descriptionModel></textarea>
-                    <div class="alert alert-danger" [hidden]="(descriptionModel.length == 0 || reservationForm.controls['end']?.touched == false">
+                    <textarea id="issue" name="issue" class="form-control" rows="5" [(ngModel)]="issue.description" required #descriptionModel></textarea>
+                    <div class="alert alert-danger" [hidden]="descriptionModel.value.length == 0 || issueForm.controls['issue']?.touched == false">
                         Description cannot be empty!
                     </div>
                 </div>

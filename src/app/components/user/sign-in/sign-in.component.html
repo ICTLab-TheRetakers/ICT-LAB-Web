@@ -18,7 +18,7 @@
                 </div>
                 <div class="col-sm-12 col-md-8 offset-md-2 my-3">
                     <label for="password">Password</label>
-                    <input type="password" class="form-control" id="password" name="password" [(ngModel)]="password" #passwordModel="ngModel" required>
+                    <input type="password" class="form-control" id="password" name="password" [(ngModel)]="password" required>
                 </div>
                 <div class="col-sm-12 col-md-8 offset-md-2 mt-4 text-center">
                     <button type="button" [disabled]="!userForm.form.valid" class="btn btn-primary mb-4 mx-auto" (click)="checkCredentials()">Sign In</button>
