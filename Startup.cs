@@ -41,7 +41,7 @@ namespace ICT_LAB_Web
                 options.AddPolicy("AllowAll", p => p.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
             });
 
-            //services.AddHangfire(x => x.UsePostgreSqlStorage(@"Host=localhost; Database=hangfire; User Id=hangfire; Password=retakers;"));
+            services.AddHangfire(x => x.UsePostgreSqlStorage(@"Host=localhost; Database=hangfire; User Id=hangfire; Password=retakers;"));
             
             services.AddMvc();
         }
@@ -84,8 +84,8 @@ namespace ICT_LAB_Web
                 );
             });
 
-            //app.UseHangfireDashboard();
-            //app.UseHangfireServer();
+            app.UseHangfireDashboard();
+            app.UseHangfireServer();
         }
     }
 }
