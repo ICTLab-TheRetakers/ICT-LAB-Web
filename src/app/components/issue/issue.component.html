@@ -8,7 +8,7 @@
                     <th>Reported on</th>
                     <th>Room</th>
                     <th>Description</th>
-                    <th></th>
+                    <th>Is Resolved</th>
                     <th></th>
                 </tr>
             </thead>
@@ -19,11 +19,9 @@
                     </td>
                     <td>{{ issue.room_code }}</td>
                     <td>{{ issue.description }}</td>
+                    <td>{{ issue.resolved ? 'Yes' : 'No' }}</td>
                     <td>
-                       <a>Edit</a>
-                    </td>
-                    <td>
-                        <button type="button">Resolved</button>
+                        <button type="button" (click)="resolveIssue(issue.issue_id)">Resolve</button>
                     </td>
                 </tr>
             </tbody>

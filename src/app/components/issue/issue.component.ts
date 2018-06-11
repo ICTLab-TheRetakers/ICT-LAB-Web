@@ -28,4 +28,14 @@ export class IssueComponent implements OnInit {
         );
     }
 
+    resolveIssue(id: number) {
+        let issue = this.issues.filter(f => f.issue_id == id)[0];
+        issue.resolved = true;
+
+        this._issueService.update(issue).subscribe(
+            (response) => this.ngOnInit(),
+            (error: HttpErrorResponse) => { throw error; }
+        );
+    }
+
 }

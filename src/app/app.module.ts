@@ -19,7 +19,6 @@ import { DeviceModule } from './components/device/device.module';
 import { NotificationModule } from './components/notification/notification.module';
 import { IssueModule } from './components/issue/issue.module';
 import { ReservationModule } from './components/reservation/reservation.module';
-import { RoleModule } from './components/role/role.module';
 import { DashboardModule } from './components/dashboard/dashboard.module';
 import { ScheduleModule } from './components/schedule/schedule.module';
 
@@ -43,7 +42,6 @@ import { CustomErrorHandler } from './shared/error-handler';
         NotificationModule,
         IssueModule,
         ReservationModule,
-        RoleModule,
         DashboardModule,
         ScheduleModule,
         ToastyModule.forRoot(),
