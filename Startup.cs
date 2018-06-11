@@ -8,6 +8,8 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using Hangfire;
+using Hangfire.PostgreSql;
 
 namespace ICT_LAB_Web
 {
@@ -39,6 +41,8 @@ namespace ICT_LAB_Web
                 options.AddPolicy("AllowAll", p => p.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
             });
 
+            services.AddHangfire(x => x.UsePostgreSqlStorage(@"Host=localhost; Database=hangfire; User Id=hangfire; Password=retakers;"));
+            
             services.AddMvc();
         }
 
@@ -79,6 +83,9 @@ namespace ICT_LAB_Web
                     template: "api/{controller}/{action}/{id?}"
                 );
             });
+
+            app.UseHangfireDashboard();
+            app.UseHangfireServer();
         }
     }
 }
