@@ -24,13 +24,24 @@ export class AddReservationComponent implements OnInit {
     reservations: Reservation[] = [];
     selectedRoom: Room = null;
     currentUser: User = null;
+    minDate: string;
+    maxDate: string;
     date;
 
     constructor(private _reservationService: ReservationService, private router: Router, private toastyService: ToastyService) { }
 
     ngOnInit() {
         this.getCurrentUser();
+        this.setMinAndMaxDate();
         this.addRow();
+    }
+
+    setMinAndMaxDate() {
+        let today = new Date();
+        this.minDate = today.toJSON().split('T')[0];
+
+        today.setMonth(today.getMonth() + 2);
+        this.maxDate = today.toJSON().split('T')[0];
     }
 
     submitForm() {
@@ -64,6 +75,7 @@ export class AddReservationComponent implements OnInit {
     addRow() {
         let reservation = new Reservation();
         reservation.user_id = this.currentUser.user_id;
+        reservation.date = this.minDate;
 
         this.reservations.push(reservation);
     }

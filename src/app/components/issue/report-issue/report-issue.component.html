@@ -1,14 +1,17 @@
 <div class="row">
     <div class="col-sm-12 col-md-10 offset-md-1 mx-auto">
-        <form class="form-horizontal" *ngIf="issue">
+        <form class="form-horizontal" *ngIf="issue != null" #issueForm="ngForm">
             <div class="form-row">
                 <div class="col-sm-12 col-md-12">
                     <label for="issue">Report Issue</label>
-                    <textarea id="issue" class="form-control" rows="5" [(ngModel)]="issue.description" required></textarea>
+                    <textarea id="issue" class="form-control" rows="5" [(ngModel)]="issue.description" required #descriptionModel></textarea>
+                    <div class="alert alert-danger" [hidden]="(descriptionModel.length == 0 || reservationForm.controls['end']?.touched == false">
+                        Description cannot be empty!
+                    </div>
                 </div>
             </div>
 
-            <button type="button" class="btn btn-primary float-right my-4" (click)="submitForm()">Submit</button>
+            <button type="button" [disabled]="!issueForm.form.valid" class="btn btn-primary float-right my-4" (click)="submitForm()">Submit</button>
         </form>
     </div>
 </div>

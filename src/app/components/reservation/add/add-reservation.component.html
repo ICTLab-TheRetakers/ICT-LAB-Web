@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-sm-12 col-md-10 offset-md-1 mx-auto">
-        <form class="form-horizontal" #reservationForm="ngForm">
+        <form class="form-horizontal" *ngIf="reservations != null" #reservationForm="ngForm">
             <app-select-room [onlyAllowRooms]="true" [getSchedule]="false" (chosenObject)="getRoomChoice($event)"></app-select-room>
 
             <div class="form-row">
@@ -18,7 +18,7 @@
                         <tbody>
                             <tr *ngFor="let reservation of reservations;let i = index;">
                                 <td>
-                                    <input type="date" class="form-control" name="date" [(ngModel)]="reservation.date" required #dateModel />
+                                    <input type="date" class="form-control" name="date" [min]="minDate" [max]="maxDate" [(ngModel)]="reservation.date" required #dateModel />
                                 </td>
                                 <td>
                                     <input class="form-control" type="time" name="begin" [(ngModel)]="reservation.begin" step="600" min="08:00:00" max="22:00:00" required #beginModel />

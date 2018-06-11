@@ -23,7 +23,8 @@ export class EditReservationComponent implements OnInit {
     reservation: Reservation;
     currentUser: User = null;
     reservationId: number;
-    date: string;
+    minDate: string;
+    maxDate: string;
     
     constructor(private _reservationService: ReservationService, private _roomService: RoomService,
         private router: Router, private route: ActivatedRoute) { }
@@ -33,6 +34,7 @@ export class EditReservationComponent implements OnInit {
             (params) => {
                 this.reservationId = params['id'];
                 this.getReservation();
+                this.setMinAndMaxDate();
             }
         );
     }
@@ -44,6 +46,14 @@ export class EditReservationComponent implements OnInit {
             (response) => this.router.navigate(['/reservations']),
             (err: HttpErrorResponse) => { throw err; }
         );
+    }
+
+    setMinAndMaxDate() {
+        let today = new Date();
+        this.minDate = today.toJSON().split('T')[0];
+
+        today.setMonth(today.getMonth() + 2);
+        this.maxDate = today.toJSON().split('T')[0];
     }
 
     getReservation() {
@@ -63,8 +73,8 @@ export class EditReservationComponent implements OnInit {
 
     convertDatetime() {
         // Convert to datetime string
-        let start = this.date + ' ' + this.reservation.begin;
-        let end = this.date + ' ' + this.reservation.end
+        let start = this.reservation.date + ' ' + this.reservation.begin;
+        let end = this.reservation.date + ' ' + this.reservation.end
 
         // Set reservation start and end time
         this.reservation.start_time = moment.utc(start).toDate();
@@ -74,7 +84,7 @@ export class EditReservationComponent implements OnInit {
     }
 
     setDatetime() {
-        this.date = moment(new Date(this.reservation.start_time.toString().split('T')[0])).format('YYYY-MM-DD');
+        this.reservation.date = this.reservation.start_time.toString().split('T')[0];
         this.reservation.begin = this.reservation.start_time.toString().split('T')[1];
         this.reservation.end = this.reservation.end_time.toString().split('T')[1];
     }
