@@ -57,10 +57,10 @@ namespace ICT_LAB_Web.Controllers
             });
 
             var paging = new PaginationResult<RoomViewModel>();
-            paging.Data = result.ToList();
             paging.TotalCount = result.Count();
             paging.PageSize = pageSize.Value;
             paging.Page = page.Value;
+            paging.Data = result.Skip((paging.Page - 1) * paging.PageSize).Take(paging.PageSize).ToList();
 
             return Ok(paging);
         }
