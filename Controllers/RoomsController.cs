@@ -32,8 +32,13 @@ namespace ICT_LAB_Web.Controllers
         [HttpGet("pagination")]
         [ProducesResponseType(typeof(PaginationResult<RoomViewModel>), 200)]
         [ProducesResponseType(typeof(void), 500)]
-        public async Task<IActionResult> Pagination()
+        public async Task<IActionResult> Pagination(int? page, int? pageSize)
         {
+            if (!page.HasValue || !pageSize.HasValue)
+            {
+                return StatusCode(400, String.Format("Invalid parameter(s)."));
+            }
+
             //Get rooms
             var data = await _roomRepository.GetAll();
             if (data == null)
@@ -54,7 +59,8 @@ namespace ICT_LAB_Web.Controllers
             var paging = new PaginationResult<RoomViewModel>();
             paging.Data = result.ToList();
             paging.TotalCount = result.Count();
-            paging.PageSize = paging.TotalCount / 10;
+            paging.PageSize = pageSize.Value;
+            paging.Page = page.Value;
 
             return Ok(paging);
         }
