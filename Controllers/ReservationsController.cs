@@ -106,7 +106,7 @@ namespace ICT_LAB_Web.Controllers
             _crawler.SetQuarterOfYear(quarter.Value);
 
             // Get schedule
-            var data = await _crawler.StartCrawling();
+            var data =  await Task.Run(() => _crawler.StartCrawling()).ConfigureAwait(false);
             if (data == null)
             {
                 return StatusCode(404, "Lessons could not be found.");
@@ -153,7 +153,7 @@ namespace ICT_LAB_Web.Controllers
                 {
                     result[i] = result[i].Replace("\"", "");
                 }
-            });
+            }).ConfigureAwait(false);
 
             return Ok(result);
         }
@@ -193,7 +193,7 @@ namespace ICT_LAB_Web.Controllers
                 {
                     result[i] = result[i].Replace("\"", "");
                 }
-            });
+            }).ConfigureAwait(false);
 
             return Ok(result);
         }
@@ -233,7 +233,7 @@ namespace ICT_LAB_Web.Controllers
                 {
                     result[i] = result[i].Replace("\"", "");
                 }
-            });
+            }).ConfigureAwait(false);
 
             return Ok(result);
         }

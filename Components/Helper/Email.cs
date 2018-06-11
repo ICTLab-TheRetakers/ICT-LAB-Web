@@ -1,3 +1,4 @@
+using System;
 using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
@@ -38,6 +39,27 @@ namespace ICT_LAB_Web.Components.Helper
                 IsBodyHtml = true,
                 Subject = "HINT Reservation System - Password Reset",
                 Body = "Dear user,<br /><br />Beneath you will find your temporary password. When signed in, please change your password. <br /><br /><b>Password:<b/> " + password
+            })
+            {
+                await smtpClient.SendMailAsync(message);
+            }
+        }
+
+        public async Task ReservationConfirmationEmail(string toEmail, string roomCode, DateTime startTime, DateTime endTime)
+        {
+            var smtpClient = new SmtpClient
+            {
+                Host = this.Host,
+                Port = this.Port,
+                EnableSsl = this.EnableSSL,
+                Credentials = this.Credentials
+            };
+
+            using (var message = new MailMessage(this.EmailAddress, toEmail)
+            {
+                IsBodyHtml = true,
+                Subject = "HINT Reservation System - Reservation Confirmed",
+                Body = "Dear user,<br /><br />You have reserved " + roomCode + ", from " + startTime + " to " + endTime
             })
             {
                 await smtpClient.SendMailAsync(message);
