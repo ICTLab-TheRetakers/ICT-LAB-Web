@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { Response } from '@angular/http';
 import { environment } from '../../../environments/environment';
+import { PaginationBaseService, PaginationResult } from 'ng-lightquery';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/throw';
@@ -17,6 +18,12 @@ export class RoomService {
 
     get(room: string): Observable<Room> {
         return this.http.get(this.baseUrl + 'get?room=' + room)
+            .catch(this.handleError);
+    }
+
+    pagination(page: number, pageSize: number = 10): Observable<Room[]> {
+        return this.http.get(this.baseUrl + 'pagination?page=' + page + '&pageSize=' + pageSize)
+            .map((response: PaginationResult<Room>) => response.data)
             .catch(this.handleError);
     }
 
