@@ -54,7 +54,7 @@ export class RoomReadingComponent implements OnInit {
                     this.sortByLatest();
                 }
             },
-            (error: HttpErrorResponse) => { throw error; }
+            (error: HttpErrorResponse) => {  }
         );
     }
 

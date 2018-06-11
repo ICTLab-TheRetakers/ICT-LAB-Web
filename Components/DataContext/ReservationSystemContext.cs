@@ -31,13 +31,9 @@ namespace ICT_LAB_Web.Components.DataContext
 
                 entity.ToTable("devices");
 
-                entity.HasIndex(e => e.RoomCode)
-                    .HasName("devices_uk")
-                    .IsUnique();
-
                 entity.Property(e => e.DeviceId)
                     .HasColumnName("device_id")
-                    .ValueGeneratedNever();
+                    .ValueGeneratedOnAdd();
 
                 entity.Property(e => e.RoomCode)
                     .IsRequired()
@@ -143,11 +139,11 @@ namespace ICT_LAB_Web.Components.DataContext
 
             modelBuilder.Entity<RoomReading>(entity =>
             {
-                entity.HasKey(e => new { e.RoomCode, e.CreatedOn, e.Type });
+                entity.HasKey(e => new { e.DeviceId, e.CreatedOn, e.Type });
 
                 entity.ToTable("room_readings");
 
-                entity.Property(e => e.RoomCode).HasColumnName("room_code");
+                entity.Property(e => e.DeviceId).HasColumnName("device_id");
 
                 entity.Property(e => e.CreatedOn).HasColumnName("created_on");
 
@@ -155,11 +151,11 @@ namespace ICT_LAB_Web.Components.DataContext
 
                 entity.Property(e => e.Value).HasColumnName("value");
 
-                entity.HasOne(d => d.RoomCodeNavigation)
+                entity.HasOne(d => d.DeviceIdNavigation)
                     .WithMany(p => p.RoomReadings)
-                    .HasPrincipalKey(p => p.RoomCode)
-                    .HasForeignKey(d => d.RoomCode)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasPrincipalKey(p => p.DeviceId)
+                    .HasForeignKey(d => d.DeviceId)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("readings_devices_fk");
             });
 

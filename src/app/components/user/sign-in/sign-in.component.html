@@ -8,13 +8,6 @@
                     <label for="email">E-mail</label>
                     <input type="email" class="form-control" id="email" name="email" [(ngModel)]="email"
                            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" #emailModel="ngModel" required>
-
-                    <!-- Email errors -->
-                    <div *ngIf="emailModel.errors && (emailModel.dirty || emailModel.touched)" class="alert alert-danger">
-                        <div [hidden]="!emailModel.errors.pattern">
-                            E-mail address is not valid!
-                        </div>
-                    </div>
                 </div>
                 <div class="col-sm-12 col-md-8 offset-md-2 my-3">
                     <label for="password">Password</label>
