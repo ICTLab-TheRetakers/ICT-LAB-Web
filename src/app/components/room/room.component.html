@@ -11,7 +11,7 @@
                     <th></th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody *ngIf="pagedResult != null">
                 <tr *ngFor="let room of pagedResult.data">
                     <td>
                         <a (click)="redirectToInfo(room)">{{ room.room_code }}</a>
@@ -26,7 +26,7 @@
                 </tr>
             </tbody>
         </table>
-        <ul *ngIf="pagedResult.data && pagedResult.totalPages" class="pagination">
+        <ul *ngIf="pagedResult != null" class="pagination">
             <li [ngClass]="{disabled:pagedResult.currentPage === 1}">
                 <a (click)="getPage(1)">First</a>
             </li>
