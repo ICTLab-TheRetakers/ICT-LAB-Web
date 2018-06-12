@@ -24,12 +24,15 @@
                         <button type="button" (click)="deleteRoom(room.room_code)">Delete</button>
                     </td>
                 </tr>
+                <tr>
+                    <td>
+                        <button [disabled]="pagedResult.current_page == pagedResult.total_pages" class="btn btn-primary" (click)="getPage(pagedResult.current_page + 1)">Next</button>
+                    </td>
+                    <td>
+                        <button [disabled]="pagedResult.current_page == 1" class="btn btn-primary" (click)="getPage(pagedResult.current_page - 1)">Prev</button>
+                    </td>
+                </tr>
             </tbody>
         </table>
-        <ul *ngIf="pagedResult != null" class="pagination">
-            <li *ngFor="let page of pagedResult.total_pages" [ngClass]="{disabled:pagedResult.current_page === page}" >
-                <a href="" (click)="getPage(page)">{{ page }}</a>
-            </li>
-        </ul>
     </div>
 </div>
