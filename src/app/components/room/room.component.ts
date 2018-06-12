@@ -39,7 +39,7 @@ export class RoomComponent implements OnInit {
     }
 
     getPage(page: number) {
-        this._roomService.pagination(page).subscribe(
+        this._roomService.index(page).subscribe(
             (response) => this.pagedResult = response,
             (error: HttpErrorResponse) => { throw error; }
         );

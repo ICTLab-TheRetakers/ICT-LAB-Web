@@ -28,11 +28,11 @@ namespace ICT_LAB_Web.Controllers
         /// </summary>
         /// <param name="page">Page</param>
         /// <param name="pageSize">Amount of items on one page</param>
-        [HttpGet("get")]
+        [HttpGet("index")]
         [ProducesResponseType(typeof(PaginationResult<RoomViewModel>), 200)]
         [ProducesResponseType(typeof(void), 400)]
         [ProducesResponseType(typeof(void), 500)]
-        public async Task<IActionResult> Get(int? page, int? pageSize)
+        public async Task<IActionResult> Index(int? page, int? pageSize)
         {
             if (!page.HasValue || !pageSize.HasValue)
             {

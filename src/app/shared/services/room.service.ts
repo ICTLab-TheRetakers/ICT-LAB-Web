@@ -21,8 +21,8 @@ export class RoomService {
             .catch(this.handleError);
     }
 
-    pagination(page: number, pageSize: number = 10): Observable<PaginationResult<Room>> {
-        return this.http.get(this.baseUrl + 'get?page=' + page + '&pageSize=' + pageSize)
+    index(page: number, pageSize: number = 10): Observable<PaginationResult<Room>> {
+        return this.http.get(this.baseUrl + 'index?page=' + page + '&pageSize=' + pageSize)
             .catch(this.handleError);
     }
 
