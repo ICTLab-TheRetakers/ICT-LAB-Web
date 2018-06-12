@@ -27,7 +27,7 @@
             </tbody>
         </table>
         <ul *ngIf="pagedResult != null" class="pagination">
-            <li *ngFor="let page of pagedResult.totalPages" [ngClass]="{disabled:pagedResult.currentPage === page}" >
+            <li *ngFor="let page of pagedResult.total_pages" [ngClass]="{disabled:pagedResult.current_page === page}" >
                 <a href="" (click)="getPage(page)">{{ page }}</a>
             </li>
         </ul>

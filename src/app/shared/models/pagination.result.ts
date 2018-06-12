@@ -1,5 +1,5 @@
 export interface PaginationResult<T> {
-    currentPage: number;
-    totalPages: number;
+    current_page: number;
+    total_pages: number;
     data: T[];
 }
