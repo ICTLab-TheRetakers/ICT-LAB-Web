@@ -27,20 +27,8 @@
             </tbody>
         </table>
         <ul *ngIf="pagedResult != null" class="pagination">
-            <li [ngClass]="{disabled:pagedResult.currentPage === 1}">
-                <a (click)="getPage(1)">First</a>
-            </li>
-            <li [ngClass]="{disabled:pagedResult.currentPage === 1}">
-                <a (click)="getPage(pagedResult.currentPage - 1)">Previous</a>
-            </li>
-            <li *ngFor="let page of pagedResult.pages" [ngClass]="{active:pagedResult.currentPage === page}">
-                <a (click)="getPage(page)">{{page}}</a>
-            </li>
-            <li [ngClass]="{disabled:pagedResult.currentPage === pagedResult.totalPages}">
-                <a (click)="getPage(pagedResult.currentPage + 1)">Next</a>
-            </li>
-            <li [ngClass]="{disabled:pagedResult.currentPage === pagedResult.totalPages}">
-                <a (click)="getPage(pagedResult.totalPages)">Last</a>
+            <li *ngFor="let page of pagedResult.totalPages" [ngClass]="{disabled:pagedResult.currentPage === page}" >
+                <a href="" (click)="getPage(page)">{{ page }}</a>
             </li>
         </ul>
     </div>
