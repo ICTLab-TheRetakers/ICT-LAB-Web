@@ -45,7 +45,7 @@ namespace ICT_LAB_Web.Controllers
         [ProducesResponseType(typeof(void), 500)]
         public async Task<IActionResult> Index(string user, int? page, int? pageSize)
         {
-            if (!page.HasValue || !pageSize.HasValue || !String.IsNullOrEmpty(user))
+            if (!page.HasValue || !pageSize.HasValue || String.IsNullOrEmpty(user))
             {
                 return StatusCode(400, String.Format("Invalid parameter(s)."));
             }
@@ -94,7 +94,7 @@ namespace ICT_LAB_Web.Controllers
         [ProducesResponseType(typeof(void), 500)]
         public async Task<IActionResult> IndexByRoom(string room, int? page, int? pageSize)
         {
-            if (!page.HasValue || !pageSize.HasValue || !String.IsNullOrEmpty(room))
+            if (!page.HasValue || !pageSize.HasValue || String.IsNullOrEmpty(room))
             {
                 return StatusCode(400, String.Format("Invalid parameter(s)."));
             }
