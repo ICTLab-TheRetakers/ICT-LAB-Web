@@ -58,7 +58,7 @@ namespace ICT_LAB_Web.Controllers
 
             var requestedData = result.Skip((page.Value - 1) * pageSize.Value).Take(pageSize.Value).ToList();
 
-            var totalPages = result.Count() < 10 ? 1 : (int)Math.Ceiling((double)(result.Count() / pageSize.Value));
+            var totalPages = result.Count() < pageSize.Value ? 1 : (int)Math.Ceiling((double)(result.Count() / pageSize.Value));
             var paging = new PaginationResult<RoomViewModel>(page.Value, totalPages, requestedData);
 
             var pagingResult = new PaginationResultViewModel<RoomViewModel>

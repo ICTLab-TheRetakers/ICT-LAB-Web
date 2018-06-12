@@ -24,6 +24,7 @@
                         <button type="button" (click)="deleteRoom(room.room_code)">Delete</button>
                     </td>
                 </tr>
+				<tr></tr>
                 <tr>
                     <td>
                         <button [disabled]="pagedResult.current_page == 1" class="btn btn-primary" (click)="getPage(pagedResult.current_page - 1)">Prev</button>
