@@ -8,6 +8,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/throw';
 
 import Issue from '../models/issue.model';
+import { PaginationResult } from '../models/pagination.result';
 
 @Injectable()
 export class IssueService {
@@ -17,6 +18,11 @@ export class IssueService {
 
     get(id: number): Observable<Issue> {
         return this.http.get(this.baseUrl + 'get?issue=' + id)
+            .catch(this.handleError);
+    }
+
+    index(page: number, pageSize: number = 10): Observable<PaginationResult<Issue>> {
+        return this.http.get(this.baseUrl + 'index?page=' + page + '&pageSize=' + pageSize)
             .catch(this.handleError);
     }
 

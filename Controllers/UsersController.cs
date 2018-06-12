@@ -67,6 +67,55 @@ namespace ICT_LAB_Web.Controllers
         }
 
         /// <summary>
+        /// User pagination.
+        /// </summary>
+        /// <param name="page">Page</param>
+        /// <param name="pageSize">Amount of items on one page</param>
+        [HttpGet("index")]
+        [ProducesResponseType(typeof(PaginationResult<UserViewModel>), 200)]
+        [ProducesResponseType(typeof(void), 400)]
+        [ProducesResponseType(typeof(void), 500)]
+        public async Task<IActionResult> Index(int? page, int? pageSize)
+        {
+            if (!page.HasValue || !pageSize.HasValue)
+            {
+                return StatusCode(400, String.Format("Invalid parameter(s)."));
+            }
+
+            // Get users
+            var data = await _userRepository.GetAllUsers();
+            if (data == null)
+            {
+                return StatusCode(404, String.Format("Unable to find any users."));
+            }
+
+            // Convert to viewmodel
+            var result = data.Select(s => new UserViewModel
+            {
+                UserId = s.UserId,
+                Role = s.Role,
+                FirstName = s.FirstName,
+                LastName = s.LastName,
+                Email = s.Email,
+                Password = s.Password,
+                Picture = s.Picture
+            });
+
+            var totalPages = result.Count() < pageSize.Value ? 1 : (int)Math.Ceiling((double)(result.Count() / pageSize.Value));
+            var requestedData = result.Skip((page.Value - 1) * pageSize.Value).Take(pageSize.Value).ToList();
+
+            var paging = new PaginationResult<UserViewModel>(page.Value, totalPages, requestedData);
+            var pagingResult = new PaginationResultViewModel<UserViewModel>
+            {
+                Data = paging.Data,
+                TotalPages = paging.TotalPages,
+                CurrentPage = paging.CurrentPage
+            };
+
+            return Ok(pagingResult);
+        }
+
+        /// <summary>
         /// Gets a list with all users.
         /// </summary>
         [HttpGet("getAll")]
@@ -74,14 +123,14 @@ namespace ICT_LAB_Web.Controllers
         [ProducesResponseType(typeof(void), 500)]
         public async Task<IActionResult> GetAll()
         {
-            //Get data
+            // Get data
             var data = await _userRepository.GetAllUsers();
             if (data == null)
             {
                 return StatusCode(404, String.Format("Unable to find any users."));
             }
 
-            //Convert to viewmodel
+            // Convert to viewmodel
             var result = data.Select(s => new UserViewModel
             {
                 UserId = s.UserId,
@@ -117,14 +166,14 @@ namespace ICT_LAB_Web.Controllers
                 return StatusCode(400, "This e-mail address is not valid.");
             }
 
-            //Get user
+            // Get user
             var data = await _userRepository.GetByEmail(email);
             if (data == null)
             {
                 return StatusCode(404, String.Format("Unable to find any user with e-mail address '{0}'.", email));
             }
 
-            //Convert to view model
+            // Convert to view model
             var result = new UserViewModel
             {
                 UserId = data.UserId,
@@ -154,14 +203,14 @@ namespace ICT_LAB_Web.Controllers
                 return StatusCode(400, "Invalid parameter(s).");
             }
 
-            //Get user
+            // Get user
             var data = await _userRepository.Get(user);
             if (data == null)
             {
                 return StatusCode(404, String.Format("Unable to find any user with ID '{0}'.", user));
             }
 
-            //Convert to view model
+            // Convert to view model
             var result = new UserViewModel
             {
                 UserId = data.UserId,
@@ -198,14 +247,14 @@ namespace ICT_LAB_Web.Controllers
                 return StatusCode(400, "This e-mail address is not valid.");
             }
 
-            //Get user
+            // Get user
             var data = await _userRepository.CheckCredentials(email, password);
             if (data == null)
             {
                 return StatusCode(500, String.Format("You have entered an invalid email or password."));
             }
 
-            //Convert to view model
+            // Convert to view model
             var result = new UserViewModel
             {
                 UserId = data.UserId,
@@ -252,7 +301,7 @@ namespace ICT_LAB_Web.Controllers
                 Picture = ""
             };
 
-            //Insert user
+            // Insert user
             var result = await _userRepository.Add(user);
             if (result == null)
             {
@@ -343,7 +392,7 @@ namespace ICT_LAB_Web.Controllers
                 Picture = model.Picture
             };
 
-            //Update user
+            // Update user
             var result = await _userRepository.Update(user);
             if (result == null)
             {
@@ -377,7 +426,7 @@ namespace ICT_LAB_Web.Controllers
                 return StatusCode(400, "Invalid parameter(s).");
             }
 
-            //Remove user
+            // Remove user
             var succeeded = await _userRepository.Delete(user);
             if (!succeeded)
             {

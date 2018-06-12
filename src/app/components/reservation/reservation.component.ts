@@ -9,6 +9,7 @@ import Reservation from '../../shared/models/reservation.model';
 
 import * as moment from 'moment';
 import { HttpErrorResponse } from '@angular/common/http';
+import { PaginationResult } from '../../shared/models/pagination.result';
 
 @Component({
     selector: 'app-reservation',
@@ -18,12 +19,20 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class ReservationComponent implements OnInit {
     currentUser: User;
     reservations: Reservation[];
+    pagedResult: PaginationResult<Reservation>;
 
     constructor(private _reservationService: ReservationService) { }
 
     ngOnInit() {
         this.getCurrentUser();
-        this.getReservationsByUser();
+        this.getPage(1);
+    }
+
+    getPage(page: number) {
+        this._reservationService.index(this.currentUser.user_id, page).subscribe(
+            (response) => this.pagedResult = response,
+            (error: HttpErrorResponse) => { throw error; }
+        );
     }
 
     getCurrentUser() {

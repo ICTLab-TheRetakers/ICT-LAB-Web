@@ -3,6 +3,7 @@ import { ToastyService, ToastyConfig, ToastOptions, ToastData } from 'ng2-toasty
 import User from '../../shared/models/user.model';
 import { UserService } from '../../shared/services/user.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { PaginationResult } from '../../shared/models/pagination.result';
 
 @Component({
     selector: 'app-user',
@@ -11,16 +12,24 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class UserComponent implements OnInit {
     users: User[];
+    pagedResult: PaginationResult<User>;
 
     constructor(private _userService: UserService) { }
 
     ngOnInit() {
-        this.getUsers();
+        this.getPage(1);
     }
 
     getUsers() {
         this._userService.getAll().subscribe(
             (response) => this.users = response,
+            (error: HttpErrorResponse) => { throw error; }
+        );
+    }
+
+    getPage(page: number) {
+        this._userService.index(page).subscribe(
+            (response) => this.pagedResult = response,
             (error: HttpErrorResponse) => { throw error; }
         );
     }

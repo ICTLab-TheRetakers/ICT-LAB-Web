@@ -9,6 +9,7 @@ import 'rxjs/add/observable/throw';
 
 import Reservation from '../models/reservation.model';
 import Schedule from '../models/schedule/schedule.model';
+import { PaginationResult } from '../models/pagination.result';
 
 @Injectable()
 export class ReservationService {
@@ -18,6 +19,16 @@ export class ReservationService {
 
     get(user: string): Observable<Reservation[]> {
         return this.http.get(this.baseUrl + 'get?user=' + user)
+            .catch(this.handleError);
+    }
+
+    index(user: string, page: number, pageSize: number = 10): Observable<PaginationResult<Reservation>> {
+        return this.http.get(this.baseUrl + 'index?user=' + user + '&page=' + page + '&pageSize=' + pageSize)
+            .catch(this.handleError);
+    }
+
+    indexByRoom(room: string, page: number, pageSize: number = 10): Observable<PaginationResult<Reservation>> {
+        return this.http.get(this.baseUrl + 'indexByRoom?room=' + room + '&page=' + page + '&pageSize=' + pageSize)
             .catch(this.handleError);
     }
 

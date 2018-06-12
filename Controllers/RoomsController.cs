@@ -39,14 +39,14 @@ namespace ICT_LAB_Web.Controllers
                 return StatusCode(400, String.Format("Invalid parameter(s)."));
             }
 
-            //Get rooms
+            // Get rooms
             var data = await _roomRepository.GetAll();
             if (data == null)
             {
                 return StatusCode(404, String.Format("Unable to find any rooms."));
             }
 
-            //Convert to view model
+            // Convert to view model
             var result = data.Select(x => new RoomViewModel
             {
                 RoomCode = x.RoomCode,
@@ -56,11 +56,10 @@ namespace ICT_LAB_Web.Controllers
                 StudentCapacity = x.StudentCapacity
             });
 
+            var totalPages = result.Count() < pageSize.Value ? 1 : (int)Math.Ceiling((double)(result.Count() / pageSize.Value));
             var requestedData = result.Skip((page.Value - 1) * pageSize.Value).Take(pageSize.Value).ToList();
 
-            var totalPages = result.Count() < pageSize.Value ? 1 : (int)Math.Ceiling((double)(result.Count() / pageSize.Value));
             var paging = new PaginationResult<RoomViewModel>(page.Value, totalPages, requestedData);
-
             var pagingResult = new PaginationResultViewModel<RoomViewModel>
             {
                 Data = paging.Data,
@@ -79,14 +78,14 @@ namespace ICT_LAB_Web.Controllers
         [ProducesResponseType(typeof(void), 500)]
         public async Task<IActionResult> GetAll()
         {
-            //Get rooms
+            // Get rooms
             var data = await _roomRepository.GetAll();
             if (data == null)
             {
                 return StatusCode(404, String.Format("Unable to find any rooms."));
             }
 
-            //Convert to view model
+            // Convert to view model
             var result = data.Select(x => new RoomViewModel
             {
                 RoomCode = x.RoomCode,
@@ -114,7 +113,7 @@ namespace ICT_LAB_Web.Controllers
                 return StatusCode(400, "Invalid parameter(s).");
             }
 
-            //Get room
+            // Get room
             var data = await _roomRepository.Get(room);
             if (data == null)
             {
@@ -158,7 +157,7 @@ namespace ICT_LAB_Web.Controllers
                 StudentCapacity = model.StudentCapacity
             };
 
-            //Insert room
+            // Insert room
             var result = await _roomRepository.Add(room);
             if (result == null)
             {
@@ -199,7 +198,7 @@ namespace ICT_LAB_Web.Controllers
                 StudentCapacity = model.StudentCapacity
             };
 
-            //Update room
+            // Update room
             var result = await _roomRepository.Update(room);
             if (result == null)
             {
@@ -231,7 +230,7 @@ namespace ICT_LAB_Web.Controllers
                 return StatusCode(400, "Invalid parameter(s).");
             }
 
-            //Remove room
+            // Remove room
             var succeeded = await _roomRepository.Delete(room);
             if (!succeeded)
             {

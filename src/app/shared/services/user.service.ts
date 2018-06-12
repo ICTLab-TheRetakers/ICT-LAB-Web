@@ -8,6 +8,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/throw';
 
 import User from '../models/user.model';
+import { PaginationResult } from '../models/pagination.result';
 
 @Injectable()
 export class UserService {
@@ -22,6 +23,11 @@ export class UserService {
 
     getById(id: string): Observable<User> {
         return this.http.get(this.baseUrl + 'get?user=' + id)
+            .catch(this.handleError);
+    }
+
+    index(page: number, pageSize: number = 10): Observable<PaginationResult<User>> {
+        return this.http.get(this.baseUrl + 'index?page=' + page + '&pageSize=' + pageSize)
             .catch(this.handleError);
     }
 

@@ -1,30 +1,43 @@
-<div class="col-sm-12 col-md-10 offset-md-1 mx-auto">
-    <div>
-        <h2>Current issues</h2>
+<div class="row">
+    <div class="col-sm-12 col-md-10 offset-md-1 mx-auto">
+        <div>
+            <h2>Rooms</h2>
 
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Reported on</th>
-                    <th>Room</th>
-                    <th>Description</th>
-                    <th>Is Resolved</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let issue of issues">
-                    <td>
-                        <b>{{ issue.created_on | date: 'EEEE dd MMM' }}</b>
-                    </td>
-                    <td>{{ issue.room_code }}</td>
-                    <td>{{ issue.description }}</td>
-                    <td>{{ issue.resolved ? 'Yes' : 'No' }}</td>
-                    <td>
-                        <button type="button" (click)="resolveIssue(issue.issue_id)">Resolve</button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Reported on</th>
+                        <th>Room</th>
+                        <th>Description</th>
+                        <th>Is Resolved</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody *ngIf="pagedResult != null">
+                    <tr *ngFor="let issue of pagedResult.data">
+                        <td>
+                            <b>{{ issue.created_on | date: 'EEEE dd MMM' }}</b>
+                        </td>
+                        <td>{{ issue.room_code }}</td>
+                        <td>{{ issue.description }}</td>
+                        <td>{{ issue.resolved ? 'Yes' : 'No' }}</td>
+                        <td>
+                            <button type="button" (click)="resolveIssue(issue.issue_id)">Resolve</button>
+                        </td>
+                    </tr>
+                    <tr></tr>
+                    <tr>
+                        <td>
+                            <button [disabled]="pagedResult.current_page == 1" class="btn btn-primary" (click)="getPage(pagedResult.current_page - 1)">Prev</button>
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td>
+                            <button [disabled]="pagedResult.current_page == pagedResult.total_pages" class="btn btn-primary" (click)="getPage(pagedResult.current_page + 1)">Next</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>

@@ -37,14 +37,14 @@ namespace ICT_LAB_Web.Controllers
                 return StatusCode(400, "Invalid parameter(s).");
             }
 
-            //Get issues
+            // Get issues
             var data = await _issueRepository.GetByRoom(room);
             if (data == null)
             {
                 return StatusCode(404, String.Format("Unable to find any issues in room '{0}'.", room));
             }
 
-            //Convert to view model
+            // Convert to view model
             var result = data.Select(x => new IssueViewModel
             {
                 IssueId = x.IssueId,
@@ -66,14 +66,14 @@ namespace ICT_LAB_Web.Controllers
         [ProducesResponseType(typeof(void), 500)]
         public async Task<IActionResult> GetAll()
         {
-            //Get issues
+            // Get issues
             var data = await _issueRepository.GetAll();
             if (data == null)
             {
                 return StatusCode(404, String.Format("Unable to find any issues."));
             }
 
-            //Convert to view model
+            // Convert to view model
             var result = data.Select(x => new IssueViewModel
             {
                 IssueId = x.IssueId,
@@ -84,6 +84,53 @@ namespace ICT_LAB_Web.Controllers
             });
 
             return Ok(result);
+        }
+
+        /// <summary>
+        /// Issue pagination.
+        /// </summary>
+        /// <param name="page">Page</param>
+        /// <param name="pageSize">Amount of items on one page</param>
+        [HttpGet("index")]
+        [ProducesResponseType(typeof(PaginationResult<IssueViewModel>), 200)]
+        [ProducesResponseType(typeof(void), 400)]
+        [ProducesResponseType(typeof(void), 500)]
+        public async Task<IActionResult> Index(int? page, int? pageSize)
+        {
+            if (!page.HasValue || !pageSize.HasValue)
+            {
+                return StatusCode(400, String.Format("Invalid parameter(s)."));
+            }
+
+            // Get reservations
+            var data = await _issueRepository.GetAll();
+            if (data == null)
+            {
+                return StatusCode(404, String.Format("Unable to find any issues."));
+            }
+
+            // Convert to view model
+            var result = data.Select(x => new IssueViewModel
+            {
+                IssueId = x.IssueId,
+                RoomCode = x.RoomCode,
+                CreatedOn = x.CreatedOn,
+                Resolved = x.Resolved,
+                Description = x.Description
+            });
+
+            var totalPages = result.Count() < pageSize.Value ? 1 : (int)Math.Ceiling((double)(result.Count() / pageSize.Value));
+            var requestedData = result.Skip((page.Value - 1) * pageSize.Value).Take(pageSize.Value).ToList();
+
+            var paging = new PaginationResult<IssueViewModel>(page.Value, totalPages, requestedData);
+            var pagingResult = new PaginationResultViewModel<IssueViewModel>
+            {
+                Data = paging.Data,
+                TotalPages = paging.TotalPages,
+                CurrentPage = paging.CurrentPage
+            };
+
+            return Ok(pagingResult);
         }
 
         /// <summary>
