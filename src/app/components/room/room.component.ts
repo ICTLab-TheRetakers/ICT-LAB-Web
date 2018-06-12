@@ -14,6 +14,7 @@ import Schedule from '../../shared/models/schedule/schedule.model';
 import Lesson from '../../shared/models/schedule/lesson.model';
 import { SharedService } from '../../shared/services/shared.service';
 import { Router } from '@angular/router';
+import { PaginationResult } from '../../shared/models/pagination.result';
 
 @Component({
     selector: 'app-room',
@@ -22,16 +23,24 @@ import { Router } from '@angular/router';
 })
 export class RoomComponent implements OnInit {
     rooms: Room[];
+    pagedResult: PaginationResult<Room>;
 
     constructor(private _roomService: RoomService, private _sharedService: SharedService, private router: Router) { }
 
     ngOnInit() {
-        this.getRooms();
+        this.getPage(1);
     }
 
     getRooms() {
         this._roomService.getAllRooms().subscribe(
             (response) => this.rooms = response,
+            (error: HttpErrorResponse) => { throw error; }
+        );
+    }
+
+    getPage(page: number) {
+        this._roomService.pagination(page).subscribe(
+            (response) => this.pagedResult = response,
             (error: HttpErrorResponse) => { throw error; }
         );
     }

@@ -2,8 +2,6 @@ using ICT_LAB_Web.Components.Entities;
 using ICT_LAB_Web.Components.Services;
 using ICT_LAB_Web.Components.Services.Interfaces;
 using ICT_LAB_Web.Controllers.ViewModels;
-using LightQuery;
-using LightQuery.Client;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -28,11 +26,13 @@ namespace ICT_LAB_Web.Controllers
         /// <summary>
         /// Room pagination.
         /// </summary>
-        [LightQuery]
-        [HttpGet("pagination")]
+        /// <param name="page">Page</param>
+        /// <param name="pageSize">Amount of items on one page</param>
+        [HttpGet("get")]
         [ProducesResponseType(typeof(PaginationResult<RoomViewModel>), 200)]
+        [ProducesResponseType(typeof(void), 400)]
         [ProducesResponseType(typeof(void), 500)]
-        public async Task<IActionResult> Pagination(int? page, int? pageSize)
+        public async Task<IActionResult> Get(int? page, int? pageSize)
         {
             if (!page.HasValue || !pageSize.HasValue)
             {
@@ -56,13 +56,16 @@ namespace ICT_LAB_Web.Controllers
                 StudentCapacity = x.StudentCapacity
             });
 
-            var paging = new PaginationResult<RoomViewModel>();
-            paging.TotalCount = result.Count();
-            paging.PageSize = pageSize.Value;
-            paging.Page = page.Value;
-            paging.Data = result.Skip((paging.Page - 1) * paging.PageSize).Take(paging.PageSize).ToList();
+            var requestedData = result.Skip((page.Value - 1) * pageSize.Value).Take(pageSize.Value).ToList();
+            var paging = new PaginationResult<RoomViewModel>(page.Value, (result.Count() / pageSize.Value), requestedData);
+            var pagingResult = new PaginationResultViewModel<RoomViewModel>
+            {
+                Data = paging.Data,
+                TotalPages = paging.TotalPages,
+                CurrentPage = paging.CurrentPage
+            };
 
-            return Ok(paging);
+            return Ok(pagingResult);
         }
 
         /// <summary>
@@ -71,7 +74,6 @@ namespace ICT_LAB_Web.Controllers
         [HttpGet("getAll")]
         [ProducesResponseType(typeof(IEnumerable<RoomViewModel>), 200)]
         [ProducesResponseType(typeof(void), 500)]
-        [HttpGet]
         public async Task<IActionResult> GetAll()
         {
             //Get rooms

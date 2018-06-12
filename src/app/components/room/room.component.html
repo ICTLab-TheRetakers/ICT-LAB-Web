@@ -6,13 +6,13 @@
             <thead>
                 <tr>
                     <th>Room Code</th>
-                    <th>Capaciteit</th>
+                    <th>Capacity</th>
                     <th></th>
                     <th></th>
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let room of rooms">
+                <tr *ngFor="let room of pagedResult.data">
                     <td>
                         <a (click)="redirectToInfo(room)">{{ room.room_code }}</a>
                     </td>
@@ -26,5 +26,22 @@
                 </tr>
             </tbody>
         </table>
+        <ul *ngIf="pagedResult.data && pagedResult.totalPages" class="pagination">
+            <li [ngClass]="{disabled:pagedResult.currentPage === 1}">
+                <a (click)="getPage(1)">First</a>
+            </li>
+            <li [ngClass]="{disabled:pagedResult.currentPage === 1}">
+                <a (click)="getPage(pagedResult.currentPage - 1)">Previous</a>
+            </li>
+            <li *ngFor="let page of pagedResult.pages" [ngClass]="{active:pagedResult.currentPage === page}">
+                <a (click)="getPage(page)">{{page}}</a>
+            </li>
+            <li [ngClass]="{disabled:pagedResult.currentPage === pagedResult.totalPages}">
+                <a (click)="getPage(pagedResult.currentPage + 1)">Next</a>
+            </li>
+            <li [ngClass]="{disabled:pagedResult.currentPage === pagedResult.totalPages}">
+                <a (click)="getPage(pagedResult.totalPages)">Last</a>
+            </li>
+        </ul>
     </div>
 </div>

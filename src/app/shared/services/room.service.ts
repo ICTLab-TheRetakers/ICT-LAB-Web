@@ -21,9 +21,8 @@ export class RoomService {
             .catch(this.handleError);
     }
 
-    pagination(page: number, pageSize: number = 10): Observable<Room[]> {
-        return this.http.get(this.baseUrl + 'pagination?page=' + page + '&pageSize=' + pageSize)
-            .map((response: PaginationResult<Room>) => response.data)
+    pagination(page: number, pageSize: number = 10): Observable<PaginationResult<Room>> {
+        return this.http.get(this.baseUrl + 'get?page=' + page + '&pageSize=' + pageSize)
             .catch(this.handleError);
     }
 
