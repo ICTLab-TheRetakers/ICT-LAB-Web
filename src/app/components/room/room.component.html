@@ -26,10 +26,12 @@
                 </tr>
                 <tr>
                     <td>
-                        <button [disabled]="pagedResult.current_page == pagedResult.total_pages" class="btn btn-primary" (click)="getPage(pagedResult.current_page + 1)">Next</button>
-                    </td>
-                    <td>
                         <button [disabled]="pagedResult.current_page == 1" class="btn btn-primary" (click)="getPage(pagedResult.current_page - 1)">Prev</button>
+                    </td>
+                    <td></td>
+                    <td></td>
+                    <td>
+                        <button [disabled]="pagedResult.current_page == pagedResult.total_pages" class="btn btn-primary" (click)="getPage(pagedResult.current_page + 1)">Next</button>
                     </td>
                 </tr>
             </tbody>
