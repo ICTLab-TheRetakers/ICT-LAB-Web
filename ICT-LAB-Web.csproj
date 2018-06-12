@@ -15,6 +15,7 @@
     <None Remove="src\app\shared\models\device.model.ts" />
     <None Remove="src\app\shared\models\issue.model.ts" />
     <None Remove="src\app\shared\models\notification.model.ts" />
+    <None Remove="src\app\shared\models\pagination.result.ts" />
     <None Remove="src\app\shared\models\participant.model.ts" />
     <None Remove="src\app\shared\models\reading.model.ts" />
     <None Remove="src\app\shared\models\reservation.model.ts" />
@@ -59,6 +60,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <TypeScriptCompile Include="src\app\shared\models\pagination.result.ts" />
     <TypeScriptCompile Include="src\app\shared\models\device.model.ts" />
     <TypeScriptCompile Include="src\app\shared\models\issue.model.ts" />
     <TypeScriptCompile Include="src\app\shared\models\notification.model.ts" />

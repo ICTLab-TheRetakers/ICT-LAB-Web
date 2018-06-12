@@ -44,7 +44,6 @@
 		"karma-jasmine": "~1.1.0",
 		"karma-jasmine-html-reporter": "^0.2.2",
 		"moment": "^2.22.1",
-		"ng-lightquery": "^1.2.0",
 		"protractor": "~5.1.2",
 		"stacktrace-js": "^2.0.0",
 		"ts-node": "~4.1.0",
