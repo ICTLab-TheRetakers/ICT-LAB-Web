@@ -14,6 +14,7 @@ import Role from '../../../shared/models/role.model';
     styleUrls: ['./details-user.component.css']
 })
 export class DetailsUserComponent implements OnInit {
+    currentUser: User;
     user: User;
     userId: string;
     roles: Role[];
@@ -22,14 +23,21 @@ export class DetailsUserComponent implements OnInit {
         private sanitizer: DomSanitizer) { }
 
     ngOnInit() {
+        this.getCurrentUser();
         this.route.params.subscribe(
             (params) => {
                 this.userId = params['user'];
+                if (this.userId == this.currentUser.user_id) {
+                    this.user = this.currentUser;
+                }
                 this.getUser(this.userId);
             }
         );
     }
 
+    getCurrentUser() {
+        this.currentUser = JSON.parse(sessionStorage.getItem('loggedInUser'));
+    }
 
     getUser(email: string) {
         this._userService.getById(email).subscribe(
