@@ -1,28 +1,26 @@
-<div class="row">
-    <div class="col-sm-12 col-md-10 offset-md-1">
-        <form class="form-horizontal" #userForm="ngForm">
+<div class="col-sm-12 col-md-10 offset-md-1">
+    <form class="form-horizontal" #userForm="ngForm">
 
-            <!-- User ID and email -->
-            <div class="form-row mb-2">
-                <div class="col-sm-12 col-md-8 offset-md-2 my-3">
-                    <label for="email">E-mail</label>
-                    <input type="email" class="form-control" id="email" name="email" [(ngModel)]="email"
-                           pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" #emailModel="ngModel" required>
-                </div>
-                <div class="col-sm-12 col-md-8 offset-md-2 my-3">
-                    <label for="password">Password</label>
-                    <input type="password" class="form-control" id="password" name="password" [(ngModel)]="password" required>
-                </div>
-                <div class="col-sm-12 col-md-8 offset-md-2 mt-4 text-center">
-                    <button type="button" [disabled]="!userForm.form.valid" class="btn btn-primary mb-4 mx-auto" (click)="checkCredentials()">Sign In</button>
-
-                    <br />
-
-                    <a href="#" [routerLink]="['/users/reset-password']" class="badge badge-secondary py-2" title="Forgot password">
-                        Forgot password?
-                    </a>
-                </div>
+        <!-- User ID and email -->
+        <div class="form-row mb-2">
+            <div class="col-sm-12 col-md-8 offset-md-2 my-3">
+                <label for="email">E-mail</label>
+                <input type="email" class="form-control" id="email" name="email" [(ngModel)]="email"
+                       pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" #emailModel="ngModel" required>
             </div>
-        </form>
-    </div>
+            <div class="col-sm-12 col-md-8 offset-md-2 my-3">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" id="password" name="password" [(ngModel)]="password" required>
+            </div>
+            <div class="col-sm-12 col-md-8 offset-md-2 mt-4 text-center">
+                <button type="button" [disabled]="!userForm.form.valid" class="btn btn-primary mb-4 mx-auto" (click)="checkCredentials()">Sign In</button>
+
+                <br />
+
+                <a href="#" [routerLink]="['/users/reset-password']" class="badge badge-secondary py-2" title="Forgot password">
+                    Forgot password?
+                </a>
+            </div>
+        </div>
+    </form>
 </div>

@@ -1,77 +1,75 @@
-<div class="row">
-    <div class="col-sm-12 col-md-10 offset-md-1">
-        <form class="form-horizontal" method="post" enctype="multipart/form-data" #userForm="ngForm">
+<div class="col-sm-12 col-md-10 offset-md-1">
+    <form class="form-horizontal" method="post" enctype="multipart/form-data" #userForm="ngForm">
 
-            <div class="form-row my-4">
-                <div class="col-sm-12 col-md-6">
-                    <label>First Name</label>
-                    <input type="text" class="form-control" [(ngModel)]="user.first_name" name="first_name" required #firstNameModel="ngModel">
+        <div class="form-row my-4">
+            <div class="col-sm-12 col-md-6">
+                <label>First Name</label>
+                <input type="text" class="form-control" [(ngModel)]="user.first_name" name="first_name" required #firstNameModel="ngModel">
 
-                    <!-- First name errors -->
-                    <div *ngIf="firstNameModel.errors && (firstNameModel.dirty || firstNameModel.touched)" class="alert alert-danger">
-                        <div [hidden]="!firstNameModel.errors.required">
-                            First name is required!
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-12 col-md-6">
-                    <label>Last Name</label>
-                    <input type="text" class="form-control" [(ngModel)]="user.last_name" name="last_name" required #lastNameModel="ngModel">
-
-                    <!-- Last name errors -->
-                    <div *ngIf="lastNameModel.errors && (lastNameModel.dirty || lastNameModel.touched)" class="alert alert-danger">
-                        <div [hidden]="!lastNameModel.errors.required">
-                            Last name is required!
-                        </div>
+                <!-- First name errors -->
+                <div *ngIf="firstNameModel.errors && (firstNameModel.dirty || firstNameModel.touched)" class="alert alert-danger">
+                    <div [hidden]="!firstNameModel.errors.required">
+                        First name is required!
                     </div>
                 </div>
             </div>
+            <div class="col-sm-12 col-md-6">
+                <label>Last Name</label>
+                <input type="text" class="form-control" [(ngModel)]="user.last_name" name="last_name" required #lastNameModel="ngModel">
 
-            <div class="form-row my-4">
-                <div class="col-sm-12 col-md-6">
-                    <label>Email</label>
-                    <input type="email" class="form-control" [(ngModel)]="user.email" name="email"
-                           pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" required #emailModel="ngModel">
-
-                    <!-- Email errors -->
-                    <div *ngIf="emailModel.errors && (emailModel.dirty || emailModel.touched)" class="alert alert-danger">
-                        <div [hidden]="!emailModel.errors.required">
-                            E-mail address is required!
-                        </div>
-                        <div [hidden]="!emailModel.errors.pattern">
-                            E-mail address is not valid!
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-12 col-md-6">
-                    <label>Password</label>
-                    <input type="password" class="form-control" [(ngModel)]="user.password" name="password" required #passwordModel="ngModel">
-
-                    <!-- Password errors -->
-                    <div *ngIf="passwordModel.errors && (passwordModel.dirty || passwordModel.touched)" class="alert alert-danger">
-                        <div [hidden]="!passwordModel.errors.required">
-                            Password is required!
-                        </div>
+                <!-- Last name errors -->
+                <div *ngIf="lastNameModel.errors && (lastNameModel.dirty || lastNameModel.touched)" class="alert alert-danger">
+                    <div [hidden]="!lastNameModel.errors.required">
+                        Last name is required!
                     </div>
                 </div>
             </div>
+        </div>
 
-            <div class="form-row my-4">
-                <div class="col-sm-12 col-md-6">
-                    <label>Role</label>
-                    <select class="custom-select" [(ngModel)]="user.role_id" name="role_id">
-                        <option *ngFor="let role of roles" [value]="role.role_id">{{ role.type }}</option>
-                    </select>
-                </div>
-                <div class="col-sm-12 col-md-6">
-                    <label>Upload Profile Picture</label>
-                    <input id="fileInput" class="form-control" #fileInput type="file" title="Choose an image to upload as profile picture" />
+        <div class="form-row my-4">
+            <div class="col-sm-12 col-md-6">
+                <label>Email</label>
+                <input type="email" class="form-control" [(ngModel)]="user.email" name="email"
+                       pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" required #emailModel="ngModel">
+
+                <!-- Email errors -->
+                <div *ngIf="emailModel.errors && (emailModel.dirty || emailModel.touched)" class="alert alert-danger">
+                    <div [hidden]="!emailModel.errors.required">
+                        E-mail address is required!
+                    </div>
+                    <div [hidden]="!emailModel.errors.pattern">
+                        E-mail address is not valid!
+                    </div>
                 </div>
             </div>
+            <div class="col-sm-12 col-md-6">
+                <label>Password</label>
+                <input type="password" class="form-control" [(ngModel)]="user.password" name="password" required #passwordModel="ngModel">
 
-            <hr />
+                <!-- Password errors -->
+                <div *ngIf="passwordModel.errors && (passwordModel.dirty || passwordModel.touched)" class="alert alert-danger">
+                    <div [hidden]="!passwordModel.errors.required">
+                        Password is required!
+                    </div>
+                </div>
+            </div>
+        </div>
 
-            <button [disabled]="!userForm.form.valid" type="button" class="btn btn-primary float-right" (click)="submitForm()">Add</button>
-        </form>
-    </div>
+        <div class="form-row my-4">
+            <div class="col-sm-12 col-md-6">
+                <label>Role</label>
+                <select class="custom-select" [(ngModel)]="user.role_id" name="role_id">
+                    <option *ngFor="let role of roles" [value]="role.role_id">{{ role.type }}</option>
+                </select>
+            </div>
+            <div class="col-sm-12 col-md-6">
+                <label>Upload Profile Picture</label>
+                <input id="fileInput" class="form-control" #fileInput type="file" title="Choose an image to upload as profile picture" />
+            </div>
+        </div>
+
+        <hr />
+
+        <button [disabled]="!userForm.form.valid" type="button" class="btn btn-primary float-right" (click)="submitForm()">Add</button>
+    </form>
 </div>

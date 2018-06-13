@@ -84,8 +84,8 @@ namespace ICT_LAB_Web
                 );
             });
 
-            app.UseHangfireDashboard();
-            app.UseHangfireServer();
+            //app.UseHangfireDashboard();
+            //app.UseHangfireServer();
         }
     }
 }
