@@ -1,0 +1,15 @@
+<div class="col-sm-12 col-md-10 offset-md-1">
+    <form class="form-horizontal" #roomForm="ngForm">
+
+        <div class="form-row my-4">
+            <div class="col-sm-12 col-md-6 offset-md-3">
+                <label>Upload CSV file</label>
+                <input #fileInput class="form-control" type="file" title="Choose an CSV to upload" />
+            </div>
+        </div>
+
+        <hr />
+
+        <button type="button" class="btn btn-primary float-right" (click)="importCSV()">Import</button>
+    </form>
+</div>

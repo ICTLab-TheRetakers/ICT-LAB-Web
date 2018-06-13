@@ -6,6 +6,7 @@ import { AuthGuard } from '../../shared/authguard.service';
 import { RoomComponent } from './room.component';
 import { AddRoomComponent } from './add-room/add-room.component';
 import { EditRoomComponent } from './edit-room/edit-room.component';
+import { ImportRoomComponent } from './import-room/import-room.component';
 
 const routes: Routes = [
     {
@@ -13,7 +14,8 @@ const routes: Routes = [
         children: [
             { path: '', component: RoomComponent, canActivate: [AuthGuard] },
             { path: 'add', component: AddRoomComponent, canActivate: [AuthGuard] },
-            { path: 'edit/:room', component: EditRoomComponent, canActivate: [AuthGuard] }
+            { path: 'edit/:room', component: EditRoomComponent, canActivate: [AuthGuard] },
+            { path: 'import', component: ImportRoomComponent, canActivate: [AuthGuard] }
         ]
     }
 ]; 

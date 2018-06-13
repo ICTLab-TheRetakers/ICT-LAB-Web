@@ -1,41 +1,46 @@
 <div class="col-sm-12 col-md-10 offset-md-1 mx-auto">
-    <div>
-        <h2>Rooms</h2>
+    <h2>Rooms</h2>
 
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Room Code</th>
-                    <th>Capacity</th>
-                    <th></th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody *ngIf="pagedResult != null">
-                <tr *ngFor="let room of pagedResult.data">
-                    <td>
-                        <a (click)="redirectToInfo(room)">{{ room.room_code }}</a>
-                    </td>
-                    <td>{{ room.student_capacity }}</td>
-                    <td>
-                        <a [routerLink]="['edit', room.room_code]">Edit</a>
-                    </td>
-                    <td>
-                        <button type="button" (click)="deleteRoom(room.room_code)">Delete</button>
-                    </td>
-                </tr>
-                <tr class="pt-4"></tr>
-                <tr class="pt-4">
-                    <td>
-                        <button [disabled]="pagedResult.current_page == 1" class="btn btn-primary" (click)="getPage(pagedResult.current_page - 1)">Prev</button>
-                    </td>
-                    <td></td>
-                    <td></td>
-                    <td>
-                        <button [disabled]="pagedResult.current_page == pagedResult.total_pages" class="btn btn-primary" (click)="getPage(pagedResult.current_page + 1)">Next</button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Room Code</th>
+                <th>Capacity</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody *ngIf="pagedResult != null">
+            <tr *ngFor="let room of pagedResult.data">
+                <td>
+                    <a (click)="redirectToInfo(room)">{{ room.room_code }}</a>
+                </td>
+                <td>{{ room.student_capacity }}</td>
+                <td>
+                    <a [routerLink]="['edit', room.room_code]">Edit</a>
+                </td>
+                <td>
+                    <button type="button" (click)="deleteRoom(room.room_code)">Delete</button>
+                </td>
+            </tr>
+            <tr class="pt-4"></tr>
+            <tr class="pt-4">
+                <td>
+                    <button [disabled]="pagedResult.current_page == 1" class="btn btn-primary" (click)="getPage(pagedResult.current_page - 1)">Prev</button>
+                </td>
+                <td></td>
+                <td></td>
+                <td>
+                    <button [disabled]="pagedResult.current_page == pagedResult.total_pages" class="btn btn-primary" (click)="getPage(pagedResult.current_page + 1)">Next</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="#" [routerLink]="['add']" class="btn btn-primary btn-sm mt-3" title="Add room">
+        <i class="fa fa-plus"></i>
+    </a>
+    <a href="#" [routerLink]="['import']" class="btn btn-primary btn-sm mt-3" title="Import by csv">
+        <i class="fa fa-file-text-o"></i>
+    </a>
 </div>

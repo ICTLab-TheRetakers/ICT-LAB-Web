@@ -8,6 +8,7 @@ import { AddUserComponent } from './add-user/add-user.component';
 import { EditUserComponent } from './edit-user/edit-user.component';
 import { DetailsUserComponent } from './details-user/details-user.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { ImportUserComponent } from './import-user/import-user.component';
 
 const routes: Routes = [
     {
@@ -17,6 +18,7 @@ const routes: Routes = [
             { path: 'add', component: AddUserComponent, canActivate: [AuthGuard] },
             { path: 'edit/:user', component: EditUserComponent, canActivate: [AuthGuard] },
             { path: 'details/:user', component: DetailsUserComponent, canActivate: [AuthGuard] },
+            { path: 'import', component: ImportUserComponent, canActivate: [AuthGuard] },
             { path: 'reset-password', component: ResetPasswordComponent }
         ]
     }
