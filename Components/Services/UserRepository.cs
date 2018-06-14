@@ -29,7 +29,7 @@ namespace ICT_LAB_Web.Components.Services
 
         public async Task<User> Update(User userToUpdate)
         {
-            var user = await _dbContext.Users.FirstOrDefaultAsync(q => q.Email == user.Email);
+            var user = await _dbContext.Users.FirstOrDefaultAsync(q => q.Email == userToUpdate.Email);
             if (user == null)
             {
                 return null;
