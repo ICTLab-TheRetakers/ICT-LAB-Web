@@ -27,10 +27,10 @@ namespace ICT_LAB_Web.Components.Services
             return user;
         }
 
-        public async Task<User> Update(User user)
+        public async Task<User> Update(User userToUpdate)
         {
-            var userToUpdate = await _dbContext.Users.FindAsync(user.UserId);
-            if (userToUpdate == null)
+            var user = await _dbContext.Users.FirstOrDefaultAsync(q => q.Email == user.Email);
+            if (user == null)
             {
                 return null;
             }
@@ -43,7 +43,7 @@ namespace ICT_LAB_Web.Components.Services
                 user.Password = _encryptor.Encrypt(user.Password);
             }
 
-            _dbContext.Entry(userToUpdate).CurrentValues.SetValues(user);
+            _dbContext.Entry(user).CurrentValues.SetValues(userToUpdate);
             var result = await _dbContext.SaveChangesAsync();
 
             return result == 1 ? user : null;
