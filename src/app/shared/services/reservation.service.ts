@@ -32,7 +32,17 @@ export class ReservationService {
             .catch(this.handleError);
     }
 
-    getByDate(user: string, from: string, till: string): Observable<Reservation[]> {
+    getAll(): Observable<Reservation[]> {
+        return this.http.get(this.baseUrl + 'getAll')
+            .catch(this.handleError);
+    }
+
+    getByDate(start: string): Observable<Reservation[]> {
+        return this.http.get(this.baseUrl + 'getByDate?date=' + start)
+            .catch(this.handleError);
+    }
+
+    getBetweenDates(user: string, from: string, till: string): Observable<Reservation[]> {
         return this.http.get(this.baseUrl + 'get?user=' + user + '&from=' + from + '&till=' + till)
             .catch(this.handleError);
     }
