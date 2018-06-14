@@ -27,13 +27,15 @@ namespace ICT_LAB_Web.Components.Services
             return user;
         }
 
-        public async Task<User> Update(User userToUpdate, string newPassword)
+        public async Task<User> Update(User userToUpdate)
         {
+            var originalUser = await _dbContext.Users.FirstOrDefaultAsync(q => q.UserId == userToUpdate.UserId);
+
             // Check if password has changed
-            if (!String.IsNullOrEmpty(newPassword))
+            if (originalUser.Password != userToUpdate.Password)
             {
                 //Encrypt password before updating
-                userToUpdate.Password = _encryptor.Encrypt(newPassword);
+                userToUpdate.Password = _encryptor.Encrypt(userToUpdate.Password);
             }
 
             _dbContext.Entry(userToUpdate).State = EntityState.Modified;
@@ -55,11 +57,9 @@ namespace ICT_LAB_Web.Components.Services
         {
             // Generate random password
             var tempPassword = this.GeneratePassword();
-            var oldPassword = "";
 
             // Get user by email
             var user = await _dbContext.Users.FirstOrDefaultAsync(q => q.Email.ToLower() == email.ToLower());
-            oldPassword = user.Password;
 
             // Update password
             user.Password = _encryptor.Encrypt(tempPassword);

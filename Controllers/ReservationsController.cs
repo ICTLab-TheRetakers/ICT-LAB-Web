@@ -138,7 +138,7 @@ namespace ICT_LAB_Web.Controllers
         /// <param name="from">Beginning of datetime reservations</param>
         /// <param name="till">End of datetine reservations</param>
         [HttpGet("getByRoom")]
-        [ProducesResponseType(typeof(IEnumerable<RoomReadingViewModel>), 200)]
+        [ProducesResponseType(typeof(IEnumerable<ReservationViewModel>), 200)]
         [ProducesResponseType(typeof(void), 400)]
         [ProducesResponseType(typeof(void), 500)]
         public async Task<IActionResult> GetByRoom(string room, string from, string till)
@@ -162,6 +162,77 @@ namespace ICT_LAB_Web.Controllers
             {
                 return StatusCode(404, String.Format("Unable to find any reservation(s) in room '{0}' between '{1}' and '{2}'.", room,
                     fromDate.Value.ToString("dd-MM HH:mm"), tillDate.Value.ToString("dd-MM HH:mm")));
+            }
+
+            // Convert to view model
+            var result = data.Select(x => new ReservationViewModel
+            {
+                ReservationId = x.ReservationId,
+                UserId = x.UserId,
+                RoomCode = x.RoomCode,
+                StartTime = x.StartTime,
+                EndTime = x.EndTime,
+                Description = x.Description
+            });
+
+            return Ok(result);
+        }
+
+        /// <summary>
+        /// Gets a list with all reservations.
+        /// </summary>
+        [HttpGet("getAll")]
+        [ProducesResponseType(typeof(IEnumerable<ReservationViewModel>), 200)]
+        [ProducesResponseType(typeof(void), 400)]
+        [ProducesResponseType(typeof(void), 500)]
+        public async Task<IActionResult> GetAll()
+        {
+            // Get reservations
+            var data = await _reservationRepository.GetAll();
+            if (data == null)
+            {
+                return StatusCode(404, "Unable to find any reservation(s).");
+            }
+
+            // Convert to view model
+            var result = data.Select(x => new ReservationViewModel
+            {
+                ReservationId = x.ReservationId,
+                UserId = x.UserId,
+                RoomCode = x.RoomCode,
+                StartTime = x.StartTime,
+                EndTime = x.EndTime,
+                Description = x.Description
+            });
+
+            return Ok(result);
+        }
+
+        /// <summary>
+        /// Gets a list with all reservations by date.
+        /// </summary>
+        [HttpGet("getByDate")]
+        [ProducesResponseType(typeof(IEnumerable<ReservationViewModel>), 200)]
+        [ProducesResponseType(typeof(void), 400)]
+        [ProducesResponseType(typeof(void), 500)]
+        public async Task<IActionResult> GetByDate(string date)
+        {
+            if (String.IsNullOrEmpty(date))
+            {
+                return StatusCode(400, "Invalid parameter(s).");
+            }
+
+            DateTime? startDate = null;
+            if (!String.IsNullOrEmpty(date))
+            {
+                startDate = DateTime.ParseExact(date, "yyyy-MM-dd", null);
+            }
+
+            // Get reservations
+            var data = await _reservationRepository.GetByDate(startDate.Value);
+            if (data == null)
+            {
+                return StatusCode(404, "Unable to find any reservation(s) on " + date + ".");
             }
 
             // Convert to view model

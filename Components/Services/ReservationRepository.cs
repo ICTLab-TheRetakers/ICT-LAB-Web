@@ -68,6 +68,18 @@ namespace ICT_LAB_Web.Components.Services
             return response;
         }
 
+        public async Task<List<Reservation>> GetByDate(DateTime date)
+        {
+            var response = await _dbContext.Reservations.Where(q => q.StartTime.Date == date.Date).ToListAsync();
+            return response;
+        }
+
+        public async Task<List<Reservation>> GetAll()
+        {
+            var response = await _dbContext.Reservations.ToListAsync();
+            return response;
+        }
+
         public async Task<Reservation> GetByStart(string user, DateTime? start)
         {
             Reservation response;
