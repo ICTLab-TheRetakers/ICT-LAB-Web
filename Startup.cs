@@ -90,7 +90,7 @@ namespace ICT_LAB_Web
 
             var notification = new NotificationCreator();
 
-            BackgroundJob.Enqueue(() => notification.Create("admin", "This notification is added through hangfire"));
+            //BackgroundJob.Enqueue(() => notification.Create("admin", "This notification is added through hangfire"));
 
             //var email = new Email();
 
