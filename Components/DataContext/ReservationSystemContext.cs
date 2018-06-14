@@ -74,7 +74,9 @@ namespace ICT_LAB_Web.Components.DataContext
 
                 entity.ToTable("notifications");
 
-                entity.Property(e => e.NotificationId).HasColumnName("notification_id");
+                entity.Property(e => e.NotificationId)
+                    .HasColumnName("notification_id")
+                    .ValueGeneratedOnAdd();
 
                 entity.Property(e => e.CreatedOn).HasColumnName("created_on");
 
