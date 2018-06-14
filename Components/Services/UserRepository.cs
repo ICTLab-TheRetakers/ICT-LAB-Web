@@ -70,15 +70,10 @@ namespace ICT_LAB_Web.Components.Services
             oldPassword = user.Password;
 
             // Update password
-            user.Password = tempPassword;
-            var updatedUser = await this.Update(user);
+            user.Password = _encryptor.Encrypt(tempPassword);
+            await _dbContext.SaveChangesAsync();
 
-            if (updatedUser.Password != oldPassword)
-            {
-                return tempPassword;
-            }
-
-            return null;
+            return tempPassword;
         }
 
         public async Task<bool> Delete(string user)
