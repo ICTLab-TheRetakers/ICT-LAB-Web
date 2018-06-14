@@ -40,7 +40,8 @@ namespace ICT_LAB_Web.Components.Services
             if (isChanged)
             {
                 //Encrypt password before updating
-                user.Password = _encryptor.Encrypt(user.Password);
+                var password = _encryptor.Encrypt(user.Password);
+                user.Password = password;
             }
 
             _dbContext.Entry(user).CurrentValues.SetValues(userToUpdate);
