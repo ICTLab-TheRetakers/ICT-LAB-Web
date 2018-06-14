@@ -10,6 +10,7 @@ using System.Linq;
 using System.Reflection;
 using Hangfire;
 using Hangfire.PostgreSql;
+using ICT_LAB_Web.Components.Helper;
 
 namespace ICT_LAB_Web
 {
@@ -84,8 +85,16 @@ namespace ICT_LAB_Web
                 );
             });
 
-            //app.UseHangfireDashboard();
-            //app.UseHangfireServer();
+            app.UseHangfireDashboard();
+            app.UseHangfireServer();
+
+            var notification = new NotificationCreator();
+
+            BackgroundJob.Enqueue(() => notification.Create("admin", "This notification is added through hangfire"));
+
+            //var email = new Email();
+
+            //BackgroundJob.Enqueue(() => email.ReservationConfirmationEmail("justmike112@hotmail.com", "WD.0.016", new DateTime(), new DateTime()));
         }
     }
 }
