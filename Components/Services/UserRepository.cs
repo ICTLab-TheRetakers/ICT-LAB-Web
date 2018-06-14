@@ -29,6 +29,7 @@ namespace ICT_LAB_Web.Components.Services
 
         public async Task<User> Update(User userToUpdate)
         {
+            var password = userToUpdate.Password;
             var user = await _dbContext.Users.FirstOrDefaultAsync(q => q.Email == userToUpdate.Email);
             if (user == null)
             {
@@ -36,15 +37,14 @@ namespace ICT_LAB_Web.Components.Services
             }
 
             // Check if password has changed
-            var isChanged = userToUpdate.Password != user.Password;
+            var isChanged = password != user.Password;
             if (isChanged)
             {
                 //Encrypt password before updating
-                var password = _encryptor.Encrypt(user.Password);
-                user.Password = password;
+                user.Password = _encryptor.Encrypt(user.Password); ;
             }
 
-            _dbContext.Entry(user).CurrentValues.SetValues(userToUpdate);
+            _dbContext.Entry(user).State = EntityState.Modified;
             var result = await _dbContext.SaveChangesAsync();
 
             return result == 1 ? user : null;
