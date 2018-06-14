@@ -27,27 +27,19 @@ namespace ICT_LAB_Web.Components.Services
             return user;
         }
 
-        public async Task<User> Update(User userToUpdate)
+        public async Task<User> Update(User userToUpdate, string newPassword)
         {
-            var password = userToUpdate.Password;
-            var user = await _dbContext.Users.AsNoTracking().FirstOrDefaultAsync(q => q.Email == userToUpdate.Email);
-            if (user == null)
-            {
-                return null;
-            }
-
             // Check if password has changed
-            var isChanged = password != user.Password;
-            if (isChanged)
+            if (!String.IsNullOrEmpty(newPassword))
             {
                 //Encrypt password before updating
-                user.Password = _encryptor.Encrypt(user.Password); ;
+                userToUpdate.Password = _encryptor.Encrypt(newPassword);
             }
 
-            _dbContext.Entry(user).State = EntityState.Modified;
+            _dbContext.Entry(userToUpdate).State = EntityState.Modified;
             var result = await _dbContext.SaveChangesAsync();
 
-            return result == 1 ? user : null;
+            return result == 1 ? userToUpdate : null;
         }
 
         public async Task<User> CheckCredentials(string email, string password)
