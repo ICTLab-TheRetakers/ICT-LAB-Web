@@ -35,13 +35,13 @@ namespace ICT_LAB_Web.Components.Services
             if (originalUser.Password != userToUpdate.Password)
             {
                 //Encrypt password before updating
-                userToUpdate.Password = _encryptor.Encrypt(userToUpdate.Password);
+                originalUser.Password = _encryptor.Encrypt(userToUpdate.Password);
             }
 
-            _dbContext.Entry(userToUpdate).State = EntityState.Modified;
+            _dbContext.Entry(originalUser).State = EntityState.Modified;
             var result = await _dbContext.SaveChangesAsync();
 
-            return result == 1 ? userToUpdate : null;
+            return result == 1 ? originalUser : null;
         }
 
         public async Task<User> CheckCredentials(string email, string password)
