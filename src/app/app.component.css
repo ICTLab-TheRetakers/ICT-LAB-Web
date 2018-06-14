@@ -31,6 +31,7 @@ main {
     width: 87vw;
     height: 100%;
     height: 90vh;
+    padding: 20px 5px;
     overflow-x: hidden;
 }
 
