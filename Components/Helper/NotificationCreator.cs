@@ -24,7 +24,7 @@ namespace ICT_LAB_Web.Components.Helper
             {
                 UserId = id,
                 Description = description,
-                CreatedOn = new DateTime()
+                CreatedOn = DateTime.Now
             };
 
             await notificationRepository.Add(notification);   
