@@ -14,6 +14,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { SignInComponent } from './components/user/sign-in/sign-in.component';
 import { ScheduleComponent } from './components/schedule/schedule.component';
 import { ResetPasswordComponent } from './components/user/reset-password/reset-password.component';
+import { NotFoundComponent } from './components/notfound/notfound.component';
 
 const routes: Routes = [
     {
@@ -68,7 +69,12 @@ const routes: Routes = [
     {
         path: 'users/reset-password',
         component: ResetPasswordComponent
+    },
+    {
+        path: '**',
+        component: NotFoundComponent
     }
+
 ];
 
 @NgModule({

@@ -21,6 +21,7 @@ import { IssueModule } from './components/issue/issue.module';
 import { ReservationModule } from './components/reservation/reservation.module';
 import { DashboardModule } from './components/dashboard/dashboard.module';
 import { ScheduleModule } from './components/schedule/schedule.module';
+import { NotFoundComponent } from './components/notfound/notfound.component';
 
 import { RoleService } from './shared/services/role.service';
 import { SharedService } from './shared/services/shared.service';
@@ -30,7 +31,8 @@ import { CustomErrorHandler } from './shared/error-handler';
 
 @NgModule({
     declarations: [
-        AppComponent
+        AppComponent,
+        NotFoundComponent
     ],
     imports: [
         BrowserModule,
