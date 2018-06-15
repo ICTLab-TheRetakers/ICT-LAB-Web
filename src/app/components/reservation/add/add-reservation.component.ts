@@ -25,6 +25,7 @@ export class AddReservationComponent implements OnInit {
     reservations: Reservation[] = [];
     selectedRoom: Room = null;
     currentUser: User = null;
+    errorCount: number = 0;
     minDate: string;
     maxDate: string;
     date;
@@ -35,7 +36,7 @@ export class AddReservationComponent implements OnInit {
             msg: '',
             theme: ' bootstrap',
             showClose: true,
-            timeout: 4000
+            timeout: 7000
         };
     }
 
@@ -70,18 +71,20 @@ export class AddReservationComponent implements OnInit {
                 reservation = this.convertDatetime(reservation);
                 reservation.room_code = this.selectedRoom.room_code;
 
-                // Check if reservation not exists
-                if (this.checkIfReservationExists(reservation) == true) {
-                    this.toastOptions.msg = 'A reservation has already been made for this time. Please choose a different time or room!';
+                if (this.errorCount > 0) {
+                    this.toastOptions.msg = 'The reservation on \'' + moment(reservation.date).format('MMMM Do') + ' at ' + reservation.begin
+                        + '\' is already taken. Please choose a different time or room!';
                     this.toastyService.error(this.toastOptions);
-                } else {
-                    this._reservationService.create(reservation).subscribe(
-                        (response) => this.router.navigate(['/reservations']),
-                        (error: HttpErrorResponse) => { throw error; }
-                    );
+
+                    this.errorCount = 0;
                 }
+
+                // Check if reservation not exists, if so, then save reservation
+                this.checkIfReservationExists(reservation);
             }
         });
+
+        
     }
 
     getRoomChoice(event: any) {
@@ -116,17 +119,23 @@ export class AddReservationComponent implements OnInit {
         return reservation;
     }
 
-    checkIfReservationExists(reservation: Reservation): boolean {
-        let exists = false;
+    saveReservation(reservation: Reservation) {
+        this._reservationService.create(reservation).subscribe(
+            (response) => { },
+            (error: HttpErrorResponse) => { throw error; }
+        );
+    }
+
+    checkIfReservationExists(reservation: Reservation) {
         this._reservationService.checkIfExists(reservation).subscribe(
             (response) => {
-                if (response == true) {
-                    exists = true;
+                if (response == false) {
+                    this.saveReservation(reservation);
+                } else {
+                    this.errorCount++;
                 }
             },
             (error: HttpErrorResponse) => { throw error; }
         );
-
-        return exists;
     }
 }

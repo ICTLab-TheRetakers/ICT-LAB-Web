@@ -579,6 +579,13 @@ namespace ICT_LAB_Web.Controllers
                 return StatusCode(400, "Start time cannot be later than end time.");
             }
 
+            // Check if reservation timeslot isn't already taken
+            var exists = await _reservationRepository.CheckIfReservationExists(reservation);
+            if (exists)
+            {
+                return StatusCode(500, "The reservation on '" + reservation.StartTime.ToString("MMMM DD") +" at " + reservation.StartTime.ToString("HH:mm") + "' is already taken. Please choose a differenct time or room!");
+            }
+
             // Insert reservation
             var result = await _reservationRepository.Add(reservation);
             if (result == null)
@@ -634,6 +641,13 @@ namespace ICT_LAB_Web.Controllers
             if (reservation.StartTime > reservation.EndTime)
             {
                 return StatusCode(400, "Start time cannot be later than end time.");
+            }
+
+            // Check if reservation timeslot isn't already taken
+            var exists = await _reservationRepository.CheckIfReservationExists(reservation);
+            if (exists)
+            {
+                return StatusCode(500, "The reservation on '" + reservation.StartTime.ToString("MMMM DD") + " at " + reservation.StartTime.ToString("HH:mm") + "' is already taken. Please choose a differenct time or room!");
             }
 
             // Update reservation

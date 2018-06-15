@@ -18,3 +18,13 @@
 .return i {
     font-size: 24px;
 }
+
+/* NG2 Toasty */
+#toasty .toast.toasty-theme-bootstrap .toast-text .toast-title {
+    font-size: 16px;
+}
+
+#toasty .toast.toasty-theme-bootstrap .toast-text .toast-msg {
+    font-size: 13px;
+    line-height: 2.3px;
+}
