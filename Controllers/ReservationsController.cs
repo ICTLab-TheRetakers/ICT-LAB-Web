@@ -21,16 +21,20 @@ namespace ICT_LAB_Web.Controllers
     {
         private IReservationRepository _reservationRepository;
         private IParticipantRepository _participantRepository;
+        private IUserRepository _userRepository;
         private ScheduleCrawler _crawler;
         private HttpClient _httpClient;
+        private Email _email;
 
 
         public ReservationsController()
         {
             this._reservationRepository = new ReservationRepository();
             this._participantRepository = new ParticipantRepository();
+            this._userRepository = new UserRepository();
             this._crawler = new ScheduleCrawler();
             this._httpClient = new HttpClient();
+            this._email = new Email();
         }
 
         /// <summary>
@@ -581,6 +585,9 @@ namespace ICT_LAB_Web.Controllers
             {
                 return StatusCode(500, "A problem occured while saving the reservation. Please try again!");
             }
+            var user = await _userRepository.Get(reservation.UserId);
+
+            await _email.ReservationConfirmationEmail(user.Email, reservation.RoomCode, reservation.StartTime, reservation.EndTime);
 
             return Ok(new ReservationViewModel
             {
