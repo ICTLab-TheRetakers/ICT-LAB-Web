@@ -8,6 +8,7 @@ using ICT_LAB_Web.Components.Services.Interfaces;
 using ICT_LAB_Web.Controllers.ViewModels;
 using ICT_LAB_Web.Controllers;
 using Hangfire;
+using ICT_LAB_Web.Components.DataContext;
 
 namespace ICT_LAB_Web.Components.Helper
 {
@@ -15,6 +16,7 @@ namespace ICT_LAB_Web.Components.Helper
     {
         INotificationRepository notificationRepository;
         IReservationRepository reservationRepository;
+        private ReservationSystemContext _dbContext = new ReservationSystemContext();
 
         public BackgroundWorker()
         {
@@ -22,6 +24,7 @@ namespace ICT_LAB_Web.Components.Helper
             this.reservationRepository = new ReservationRepository();
         }
 
+        /* Check if a notification should be send to remind the user of an appointment */
         public async Task CheckReservationsForReminders()
         {
             var reservations = await reservationRepository.GetByDate(DateTime.Now);
@@ -45,6 +48,8 @@ namespace ICT_LAB_Web.Components.Helper
                     BackgroundJob.Enqueue(() => RoomReminderNotification(reservation.UserId, reservation.RoomCode, reservation.StartTime.ToString("HH:mm")));
             }
         }
+
+        /* Check for outdated data */
         public async Task CheckReservationsForDeletion()
         {
             var reservations = await reservationRepository.GetAll();
@@ -59,13 +64,16 @@ namespace ICT_LAB_Web.Components.Helper
         public async Task CheckNotificationsForDeletion()
         {
             // to do
+            var notifications = _dbContext.Notifications.Where(q => q.CreatedOn.CompareTo(DateTime.Now.AddDays(-7)) < 0);
+            foreach (Notification notification in notifications)
+            {
+                await notificationRepository.Delete(notification.NotificationId);
+            }
+
         }
 
-        public async Task DeleteReservation(int id)
-        {
-            await reservationRepository.Delete(id);
-        }
 
+        /* Notification Creator Functions */
         private async Task Create(string id, string description)
         {
             var notification = new Notification
@@ -75,7 +83,8 @@ namespace ICT_LAB_Web.Components.Helper
                 CreatedOn = DateTime.Now
             };
 
-            await notificationRepository.Add(notification);   
+            _dbContext.Notifications.Add(notification);
+            await _dbContext.SaveChangesAsync();
         }
 
         public async Task RoomReminderNotification(string user, string room, string startTime)
@@ -91,6 +100,17 @@ namespace ICT_LAB_Web.Components.Helper
 
             await Create(user, description);
         }
-        
+
+        /* Delete Functions */
+        public async Task DeleteReservation(int id)
+        {
+            await reservationRepository.Delete(id);
+        }
+
+        public async Task DeleteNotification(int id)
+        {
+            await notificationRepository.Delete(notification.NotificationId);
+        }
+
     }
 }
