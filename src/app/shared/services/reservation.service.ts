@@ -47,8 +47,8 @@ export class ReservationService {
             .catch(this.handleError);
     }
 
-    getBetweenDates(start: string, end: string, room: string): Observable<Reservation[]> {
-        return this.http.get(this.baseUrl + 'getBetweenDates?start=' + start + '&end=' + end + '&room=' + room)
+    checkIfExists(reservation: Reservation): Observable<boolean> {
+        return this.http.post(this.baseUrl + 'checkIfExists', reservation)
             .catch(this.handleError);
     }
 

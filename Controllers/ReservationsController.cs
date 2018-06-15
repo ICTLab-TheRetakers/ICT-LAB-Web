@@ -683,7 +683,7 @@ namespace ICT_LAB_Web.Controllers
         /// Check if a reservation already exists in the same timeslot and room
         /// </summary>
         /// <param name="model">Reservation object</param>
-        [HttpDelete("checkIfExists")]
+        [HttpPost("checkIfExists")]
         [ProducesResponseType(typeof(bool), 200)]
         [ProducesResponseType(typeof(void), 400)]
         [ProducesResponseType(typeof(void), 500)]
