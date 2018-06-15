@@ -16,18 +16,5 @@
 }
 
 .return i {
-    color: #bd012f;
     font-size: 24px;
-}
-
-.btn-primary {
-    color: #bd012f !important;
-    background-color: #fff !important;
-    border-color: #bd012f !important;
-}
-
-.btn-primary:hover {
-    color: #fff !important;
-    background-color: #bd012f !important;
-    border-color: #bd012f !important;
 }
