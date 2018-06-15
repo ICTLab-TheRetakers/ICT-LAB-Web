@@ -7,6 +7,7 @@ using ICT_LAB_Web.Components.Services;
 using ICT_LAB_Web.Components.Services.Interfaces;
 using ICT_LAB_Web.Controllers.ViewModels;
 using ICT_LAB_Web.Controllers;
+using Hangfire;
 
 namespace ICT_LAB_Web.Components.Helper
 {
@@ -41,7 +42,7 @@ namespace ICT_LAB_Web.Components.Helper
                 }
 
                 if (send == true)
-                    await RoomReminder(reservation.UserId, reservation.RoomCode, reservation.StartTime.ToString("HH:mm"));
+                    BackgroundJob.Enqueue(() => RoomReminder(reservation.UserId, reservation.RoomCode, reservation.StartTime.ToString("HH:mm")));
             }
         }
 
