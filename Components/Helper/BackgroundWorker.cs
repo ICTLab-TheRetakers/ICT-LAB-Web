@@ -64,11 +64,12 @@ namespace ICT_LAB_Web.Components.Helper
         public async Task CheckNotificationsForDeletion()
         {
             // to do
-            var notifications = _dbContext.Notifications.Where(q => q.CreatedOn.CompareTo(DateTime.Now.AddDays(-7)) < 0);
-            foreach (Notification notification in notifications)
+            var notifications = _dbContext.Notifications.Where(q => q.CreatedOn.CompareTo(DateTime.Now.AddDays(-7)) < 0).ToList();
+            await Task.Run(() =>
             {
-                BackgroundJob.Enqueue(() => DeleteNotification(notification.NotificationId));
-            }
+                foreach (Notification notification in notifications)
+                    BackgroundJob.Enqueue(() => DeleteNotification(notification.NotificationId));
+            });
 
         }
 
