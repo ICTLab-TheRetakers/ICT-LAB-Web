@@ -119,7 +119,8 @@ export class AddReservationComponent implements OnInit {
 
     checkIfReservationExists(reservation: Reservation): boolean {
         let existingReservation = null;
-        this._reservationService.getBetweenDates(moment.utc(reservation.start_time).format('YYYY-MM-DDTHH:mm:ss'), moment.utc(reservation.end_time).format('YYYY-MM-DDTHH:mm:ss')).subscribe(
+        this._reservationService.getBetweenDates(moment.utc(reservation.start_time).format('YYYY-MM-DDTHH:mm:ss'),
+            moment.utc(reservation.end_time).format('YYYY-MM-DDTHH:mm:ss'), reservation.room_code).subscribe(
             (response) => existingReservation = response,
             (error: HttpErrorResponse) => { throw error; }
         );

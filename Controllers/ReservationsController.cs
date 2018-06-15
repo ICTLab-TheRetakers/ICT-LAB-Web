@@ -518,7 +518,7 @@ namespace ICT_LAB_Web.Controllers
         [ProducesResponseType(typeof(IEnumerable<ReservationViewModel>), 200)]
         [ProducesResponseType(typeof(void), 400)]
         [ProducesResponseType(typeof(void), 404)]
-        public async Task<IActionResult> GetBetweenDates(string start, string end)
+        public async Task<IActionResult> GetBetweenDates(string start, string end, string room)
         {
             if (String.IsNullOrEmpty(start) || String.IsNullOrEmpty(end))
             {
@@ -529,7 +529,7 @@ namespace ICT_LAB_Web.Controllers
             DateTime fromDate = DateTime.ParseExact(start, "yyyy-MM-ddTHH:mm:ss", null);
             DateTime tillDate = DateTime.ParseExact(end, "yyyy-MM-ddTHH:mm:ss", null);
             
-            var data = await _reservationRepository.GetBetweenDates(fromDate, tillDate);
+            var data = await _reservationRepository.GetBetweenDates(fromDate, tillDate, room);
             if (data == null)
             {
                 return StatusCode(404, String.Format("Unable to find any reservation(s) for '{0}'.",
