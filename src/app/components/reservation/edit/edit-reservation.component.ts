@@ -13,6 +13,7 @@ import User from '../../../shared/models/user.model';
 
 import * as moment from 'moment';
 import { HttpErrorResponse } from '@angular/common/http/src/response';
+import { ToastyService, ToastOptions } from 'ng2-toasty';
 
 @Component({
     selector: 'app-edit-reservation',
@@ -20,14 +21,24 @@ import { HttpErrorResponse } from '@angular/common/http/src/response';
     styleUrls: ['./edit-reservation.component.css']
 })
 export class EditReservationComponent implements OnInit {
+    toastOptions: ToastOptions;
     reservation: Reservation;
     currentUser: User = null;
     reservationId: number;
+    errorCount: number = 0;
     minDate: string;
     maxDate: string;
     
     constructor(private _reservationService: ReservationService, private _roomService: RoomService,
-        private router: Router, private route: ActivatedRoute) { }
+        private router: Router, private route: ActivatedRoute, private toastyService: ToastyService) {
+        this.toastOptions = {
+            title: 'Error',
+            msg: '',
+            theme: ' bootstrap',
+            showClose: true,
+            timeout: 7000
+        };
+    }
 
     ngOnInit() {
         this.route.params.subscribe(
@@ -42,10 +53,16 @@ export class EditReservationComponent implements OnInit {
     submitForm() {
         this.convertDatetime();
 
-        this._reservationService.update(this.reservation).subscribe(
-            (response) => this.router.navigate(['/reservations']),
-            (err: HttpErrorResponse) => { throw err; }
-        );
+        if (this.errorCount > 0) {
+            this.toastOptions.msg = 'The reservation on \'' + moment(this.reservation.date).format('MMMM Do') + ' at ' + this.reservation.begin
+                + '\' is already taken. Please choose a different time or room!';
+            this.toastyService.error(this.toastOptions);
+
+            this.errorCount = 0;
+        }
+
+        // Check if reservation not exists, if so, then save reservation
+        this.checkIfReservationExists(this.reservation);
     }
 
     setMinAndMaxDate() {
@@ -87,5 +104,25 @@ export class EditReservationComponent implements OnInit {
         this.reservation.date = this.reservation.start_time.toString().split('T')[0];
         this.reservation.begin = this.reservation.start_time.toString().split('T')[1];
         this.reservation.end = this.reservation.end_time.toString().split('T')[1];
+    }
+
+    updateReservation(reservation: Reservation) {
+        this._reservationService.update(reservation).subscribe(
+            (response) => this.router.navigate(['/reservations']),
+            (error: HttpErrorResponse) => { throw error; }
+        );
+    }
+
+    checkIfReservationExists(reservation: Reservation) {
+        this._reservationService.checkIfExists(reservation).subscribe(
+            (response) => {
+                if (response == false) {
+                    this.updateReservation(reservation);
+                } else {
+                    this.errorCount++;
+                }
+            },
+            (error: HttpErrorResponse) => { throw error; }
+        );
     }
 }

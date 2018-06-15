@@ -83,8 +83,6 @@ export class AddReservationComponent implements OnInit {
                 this.checkIfReservationExists(reservation);
             }
         });
-
-        
     }
 
     getRoomChoice(event: any) {
