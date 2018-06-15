@@ -109,7 +109,7 @@ namespace ICT_LAB_Web.Components.Helper
 
         public async Task DeleteNotification(int id)
         {
-            await notificationRepository.Delete(notification.NotificationId);
+            await notificationRepository.Delete(id);
         }
 
     }
