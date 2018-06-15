@@ -510,47 +510,6 @@ namespace ICT_LAB_Web.Controllers
         }
 
         /// <summary>
-        /// Gets a list with all reservations based on a certain datetime.
-        /// </summary>
-        /// <param name="start">Beginning of datetime reservations</param>
-        /// <param name="end">Ending of datetime reservations</param>
-        [HttpGet("getBetweenDates")]
-        [ProducesResponseType(typeof(IEnumerable<ReservationViewModel>), 200)]
-        [ProducesResponseType(typeof(void), 400)]
-        [ProducesResponseType(typeof(void), 404)]
-        public async Task<IActionResult> GetBetweenDates(string start, string end, string room)
-        {
-            if (String.IsNullOrEmpty(start) || String.IsNullOrEmpty(end))
-            {
-                return StatusCode(400, "Invalid parameter(s).");
-            }
-
-            // Get reservations
-            DateTime fromDate = DateTime.ParseExact(start, "yyyy-MM-ddTHH:mm:ss", null);
-            DateTime tillDate = DateTime.ParseExact(end, "yyyy-MM-ddTHH:mm:ss", null);
-            
-            var data = await _reservationRepository.GetBetweenDates(fromDate, tillDate, room);
-            if (data == null)
-            {
-                return StatusCode(404, String.Format("Unable to find any reservation(s) for '{0}'.",
-                                    fromDate.ToString("dd-MM HH:mm")));
-            }
-
-            // Convert to view model
-            var result = data.Select(x => new ReservationViewModel
-            {
-                ReservationId = x.ReservationId,
-                UserId = x.UserId,
-                RoomCode = x.RoomCode,
-                StartTime = x.StartTime,
-                EndTime = x.EndTime,
-                Description = x.Description
-            });
-
-            return Ok(result);
-        }
-
-        /// <summary>
         /// Gets a reservation by id.
         /// </summary>
         /// <param name="reservation">Id of reservation</param>
