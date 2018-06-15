@@ -68,7 +68,7 @@ namespace ICT_LAB_Web.Components.Services
 
         public async Task<List<Reservation>> GetBetweenDates(DateTime start, DateTime end)
         {
-            List<Reservation>  response = await _dbContext.Reservations.Where(q => q.StartTime >= start && end <= q.EndTime).ToListAsync();
+            List<Reservation>  response = await _dbContext.Reservations.Where(q => q.StartTime <= start && (q.EndTime >= end || end > q.EndTime)).ToListAsync();
             return response;
         }
 
