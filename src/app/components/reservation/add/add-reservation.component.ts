@@ -74,12 +74,12 @@ export class AddReservationComponent implements OnInit {
                 if (this.checkIfReservationExists(reservation) == true) {
                     this.toastOptions.msg = 'A reservation has already been made for this time. Please choose a different time or room!';
                     this.toastyService.error(this.toastOptions);
+                } else {
+                    this._reservationService.create(reservation).subscribe(
+                        (response) => this.router.navigate(['/reservations']),
+                        (error: HttpErrorResponse) => { throw error; }
+                    );
                 }
-
-                this._reservationService.create(reservation).subscribe(
-                    (response) => this.router.navigate(['/reservations']),
-                    (error: HttpErrorResponse) => { throw error; }
-                );
             }
         });
     }
@@ -113,21 +113,16 @@ export class AddReservationComponent implements OnInit {
         reservation.start_time = moment.utc(start).toDate();
         reservation.end_time = moment.utc(end).toDate();
 
-
         return reservation;
     }
 
     checkIfReservationExists(reservation: Reservation): boolean {
-        let existingReservation = null;
-        this._reservationService.getBetweenDates(moment.utc(reservation.start_time).format('YYYY-MM-DDTHH:mm:ss'),
-            moment.utc(reservation.end_time).format('YYYY-MM-DDTHH:mm:ss'), reservation.room_code).subscribe(
-            (response) => existingReservation = response,
+        let exists = false;
+        this._reservationService.checkIfExists(reservation).subscribe(
+            (response) => exists = true,
             (error: HttpErrorResponse) => { throw error; }
         );
 
-        if (existingReservation != null) {
-            return true;
-        }
-        return false;
+        return exists;
     }
 }
