@@ -67,7 +67,7 @@ namespace ICT_LAB_Web.Components.Helper
             var notifications = _dbContext.Notifications.Where(q => q.CreatedOn.CompareTo(DateTime.Now.AddDays(-7)) < 0);
             foreach (Notification notification in notifications)
             {
-                await notificationRepository.Delete(notification.NotificationId);
+                BackgroundJob.Enqueue(() => DeleteNotification(notification.NotificationId));
             }
 
         }
