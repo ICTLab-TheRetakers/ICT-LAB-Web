@@ -59,7 +59,7 @@ namespace ICT_LAB_Web.Components.Helper
             {
                 IsBodyHtml = true,
                 Subject = "HINT Reservation System - Reservation Confirmed",
-                Body = "Dear user,<br /><br />You have reserved " + roomCode + ", from " + startTime + " to " + endTime
+                Body = "Dear user,<br /><br />You have reserved " + roomCode + ", from " + startTime.ToString("HH:mm") + " to " + endTime.ToString("HH:mm")
             })
             {
                 await smtpClient.SendMailAsync(message);
