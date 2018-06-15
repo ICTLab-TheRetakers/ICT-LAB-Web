@@ -61,7 +61,7 @@ namespace ICT_LAB_Web.Components.Helper
             // to do
         }
 
-        private async Task DeleteReservation(int id)
+        public async Task DeleteReservation(int id)
         {
             await reservationRepository.Delete(id);
         }
