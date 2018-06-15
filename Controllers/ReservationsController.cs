@@ -708,10 +708,10 @@ namespace ICT_LAB_Web.Controllers
             var exists = await _reservationRepository.CheckIfReservationExists(reservation);
             if (exists)
             {
-                return StatusCode(500, "A reservation has already been made for this time. Please choose a different time or room!");
+                return Ok(true);
             }
 
-            return Ok(exists);
+            return Ok(false);
         }
 
         private bool IsDateValid(DateTime dateTime)

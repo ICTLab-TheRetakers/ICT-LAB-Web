@@ -119,7 +119,11 @@ export class AddReservationComponent implements OnInit {
     checkIfReservationExists(reservation: Reservation): boolean {
         let exists = false;
         this._reservationService.checkIfExists(reservation).subscribe(
-            (response) => exists = true,
+            (response) => {
+                if (response == true) {
+                    exists = true;
+                }
+            },
             (error: HttpErrorResponse) => { throw error; }
         );
 
