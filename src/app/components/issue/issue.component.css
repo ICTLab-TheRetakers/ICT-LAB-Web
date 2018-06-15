@@ -1,3 +1,9 @@
+/* Table */
+.table thead td:nth-child(4),
+.table thead td:nth-child(5) {
+    text-align: center
+}
+
 /* Buttons and pager */
 .buttons {
     position: relative;
@@ -42,3 +48,12 @@
     position: absolute;
     right: 85px;
 }
+
+.resolve-link {
+    cursor: pointer;
+}
+.resolve-link i {
+    color: mediumseagreen;
+    font-size: 1.1rem;
+}
+

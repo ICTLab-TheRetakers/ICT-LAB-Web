@@ -19,6 +19,18 @@ td {
     margin-bottom: 20px;
 }
 
+/* Table */
+.table thead th:nth-child(4),
+.table thead th:nth-child(5) {
+    width: 10%;
+}
+
+.table thead td:nth-child(4),
+.table thead td:nth-child(5) {
+    width: 10%;
+    text-align: center
+}
+
 /* Buttons and pager */
 .buttons {
     position: relative;
@@ -62,4 +74,15 @@ td {
 .buttons .right button:nth-child(2) {
     position: absolute;
     right: 85px;
+}
+
+.edit-link i {
+    color: orange;
+    font-size: 1.15rem;
+}
+
+.remove-link i {
+    color: red;
+    font-size: 1.15rem;
+    cursor: pointer;
 }

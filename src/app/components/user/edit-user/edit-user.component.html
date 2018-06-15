@@ -1,15 +1,19 @@
-<div class="col-sm-12 col-md-10 offset-md-1">
-    <h3 class="my-3">Edit User</h3>
+<a href="#" class="return" [routerLink]="['/users']" title="Return to previous page">
+    <i class="fa fa-arrow-left"></i>
+</a>
 
-    <form class="form-horizontal" method="post" enctype="multipart/form-data" #userForm="ngForm" *ngIf="user">
+<div class="col-sm-12 col-md-10 offset-md-1">
+    <h3 class="my-4 text-center">Edit User</h3>
+
+    <form class="form-horizontal mt-4" method="post" enctype="multipart/form-data" #userForm="ngForm" *ngIf="user">
         <div class="form-row my-4">
             <div class="col-sm-12 col-md-6">
                 <label>First Name</label>
                 <input type="text" class="form-control" [(ngModel)]="user.first_name" name="first_name" required #firstNameModel="ngModel">
 
                 <!-- First name errors -->
-                <div *ngIf="firstNameModel.errors && (firstNameModel.dirty || firstNameModel.touched)" class="alert alert-danger">
-                    <div [hidden]="!firstNameModel.errors.required">
+                <div *ngIf="firstNameModel.errors && (firstNameModel.dirty || firstNameModel.touched)">
+                    <div [hidden]="!firstNameModel.errors.required" class="text-danger font-weight-bold">
                         First name is required!
                     </div>
                 </div>
@@ -19,8 +23,8 @@
                 <input type="text" class="form-control" [(ngModel)]="user.last_name" name="last_name" required #lastNameModel="ngModel">
 
                 <!-- Last name errors -->
-                <div *ngIf="lastNameModel.errors && (lastNameModel.dirty || lastNameModel.touched)" class="alert alert-danger">
-                    <div [hidden]="!lastNameModel.errors.required">
+                <div *ngIf="lastNameModel.errors && (lastNameModel.dirty || lastNameModel.touched)">
+                    <div [hidden]="!lastNameModel.errors.required" class="text-danger font-weight-bold">
                         Last name is required!
                     </div>
                 </div>
@@ -37,8 +41,8 @@
                 <input type="password" class="form-control" [(ngModel)]="user.password" name="password" required #passwordModel="ngModel">
 
                 <!-- Password errors -->
-                <div *ngIf="passwordModel.errors && (passwordModel.dirty || passwordModel.touched)" class="alert alert-danger">
-                    <div [hidden]="!passwordModel.errors.required">
+                <div *ngIf="passwordModel.errors && (passwordModel.dirty || passwordModel.touched)">
+                    <div [hidden]="!passwordModel.errors.required" class="text-danger font-weight-bold">
                         Password is required!
                     </div>
                 </div>

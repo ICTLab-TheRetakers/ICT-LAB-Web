@@ -19,18 +19,23 @@ namespace ICT_LAB_Web.Components.Services
             return room;
         }
 
-        public async Task<Room> Update(Room room)
+        public async Task<Room> Update(Room roomToUpdate)
         {
-            var roomToUpdate = await _dbContext.Rooms.FindAsync(room.RoomCode);
-            if (roomToUpdate == null)
+            var originalRoom = await _dbContext.Rooms.FirstOrDefaultAsync(q => q.RoomCode == roomToUpdate.RoomCode);
+            if (originalRoom == null)
             {
                 return null;
             }
 
-            _dbContext.Entry(roomToUpdate).CurrentValues.SetValues(room);
+            originalRoom.HasComputer = roomToUpdate.HasComputer;
+            originalRoom.HasSmartboard = roomToUpdate.HasSmartboard;
+            originalRoom.HasWindows = roomToUpdate.HasWindows;
+            originalRoom.StudentCapacity = roomToUpdate.StudentCapacity;
+
+            _dbContext.Entry(originalRoom).State = EntityState.Modified;
             var result = await _dbContext.SaveChangesAsync();
 
-            return result == 1 ? room : null;
+            return result == 1 ? originalRoom : null;
         }
 
         public async Task<bool> Delete(string room)

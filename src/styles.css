@@ -8,3 +8,13 @@
         padding-left: 300px; /*TO DO: make sure this is the same value as the width of the sidebar*/
     }
 }
+
+.return {
+    position: absolute;
+    top: 0;
+    left: 5%;
+}
+
+.return i {
+    font-size: 24px;
+}

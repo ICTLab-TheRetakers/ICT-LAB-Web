@@ -1,12 +1,17 @@
-<div class="col-sm-12 col-md-10 offset-md-1 mx-auto">
-    <h3 class="my-3">Report Issue</h3>
+<a href="#" class="return" [routerLink]="['/issues']" title="Return to previous page">
+    <i class="fa fa-arrow-left"></i>
+</a>
 
-    <form class="form-horizontal" *ngIf="issue != null" #issueForm="ngForm">
+<div class="col-sm-12 col-md-10 offset-md-1 mx-auto">
+    <h3 class="my-4 text-center">Report Issue</h3>
+
+    <form class="form-horizontal mt-4" *ngIf="issue != null" #issueForm="ngForm">
         <div class="form-row">
             <div class="col-sm-12 col-md-8 offset-md-2">
                 <label for="issue">Describe the problems you are having</label>
                 <textarea id="issue" name="issue" class="form-control" rows="5" [(ngModel)]="issue.description" required #descriptionModel></textarea>
-                <div class="alert alert-danger" [hidden]="descriptionModel.value.length == 0 || issueForm.controls['issue']?.touched == false">
+
+                <div class="text-danger font-weight-bold" [hidden]="descriptionModel.value.length == 0 || issueForm.controls['issue']?.touched == false">
                     Description cannot be empty!
                 </div>
             </div>

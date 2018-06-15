@@ -30,6 +30,14 @@ namespace ICT_LAB_Web.Components.Services
         public async Task<User> Update(User userToUpdate)
         {
             var originalUser = await _dbContext.Users.FirstOrDefaultAsync(q => q.UserId == userToUpdate.UserId);
+            if (originalUser == null)
+            {
+                return null;
+            }
+
+            originalUser.FirstName = userToUpdate.FirstName;
+            originalUser.LastName = userToUpdate.LastName;
+            originalUser.Role = userToUpdate.Role;
 
             // Check if password has changed
             if (originalUser.Password != userToUpdate.Password)

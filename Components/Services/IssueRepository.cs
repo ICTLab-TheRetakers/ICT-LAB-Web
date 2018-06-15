@@ -20,18 +20,20 @@ namespace ICT_LAB_Web.Components.Services
             return issue;
         }
 
-        public async Task<Issue> Update(Issue issue)
+        public async Task<Issue> Update(Issue issueToUpdate)
         {
-            var issueToUpdate = await _dbContext.Issues.FindAsync(issue.IssueId);
-            if (issueToUpdate == null)
+            var originalIssue = await _dbContext.Issues.FirstOrDefaultAsync(q => q.IssueId == issueToUpdate.IssueId && q.RoomCode == issueToUpdate.RoomCode);
+            if (originalIssue == null)
             {
                 return null;
             }
 
-            _dbContext.Entry(issueToUpdate).CurrentValues.SetValues(issue);
+            originalIssue.Resolved = issueToUpdate.Resolved;
+
+            _dbContext.Entry(originalIssue).State = EntityState.Modified;
             var result = await _dbContext.SaveChangesAsync();
 
-            return result == 1 ? issue : null;
+            return result == 1 ? originalIssue : null;
         }
 
         public async Task<bool> Delete(int issueId)

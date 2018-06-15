@@ -1,7 +1,11 @@
-<div class="col-sm-12 col-md-10 offset-md-1 mx-auto">
-    <h3 class="my-3">Add Reservation</h3>
+<a href="#" class="return" [routerLink]="['/reservations']" title="Return to previous page">
+    <i class="fa fa-arrow-left"></i>
+</a>
 
-    <form class="form-horizontal" *ngIf="reservations != null" #reservationForm="ngForm">
+<div class="col-sm-12 col-md-10 offset-md-1 mx-auto">
+    <h3 class="my-4 text-center">Add Reservation</h3>
+
+    <form class="form-horizontal mt-4" *ngIf="reservations != null" #reservationForm="ngForm">
         <app-select-room [onlyAllowRooms]="true" [getSchedule]="false" (chosenObject)="getRoomChoice($event)"></app-select-room>
 
         <div class="form-row">
@@ -23,13 +27,13 @@
                             </td>
                             <td>
                                 <input class="form-control" type="time" name="begin" [(ngModel)]="reservation.begin" step="600" min="08:00:00" max="22:00:00" required #beginModel />
-                                <div class="alert alert-danger" [hidden]="(beginModel.value.split(':')[0] - 0 > 7 && beginModel.value.split(':')[0] - 0 < 23) || reservationForm.controls['begin']?.touched == false">
+                                <div class="text-danger font-weight-bold" [hidden]="(beginModel.value.split(':')[0] - 0 > 7 && beginModel.value.split(':')[0] - 0 < 23) || reservationForm.controls['begin']?.touched == false">
                                     Time must be between 08:00 and 22:00
                                 </div>
                             </td>
                             <td>
                                 <input class="form-control" type="time" name="end" [(ngModel)]="reservation.end" step="600" min="08:00:00" max="22:00:00" required #endModel />
-                                <div class="alert alert-danger" [hidden]="(endModel.value.split(':')[0] - 0 > 7 && endModel.value.split(':')[0] - 0 < 23) || reservationForm.controls['end']?.touched == false">
+                                <div class="text-danger font-weight-bold" [hidden]="(endModel.value.split(':')[0] - 0 > 7 && endModel.value.split(':')[0] - 0 < 23) || reservationForm.controls['end']?.touched == false">
                                     Time must be between 08:00 and 22:00
                                 </div>
                             </td>
@@ -37,12 +41,16 @@
                                 <input class="form-control" name="desc" [(ngModel)]="reservation.description" />
                             </td>
                             <td [hidden]="i < 1">
-                                <button type="button" class="btn btn-danger" (click)="removeRow(i)">X</button>
+                                <button type="button" class="btn btn-danger" (click)="removeRow(i)">
+                                    <i class="fa fa-minus"></i>
+                                </button>
                             </td>
                         </tr>
                     </tbody>
                 </table>
-                <button [hidden]="currentUser.role == 'Student'" type="button" class="btn btn-primary" (click)="addRow()">+</button>
+                <button [hidden]="currentUser.role == 'Student'" type="button" class="btn btn-primary" (click)="addRow()">
+                    <i class="fa fa-plus"></i>
+                </button>
             </div>
         </div>
 

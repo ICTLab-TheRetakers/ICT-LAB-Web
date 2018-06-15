@@ -21,20 +21,24 @@ namespace ICT_LAB_Web.Components.Services
             return reservation;
         }
 
-        public async Task<Reservation> Update(Reservation reservation)
+        public async Task<Reservation> Update(Reservation reservationToUpdate)
         {
-            var reservationToUpdate = await _dbContext.Reservations.FirstOrDefaultAsync(q => q.UserId == reservation.UserId
-                && q.ReservationId == reservation.ReservationId);
+            var originalReservation = await _dbContext.Reservations.FirstOrDefaultAsync(q => q.UserId == reservationToUpdate.UserId
+                && q.ReservationId == reservationToUpdate.ReservationId);
 
-            if (reservationToUpdate == null)
+            if (originalReservation == null)
             {
                 return null;
             }
 
-            _dbContext.Entry(reservationToUpdate).CurrentValues.SetValues(reservation);
+            originalReservation.Description = reservationToUpdate.Description;
+            originalReservation.StartTime = reservationToUpdate.StartTime;
+            originalReservation.EndTime = reservationToUpdate.EndTime;
+
+            _dbContext.Entry(originalReservation).State = EntityState.Modified;
             var result = await _dbContext.SaveChangesAsync();
 
-            return result == 1 ? reservation : null;
+            return result == 1 ? originalReservation : null;
         }
 
         public async Task<bool> Delete(int? id)

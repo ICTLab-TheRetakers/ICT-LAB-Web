@@ -13,7 +13,7 @@ namespace ICT_LAB_Web.Controllers.ViewModels
         public string Description { get; set; }
         [JsonProperty("created_on")]
         public DateTime CreatedOn { get; set; }
-        [JsonProperty("is_resolved")]
+        [JsonProperty("resolved")]
         public bool Resolved { get; set; }
     }
 }
