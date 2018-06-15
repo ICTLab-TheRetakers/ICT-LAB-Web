@@ -683,11 +683,11 @@ namespace ICT_LAB_Web.Controllers
         /// Check if a reservation already exists in the same timeslot and room
         /// </summary>
         /// <param name="model">Reservation object</param>
-        [HttpDelete("delete")]
+        [HttpDelete("checkIfExists")]
         [ProducesResponseType(typeof(bool), 200)]
         [ProducesResponseType(typeof(void), 400)]
         [ProducesResponseType(typeof(void), 500)]
-        public async Task<IActionResult> Delete([FromBody]ReservationViewModel model)
+        public async Task<IActionResult> CheckIfReservationExists([FromBody]ReservationViewModel model)
         {
             if (model == null)
             {
