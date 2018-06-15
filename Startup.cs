@@ -85,12 +85,17 @@ namespace ICT_LAB_Web
                 );
             });
 
-            //app.UseHangfireDashboard();
-            //app.UseHangfireServer();
+            app.UseHangfireDashboard();
+            app.UseHangfireServer();
 
-            var notification = new NotificationCreator();
+            var bgWorker = new BackgroundWorker();
 
-            //BackgroundJob.Enqueue(() => notification.Create("admin", "This notification is added through hangfire"));
+            // Check reservation time once an hour (from 6 AM to 10 PM) in order to send reminders
+            RecurringJob.AddOrUpdate(() => bgWorker.CheckReservationsForReminders(), "0 6-22 * * MON-FRI");
+
+            // Check Reservations and notifications once a week for deletions
+            RecurringJob.AddOrUpdate(() => bgWorker.CheckReservationsForDeletion(), "0 0 * * SUN");
+            RecurringJob.AddOrUpdate(() => bgWorker.CheckNotificationsForDeletion(), "0 0 * * SUN");
 
             //var email = new Email();
 
