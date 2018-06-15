@@ -13,12 +13,40 @@ namespace ICT_LAB_Web.Components.Helper
     public class NotificationCreator
     {
         INotificationRepository notificationRepository;
+        IReservationRepository reservationRepository;
+
         public NotificationCreator()
         {
             this.notificationRepository = new NotificationRepository();
+            this.reservationRepository = new ReservationRepository();
         }
 
-        public async Task Create(string id, string description)
+        public async Task CheckReservationsForReminders()
+        {
+            var reservations = await reservationRepository.GetByDate(DateTime.Now);
+            var threeHoursAgo = DateTime.Now.AddHours(-3);
+
+            var toSendNotification = reservations.Where(q => q.StartTime.CompareTo(threeHoursAgo) > 0).ToList();
+            foreach (Reservation reservation in toSendNotification)
+            {
+                var notifications = await notificationRepository.GetByUser(reservation.UserId, threeHoursAgo, DateTime.Now);
+                var description = "Reminder: Scheduled Room " + reservation.RoomCode + " for today at " + reservation.StartTime;
+                var send = true;
+                foreach (Notification notification in notifications)
+                {
+                    if (notification.Description == description)
+                    {
+                        send = false;
+                        break;
+                    }
+                }
+
+                if (send == true)
+                    await RoomReminder(reservation.UserId, reservation.RoomCode, reservation.StartTime);
+            }
+        }
+
+        private async Task Create(string id, string description)
         {
             var notification = new Notification
             {
@@ -29,7 +57,20 @@ namespace ICT_LAB_Web.Components.Helper
 
             await notificationRepository.Add(notification);   
         }
-        
+
+        public async Task RoomReminder(string user, string room, DateTime startTime)
+        {
+            var description = "Reminder: Scheduled Room " + room + " for today at " + startTime.ToString("HH:mm");
+
+            await Create(user, description);
+        }
+
+        public async Task RoomCanceled(string user, string room, string date)
+        {
+            var description = "Your reservation of Room " + room + " on " + date + " is cancelled";
+
+            await Create(user, description);
+        }
         
     }
 }

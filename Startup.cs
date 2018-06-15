@@ -90,7 +90,8 @@ namespace ICT_LAB_Web
 
             var notification = new NotificationCreator();
 
-            //BackgroundJob.Enqueue(() => notification.Create("admin", "This notification is added through hangfire"));
+
+            RecurringJob.AddOrUpdate(() => notification.CheckReservationsForReminders(), Cron.Hourly);
 
             //var email = new Email();
 
