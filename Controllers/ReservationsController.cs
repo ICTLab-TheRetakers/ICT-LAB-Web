@@ -585,7 +585,9 @@ namespace ICT_LAB_Web.Controllers
             {
                 return StatusCode(500, "A problem occured while saving the reservation. Please try again!");
             }
+            var user = await _userRepository.Get(reservation.UserId);
 
+            await _email.ReservationConfirmationEmail(user.Email, reservation.RoomCode, reservation.StartTime, reservation.EndTime);
 
             return Ok(new ReservationViewModel
             {
