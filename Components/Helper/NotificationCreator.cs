@@ -24,13 +24,12 @@ namespace ICT_LAB_Web.Components.Helper
         public async Task CheckReservationsForReminders()
         {
             var reservations = await reservationRepository.GetByDate(DateTime.Now);
-            var threeHoursAgo = DateTime.Now.AddHours(-3);
 
-            var toSendNotification = reservations.Where(q => q.StartTime.CompareTo(threeHoursAgo) > 0).ToList();
+            var toSendNotification = reservations.Where(q => q.StartTime.AddHours(-3).CompareTo(DateTime.Now) < 0).ToList();
             foreach (Reservation reservation in toSendNotification)
             {
-                var notifications = await notificationRepository.GetByUser(reservation.UserId, threeHoursAgo, DateTime.Now);
-                var description = "Reminder: Scheduled Room " + reservation.RoomCode + " for today at " + reservation.StartTime;
+                var notifications = await notificationRepository.GetByUser(reservation.UserId, DateTime.Now.AddHours(-3), DateTime.Now);
+                var description = "Reminder: Scheduled Room " + reservation.RoomCode + " for today at " + reservation.StartTime.ToString("HH:mm");
                 var send = true;
                 foreach (Notification notification in notifications)
                 {
@@ -42,7 +41,7 @@ namespace ICT_LAB_Web.Components.Helper
                 }
 
                 if (send == true)
-                    await RoomReminder(reservation.UserId, reservation.RoomCode, reservation.StartTime);
+                    await RoomReminder(reservation.UserId, reservation.RoomCode, reservation.StartTime.ToString("HH:mm"));
             }
         }
 
@@ -58,9 +57,9 @@ namespace ICT_LAB_Web.Components.Helper
             await notificationRepository.Add(notification);   
         }
 
-        public async Task RoomReminder(string user, string room, DateTime startTime)
+        public async Task RoomReminder(string user, string room, string startTime)
         {
-            var description = "Reminder: Scheduled Room " + room + " for today at " + startTime.ToString("HH:mm");
+            var description = "Reminder: Scheduled Room " + room + " for today at " + startTime;
 
             await Create(user, description);
         }
