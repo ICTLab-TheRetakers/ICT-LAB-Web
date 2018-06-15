@@ -1,5 +1,5 @@
 <div class="col-sm-12 col-md-10 offset-md-1 mx-auto">
-    <h2>Users</h2>
+    <h2 class="my-3">Users</h2>
 
     <table class="table">
         <thead>
@@ -20,27 +20,24 @@
                     <a [routerLink]="['edit', user.user_id]">Edit</a>
                 </td>
                 <td>
-                    <button type="button" (click)="deleteUser(user.user_id)">Delete</button>
-                </td>
-            </tr>
-            <tr class="pt-4"></tr>
-            <tr class="pt-4">
-                <td>
-                    <button [disabled]="pagedResult.current_page == 1" class="btn btn-primary" (click)="getPage(pagedResult.current_page - 1)">Prev</button>
-                </td>
-                <td></td>
-                <td></td>
-                <td>
-                    <button [disabled]="pagedResult.current_page == pagedResult.total_pages" class="btn btn-primary" (click)="getPage(pagedResult.current_page + 1)">Next</button>
+                    <a href="#" (click)="deleteUser(user.user_id)">Remove</a>
                 </td>
             </tr>
         </tbody>
     </table>
 
-    <a href="#" [routerLink]="['add']" class="btn btn-primary btn-sm mt-3" title="Add user">
-        <i class="fa fa-plus"></i>
-    </a>
-    <a href="#" [routerLink]="['import']" class="btn btn-primary btn-sm mt-3" title="Import by csv">
-        <i class="fa fa-file-text-o"></i>
-    </a>
+    <div class="buttons">
+        <div class="left">
+            <a href="#" [routerLink]="['add']" class="btn btn-primary btn-sm" title="Add user">
+                <i class="fa fa-plus"></i>
+            </a>
+            <a href="#" [routerLink]="['import']" class="btn btn-primary btn-sm" title="Import by csv">
+                <i class="fa fa-file-text-o"></i>
+            </a>
+        </div>
+        <div class="right" *ngIf="pagedResult != null">
+            <button [disabled]="pagedResult.current_page == pagedResult.total_pages" class="btn btn-primary" (click)="getPage(pagedResult.current_page + 1)">Next</button>
+            <button [disabled]="pagedResult.current_page == 1" class="btn btn-primary" (click)="getPage(pagedResult.current_page - 1)">Prev</button>
+        </div>
+    </div>
 </div>

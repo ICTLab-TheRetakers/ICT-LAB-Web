@@ -1,4 +1,6 @@
 <div class="col-sm-12 col-md-10 offset-md-1 mx-auto">
+    <h3 class="my-3">Add Reservation</h3>
+
     <form class="form-horizontal" *ngIf="reservations != null" #reservationForm="ngForm">
         <app-select-room [onlyAllowRooms]="true" [getSchedule]="false" (chosenObject)="getRoomChoice($event)"></app-select-room>
 

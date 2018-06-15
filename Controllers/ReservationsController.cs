@@ -211,6 +211,7 @@ namespace ICT_LAB_Web.Controllers
         /// <summary>
         /// Gets a list with all reservations by date.
         /// </summary>
+        /// <param name="date">Date of reservations</param>
         [HttpGet("getByDate")]
         [ProducesResponseType(typeof(IEnumerable<ReservationViewModel>), 200)]
         [ProducesResponseType(typeof(void), 400)]
