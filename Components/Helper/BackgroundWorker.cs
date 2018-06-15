@@ -11,12 +11,12 @@ using Hangfire;
 
 namespace ICT_LAB_Web.Components.Helper
 {
-    public class NotificationCreator
+    public class BackgroundWorker
     {
         INotificationRepository notificationRepository;
         IReservationRepository reservationRepository;
 
-        public NotificationCreator()
+        public BackgroundWorker()
         {
             this.notificationRepository = new NotificationRepository();
             this.reservationRepository = new ReservationRepository();
@@ -42,8 +42,28 @@ namespace ICT_LAB_Web.Components.Helper
                 }
 
                 if (send == true)
-                    BackgroundJob.Enqueue(() => RoomReminder(reservation.UserId, reservation.RoomCode, reservation.StartTime.ToString("HH:mm")));
+                    BackgroundJob.Enqueue(() => RoomReminderNotification(reservation.UserId, reservation.RoomCode, reservation.StartTime.ToString("HH:mm")));
             }
+        }
+        public async Task CheckReservationsForDeletion()
+        {
+            var reservations = await reservationRepository.GetAll();
+            var toDelete = reservations.Where(q => q.StartTime.CompareTo(DateTime.Now) < 0).ToList();
+
+            foreach(Reservation reservation in toDelete)
+            {
+                BackgroundJob.Enqueue(() => DeleteReservation(reservation.ReservationId));
+            }
+        }
+
+        public async Task CheckNotificationsForDeletion()
+        {
+            // to do
+        }
+
+        private async Task DeleteReservation(int id)
+        {
+            await reservationRepository.Delete(id);
         }
 
         private async Task Create(string id, string description)
@@ -58,14 +78,14 @@ namespace ICT_LAB_Web.Components.Helper
             await notificationRepository.Add(notification);   
         }
 
-        public async Task RoomReminder(string user, string room, string startTime)
+        public async Task RoomReminderNotification(string user, string room, string startTime)
         {
             var description = "Reminder: Scheduled Room " + room + " for today at " + startTime;
 
             await Create(user, description);
         }
 
-        public async Task RoomCanceled(string user, string room, string date)
+        public async Task RoomCanceledNotification(string user, string room, string date)
         {
             var description = "Your reservation of Room " + room + " on " + date + " is cancelled";
 
