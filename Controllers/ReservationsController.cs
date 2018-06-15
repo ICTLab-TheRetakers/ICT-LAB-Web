@@ -620,13 +620,6 @@ namespace ICT_LAB_Web.Controllers
                 return StatusCode(400, "Start time cannot be later than end time.");
             }
 
-            // Check if there are no reservations on the same day and time
-            var exists = await _reservationRepository.CheckIfReservationExistss(reservation);
-            if (exists)
-            {
-                return StatusCode(500, "A reservation has already been made for this time. Please choose a different time or room!");
-            }
-
             // Insert reservation
             var result = await _reservationRepository.Add(reservation);
             if (result == null)
@@ -684,13 +677,6 @@ namespace ICT_LAB_Web.Controllers
                 return StatusCode(400, "Start time cannot be later than end time.");
             }
 
-            // Check if there are no reservations on the same day and time
-            var exists = await _reservationRepository.CheckIfReservationExistss(reservation);
-            if (exists)
-            {
-                return StatusCode(500, "A reservation has already been made for this time. Please choose a different time or room!");
-            }
-
             // Update reservation
             var result = await _reservationRepository.Update(reservation);
             if (result == null)
@@ -732,6 +718,41 @@ namespace ICT_LAB_Web.Controllers
             }
 
             return Ok();
+        }
+
+        /// <summary>
+        /// Check if a reservation already exists in the same timeslot and room
+        /// </summary>
+        /// <param name="model">Reservation object</param>
+        [HttpDelete("delete")]
+        [ProducesResponseType(typeof(bool), 200)]
+        [ProducesResponseType(typeof(void), 400)]
+        [ProducesResponseType(typeof(void), 500)]
+        public async Task<IActionResult> Delete([FromBody]ReservationViewModel model)
+        {
+            if (model == null)
+            {
+                return StatusCode(400, "Invalid parameter(s).");
+            }
+
+            Reservation reservation = new Reservation
+            {
+                ReservationId = model.ReservationId,
+                RoomCode = model.RoomCode,
+                UserId = model.UserId,
+                StartTime = model.StartTime,
+                EndTime = model.EndTime,
+                Description = model.Description
+            };
+
+            // Check if already exists
+            var exists = await _reservationRepository.CheckIfReservationExists(reservation);
+            if (exists)
+            {
+                return StatusCode(500, "A reservation has already been made for this time. Please choose a different time or room!");
+            }
+
+            return Ok(exists);
         }
 
         private bool IsDateValid(DateTime dateTime)

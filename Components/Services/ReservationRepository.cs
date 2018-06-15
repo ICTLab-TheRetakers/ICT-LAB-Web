@@ -123,7 +123,7 @@ namespace ICT_LAB_Web.Components.Services
             return response;
         }
 
-        public async Task<bool> CheckIfReservationExistss(Reservation reservation)
+        public async Task<bool> CheckIfReservationExists(Reservation reservation)
         {
             List<Reservation> response = null;
             response = await _dbContext.Reservations.Where(q => q.RoomCode.ToLower() == reservation.RoomCode.ToLower()
