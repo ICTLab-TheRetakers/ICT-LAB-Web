@@ -20,16 +20,12 @@ export class UserComponent implements OnInit {
         this.getPage(1);
     }
 
-    getUsers() {
-        this._userService.getAll().subscribe(
-            (response) => this.users = response,
-            (error: HttpErrorResponse) => { throw error; }
-        );
-    }
-
     getPage(page: number) {
         this._userService.index(page).subscribe(
-            (response) => this.pagedResult = response,
+            (response) => {
+                this.pagedResult = response;
+                this.users = this.pagedResult.data;
+            },
             (error: HttpErrorResponse) => { throw error; }
         );
     }

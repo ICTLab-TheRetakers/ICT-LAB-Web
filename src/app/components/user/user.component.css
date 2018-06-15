@@ -1,32 +1,13 @@
-.list-group .list-group-item {
-    font-size: 14px;
-    line-height: 15px;
-    color: #333;
-    border: 1px solid rgba(0, 0, 0, 0.21);
-    border-bottom-color: rgb(128, 128, 128);
+/* Table */
+.table thead th:nth-child(4),
+.table thead th:nth-child(5) {
+    width: 10%;
 }
 
-.list-group .list-group-item a {
-    text-decoration: none;
-}
-
-.list-group .list-group-item .list-icons {
-    position: relative;
-    float: right;
-    margin-right: 15px;
-}
-
-.list-group .list-group-item .list-icons a {
-    font-size: 19px;
-    margin-left: 4px;
-}
-
-.list-group .list-group-item .list-icons a:nth-child(1) {
-    color: orange;
-}
-
-.list-group .list-group-item .list-icons a:nth-child(2) {
-    color: darkred;
+.table thead td:nth-child(3),
+.table thead td:nth-child(4) {
+    width: 10%;
+    text-align: center
 }
 
 /* Buttons and pager */
@@ -57,12 +38,12 @@
     position: absolute;
     right: 0;
 }
-
 .buttons .right button {
     width: 55px;
     position: relative;
     top: 50%;
 }
+
 
 .buttons .right button:nth-child(1) {
     position: absolute;
@@ -72,4 +53,15 @@
 .buttons .right button:nth-child(2) {
     position: absolute;
     right: 85px;
+}
+
+.edit-link i {
+    color: orange;
+    font-size: 1.15rem;
+}
+
+.remove-link i {
+    color: red;
+    font-size: 1.15rem;
+    cursor: pointer;
 }

@@ -81,7 +81,7 @@ export class AddReservationComponent implements OnInit {
     }
 
     removeRow(index: number) {
-        this.reservations = this.reservations.splice(index, 1);
+        this.reservations.splice(index, 1);
     }
 
     convertDatetime(reservation: Reservation): Reservation {

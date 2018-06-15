@@ -1,11 +1,22 @@
-<div class="col-sm-12 col-md-10 offset-md-1">
-    <h3 class="my-3">Add Room</h3>
+<a href="#" class="return" [routerLink]="['/rooms']" title="Return to previous page">
+    <i class="fa fa-arrow-left"></i>
+</a>
 
-    <form class="form-horizontal" *ngIf="room">
+<div class="col-sm-12 col-md-10 offset-md-1">
+    <h3 class="my-4 text-center">Add Room</h3>
+
+    <form class="form-horizontal mt-4" *ngIf="room" #roomForm="ngForm">
         <div class="form-row my-4">
             <div class="col-sm-12 col-md-6">
                 <label>Room Code</label>
-                <input type="text" class="form-control" [(ngModel)]="room.room_code" name="room_code">
+                <input type="text" class="form-control" [(ngModel)]="room.room_code" name="room_code" required #roomCodeModel>
+
+                <!-- Room code errors -->
+                <div *ngIf="roomCodeModel.errors && (roomCodeModel.dirty || roomCodeModel.touched)">
+                    <div [hidden]="!roomCodeModel.errors.required" class="text-danger font-weight-bold">
+                        Room code is required!
+                    </div>
+                </div>
             </div>
             <div class="col-sm-12 col-md-6"></div>
         </div>
@@ -13,30 +24,61 @@
         <div class="form-row my-4">
             <div class="col-sm-12 col-md-6">
                 <label>Smartboard available</label>
-                <input type="radio" name="smartboard" [(ngModel)]="room.has_smartboard" [value]="true" /> Yes
+                <input type="radio" name="smartboard" [(ngModel)]="room.has_smartboard" [value]="true" required #smartboardModel /> Yes
                 <input type="radio" name="smartboard" [(ngModel)]="room.has_smartboard" [value]="false" /> No
+
+                <!-- Smartboard errors -->
+                <div *ngIf="roomCodeModel.errors && (roomCodeModel.dirty || roomCodeModel.touched)">
+                    <div [hidden]="!roomCodeModel.errors.required" class="text-danger font-weight-bold">
+                        Smartboard availabe must be yes or no!
+                    </div>
+                </div>
             </div>
             <div class="col-sm-12 col-md-6">
                 <label>Computer available</label>
-                <input type="radio" name="computer" [(ngModel)]="room.has_computer" [value]="true" /> Yes
+                <input type="radio" name="computer" [(ngModel)]="room.has_computer" [value]="true" required #computerModel /> Yes
                 <input type="radio" name="computer" [(ngModel)]="room.has_computer" [value]="false" /> No
+
+                <!-- Computer errors -->
+                <div *ngIf="computerModel.errors && (computerModel.dirty || computerModel.touched)">
+                    <div [hidden]="!computerModel.errors.required" class="text-danger font-weight-bold">
+                        Computer availabe must be yes or no!
+                    </div>
+                </div>
             </div>
         </div>
 
         <div class="form-row my-4">
             <div class="col-sm-12 col-md-6">
                 <label>Room has windows</label>
-                <input type="radio" name="windows" [(ngModel)]="room.has_windows" [value]="true" /> Yes
+                <input type="radio" name="windows" [(ngModel)]="room.has_windows" [value]="true" required #windowModel /> Yes
                 <input type="radio" name="windows" [(ngModel)]="room.has_windows" [value]="false" /> No
+
+                <!-- Windows errors -->
+                <div *ngIf="windowModel.errors && (windowModel.dirty || windowModel.touched)">
+                    <div [hidden]="!windowModel.errors.required" class="text-danger font-weight-bold">
+                        Rooms has windows must be yes or no!
+                    </div>
+                </div>
             </div>
             <div class="col-sm-12 col-md-6">
                 <label>Student capacity</label>
-                <input type="number" name="capacity" [(ngModel)]="room.student_capacity" />
+                <input type="number" name="capacity" [(ngModel)]="room.student_capacity" min="1" required #capacityModel />
+
+                <!-- Capacity errors -->
+                <div *ngIf="roomCodeModel.errors && (roomCodeModel.dirty || roomCodeModel.touched)">
+                    <div [hidden]="!roomCodeModel.errors.required" class="text-danger font-weight-bold">
+                        Student capacity is required!
+                    </div>
+                </div>
+                <div [hidden]="!roomCodeModel.value == 0 || roomForm.controls['capacity']?.touched == false" class="text-danger font-weight-bold">
+                    Student capacity cannot be zero!
+                </div>
             </div>
         </div>
 
         <hr />
 
-        <button type="button" class="btn btn-primary float-right" (click)="submitForm()">Add</button>
+        <button [disabled]="!roomForm.form.valid" type="button" class="btn btn-primary float-right" (click)="submitForm()">Add</button>
     </form>
 </div>

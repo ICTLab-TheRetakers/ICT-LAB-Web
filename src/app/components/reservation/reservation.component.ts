@@ -30,20 +30,16 @@ export class ReservationComponent implements OnInit {
 
     getPage(page: number) {
         this._reservationService.index(this.currentUser.user_id, page).subscribe(
-            (response) => this.pagedResult = response,
+            (response) => {
+                this.pagedResult = response;
+                this.reservations = this.pagedResult.data;
+            },
             (error: HttpErrorResponse) => { throw error; }
         );
     }
 
     getCurrentUser() {
         this.currentUser = JSON.parse(sessionStorage.getItem('loggedInUser'));
-    }
-
-    getReservationsByUser() {
-        this._reservationService.get(this.currentUser.user_id).subscribe(
-            (response) => this.reservations = response,
-            (error: HttpErrorResponse) => { throw error; }
-        );
     }
 
     deleteReservation(id: number) {

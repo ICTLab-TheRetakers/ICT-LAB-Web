@@ -1,7 +1,11 @@
-<div class="col-sm-12 col-md-10 offset-md-1">
-    <h3 class="my-3">Import Users</h3>
+<a href="#" class="return" [routerLink]="['/users']" title="Return to previous page">
+    <i class="fa fa-arrow-left"></i>
+</a>
 
-    <form class="form-horizontal" #userForm="ngForm">
+<div class="col-sm-12 col-md-10 offset-md-1">
+    <h3 class="my-4 text-center">Import Users</h3>
+
+    <form class="form-horizontal mt-4" #userForm="ngForm">
         <div class="form-row my-4">
             <div class="col-sm-12 col-md-6 offset-md-3">
                 <label>Upload CSV file</label>

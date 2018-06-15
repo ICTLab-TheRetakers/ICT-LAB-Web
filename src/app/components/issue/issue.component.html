@@ -1,8 +1,8 @@
 <div class="col-sm-12 col-md-10 offset-md-1 mx-auto">
     <h2 class="my-3">Issues</h2>
 
-    <table class="table">
-        <thead>
+    <table class="table table-hover mt-2">
+        <thead class="thead-light">
             <tr>
                 <th>Reported on</th>
                 <th>Room</th>
@@ -11,8 +11,8 @@
                 <th></th>
             </tr>
         </thead>
-        <tbody *ngIf="pagedResult != null">
-            <tr *ngFor="let issue of pagedResult.data">
+        <tbody *ngIf="issues != null">
+            <tr *ngFor="let issue of issues">
                 <td>
                     <b>{{ issue.created_on | date: 'EEEE dd MMM' }}</b>
                 </td>
@@ -20,7 +20,9 @@
                 <td>{{ issue.description }}</td>
                 <td>{{ issue.resolved ? 'Yes' : 'No' }}</td>
                 <td>
-                    <a href="#" (click)="resolveIssue(issue.issue_id)">Resolve</a>
+                    <a *ngIf="issue.resolved == false" class="resolve-link" (click)="resolveIssue(issue.issue_id)" title="Mark as resolved">
+                        <i class="fa fa-check"></i> Mark as resolved
+                    </a>
                 </td>
             </tr>
         </tbody>
@@ -29,9 +31,13 @@
     <div class="buttons">
         <div class="left">
         </div>
-        <div class="right" *ngIf="pagedResult != null">
-            <button [disabled]="pagedResult.current_page == pagedResult.total_pages" class="btn btn-primary" (click)="getPage(pagedResult.current_page + 1)">Next</button>
-            <button [disabled]="pagedResult.current_page == 1" class="btn btn-primary" (click)="getPage(pagedResult.current_page - 1)">Prev</button>
+        <div class="right" *ngIf="pagedResult != null && pagedResult.total_pages > 1">
+            <button [disabled]="pagedResult.current_page == pagedResult.total_pages" class="btn btn-primary" (click)="getPage(pagedResult.current_page + 1)">
+                <i class="fa fa-chevron-right"></i>
+            </button>
+            <button [disabled]="pagedResult.current_page == 1" class="btn btn-primary" (click)="getPage(pagedResult.current_page - 1)">
+                <i class="fa fa-chevron-left"></i>
+            </button>
         </div>
     </div>
 </div>

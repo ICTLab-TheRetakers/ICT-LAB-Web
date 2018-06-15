@@ -31,16 +31,12 @@ export class RoomComponent implements OnInit {
         this.getPage(1);
     }
 
-    getRooms() {
-        this._roomService.getAllRooms().subscribe(
-            (response) => this.rooms = response,
-            (error: HttpErrorResponse) => { throw error; }
-        );
-    }
-
     getPage(page: number) {
         this._roomService.index(page).subscribe(
-            (response) => this.pagedResult = response,
+            (response) => {
+                this.pagedResult = response;
+                this.rooms = this.pagedResult.data;
+            },
             (error: HttpErrorResponse) => { throw error; }
         );
     }

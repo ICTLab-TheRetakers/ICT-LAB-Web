@@ -25,14 +25,10 @@ export class IssueComponent implements OnInit {
 
     getPage(page: number) {
         this._issueService.index(page).subscribe(
-            (response) => this.pagedResult = response,
-            (error: HttpErrorResponse) => { throw error; }
-        );
-    }
-
-    getIssues() {
-        this._issueService.getAll().subscribe(
-            (response) => this.issues = response,
+            (response) => {
+                this.pagedResult = response;
+                this.issues = this.pagedResult.data;
+            },
             (error: HttpErrorResponse) => { throw error; }
         );
     }
