@@ -42,7 +42,7 @@ namespace ICT_LAB_Web
                 options.AddPolicy("AllowAll", p => p.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
             });
 
-            services.AddHangfire(x => x.UsePostgreSqlStorage(@"Host=localhost; Database=hangfire; User Id=hangfire; Password=retakers;"));
+            //services.AddHangfire(x => x.UsePostgreSqlStorage(@"Host=localhost; Database=hangfire; User Id=hangfire; Password=retakers;"));
             
             services.AddMvc();
         }
@@ -85,17 +85,17 @@ namespace ICT_LAB_Web
                 );
             });
 
-            app.UseHangfireDashboard();
-            app.UseHangfireServer();
+            //app.UseHangfireDashboard();
+            //app.UseHangfireServer();
 
-            var bgWorker = new BackgroundWorker();
+            //var bgWorker = new BackgroundWorker();
 
-            // Check reservation time once an hour (from 6 AM to 10 PM) in order to send reminders
-            RecurringJob.AddOrUpdate(() => bgWorker.CheckReservationsForReminders(), "0 6-22 * * MON-FRI");
+            //// Check reservation time once an hour (from 6 AM to 10 PM) in order to send reminders
+            //RecurringJob.AddOrUpdate(() => bgWorker.CheckReservationsForReminders(), "0 6-22 * * MON-FRI");
 
-            // Check Reservations and notifications once a week for deletions
-            RecurringJob.AddOrUpdate(() => bgWorker.CheckReservationsForDeletion(), "0 0 * * SUN");
-            RecurringJob.AddOrUpdate(() => bgWorker.CheckNotificationsForDeletion(), "0 0 * * SUN");
+            //// Check Reservations and notifications once a week for deletions
+            //RecurringJob.AddOrUpdate(() => bgWorker.CheckReservationsForDeletion(), "0 0 * * SUN");
+            //RecurringJob.AddOrUpdate(() => bgWorker.CheckNotificationsForDeletion(), "0 0 * * SUN");
 
             //var email = new Email();
 

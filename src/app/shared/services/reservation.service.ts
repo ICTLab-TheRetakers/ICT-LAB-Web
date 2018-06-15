@@ -22,6 +22,11 @@ export class ReservationService {
             .catch(this.handleError);
     }
 
+    getByUserIdAndDates(user: string, from: string, till: string): Observable<Reservation[]> {
+        return this.http.get(this.baseUrl + 'get?user=' + user + '&from=' + from + '&till=' + till)
+            .catch(this.handleError);
+    }
+
     index(user: string, page: number, pageSize: number = 10): Observable<PaginationResult<Reservation>> {
         return this.http.get(this.baseUrl + 'index?user=' + user + '&page=' + page + '&pageSize=' + pageSize)
             .catch(this.handleError);
@@ -42,8 +47,8 @@ export class ReservationService {
             .catch(this.handleError);
     }
 
-    getBetweenDates(user: string, from: string, till: string): Observable<Reservation[]> {
-        return this.http.get(this.baseUrl + 'get?user=' + user + '&from=' + from + '&till=' + till)
+    getBetweenDates(date: string): Observable<Reservation[]> {
+        return this.http.get(this.baseUrl + 'getBetweenDates?date=' + date)
             .catch(this.handleError);
     }
 

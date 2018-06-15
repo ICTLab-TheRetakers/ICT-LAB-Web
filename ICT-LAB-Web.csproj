@@ -11,6 +11,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="csv\**" />
+    <Compile Remove="sql\**" />
+    <Content Remove="csv\**" />
+    <Content Remove="sql\**" />
+    <EmbeddedResource Remove="csv\**" />
+    <EmbeddedResource Remove="sql\**" />
+    <None Remove="csv\**" />
+    <None Remove="sql\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="src\app\shared\error.handler.ts" />
     <None Remove="src\app\shared\models\device.model.ts" />
     <None Remove="src\app\shared\models\issue.model.ts" />

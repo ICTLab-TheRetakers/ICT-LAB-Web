@@ -12,7 +12,7 @@ import User from '../../../shared/models/user.model';
 
 import * as moment from 'moment';
 import { HttpErrorResponse } from '@angular/common/http';
-import { ToastyService } from 'ng2-toasty';
+import { ToastyService, ToastOptions } from 'ng2-toasty';
 
 @Component({
     selector: 'app-add-reservation',
@@ -20,6 +20,7 @@ import { ToastyService } from 'ng2-toasty';
     styleUrls: ['./add-reservation.component.css']
 })
 export class AddReservationComponent implements OnInit {
+    toastOptions: ToastOptions;
     hours: string[] = environment.hours;
     reservations: Reservation[] = [];
     selectedRoom: Room = null;
@@ -28,7 +29,15 @@ export class AddReservationComponent implements OnInit {
     maxDate: string;
     date;
 
-    constructor(private _reservationService: ReservationService, private router: Router, private toastyService: ToastyService) { }
+    constructor(private _reservationService: ReservationService, private router: Router, private toastyService: ToastyService) {
+        this.toastOptions = {
+            title: 'Error',
+            msg: '',
+            theme: ' bootstrap',
+            showClose: true,
+            timeout: 4000
+        };
+    }
 
     ngOnInit() {
         this.getCurrentUser();
@@ -45,17 +54,28 @@ export class AddReservationComponent implements OnInit {
     }
 
     submitForm() {
+        let errorCount = 0;
         this.reservations.forEach(reservation => {
+
+            // Check if input values are valid
             this.date = reservation.date.toString();
             if (!moment(this.date).isBetween(moment().subtract(1, 'days'), moment().add(2, 'months'))) {
-                this.toastyService.error('You can only reserve a room within two months');
+                this.toastOptions.msg = 'You can only reserve a room within two months!';
+                this.toastyService.error(this.toastOptions);
 
             } else if (reservation.begin > reservation.end) {
-                this.toastyService.error('Ending time cannot be earlier than starting time.');
+                this.toastOptions.msg = 'Start time cannot be later than end time.';
+                this.toastyService.error(this.toastOptions);
             } else {
                 reservation = this.convertDatetime(reservation);
                 reservation.room_code = this.selectedRoom.room_code;
-                console.log(reservation.begin);
+
+                // Check if reservation not exists
+                if (this.checkIfReservationExists(reservation) == true) {
+                    this.toastOptions.msg = 'A reservation has already been made for this time. Please choose a different time or room!';
+                    this.toastyService.error(this.toastOptions);
+                }
+
                 this._reservationService.create(reservation).subscribe(
                     (response) => this.router.navigate(['/reservations']),
                     (error: HttpErrorResponse) => { throw error; }
@@ -95,5 +115,18 @@ export class AddReservationComponent implements OnInit {
 
 
         return reservation;
+    }
+
+    checkIfReservationExists(reservation: Reservation): boolean {
+        let existingReservation = null;
+        this._reservationService.getBetweenDates(moment(reservation.start_time).format('YYYY-MM-DDTHH:mm:ss')).subscribe(
+            (response) => existingReservation = response,
+            (error: HttpErrorResponse) => { throw error; }
+        );
+
+        if (existingReservation != null) {
+            return true;
+        }
+        return false;
     }
 }

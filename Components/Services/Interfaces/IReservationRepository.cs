@@ -13,8 +13,10 @@ namespace ICT_LAB_Web.Components.Services.Interfaces
         Task<List<Reservation>> GetByRoom(string room, DateTime? from, DateTime? till);
         Task<List<Reservation>> GetAll();
         Task<List<Reservation>> GetByDate(DateTime date);
+        Task<List<Reservation>> GetBetweenDates(DateTime date);
         Task<Reservation> Add(Reservation reservation);
         Task<Reservation> Update(Reservation reservation);
         Task<bool> Delete(int? id);
+        Task<bool> CheckIfReservationExistss(Reservation reservation);
     }
 }

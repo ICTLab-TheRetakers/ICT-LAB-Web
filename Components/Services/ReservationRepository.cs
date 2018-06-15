@@ -66,6 +66,12 @@ namespace ICT_LAB_Web.Components.Services
             return response;
         }
 
+        public async Task<List<Reservation>> GetBetweenDates(DateTime date)
+        {
+            List<Reservation>  response = await _dbContext.Reservations.Where(q => q.StartTime >= date && date <= q.EndTime).ToListAsync();
+            return response;
+        }
+
         public async Task<Reservation> GetById(int? id)
         {
             var response = await _dbContext.Reservations.FirstOrDefaultAsync(q => q.ReservationId == id.Value);
@@ -114,6 +120,20 @@ namespace ICT_LAB_Web.Components.Services
             }
 
             return response;
+        }
+
+        public async Task<bool> CheckIfReservationExistss(Reservation reservation)
+        {
+            List<Reservation> response = null;
+            response = await _dbContext.Reservations.Where(q => q.RoomCode.ToLower() == reservation.RoomCode.ToLower()
+                        && q.StartTime >= reservation.StartTime && q.EndTime <= reservation.StartTime).ToListAsync();
+
+            if (response != null || response.Count > 0)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }

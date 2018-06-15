@@ -286,7 +286,7 @@ namespace ICT_LAB_Web.Controllers
                 return StatusCode(404, "Lessons could not be found.");
             }
 
-            //Convert to view model
+            // Convert to view model
             var result = new ScheduleViewModel(data);
 
             return Ok(result);
@@ -434,14 +434,14 @@ namespace ICT_LAB_Web.Controllers
                 startDate = DateTime.ParseExact(start, "yyyy-MM-ddTHH:mm:ss", null);
             }
 
-            //Get reservations
+            // Get reservations
             var data = await _reservationRepository.GetByStart(user, startDate);
             if (data == null)
             {
                 return StatusCode(404, String.Format("Unable to find reservation for '{0}' on '{1}'.", user, startDate.Value.ToString("dd-MM HH:mm")));
             }
 
-            //Convert to view model
+            // Convert to view model
             var result = new ReservationViewModel
             {
                 ReservationId = data.ReservationId,
@@ -460,7 +460,7 @@ namespace ICT_LAB_Web.Controllers
         /// </summary>
         /// <param name="user">Id of user</param>
         /// <param name="from">Beginning of datetime reservations</param>
-        /// <param name="till">End of datetine reservations</param>
+        /// <param name="till">End of datetime reservations</param>
         [HttpGet("get")]
         [ProducesResponseType(typeof(IEnumerable<ReservationViewModel>), 200)]
         [ProducesResponseType(typeof(void), 400)]
@@ -480,7 +480,7 @@ namespace ICT_LAB_Web.Controllers
                 tillDate = DateTime.ParseExact(till, "yyyy-MM-ddTHH:mm:ss", null);
             }
 
-            //Get reservations
+            // Get reservations
             var data = await _reservationRepository.Get(user, fromDate, tillDate);
             if (data == null)
             {
@@ -495,7 +495,7 @@ namespace ICT_LAB_Web.Controllers
                 }
             }
 
-            //Convert to view model
+            // Convert to view model
             var result = data.Select(x => new ReservationViewModel
             {
                 ReservationId = x.ReservationId,
@@ -510,7 +510,45 @@ namespace ICT_LAB_Web.Controllers
         }
 
         /// <summary>
-        /// Gets a list with all reservations based on user and between a certain datetime.
+        /// Gets a list with all reservations based on a certain datetime.
+        /// </summary>
+        /// <param name="date">Beginning of datetime reservations</param>
+        [HttpGet("getBetweenDates")]
+        [ProducesResponseType(typeof(IEnumerable<ReservationViewModel>), 200)]
+        [ProducesResponseType(typeof(void), 400)]
+        [ProducesResponseType(typeof(void), 404)]
+        public async Task<IActionResult> GetBetweenDates(string date)
+        {
+            if (String.IsNullOrEmpty(date))
+            {
+                return StatusCode(400, "Invalid parameter(s).");
+            }
+
+            // Get reservations
+            DateTime fromDate = DateTime.ParseExact(date, "yyyy-MM-ddTHH:mm:ss", null);
+            var data = await _reservationRepository.GetBetweenDates(fromDate);
+            if (data == null)
+            {
+                return StatusCode(404, String.Format("Unable to find any reservation(s) for '{0}'.",
+                                    fromDate.ToString("dd-MM HH:mm")));
+            }
+
+            // Convert to view model
+            var result = data.Select(x => new ReservationViewModel
+            {
+                ReservationId = x.ReservationId,
+                UserId = x.UserId,
+                RoomCode = x.RoomCode,
+                StartTime = x.StartTime,
+                EndTime = x.EndTime,
+                Description = x.Description
+            });
+
+            return Ok(result);
+        }
+
+        /// <summary>
+        /// Gets a reservation by id.
         /// </summary>
         /// <param name="reservation">Id of reservation</param>
         [HttpGet("getById")]
@@ -524,14 +562,14 @@ namespace ICT_LAB_Web.Controllers
                 return StatusCode(400, "Invalid parameter(s).");
             }
 
-            //Get reservations
+            // Get reservations
             var data = await _reservationRepository.GetById(reservation.Value);
             if (data == null)
             {
                 return StatusCode(404, String.Format("Unable to find reservation with ID '{0}'.", reservation.Value));
             }
 
-            //Convert to view model
+            // Convert to view model
             var result = new ReservationViewModel
             {
                 ReservationId = data.ReservationId,
@@ -579,14 +617,22 @@ namespace ICT_LAB_Web.Controllers
                 return StatusCode(400, "Start time cannot be later than end time.");
             }
 
-            //Insert reservation
+            // Check if there are no reservations on the same day and time
+            var exists = await _reservationRepository.CheckIfReservationExistss(reservation);
+            if (exists)
+            {
+                return StatusCode(500, "A reservation has already been made for this time. Please choose a different time or room!");
+            }
+
+            // Insert reservation
             var result = await _reservationRepository.Add(reservation);
             if (result == null)
             {
                 return StatusCode(500, "A problem occured while saving the reservation. Please try again!");
             }
-            var user = await _userRepository.Get(reservation.UserId);
 
+            // Send email for confirmation
+            var user = await _userRepository.Get(reservation.UserId);
             await _email.ReservationConfirmationEmail(user.Email, reservation.RoomCode, reservation.StartTime, reservation.EndTime);
 
             return Ok(new ReservationViewModel
@@ -635,7 +681,14 @@ namespace ICT_LAB_Web.Controllers
                 return StatusCode(400, "Start time cannot be later than end time.");
             }
 
-            //Update reservation
+            // Check if there are no reservations on the same day and time
+            var exists = await _reservationRepository.CheckIfReservationExistss(reservation);
+            if (exists)
+            {
+                return StatusCode(500, "A reservation has already been made for this time. Please choose a different time or room!");
+            }
+
+            // Update reservation
             var result = await _reservationRepository.Update(reservation);
             if (result == null)
             {
@@ -668,7 +721,7 @@ namespace ICT_LAB_Web.Controllers
                 return StatusCode(400, "Invalid parameter(s).");
             }
 
-            //Remove reservation
+            // Remove reservation
             var succeeded = await _reservationRepository.Delete(reservation.Value);
             if (!succeeded)
             {
