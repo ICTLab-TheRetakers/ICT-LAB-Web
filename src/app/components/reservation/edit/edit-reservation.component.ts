@@ -25,7 +25,6 @@ export class EditReservationComponent implements OnInit {
     reservation: Reservation;
     currentUser: User = null;
     reservationId: number;
-    errorCount: number = 0;
     minDate: string;
     maxDate: string;
     
@@ -51,18 +50,8 @@ export class EditReservationComponent implements OnInit {
     }
 
     submitForm() {
-        this.convertDatetime();
-
-        if (this.errorCount > 0) {
-            this.toastOptions.msg = 'The reservation on \'' + moment(this.reservation.date).format('MMMM Do') + ' at ' + this.reservation.begin
-                + '\' is already taken. Please choose a different time or room!';
-            this.toastyService.error(this.toastOptions);
-
-            this.errorCount = 0;
-        }
-
-        // Check if reservation not exists, if so, then save reservation
-        this.checkIfReservationExists(this.reservation);
+        this.convertDatetime()
+        this.updateReservation(this.reservation);
     }
 
     setMinAndMaxDate() {
@@ -113,16 +102,4 @@ export class EditReservationComponent implements OnInit {
         );
     }
 
-    checkIfReservationExists(reservation: Reservation) {
-        this._reservationService.checkIfExists(reservation).subscribe(
-            (response) => {
-                if (response == false) {
-                    this.updateReservation(reservation);
-                } else {
-                    this.errorCount++;
-                }
-            },
-            (error: HttpErrorResponse) => { throw error; }
-        );
-    }
 }
