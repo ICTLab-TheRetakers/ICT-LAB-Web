@@ -9,9 +9,9 @@
         <div class="form-row">
             <div class="col-sm-12 col-md-8 offset-md-2">
                 <label for="issue">Describe the problems you are having</label>
-                <textarea id="issue" name="issue" class="form-control" rows="5" [(ngModel)]="issue.description" required #descriptionModel></textarea>
+                <textarea name="desc" class="form-control" rows="5" [(ngModel)]="issue.description" required #descriptionModel></textarea>
 
-                <div class="text-danger font-weight-bold" [hidden]="descriptionModel.value.length == 0 || issueForm.controls['issue']?.touched == false">
+                <div class="text-danger font-weight-bold" [hidden]="descriptionModel.value.length > 0 || issueForm.controls['desc']?.touched == false">
                     Description cannot be empty!
                 </div>
             </div>

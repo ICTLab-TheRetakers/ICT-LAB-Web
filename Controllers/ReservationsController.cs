@@ -78,7 +78,7 @@ namespace ICT_LAB_Web.Controllers
             var paging = new PaginationResult<ReservationViewModel>(page.Value, totalPages, requestedData);
             var pagingResult = new PaginationResultViewModel<ReservationViewModel>
             {
-                Data = paging.Data,
+                Data = paging.Data.OrderBy(o => o.StartTime).ToList(),
                 TotalPages = paging.TotalPages,
                 CurrentPage = paging.CurrentPage
             };
@@ -127,7 +127,7 @@ namespace ICT_LAB_Web.Controllers
             var paging = new PaginationResult<ReservationViewModel>(page.Value, totalPages, requestedData);
             var pagingResult = new PaginationResultViewModel<ReservationViewModel>
             {
-                Data = paging.Data,
+                Data = paging.Data.OrderBy(o => o.StartTime).ToList(),
                 TotalPages = paging.TotalPages,
                 CurrentPage = paging.CurrentPage
             };
@@ -570,7 +570,7 @@ namespace ICT_LAB_Web.Controllers
             };
 
             // Return error message when date is not valid
-            if (!IsDateValid(reservation.StartTime) || !IsDateValid(reservation.EndTime))
+            if (!IsDateValid(reservation.StartTime, false) || !IsDateValid(reservation.EndTime, false))
             {
                 return StatusCode(400, "The date or time is not valid.");
             }
@@ -634,7 +634,7 @@ namespace ICT_LAB_Web.Controllers
             };
 
             // Return error message when date is not valid
-            if (!IsDateValid(reservation.StartTime) || !IsDateValid(reservation.EndTime))
+            if (!IsDateValid(reservation.StartTime, true) || !IsDateValid(reservation.EndTime, true))
             {
                 return StatusCode(400, "The date or time is not valid.");
             }
@@ -721,7 +721,7 @@ namespace ICT_LAB_Web.Controllers
             return Ok(false);
         }
 
-        private bool IsDateValid(DateTime dateTime)
+        private bool IsDateValid(DateTime dateTime, bool isUpdate)
         {
             var valid = true;
             var today = DateTime.Now;
@@ -733,7 +733,7 @@ namespace ICT_LAB_Web.Controllers
                 valid = false;
             }
             // Check if date is equal or greater than todays date
-            if (dateTime < today)
+            if (dateTime < today && !isUpdate)
             {
                 valid = false;
             }
