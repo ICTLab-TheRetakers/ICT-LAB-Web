@@ -15,24 +15,24 @@ export class RoomReadingService {
 
     constructor(private http: HttpClient) { }
 
-    get(room: string, type: string): Observable<Roomreading[]> {
-        return this.http.get(this.baseUrl + 'get?room=' + room + '&type=' + type)
+    get(device: number, type: string): Observable<Roomreading[]> {
+        return this.http.get(this.baseUrl + 'get?device=' + device + '&type=' + type)
             .catch(this.handleError);
     }
 
-    getByDate(room: string, type: string, from: string, till: string): Observable<Roomreading[]> {
-        return this.http.get(this.baseUrl + 'get?room=' + room + '&type=' + type
+    getByDate(device: number, type: string, from: string, till: string): Observable<Roomreading[]> {
+        return this.http.get(this.baseUrl + 'get?device=' + device + '&type=' + type
             + '&from=' + from + '&till=' + till)
             .catch(this.handleError);
     }
 
-    getByRoom(room: string): Observable<Roomreading[]> {
-        return this.http.get(this.baseUrl + 'getByRoom?room=' + room)
+    getByDevice(device: number): Observable<Roomreading[]> {
+        return this.http.get(this.baseUrl + 'getByDevice?device=' + device)
             .catch(this.handleError);
     }
 
-    getByRoomLimit(room: string, limit: number): Observable<Roomreading[]> {
-        return this.http.get(this.baseUrl + 'getByRoom?room=' + room + '&limit=' + limit)
+    getByDeviceLimit(device: number, limit: number): Observable<Roomreading[]> {
+        return this.http.get(this.baseUrl + 'getByDevice?device=' + device + '&limit=' + limit)
             .catch(this.handleError);
     }
 
@@ -41,8 +41,8 @@ export class RoomReadingService {
             .catch(this.handleError);
     }
 
-    delete(room: string): Observable<boolean> {
-        return this.http.delete(this.baseUrl + 'delete?room=' + room)
+    delete(device: string): Observable<boolean> {
+        return this.http.delete(this.baseUrl + 'delete?device=' + device)
             .catch(this.handleError);
     }
 

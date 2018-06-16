@@ -24,26 +24,26 @@ namespace ICT_LAB_Web.Controllers
         }
 
         /// <summary>
-        /// Gets a list with all readings of a certain room.
+        /// Gets a list with all readings of a certain device.
         /// </summary>
-        /// <param name="room">Room code</param>
+        /// <param name="device">Device id</param>
         /// <param name="limit">Limit of readings</param>
-        [HttpGet("getByRoom")]
+        [HttpGet("getByDevice")]
         [ProducesResponseType(typeof(IEnumerable<RoomReadingViewModel>), 200)]
         [ProducesResponseType(typeof(void), 400)]
         [ProducesResponseType(typeof(void), 500)]
-        public async Task<IActionResult> GetByRoom(string room, int? limit)
+        public async Task<IActionResult> GetByDevice(int? device, int? limit)
         {
-            if (String.IsNullOrEmpty(room))
+            if (!device.HasValue)
             {
                 return StatusCode(400, "Invalid parameter(s).");
             }
 
             //Get data
-            var data = limit.HasValue ? await _roomReadingRepository.GetByRoom(room, limit.Value) : await _roomReadingRepository.GetByRoom(room);
+            var data = limit.HasValue ? await _roomReadingRepository.GetByDevice(device.Value, limit.Value) : await _roomReadingRepository.GetByDevice(device.Value);
             if (data == null)
             {
-                return StatusCode(404, String.Format("Unable to find any room readings in room '{0}'.", room));
+                return StatusCode(404, String.Format("Unable to find any room readings measured by device '{0}'.", device));
             }
 
             //Convert to view model
@@ -59,19 +59,19 @@ namespace ICT_LAB_Web.Controllers
         }
 
         /// <summary>
-        /// Gets a list with all readings of a certain room, based on type reading and between a certain datetime.
+        /// Gets a list with all readings of a certain device, based on type reading and between a certain datetime.
         /// </summary>
-        /// <param name="room">Room code</param>
+        /// <param name="device">Device id</param>
         /// <param name="type">Type of reading: ex. temp, light or humidity</param>
         /// <param name="from">Beginning of datetime readings</param>
-        /// <param name="till">End of datetine readings</param>
+        /// <param name="till">End of datetime readings</param>
         [HttpGet("get")]
         [ProducesResponseType(typeof(IEnumerable<RoomReadingViewModel>), 200)]
         [ProducesResponseType(typeof(void), 400)]
         [ProducesResponseType(typeof(void), 500)]
-        public async Task<IActionResult> Get(string room, string type, string from, string till)
+        public async Task<IActionResult> Get(int? device, string type, string from, string till)
         {
-            if (String.IsNullOrEmpty(room) || String.IsNullOrEmpty(type))
+            if (!device.HasValue || String.IsNullOrEmpty(type))
             {
                 return StatusCode(400, "Invalid parameter(s).");
             }
@@ -85,10 +85,10 @@ namespace ICT_LAB_Web.Controllers
             }
 
             //Get data
-            var data = await _roomReadingRepository.Get(room, type, fromDate, tillDate);
+            var data = await _roomReadingRepository.Get(device.Value, type, fromDate, tillDate);
             if (data == null)
             {
-                return StatusCode(404, String.Format("Unable to find any {0} readings in room '{1}' between '{2}' and '{3}'.", type, room,
+                return StatusCode(404, String.Format("Unable to find any {0} readings'measured by device '{1}' between '{2}' and '{3}'.", type, device.Value,
                     fromDate.Value.ToString("dd-MM HH:mm"), tillDate.Value.ToString("dd-MM HH:mm")));
             }
 
@@ -143,22 +143,22 @@ namespace ICT_LAB_Web.Controllers
             });
         }
         /// <summary>
-        /// Deletes all readings from a room.
+        /// Deletes all readings measured by a device
         /// </summary>
-        /// <param name="room">Room code</param>
+        /// <param name="device">Device id</param>
         [HttpDelete("delete")]
         [ProducesResponseType(typeof(void), 200)]
         [ProducesResponseType(typeof(void), 400)]
         [ProducesResponseType(typeof(void), 500)]
-        public async Task<IActionResult> Delete(string room)
+        public async Task<IActionResult> Delete(int? device)
         {
-            if (String.IsNullOrEmpty(room))
+            if (!device.HasValue)
             {
                 return StatusCode(400, "Invalid parameter(s).");
             }
 
-            //Remove all readings from room
-            var succeeded = await _roomReadingRepository.Delete(room);
+            //Remove all readings from device
+            var succeeded = await _roomReadingRepository.Delete(device.Value);
             if (!succeeded)
             {
                 return StatusCode(500, "A problem occured while removing the readings. Please try again!");

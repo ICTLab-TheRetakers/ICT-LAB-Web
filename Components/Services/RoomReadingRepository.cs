@@ -2,9 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
 using ICT_LAB_Web.Components.DataContext;
 using ICT_LAB_Web.Components.Entities;
 using ICT_LAB_Web.Components.Services.Interfaces;
+
 using Microsoft.EntityFrameworkCore;
 
 namespace ICT_LAB_Web.Components.Services
@@ -21,9 +23,9 @@ namespace ICT_LAB_Web.Components.Services
             return reading;
         }
 
-        public async Task<bool> Delete(string room)
+        public async Task<bool> Delete(int device)
         {
-            List<RoomReading> readingsToDelete = await _dbContext.RoomReadings.Include(i => i.DeviceIdNavigation).Where(q => q.DeviceIdNavigation.RoomCode == room)
+            List<RoomReading> readingsToDelete = await _dbContext.RoomReadings.Include(i => i.DeviceIdNavigation).Where(q => q.DeviceId == device)
                 .ToListAsync();
             _dbContext.RoomReadings.RemoveRange(readingsToDelete);
 
@@ -31,32 +33,32 @@ namespace ICT_LAB_Web.Components.Services
             return result == 0 ? true : false;
         }
 
-        public async Task<List<RoomReading>> Get(string room, string type, DateTime? from, DateTime? till)
+        public async Task<List<RoomReading>> Get(int device, string type, DateTime? from, DateTime? till)
         {
             List<RoomReading> response;
             if (!from.HasValue && !till.HasValue)
             {
-                response = await _dbContext.RoomReadings.Include(i => i.DeviceIdNavigation).Where(q => q.DeviceIdNavigation.RoomCode.ToLower() == room.ToLower()
+                response = await _dbContext.RoomReadings.Include(i => i.DeviceIdNavigation).Where(q => q.DeviceId == device
                 && q.Type == type)
                     .ToListAsync();
             }
             else
             {
-                response = await _dbContext.RoomReadings.Include(i => i.DeviceIdNavigation).Where(q => q.DeviceIdNavigation.RoomCode.ToLower() == room.ToLower()
+                response = await _dbContext.RoomReadings.Include(i => i.DeviceIdNavigation).Where(q => q.DeviceId == device
                         && q.CreatedOn >= from.Value && q.CreatedOn <= till.Value && q.Type.ToLower() == type.ToLower()).ToListAsync();
             }
 
             return response;
         }
 
-        public Task<List<RoomReading>> GetByRoom(string room)
+        public Task<List<RoomReading>> GetByDevice(int device)
         {
-            return _dbContext.RoomReadings.Include(i => i.DeviceIdNavigation).Where(q => q.DeviceIdNavigation.RoomCode.ToLower() == room.ToLower()).ToListAsync();
+            return _dbContext.RoomReadings.Include(i => i.DeviceIdNavigation).Where(q => q.DeviceId == device).ToListAsync();
         }
 
-        public Task<List<RoomReading>> GetByRoom(string room, int limit)
+        public Task<List<RoomReading>> GetByDevice(int device, int limit)
         {
-            return _dbContext.RoomReadings.Include(i => i.DeviceIdNavigation).Where(q => q.DeviceIdNavigation.RoomCode.ToLower() == room.ToLower()).OrderByDescending(o => o.CreatedOn).Take(limit).ToListAsync();
+            return _dbContext.RoomReadings.Include(i => i.DeviceIdNavigation).Where(q => q.DeviceId == device).OrderByDescending(o => o.CreatedOn).Take(limit).ToListAsync();
         }
     }
 }

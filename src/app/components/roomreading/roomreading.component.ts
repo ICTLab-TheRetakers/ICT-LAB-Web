@@ -9,9 +9,11 @@ import { RoomService } from '../../shared/services/room.service';
 import Roomreading from '../../shared/models/reading.model';
 import Room from '../../shared/models/room.model';
 import ReadingViewModel from '../../shared/models/viewmodels/reading.viewmodel';
+import Device from '../../shared/models/device.model';
 
 import { SelectRoomComponent } from '../room/select-room/select-room.component';
 import { SharedService } from '../../shared/services/shared.service';
+import { DeviceService } from '../../shared/services/device.service';
 
 
 @Component({
@@ -20,11 +22,14 @@ import { SharedService } from '../../shared/services/shared.service';
     styleUrls: ['./roomreading.component.css']
 })
 export class RoomReadingComponent implements OnInit {
-    readings: Roomreading[] = [];
-    roomCode: string;
-    selectedRoom: Room = null;
     toastOptions: ToastOptions;
     limit: number = 20;
+
+    roomCode: string;
+    readings: Roomreading[] = [];
+
+    device: Device = null;
+    selectedRoom: Room = null;
 
     temperature: number;
     sound: number;
@@ -32,8 +37,8 @@ export class RoomReadingComponent implements OnInit {
     humidity: number;
     created_on: Date;
 
-    constructor(private _readingService: RoomReadingService, private _roomService: RoomService, private _sharedService: SharedService,
-        private route: ActivatedRoute, private router: Router) {}
+    constructor(private _readingService: RoomReadingService, private _deviceService: DeviceService, private _sharedService: SharedService,
+        private route: ActivatedRoute, private router: Router) { }
 
     ngOnInit() {
         this.checkIfRoomAvailable();
@@ -46,16 +51,36 @@ export class RoomReadingComponent implements OnInit {
         }
     }
 
-    getLatestReadings() {
-        this._readingService.getByRoomLimit(this.selectedRoom.room_code, this.limit).subscribe(
+    getRoomChoice(event: any) {
+        this.selectedRoom = <Room>event;
+
+        setTimeout(() => {
+            this.getDeviceByRoom();
+        }, 500);
+    }
+
+    getDeviceByRoom() {
+        this._deviceService.getByRoom(this.selectedRoom.room_code).subscribe(
             (response) => {
-                if (response != null || response.length > 0) {
-                    this.readings = response;
-                    this.sortByLatest();
-                }
+                this.device = response[0];
+                this.getLatestReadings();
             },
-            (error: HttpErrorResponse) => {  }
+            (error: HttpErrorResponse) => { throw error; }
         );
+    }
+
+    getLatestReadings() {
+        if (this.device != null) {
+            this._readingService.getByDeviceLimit(this.device.device_id, this.limit).subscribe(
+                (response) => {
+                    if (response != null || response.length > 0) {
+                        this.readings = response;
+                        this.sortByLatest();
+                    }
+                },
+                (error: HttpErrorResponse) => { }
+            );
+        }
     }
 
     sortByLatest() {
@@ -65,18 +90,12 @@ export class RoomReadingComponent implements OnInit {
         this.setReadingsData();
     }
 
-    getLastHour() {
-        var hour = 60 * 60 * 1000
-        var pastHour = Date.now() - hour;
-        this.readings = this.readings.filter(f => new Date(f.created_on).getTime() >= pastHour);
-    }
-
     setReadingsData() {
         if (this.readings.length > 0) {
             this.temperature = this.readings.filter(f => f.type == 'temp')[0] != null ? this.readings.filter(f => f.type == 'temp')[0].value : -1;
             this.humidity = this.readings.filter(f => f.type == 'humidity')[0] != null ? this.readings.filter(f => f.type == 'humidity')[0].value : -1;
             this.sound = this.readings.filter(f => f.type == 'sound')[0] != null ? this.readings.filter(f => f.type == 'sound')[0].value : -1;
-            this.light = this.readings.filter(f => f.type == 'light')[0] != null ? this.readings.filter(f => f.type == 'light')[0].value: -1;
+            this.light = this.readings.filter(f => f.type == 'light')[0] != null ? this.readings.filter(f => f.type == 'light')[0].value : -1;
 
             var type = '';
             if (this.temperature != -1) {
@@ -93,13 +112,5 @@ export class RoomReadingComponent implements OnInit {
             }
             this.created_on = this.readings.filter(f => f.type == type)[0] != null ? new Date(this.readings.filter(f => f.type == type)[0].created_on) : null;
         }
-    }
-
-    getRoomChoice(event: any) {
-        this.selectedRoom = <Room>event;
-
-        setTimeout(() => {
-            this.getLatestReadings();
-        }, 500);
     }
 }

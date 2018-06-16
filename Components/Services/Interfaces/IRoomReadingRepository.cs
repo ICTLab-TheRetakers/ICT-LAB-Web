@@ -7,10 +7,10 @@ namespace ICT_LAB_Web.Components.Services.Interfaces
 {
     public interface IRoomReadingRepository
     {
-        Task<List<RoomReading>> Get(string room, string type, DateTime? from, DateTime? till);
-        Task<List<RoomReading>> GetByRoom(string room);
-        Task<List<RoomReading>> GetByRoom(string room, int limit);
+        Task<List<RoomReading>> Get(int device, string type, DateTime? from, DateTime? till);
+        Task<List<RoomReading>> GetByDevice(int device);
+        Task<List<RoomReading>> GetByDevice(int device, int limit);
         Task<RoomReading> Add(RoomReading reading);
-        Task<bool> Delete(string room);
+        Task<bool> Delete(int device);
     }
 }
