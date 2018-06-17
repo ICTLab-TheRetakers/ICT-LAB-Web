@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light">
+<nav class="navbar navbar-expand-lg navbar-light" [ngClass]="{'navbarAdmin': user?.role_id == 1}">
     <a class="navbar-brand" href="#">Hogeschool Rotterdam</a>
     <div class="ml-auto" *ngIf="user != null">
 
@@ -23,6 +23,10 @@
                     <a [routerLink]="['/users/details/', user.user_id]" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
                        class="nav-link">Profile</a>
                 </li>
+                <li class="nav-item" [hidden]="user.role_id == 2||user.role_id == 3">
+                        <a [routerLink]="['/users']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+                           class="nav-link">Users</a>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link" style="cursor: pointer;" (click)="signOut()">Sign out</a>
                 </li>
@@ -31,7 +35,7 @@
     </div>
 </nav>
 
-<aside class="bg-faded sidebar">
+<aside class="bg-faded sidebar" [ngClass]="{'sidebarAdmin': user?.role_id == 1}">
     <app-notification *ngIf="this.isLoggedIn"></app-notification>
     <ul class="nav nav-pills flex-column nav-bottom">
         <li class="nav-item">

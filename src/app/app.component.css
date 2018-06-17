@@ -6,6 +6,10 @@
     z-index: 999;
 }
 
+.navbarAdmin {
+    background-color: #0610ce;
+}
+
 .navbar .navbar-brand {
     font-weight: 700;
 }
@@ -58,6 +62,11 @@ main {
     transition: all 0.3s;
     text-align: center;
 }
+
+.sidebarAdmin {
+    background-color: #0610ce;
+}
+
 
 .sidebar h4 {
     color: #fff;
