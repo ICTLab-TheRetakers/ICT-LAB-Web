@@ -47,7 +47,7 @@ export class RoomReadingComponent implements OnInit {
     checkIfRoomAvailable() {
         if (this._sharedService.getData('room') != null) {
             this.selectedRoom = this._sharedService.getData('room').value;
-            this.getLatestReadings();
+            this.getDeviceByRoom();
         }
     }
 
@@ -63,6 +63,8 @@ export class RoomReadingComponent implements OnInit {
         this._deviceService.getByRoom(this.selectedRoom.room_code).subscribe(
             (response) => {
                 this.device = response[0];
+
+                this.readings = [];
                 this.getLatestReadings();
             },
             (error: HttpErrorResponse) => { throw error; }
