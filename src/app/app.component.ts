@@ -15,10 +15,11 @@ export class AppComponent implements OnInit {
     isLoggedIn: boolean = false;
 
     constructor(private authService: AuthenticationService, private route: ActivatedRoute,
-        private router: Router) { }
+        private router: Router, private _sharedService: SharedService) { }
 
     ngOnInit() {
         this.checkIfLoggedIn();
+        this._sharedService.clearData();
     }
 
     checkIfLoggedIn() {
