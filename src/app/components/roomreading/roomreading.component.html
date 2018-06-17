@@ -7,7 +7,7 @@
     <div class="card-deck mx-auto mt-4">
 
         <!-- Classroom details -->
-        <div class="card mx-auto" *ngIf="selectedRoom != null">
+        <div class="card mx-auto" [hidden]="selectedRoom == null">
             <i class="card-img-top fa fa-info-circle fa-4x mt-3" aria-hidden="true"></i>
             <div class="card-body">
                 <h5 class="card-title">Classroom <br /> Details</h5>
@@ -38,7 +38,7 @@
         </div>
 
         <!-- Classroom info -->
-        <div class="card mx-auto" *ngIf="readings?.length > 0">
+        <div class="card mx-auto" [hidden]="readings.length > 0">
             <i class="card-img-top fa fa-thermometer-half fa-4x mt-3" aria-hidden="true"></i>
             <div class="card-body">
                 <h5 class="card-title">Classroom <br /> Information</h5>
