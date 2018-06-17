@@ -7,69 +7,77 @@
     <div class="card-deck mx-auto mt-4">
 
         <!-- Classroom details -->
-        <div class="card mx-auto" [hidden]="selectedRoom == null">
-            <i class="card-img-top fa fa-info-circle fa-4x mt-3" aria-hidden="true"></i>
-            <div class="card-body">
-                <h5 class="card-title">Classroom <br /> Details</h5>
-                <p class="card-text"></p>
+        <ng-container *ngIf="selectedRoom != null">
+            <div class="card mx-auto" [ngClass]="{'show': selectedRoom != null}">
+                <i class="card-img-top fa fa-info-circle fa-4x mt-3" aria-hidden="true"></i>
+                <div class="card-body">
+                    <h5 class="card-title">Classroom <br /> Details</h5>
+                    <p class="card-text"></p>
+                </div>
+                <table class="table table-hover mx-auto">
+                    <tbody>
+                        <tr class="d-flex">
+                            <td class="col-7">Smartboard present</td>
+                            <td class="col-5">{{ selectedRoom.has_smartboard ? 'Yes' : 'No' }}</td>
+                        </tr>
+                        <tr class="d-flex">
+                            <td class="col-7">Computer present</td>
+                            <td class="col-5">{{ selectedRoom.has_computer ? 'Yes' : 'No' }}</td>
+                        </tr>
+                        <tr class="d-flex">
+                            <td class="col-7">Classroom has windows</td>
+                            <td class="col-5">{{ selectedRoom.has_windows ? 'Yes' : 'No' }}</td>
+                        </tr>
+                        <tr class="d-flex">
+                            <td class="col-7">Student capacity</td>
+                            <td class="col-5">{{ selectedRoom.student_capacity }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="card-footer text-muted">
+                    <span class="text-muted" *ngIf="created_on != null">
+                        &nbsp;
+                    </span>
+                </div>
             </div>
-            <table class="table table-hover mx-auto">
-                <tbody>
-                    <tr class="d-flex">
-                        <td class="col-7">Smartboard present</td>
-                        <td class="col-5">{{ selectedRoom.has_smartboard ? 'Yes' : 'No' }}</td>
-                    </tr>
-                    <tr class="d-flex">
-                        <td class="col-7">Computer present</td>
-                        <td class="col-5">{{ selectedRoom.has_computer ? 'Yes' : 'No' }}</td>
-                    </tr>
-                    <tr class="d-flex">
-                        <td class="col-7">Classroom has windows</td>
-                        <td class="col-5">{{ selectedRoom.has_windows ? 'Yes' : 'No' }}</td>
-                    </tr>
-                    <tr class="d-flex">
-                        <td class="col-7">Student capacity</td>
-                        <td class="col-5">{{ selectedRoom.student_capacity }}</td>
-                    </tr>
-                </tbody>
-            </table>
-            <div class="card-footer text-muted">
-            </div>
-        </div>
+        </ng-container>
 
-        <!-- Classroom info -->
-        <div class="card mx-auto" [hidden]="readings.length > 0">
-            <i class="card-img-top fa fa-thermometer-half fa-4x mt-3" aria-hidden="true"></i>
-            <div class="card-body">
-                <h5 class="card-title">Classroom <br /> Information</h5>
-                <p class="card-text"></p>
+        <ng-container *ngIf="readings?.length > 0">
+            <!-- Classroom info -->
+            <div class="card mx-auto" [ngClass]="{'show': readings.length > 0}">
+                <i class="card-img-top fa fa-thermometer-half fa-4x mt-3" aria-hidden="true"></i>
+                <div class="card-body">
+                    <h5 class="card-title">Classroom <br /> Information</h5>
+                    <p class="card-text"></p>
+                </div>
+                <table class="table table-hover mx-auto">
+                    <tbody>
+                        <tr class="d-flex">
+                            <td class="col-7">Temperature</td>
+                            <td class="col-5" *ngIf="temperature != -1">{{ temperature }}&deg;C</td>
+                        </tr>
+                        <tr class="d-flex">
+                            <td class="col-7">Humidity</td>
+                            <td class="col-5" *ngIf="humidity != -1">{{ humidity }}%</td>
+                        </tr>
+                        <tr class="d-flex">
+                            <td class="col-7">Sound Level</td>
+                            <td class="col-5" *ngIf="sound != -1">{{ sound }} dB</td>
+                        </tr>
+                        <tr class="d-flex">
+                            <td class="col-7">Light Level</td>
+                            <td class="col-5" *ngIf="light != -1">{{ light }} lux</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="card-footer">
+                    <span class="text-muted" *ngIf="created_on != null">
+                        Last updated on {{ created_on | date: 'dd-MM HH:mm' }}
+                    </span>
+                </div>
             </div>
-            <table class="table table-hover mx-auto">
-                <tbody>
-                    <tr class="d-flex">
-                        <td class="col-7">Temperature</td>
-                        <td class="col-5" *ngIf="temperature != -1">{{ temperature }}&deg;C</td>
-                    </tr>
-                    <tr class="d-flex">
-                        <td class="col-7">Humidity</td>
-                        <td class="col-5" *ngIf="humidity != -1">{{ humidity }}%</td>
-                    </tr>
-                    <tr class="d-flex">
-                        <td class="col-7">Sound Level</td>
-                        <td class="col-5" *ngIf="sound != -1">{{ sound }} dB</td>
-                    </tr>
-                    <tr class="d-flex">
-                        <td class="col-7">Light Level</td>
-                        <td class="col-5" *ngIf="light != -1">{{ light }} lux</td>
-                    </tr>
-                </tbody>
-            </table>
-            <div class="card-footer">
-                <span class="text-muted" *ngIf="created_on != null">
-                    Last updated on {{ created_on | date: 'dd-MM HH:mm' }}
-                </span>
-            </div>
-        </div>
+        </ng-container>
+
     </div>
 
     <a *ngIf="selectedRoom != null" [routerLink]="['/issues/report', selectedRoom.room_code]" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"

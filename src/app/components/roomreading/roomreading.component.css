@@ -6,10 +6,15 @@
     width: 40% !important;
     flex-grow: 0;
     flex-basis: auto;
-    -moz-transition: all 0.7s ease-in-out;
-    -o-transition: all 0.7s ease-in-out;
-    -webkit-transition: all 0.7s ease-in-out;
-    transition: all 0.7s ease-in-out;
+    opacity: 0;
+}
+
+.show {
+    -moz-transition: opacity 1s ease;
+    -o-transition: opacity 1s ease;
+    -webkit-transition: opacity 1s ease;
+    transition: opacity 1s ease;
+    opacity: 1 !important;
 }
 
 .card-deck .card .table tbody tr td:nth-child(2) {

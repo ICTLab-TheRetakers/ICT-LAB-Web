@@ -56,7 +56,7 @@ export class RoomReadingComponent implements OnInit {
 
         setTimeout(() => {
             this.getDeviceByRoom();
-        }, 500);
+        }, 750);
     }
 
     getDeviceByRoom() {
