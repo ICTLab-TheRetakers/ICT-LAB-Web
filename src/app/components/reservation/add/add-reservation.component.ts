@@ -28,6 +28,7 @@ export class AddReservationComponent implements OnInit {
     minDate: string;
     maxDate: string;
     date;
+    reservationLimit: boolean;
 
     constructor(private _reservationService: ReservationService, private router: Router, private toastyService: ToastyService) {
         this.toastOptions = {
@@ -92,10 +93,21 @@ export class AddReservationComponent implements OnInit {
         reservation.date = this.minDate;
 
         this.reservations.push(reservation);
+        this.checkReservationLimit();
+
+    }
+
+    checkReservationLimit() {
+        if (this.reservations.length >= 5) {
+            this.reservationLimit = true;
+        } else {
+            this.reservationLimit = false;
+        }
     }
 
     removeRow(index: number) {
         this.reservations.splice(index, 1);
+       this.checkReservationLimit();
     }
 
     convertDatetime(reservation: Reservation): Reservation {

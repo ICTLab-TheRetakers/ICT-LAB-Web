@@ -25,7 +25,7 @@ export class DeviceService {
             .catch(this.handleError);
     }
 
-    create(device: Device): Observable<Device> {
+    create(device: any): Observable<Device> {
         return this.http.post(this.baseUrl + 'create', device)
             .catch(this.handleError);
     }

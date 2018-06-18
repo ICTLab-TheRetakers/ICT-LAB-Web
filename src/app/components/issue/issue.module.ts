@@ -11,6 +11,7 @@ import { IssueComponent } from './issue.component';
 import { IssueService } from '../../shared/services/issue.service';
 import { CustomErrorHandler } from '../../shared/error-handler';
 import { ReportIssueComponent } from './report-issue/report-issue.component';
+import { EditIssueComponent } from './edit-issue/edit-issue.component';
 
 @NgModule({
     imports: [
@@ -20,7 +21,7 @@ import { ReportIssueComponent } from './report-issue/report-issue.component';
         ToastyModule.forRoot(),
         IssueRoutingModule
     ],
-    declarations: [IssueComponent, ReportIssueComponent],
+    declarations: [IssueComponent, ReportIssueComponent, EditIssueComponent],
     providers: [
         IssueService,
         { provide: LocationStrategy, useClass: PathLocationStrategy },

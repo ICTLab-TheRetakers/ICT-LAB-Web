@@ -48,7 +48,7 @@
                         </tr>
                     </tbody>
                 </table>
-                <button [hidden]="currentUser.role == 'Student'" type="button" class="btn btn-primary" (click)="addRow()">
+                <button  [disabled]="reservationLimit" [hidden]="currentUser.role == 'Student'" type="button" class="btn btn-primary" (click)="addRow()">
                     <i class="fa fa-plus"></i>
                 </button>
             </div>

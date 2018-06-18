@@ -2,7 +2,7 @@
 
 .navbar {
     background-color: #BD012F;
-    height: 10vh;
+    padding: 0 1rem;
     z-index: 999;
 }
 
@@ -12,6 +12,10 @@
 
 .navbar .navbar-brand {
     font-weight: 700;
+    height: 10vh;
+    position: absolute;
+    top: 0px;
+    left: 0px;
 }
 
 .navbar a {
@@ -23,6 +27,22 @@
 .navbar .active {
     text-decoration: underline;
     text-decoration-style: solid;
+}
+
+.navbar .ml-auto {
+    height: 10vh;
+}
+
+.navbar-toggler {
+    margin-right: 1rem;
+}
+
+.navbar .navbar-collapse {
+    background-color: #BD012F;
+}
+
+.navbarAdmin .navbar-collapse {
+    background-color: #0610ce;
 }
 
 main {
@@ -37,6 +57,21 @@ main {
     height: 90vh;
     padding: 20px 5px;
     overflow-x: hidden;
+}
+
+@media (min-width: 992px) {
+    .navbar {
+        height: 10vh
+    }
+}
+@media (max-width: 991px) {
+    .navbar {
+        padding-right: 0;
+    }
+    main {
+        margin: auto;
+        position: unset;
+    }
 }
 
 @media (max-width: 767.98px) {
@@ -61,6 +96,11 @@ main {
     overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
     transition: all 0.3s;
     text-align: center;
+}
+@media (max-width: 991px) {
+    .sidebar {
+        display: none;
+    }
 }
 
 .sidebarAdmin {
