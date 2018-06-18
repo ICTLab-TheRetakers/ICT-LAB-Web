@@ -2,7 +2,7 @@
 
 .navbar {
     background-color: #BD012F;
-    height: 10vh;
+    padding: 0 1rem;
     z-index: 999;
 }
 
@@ -12,6 +12,7 @@
 
 .navbar .navbar-brand {
     font-weight: 700;
+    height: 10vh;
 }
 
 .navbar a {
