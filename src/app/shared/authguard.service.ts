@@ -12,13 +12,14 @@ export class AuthGuard implements CanActivate {
             let user = JSON.parse(sessionStorage.getItem('loggedInUser')) as User;
             let roles = route.data["roles"] as Array<string>;
 
-            if (roles != null) {
-                if (roles.filter(f => f == user.role)[0]) {
-                    return true
+            if (roles != null && roles.length > 0) {
+                if (roles.filter(f => f == user.role)[0] != null) {
+                    return true;
                 } else {
                     return false;
                 }
             }
+
             // logged in so return true
             return true;
         }
