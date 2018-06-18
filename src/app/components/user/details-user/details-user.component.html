@@ -32,7 +32,7 @@
 
         <div class="form-row my-4">
             <div class="col-sm-12 col-md-4 offset-md-4 text-center">
-                <img [src]="sanitizer.bypassSecurityTrustUrl(user.picture)" />
+                <img class="img-fluid profile-picture" [src]="sanitizer.bypassSecurityTrustUrl(user.picture)" />
             </div>
         </div>
 
