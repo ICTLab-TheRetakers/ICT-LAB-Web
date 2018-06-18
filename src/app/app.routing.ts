@@ -20,7 +20,8 @@ const routes: Routes = [
     {
         path: '',
         component: ScheduleComponent,
-        canActivate: [AuthGuard]
+        canActivate: [AuthGuard],
+        data: { roles: [1, 2, 3] }
     },
     {
         path: 'users',
@@ -37,7 +38,8 @@ const routes: Routes = [
     {
         path: 'reservations',
         component: ReservationComponent,
-        canActivate: [AuthGuard]
+        canActivate: [AuthGuard],
+        data: { roles: [1, 2, 3] }
     },
     {
         path: 'devices',
@@ -49,21 +51,25 @@ const routes: Routes = [
         path: 'issues',
         component: IssueComponent,
         canActivate: [AuthGuard],
+        data: { roles: [1, 2, 3] }
     },
     {
         path: 'readings',
         component: RoomReadingComponent,
-        canActivate: [AuthGuard]
+        canActivate: [AuthGuard],
+        data: { roles: [1, 2, 3] }
     },
     {
         path: 'dashboard/:id',
         component: DashboardComponent,
-        canActivate: [AuthGuard]
+        canActivate: [AuthGuard],
+        data: { roles: [1, 2, 3] }
     },
     {
         path: 'notifications',
         component: NotificationComponent,
-        canActivate: [AuthGuard]
+        canActivate: [AuthGuard],
+        data: { roles: [1, 2, 3] }
     },
     {
         path: 'login',

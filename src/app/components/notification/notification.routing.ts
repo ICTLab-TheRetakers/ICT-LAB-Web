@@ -8,7 +8,7 @@ const routes: Routes = [
     {
         path: 'notifications',
         children: [
-            { path: '', component: NotificationComponent, canActivate: [AuthGuard] }
+            { path: '', component: NotificationComponent, canActivate: [AuthGuard], data: { roles: [1, 2, 3] } }
         ]
     }
 ];

@@ -9,7 +9,7 @@ const routes: Routes = [
     {
         path: 'devices',
         children: [
-            { path: 'add/:room', component: AddDeviceComponent, canActivate: [AuthGuard] }
+            { path: 'add/:room', component: AddDeviceComponent, canActivate: [AuthGuard], data: { roles: [1] } }
         ]
     }
 ];

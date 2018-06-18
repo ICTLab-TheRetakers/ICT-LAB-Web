@@ -14,11 +14,11 @@ const routes: Routes = [
     {
         path: 'users',
         children: [
-            { path: '', component: UserComponent, canActivate: [AuthGuard] },
-            { path: 'add', component: AddUserComponent, canActivate: [AuthGuard] },
-            { path: 'edit/:user', component: EditUserComponent, canActivate: [AuthGuard] },
-            { path: 'details/:user', component: DetailsUserComponent, canActivate: [AuthGuard] },
-            { path: 'import', component: ImportUserComponent, canActivate: [AuthGuard] },
+            { path: '', component: UserComponent, canActivate: [AuthGuard], data: { roles: [1] } },
+            { path: 'add', component: AddUserComponent, canActivate: [AuthGuard], data: { roles: [1] } },
+            { path: 'edit/:user', component: EditUserComponent, canActivate: [AuthGuard], data: { roles: [1, 2, 3] } },
+            { path: 'details/:user', component: DetailsUserComponent, canActivate: [AuthGuard], data: { roles: [1, 2, 3] } },
+            { path: 'import', component: ImportUserComponent, canActivate: [AuthGuard], data: { roles: [1] } },
             { path: 'reset-password', component: ResetPasswordComponent }
         ]
     }

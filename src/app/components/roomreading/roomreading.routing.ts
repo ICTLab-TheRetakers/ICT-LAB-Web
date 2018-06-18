@@ -9,7 +9,7 @@ const routes: Routes = [
     {
         path: 'readings',
         children: [
-            { path: '', component: RoomReadingComponent, canActivate: [AuthGuard] }
+            { path: '', component: RoomReadingComponent }
         ]
     },
     {

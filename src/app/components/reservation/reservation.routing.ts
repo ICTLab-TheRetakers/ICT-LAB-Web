@@ -11,9 +11,9 @@ const routes: Routes = [
     {
         path: 'reservations',
         children: [
-            { path: '', component: ReservationComponent, canActivate: [AuthGuard] },
-            { path: 'add', component: AddReservationComponent, canActivate: [AuthGuard] },
-            { path: 'edit/:id', component: EditReservationComponent, canActivate: [AuthGuard] }
+            { path: '', component: ReservationComponent, canActivate: [AuthGuard], data: { roles: [1, 2, 3] } },
+            { path: 'add', component: AddReservationComponent, canActivate: [AuthGuard], data: { roles: [1, 2, 3] } },
+            { path: 'edit/:id', component: EditReservationComponent, canActivate: [AuthGuard], data: { roles: [1, 2, 3] } }
         ]
     }
 ];

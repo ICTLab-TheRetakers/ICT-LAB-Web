@@ -10,9 +10,9 @@ const routes: Routes = [
     {
         path: 'issues',
         children: [
-            { path: '', component: IssueComponent, canActivate: [AuthGuard], data: { roles: ['Administrator'] } },
-            { path: 'report/:room', component: ReportIssueComponent, canActivate: [AuthGuard] },
-            { path: 'edit/:id', component: EditIssueComponent, canActivate: [AuthGuard], data: { roles: ['Administrator'] } } 
+            { path: '', component: IssueComponent, canActivate: [AuthGuard], data: { roles: [1] } },
+            { path: 'report/:room', component: ReportIssueComponent, canActivate: [AuthGuard], data: { roles: [1, 2, 3] } },
+            { path: 'edit/:id', component: EditIssueComponent, canActivate: [AuthGuard], data: { roles: [1] } } 
         ]
     }
 ];

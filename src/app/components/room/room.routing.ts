@@ -12,10 +12,10 @@ const routes: Routes = [
     {
         path: 'rooms',
         children: [
-            { path: '', component: RoomComponent, canActivate: [AuthGuard] },
-            { path: 'add', component: AddRoomComponent, canActivate: [AuthGuard] },
-            { path: 'edit/:room', component: EditRoomComponent, canActivate: [AuthGuard] },
-            { path: 'import', component: ImportRoomComponent, canActivate: [AuthGuard] }
+            { path: '', component: RoomComponent, canActivate: [AuthGuard], data: { roles: [1] } },
+            { path: 'add', component: AddRoomComponent, canActivate: [AuthGuard], data: { roles: [1] } },
+            { path: 'edit/:room', component: EditRoomComponent, canActivate: [AuthGuard], data: { roles: [1] } },
+            { path: 'import', component: ImportRoomComponent, canActivate: [AuthGuard], data: { roles: [1] } }
         ]
     }
 ]; 
