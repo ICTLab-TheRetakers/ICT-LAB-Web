@@ -111,6 +111,7 @@ export class AddReservationComponent implements OnInit {
             this.reservationLimit = false;
         }
     }
+
     removeRow(index: number) {
         this.reservations.splice(index, 1);
        this.checkReservationLimit();
