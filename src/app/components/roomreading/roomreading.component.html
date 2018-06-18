@@ -84,6 +84,6 @@
        class="btn btn-primary mt-4">Report Issue</a>
 
     <a *ngIf="readings?.length == 0 && selectedRoom != null" [routerLink]="['/devices/add', selectedRoom.room_code]" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
-       class="btn btn-primary mt-4">Add device to this room</a>
+       class="btn btn-primary mt-4" (click)="onAddDevice()">Add device to this room</a>
 </div>
 
