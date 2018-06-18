@@ -17,10 +17,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class EditIssueComponent implements OnInit {
     issue: Issue;
-    //issues: Issue[];
     issue_id: number;
   
-
     constructor(private _issueService: IssueService, private router: Router, private route: ActivatedRoute) { }
 
     ngOnInit() {
@@ -41,7 +39,6 @@ export class EditIssueComponent implements OnInit {
     }
 
     unResolveIssue(id: number) {
-       // let issue = this.issues.filter(f => f.issue_id == id)[0];
         this.issue.resolved = false;
 
         this._issueService.update(this.issue).subscribe(
@@ -56,6 +53,4 @@ export class EditIssueComponent implements OnInit {
             (error: HttpErrorResponse) => { throw error; }
         );
     }
-
-    
 }

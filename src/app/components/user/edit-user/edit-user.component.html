@@ -1,4 +1,4 @@
-<a *ngIf="user != null" class="return" [routerLink]="['/users']" title="Return to previous page" [hidden]="user.role_id == 2 || user.role_id == 3">
+<a *ngIf="currentUser != null" class="return" [routerLink]="['/users']" title="Return to previous page" [hidden]="currentUser.role_id == 2 || currentUser.role_id == 3">
     <i class="fa fa-arrow-left"></i>
 </a>
 

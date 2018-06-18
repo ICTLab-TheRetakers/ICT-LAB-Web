@@ -13,6 +13,7 @@ import { HttpErrorResponse } from '@angular/common/http';
     styleUrls: ['./edit-user.component.css']
 })
 export class EditUserComponent implements OnInit {
+    currentUser: User;
     user: User;
     userId: string;
     roles: Role[];
@@ -22,12 +23,17 @@ export class EditUserComponent implements OnInit {
     constructor(private _userService: UserService, private _roleService: RoleService, private router: Router, private route: ActivatedRoute) { }
 
     ngOnInit() {
+        this.getCurrentUser();
         this.route.params.subscribe(
             (params) => {
                 this.userId = params['user'];
                 this.getUser(this.userId);
             }
         );
+    }
+
+    getCurrentUser() {
+        this.currentUser = JSON.parse(sessionStorage.getItem('loggedInUser'));
     }
 
     getUser(email: string) {
