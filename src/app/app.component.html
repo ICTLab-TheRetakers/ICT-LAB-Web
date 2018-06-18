@@ -27,10 +27,7 @@
                     <a [routerLink]="['/users/details/', user.user_id]" data-toggle="collapse" routerLinkActive="active" data-target=".navbar-collapse.show" [routerLinkActiveOptions]="{exact: true}"
                        class="nav-link">Profile</a>
                 </li>
-                <li class="nav-item" [hidden]="user.role_id == 2||user.role_id == 3">
-                    <a [routerLink]="['/users']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
-                       class="nav-link">Users</a>
-                <li class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show" [hidden]="user.role_id == 2||user.role_id == 3">
+                <li class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show" [hidden]="user.role_id == 2 || user.role_id == 3">
                         <a [routerLink]="['/users']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
                            class="nav-link">Users</a>
                 </li>
