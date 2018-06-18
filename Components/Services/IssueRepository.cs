@@ -28,6 +28,7 @@ namespace ICT_LAB_Web.Components.Services
                 return null;
             }
 
+            originalIssue.Description = issueToUpdate.Description;
             originalIssue.Resolved = issueToUpdate.Resolved;
 
             _dbContext.Entry(originalIssue).State = EntityState.Modified;

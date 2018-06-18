@@ -27,7 +27,8 @@ export class EditReservationComponent implements OnInit {
     reservationId: number;
     minDate: string;
     maxDate: string;
-    
+    date;
+
     constructor(private _reservationService: ReservationService, private _roomService: RoomService,
         private router: Router, private route: ActivatedRoute, private toastyService: ToastyService) {
         this.toastOptions = {
@@ -51,7 +52,21 @@ export class EditReservationComponent implements OnInit {
 
     submitForm() {
         this.convertDatetime()
-        this.updateReservation(this.reservation);
+
+        // Check if input values are valid
+        this.date = this.reservation.date.toString();
+        if (!moment(this.date).isBetween(moment().subtract(1, 'days'), moment().add(2, 'months'))) {
+            this.toastOptions.msg = 'You can only reserve a room within two months!';
+            this.toastyService.error(this.toastOptions);
+
+        } else if (this.reservation.begin > this.reservation.end) {
+            this.toastOptions.msg = 'Start time cannot be later than end time.';
+            this.toastyService.error(this.toastOptions);
+        } else {
+
+            // Check if reservation not exists, if so, then save reservation
+            this.checkIfReservationExists(this.reservation);
+        }
     }
 
     setMinAndMaxDate() {
@@ -85,8 +100,6 @@ export class EditReservationComponent implements OnInit {
         // Set reservation start and end time
         this.reservation.start_time = moment.utc(start).toDate();
         this.reservation.end_time = moment.utc(end).toDate();
-
-        return this.reservation;
     }
 
     setDatetime() {
@@ -97,9 +110,23 @@ export class EditReservationComponent implements OnInit {
 
     updateReservation(reservation: Reservation) {
         this._reservationService.update(reservation).subscribe(
-            (response) => this.router.navigate(['/reservations']),
+            (response) => setTimeout(() => { this.router.navigate(['/reservations']); }, 1500),
             (error: HttpErrorResponse) => { throw error; }
         );
     }
 
+    checkIfReservationExists(reservation: Reservation) {
+        this._reservationService.checkIfExists(reservation).subscribe(
+            (response) => {
+                if (response == false) {
+                    this.updateReservation(reservation);
+                } else {
+                    this.toastOptions.msg = 'The reservation on \'' + moment(reservation.date).format('MMMM Do') + ' at ' + reservation.begin
+                        + '\' is already taken. Please choose a different time or room!';
+                    this.toastyService.error(this.toastOptions);
+                }
+            },
+            (error: HttpErrorResponse) => { throw error; }
+        );
+    }
 }

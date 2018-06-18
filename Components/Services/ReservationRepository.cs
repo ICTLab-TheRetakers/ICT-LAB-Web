@@ -68,8 +68,8 @@ namespace ICT_LAB_Web.Components.Services
 
         public async Task<List<Reservation>> GetBetweenDates(DateTime start, DateTime end, string room)
         {
-            List<Reservation>  response = await _dbContext.Reservations.Where(q => q.RoomCode == room &&
-                    q.StartTime <= start && (q.EndTime >= end || end > q.EndTime)).ToListAsync();
+            List<Reservation> response = await _dbContext.Reservations.Where(q => q.RoomCode == room &&
+                   q.StartTime <= start && (q.EndTime >= end || end > q.EndTime)).ToListAsync();
             return response;
         }
 
@@ -126,11 +126,24 @@ namespace ICT_LAB_Web.Components.Services
         public async Task<bool> CheckIfReservationExists(Reservation reservation)
         {
             List<Reservation> response = null;
-            response = await _dbContext.Reservations.Where(q => q.RoomCode.ToLower() == reservation.RoomCode.ToLower()
-                        && q.StartTime >= reservation.StartTime && reservation.StartTime <= q.EndTime).ToListAsync();
+            response = await _dbContext.Reservations.Where(q => q.RoomCode.ToLower() == reservation.RoomCode.ToLower() && q.StartTime.Day == reservation.StartTime.Day
+                && (reservation == q || (reservation.StartTime >= q.StartTime || reservation.StartTime > q.StartTime) || (reservation.StartTime <= q.EndTime))).ToListAsync();
 
-            if (response != null || response.Count > 0)
+            if (response.Count > 0)
             {
+                if (response.FirstOrDefault(q => q.ReservationId == reservation.ReservationId) != null)
+                {
+                    return false;
+                }
+
+                if (response.Count == 1)
+                {
+                    if (response[0].EndTime == reservation.StartTime)
+                    {
+                        return false;
+                    }
+                }
+
                 return true;
             }
 

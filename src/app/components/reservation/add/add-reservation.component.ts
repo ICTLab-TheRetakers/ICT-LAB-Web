@@ -25,7 +25,6 @@ export class AddReservationComponent implements OnInit {
     reservations: Reservation[] = [];
     selectedRoom: Room = null;
     currentUser: User = null;
-    errorCount: number = 0;
     minDate: string;
     maxDate: string;
     date;
@@ -71,18 +70,12 @@ export class AddReservationComponent implements OnInit {
                 reservation = this.convertDatetime(reservation);
                 reservation.room_code = this.selectedRoom.room_code;
 
-                if (this.errorCount > 0) {
-                    this.toastOptions.msg = 'The reservation on \'' + moment(reservation.date).format('MMMM Do') + ' at ' + reservation.begin
-                        + '\' is already taken. Please choose a different time or room!';
-                    this.toastyService.error(this.toastOptions);
-
-                    this.errorCount = 0;
-                }
-
                 // Check if reservation not exists, if so, then save reservation
                 this.checkIfReservationExists(reservation);
             }
         });
+
+        setTimeout(() => { this.router.navigate(['/reservations']); }, 1500);
     }
 
     getRoomChoice(event: any) {
@@ -130,7 +123,9 @@ export class AddReservationComponent implements OnInit {
                 if (response == false) {
                     this.saveReservation(reservation);
                 } else {
-                    this.errorCount++;
+                    this.toastOptions.msg = 'The reservation on \'' + moment(reservation.date).format('MMMM Do') + ' at ' + reservation.begin
+                        + '\' is already taken. Please choose a different time or room!';
+                    this.toastyService.error(this.toastOptions);
                 }
             },
             (error: HttpErrorResponse) => { throw error; }

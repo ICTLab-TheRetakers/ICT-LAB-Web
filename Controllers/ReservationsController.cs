@@ -583,7 +583,7 @@ namespace ICT_LAB_Web.Controllers
             var exists = await _reservationRepository.CheckIfReservationExists(reservation);
             if (exists)
             {
-                return StatusCode(500, "The reservation on '" + reservation.StartTime.ToString("MMMM DD") +" at " + reservation.StartTime.ToString("HH:mm") + "' is already taken. Please choose a differenct time or room!");
+                return StatusCode(500, "The reservation on '" + reservation.StartTime.ToString("MMMM dd") +" at " + reservation.StartTime.ToString("HH:mm") + "' is already taken. Please choose a differenct time or room!");
             }
 
             // Insert reservation
@@ -641,6 +641,13 @@ namespace ICT_LAB_Web.Controllers
             if (reservation.StartTime > reservation.EndTime)
             {
                 return StatusCode(400, "Start time cannot be later than end time.");
+            }
+
+            // Check if reservation timeslot isn't already taken
+            var exists = await _reservationRepository.CheckIfReservationExists(reservation);
+            if (exists)
+            {
+                return StatusCode(500, "The reservation on '" + reservation.StartTime.ToString("MMMM dd") + " at " + reservation.StartTime.ToString("HH:mm") + "' is already taken. Please choose a differenct time or room!");
             }
 
             // Update reservation
@@ -733,7 +740,7 @@ namespace ICT_LAB_Web.Controllers
                 valid = false;
             }
             // Check if date is equal or greater than todays date
-            if (dateTime < today && !isUpdate)
+            if (dateTime.Date < today.Date && !isUpdate)
             {
                 valid = false;
             }
