@@ -1,11 +1,11 @@
-<a href="#" class="return" [routerLink]="['/issues']" title="Return to previous page" [hidden]="user.role_id == 2||user.role_id == 3">
+<a href="#" class="return" [routerLink]="['/issues']" title="Return to previous page">
     <i class="fa fa-arrow-left"></i>
 </a>
 
 <div class="col-sm-12 col-md-10 offset-md-1 mx-auto">
-    <h3 class="my-4 text-center">Report Issue</h3>
+    <h3 class="my-4 text-center">Edit Issue</h3>
 
-    <form class="form-horizontal mt-4" *ngIf="issue != null" #issueForm="ngForm">
+    <form class="form-horizontal mt-4" #issueForm="ngForm" *ngIf="issue != null">
         <div class="form-row">
             <div class="col-sm-12 col-md-8 offset-md-2">
                 <label for="issue">Describe the problems you are having</label>
@@ -17,6 +17,14 @@
             </div>
         </div>
 
+        <div class="form-row">
+            <div class="col-sm-12 col-md-10 offset-md-1 mx-auto">
+                <a *ngIf="issue.resolved == true" class="resolve-link" (click)="unResolveIssue(issue.issue_id)" title="Mark as unresolved">
+                    <i class="fa fa-check"></i> Mark as unresolved
+                </a>
+            </div>
+
+        </div>
         <button type="button" [disabled]="!issueForm.form.valid" class="btn btn-primary float-right my-4" (click)="submitForm()">Submit</button>
     </form>
 </div>

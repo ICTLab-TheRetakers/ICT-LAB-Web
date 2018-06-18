@@ -25,12 +25,14 @@ const routes: Routes = [
     {
         path: 'users',
         component: UserComponent,
-        canActivate: [AuthGuard]
+        canActivate: [AuthGuard],
+        data: { roles: ['Administrator'] }
     },
     {
         path: 'rooms',
         component: RoomComponent,
-        canActivate: [AuthGuard]
+        canActivate: [AuthGuard],
+        data: { roles: ['Administrator'] }
     },
     {
         path: 'reservations',
@@ -40,12 +42,13 @@ const routes: Routes = [
     {
         path: 'devices',
         component: DeviceComponent,
-        canActivate: [AuthGuard]
+        canActivate: [AuthGuard],
+        data: { roles: ['Administrator'] }
     },
     {
         path: 'issues',
         component: IssueComponent,
-        canActivate: [AuthGuard]
+        canActivate: [AuthGuard],
     },
     {
         path: 'readings',

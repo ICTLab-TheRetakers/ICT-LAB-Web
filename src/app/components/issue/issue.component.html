@@ -9,6 +9,7 @@
                 <th>Description</th>
                 <th>Is Resolved</th>
                 <th></th>
+                <th></th>
             </tr>
         </thead>
         <tbody *ngIf="issues != null">
@@ -22,6 +23,11 @@
                 <td>
                     <a *ngIf="issue.resolved == false" class="resolve-link" (click)="resolveIssue(issue.issue_id)" title="Mark as resolved">
                         <i class="fa fa-check"></i> Mark as resolved
+                    </a>
+                </td>
+                <td>
+                    <a class="edit-link" [routerLink]="['edit', issue.issue_id]" title="Edit">
+                        <i class="fa fa-pencil"></i>
                     </a>
                 </td>
             </tr>

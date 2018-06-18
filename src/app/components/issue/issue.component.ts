@@ -42,5 +42,6 @@ export class IssueComponent implements OnInit {
             (error: HttpErrorResponse) => { throw error; }
         );
     }
+    
 
 }
