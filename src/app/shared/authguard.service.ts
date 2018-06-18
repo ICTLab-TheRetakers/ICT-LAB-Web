@@ -9,7 +9,16 @@ export class AuthGuard implements CanActivate {
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
         if (sessionStorage.getItem('loggedInUser')) {
-            return true;
+            let user = JSON.parse(sessionStorage.getItem('loggedInUser')) as User;
+            let roles = route.data["roles"] as Array<number>;
+
+            if (roles != null && roles.length > 0) {
+                if (roles.indexOf(user.role_id) != -1) {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         // not logged in so redirect to login page with the return url
