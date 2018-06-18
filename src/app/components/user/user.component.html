@@ -13,7 +13,9 @@
         <tbody *ngIf="users != null">
             <tr *ngFor="let user of users">
                 <td>
-                    {{ user.user_id }} - {{ user.first_name }} {{ user.last_name }}
+                    <a class="text-primary" [routerLink]="['details', user.user_id]" title="Details">
+                        {{ user.user_id }} - {{ user.first_name }} {{ user.last_name }}
+                    </a>
                 </td>
                 <td>{{ user.email }}</td>
                 <td>
