@@ -26,13 +26,13 @@ const routes: Routes = [
         path: 'users',
         component: UserComponent,
         canActivate: [AuthGuard],
-        data: { roles: ['Administrator'] }
+        data: { roles: [1] }
     },
     {
         path: 'rooms',
         component: RoomComponent,
         canActivate: [AuthGuard],
-        data: { roles: ['Administrator'] }
+        data: { roles: [1] }
     },
     {
         path: 'reservations',
@@ -43,7 +43,7 @@ const routes: Routes = [
         path: 'devices',
         component: DeviceComponent,
         canActivate: [AuthGuard],
-        data: { roles: ['Administrator'] }
+        data: { roles: [1] }
     },
     {
         path: 'issues',
