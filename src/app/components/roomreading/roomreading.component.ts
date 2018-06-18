@@ -36,9 +36,12 @@ export class RoomReadingComponent implements OnInit {
     light: number;
     humidity: number;
     created_on: Date;
+    hasDevice: boolean;
 
     constructor(private _readingService: RoomReadingService, private _deviceService: DeviceService, private _sharedService: SharedService,
-        private route: ActivatedRoute, private router: Router) { }
+        private route: ActivatedRoute, private router: Router) {
+
+        }
 
     ngOnInit() {
         this.checkIfRoomAvailable();
@@ -66,6 +69,17 @@ export class RoomReadingComponent implements OnInit {
 
                 this.readings = [];
                 this.getLatestReadings();
+
+                if (response.length === 0) {
+
+                    this.hasDevice = false;
+
+                } else {
+                    this.hasDevice = true;
+                }
+
+
+
             },
             (error: HttpErrorResponse) => { throw error; }
         );
@@ -82,6 +96,16 @@ export class RoomReadingComponent implements OnInit {
                 },
                 (error: HttpErrorResponse) => { }
             );
+        }
+    }
+
+    onAddDevice() {
+        const newDevice = {'room_code': this.selectedRoom.room_code};
+        if ( !this.hasDevice) {
+            return this._deviceService.create({room_code: this.selectedRoom.room_code})
+                .subscribe((res => {
+                    this.device = res;
+                }));
         }
     }
 
