@@ -27,15 +27,12 @@
                     <a [routerLink]="['/users/details/', user.user_id]" data-toggle="collapse" routerLinkActive="active" data-target=".navbar-collapse.show" [routerLinkActiveOptions]="{exact: true}"
                        class="nav-link">Profile</a>
                 </li>
-<<<<<<< HEAD
                 <li class="nav-item" [hidden]="user.role_id == 2||user.role_id == 3">
                     <a [routerLink]="['/users']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
                        class="nav-link">Users</a>
-=======
                 <li class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show" [hidden]="user.role_id == 2||user.role_id == 3">
                         <a [routerLink]="['/users']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
                            class="nav-link">Users</a>
->>>>>>> ceae53acba32bb78087bee4b22f6cb188bc45086
                 </li>
                 <li data-toggle="collapse" class="nav-item">
                     <a class="nav-link" style="cursor: pointer;" (click)="signOut()">Sign out</a>
