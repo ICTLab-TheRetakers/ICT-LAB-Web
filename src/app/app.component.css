@@ -134,6 +134,10 @@
     .navbar-nav li:hover {
         font-weight: 700;
     }
+	
+	.navbar {
+		height: 10vh;
+	}
 }
 
 main {
