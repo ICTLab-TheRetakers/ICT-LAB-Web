@@ -8,6 +8,7 @@ import {environment} from '../../../environments/environment';
 import {HttpErrorResponse} from '@angular/common/http';
 import * as moment from 'moment';
 import {ReservationService} from '../../shared/services/reservation.service';
+import { SharedService } from '../../shared/services/shared.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -25,15 +26,19 @@ export class DashboardComponent implements OnInit {
     index: number = null;
     options: string[] = null;
 
-    constructor(private route: ActivatedRoute, private _reservationService : ReservationService ) { }
-
-    ngOnInit() {
+    constructor(private route: ActivatedRoute, private _reservationService: ReservationService, private _sharedService: SharedService) {
         this.route.params.subscribe(
             (params) => {
                 this.roomCode = params['room'];
-                this.getScheduleByRoom();
+                this.roomCode = this.roomCode.split('-').join('.');
+
+                this._sharedService.setData('dashboard-room', this.roomCode);
             }
         );
+    }
+
+    ngOnInit() {
+        this.getScheduleByRoom();
     }
 
     getScheduleByRoom() {
@@ -115,7 +120,6 @@ export class DashboardComponent implements OnInit {
         );
 
     }
-
 
     getLesson(day: string, hour: string): string {
         let lesson = this.schedule.days.filter(f => f.weekday == day)[0].lessons.filter(f => f.start_time == hour)[0];

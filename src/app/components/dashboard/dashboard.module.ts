@@ -11,6 +11,7 @@ import {RoomreadingsModule} from '../roomreading/roomreading.module';
       ScheduleModule,
       RoomreadingsModule
   ],
-  declarations: [DashboardComponent]
+    declarations: [DashboardComponent],
+    exports: [DashboardComponent]
 })
 export class DashboardModule { }

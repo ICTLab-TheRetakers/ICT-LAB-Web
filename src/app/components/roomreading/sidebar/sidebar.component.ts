@@ -17,9 +17,15 @@ export class SidebarComponent implements OnInit {
 
     constructor(private _roomService: RoomService, private _sharedService: SharedService) { }
 
+    ngAfterContentInit() {
+        if (this._sharedService.getData('dashboard-room') != undefined || this._sharedService.getData('dashboard-room') != null) {
+            this.roomCode = this._sharedService.getData('dashboard-room').value;
+            this.getRoom();
+        }
+    }
+
     ngOnInit() {
-        this.roomCode = this._sharedService.getData('dashboard_room').value;
-        this.getRoom();
+        
     }
 
     getRoom() {

@@ -1,10 +1,10 @@
 <div>
-    <ul class="list-group list-group-flush room-info" *ngIf="room != null">
+    <ul class="room-info" *ngIf="room != null">
         <li class="list-group-item">
             <i class="fa fa-users" aria-hidden="true"></i> {{ room.student_capacity }}
         </li>
         <li class="list-group-item">
-            <i class="fa fa-desktop" aria-hidden="true"></i> {{ room.has_computer ? 'Yes' : 'No' }}
+            <i class="fa fa-windows" aria-hidden="true"></i> {{ room.has_computer ? 'Yes' : 'No' }}
         </li>
         <li class="list-group-item">
             <i class="fa fa-tv" aria-hidden="true"></i> {{ room.has_smartboard ? 'Yes' : 'No' }}
