@@ -3,7 +3,6 @@
 }
 
 .card-deck .card {
-    width: 40% !important;
     flex-grow: 0;
     flex-basis: auto;
     opacity: 0;
@@ -21,9 +20,9 @@
     font-weight: 700;
 }
 
-@media (max-width: 991px) {
+@media (min-width: 992px) {
     .card-deck .card {
-        width: 100% !important;
+        width: 40% !important;
     }
 
 }
