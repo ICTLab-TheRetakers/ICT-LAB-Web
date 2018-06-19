@@ -93,7 +93,7 @@ namespace ICT_LAB_Web.Controllers
                 HasComputer = x.HasComputer,
                 HasWindows = x.HasWindows,
                 StudentCapacity = x.StudentCapacity
-            });
+            }).OrderBy(o => o.RoomCode);
 
             return Ok(result);
         }
