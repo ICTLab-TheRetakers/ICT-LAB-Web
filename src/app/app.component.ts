@@ -18,7 +18,7 @@ export class AppComponent implements OnInit {
     isDashboard: boolean = false;
 
     constructor(private authService: AuthenticationService, private route: ActivatedRoute,
-        private router: Router, private _sharedService: SharedService, private sanitizer: DomSanitizer) { }
+        private router: Router, private _sharedService: SharedService) { }
 
     ngOnInit() {
         this.checkIfLoggedIn();
@@ -41,7 +41,6 @@ export class AppComponent implements OnInit {
             this.isLoggedIn = false;
         }
     }
-
 
     signOut() {
         this.authService.logout();

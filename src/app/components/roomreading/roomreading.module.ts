@@ -15,6 +15,7 @@ import { RoomService } from '../../shared/services/room.service';
 
 import { SelectRoomModule } from '../room/select-room/select-room.module';
 import { CustomErrorHandler } from '../../shared/error-handler';
+import { SidebarComponent } from './sidebar/sidebar.component';
 
 
 @NgModule({
@@ -29,7 +30,10 @@ import { CustomErrorHandler } from '../../shared/error-handler';
     ],
     declarations: [
         RoomReadingComponent,
-
+        SidebarComponent,
+    ],
+    exports: [
+        SidebarComponent
     ],
     providers: [
         RoomReadingService,
