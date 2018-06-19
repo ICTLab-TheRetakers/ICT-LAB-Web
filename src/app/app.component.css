@@ -98,6 +98,10 @@
 }
 
 @media (max-width: 991px) {
+    .navbar {
+        padding-right: 0;
+    }
+
 	.navbar-nav {
         width: 30vw;
         height: auto;
@@ -133,17 +137,13 @@
     .navbar-nav li:hover {
         font-weight: 700;
     }
-	
-	.navbar {
-		height: 10vh;
-        margin-bottom: 30px;
-		padding-right: 0;
-	}
 
     main {
         margin: auto;
+        top: calc(90vh + 30px);
         left: 0 !important;
         width: 100vw !important;
+        overflow: auto;
     }
 }
 
@@ -152,7 +152,6 @@ main {
     left: 12vw;
     top: 8vh;
     bottom: 0;
-    overflow-y: auto;
     width: 100%;
     width: 88vw;
     height: 100%;

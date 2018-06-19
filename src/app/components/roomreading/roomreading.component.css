@@ -3,7 +3,6 @@
 }
 
 .card-deck .card {
-    width: 40% !important;
     flex-grow: 0;
     flex-basis: auto;
     opacity: 0;
@@ -19,4 +18,11 @@
 
 .card-deck .card .table tbody tr td:nth-child(2) {
     font-weight: 700;
+}
+
+@media (min-width: 992px) {
+    .card-deck .card {
+        width: 40% !important;
+    }
+
 }
