@@ -19,7 +19,7 @@ export class AppComponent implements OnInit {
     isDashboard: boolean = false;
     hasComputer;
     constructor(private authService: AuthenticationService, private route: ActivatedRoute,
-        private router: Router, private _sharedService: SharedService) { }
+        private router: Router, private _sharedService: SharedService, private _sanitizer: DomSanitizer) { }
 
     ngOnInit() {
         this.checkIfLoggedIn();

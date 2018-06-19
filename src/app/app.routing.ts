@@ -61,9 +61,7 @@ const routes: Routes = [
     },
     {
         path: 'dashboard/:room',
-        component: DashboardComponent,
-        canActivate: [AuthGuard],
-        data: { roles: [1, 2, 3] }
+        component: DashboardComponent
     },
     {
         path: 'notifications',
