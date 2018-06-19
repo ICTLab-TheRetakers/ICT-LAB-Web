@@ -10,6 +10,7 @@ import Room from '../../../shared/models/room.model';
 import Schedule from '../../../shared/models/schedule/schedule.model';
 
 import * as moment from 'moment';
+import {SharedService} from '../../../shared/services/shared.service';
 
 @Component({
     selector: 'app-select-room',
@@ -25,17 +26,36 @@ export class SelectRoomComponent implements OnInit {
     index: number = null;
     options: string[] = null;
     hide: boolean = false;
+    room: Room;
 
     @Input() onlyAllowRooms: boolean;
     @Input() getSchedule: boolean;
     @Output() chosenObject = new EventEmitter<any>();
     @Output() resetSchedule = new EventEmitter<boolean>();
 
-    constructor(private _roomService: RoomService, private _reservationService: ReservationService) { }
+    constructor(private _roomService: RoomService, private _reservationService: ReservationService,
+                private _sharedService: SharedService) { }
 
     ngOnInit() {
-        this.setRoomOptions();
         this.setCurrentWeekAndQuarter();
+        this.checkIfRoomAvailable();
+        this.setRoomOptions();
+    }
+
+    checkIfRoomAvailable() {
+        let room = this._sharedService.getData('room');
+        if (room != null) {
+            this.room = room.value;
+            this.getScheduleByRoom();
+        }
+    }
+
+    getScheduleByRoom() {
+        this.type = 'r';
+        this.getOptions();
+
+        this.index = this.options.indexOf(this.room.room_code);
+        this.selectOption(null, true);
     }
 
     setRoomOptions() {

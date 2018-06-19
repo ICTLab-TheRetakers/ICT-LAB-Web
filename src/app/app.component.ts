@@ -4,6 +4,7 @@ import User from './shared/models/user.model';
 import { AuthenticationService } from './shared/authentication.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
+import {RoomReadingComponent} from "./components/roomreading/roomreading.component";
 
 @Component({
     selector: 'app-root',
@@ -16,7 +17,7 @@ export class AppComponent implements OnInit {
     isLoggedIn: boolean = false;
     dashboardQR: string;
     isDashboard: boolean = false;
-
+    hasComputer;
     constructor(private authService: AuthenticationService, private route: ActivatedRoute,
         private router: Router, private _sharedService: SharedService, private sanitizer: DomSanitizer) { }
 
@@ -29,7 +30,9 @@ export class AppComponent implements OnInit {
     checkIfDashboard() {
         if (window.location.pathname.toString().includes('dashboard')) {
             this.isDashboard = true;
-            this.dashboardQR = 'http://145.24.222.238/dashboard/'.concat(window.location.pathname.substring(window.location.pathname.lastIndexOf('/') + 1));
+
+            this.dashboardQR = 'http://145.24.222.238/dashboard/'.concat(window.location.pathname.substring(window.location.pathname.lastIndexOf('/') + 1))
+            ;
         }
     }
 

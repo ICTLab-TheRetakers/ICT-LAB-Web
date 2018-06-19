@@ -60,7 +60,7 @@ const routes: Routes = [
         data: { roles: [1, 2, 3] }
     },
     {
-        path: 'dashboard/:id',
+        path: 'dashboard/:room',
         component: DashboardComponent,
         canActivate: [AuthGuard],
         data: { roles: [1, 2, 3] }

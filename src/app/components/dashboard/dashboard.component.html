@@ -1,4 +1,40 @@
+<div class="col-sm-12 col-md-10 offset-md-1 mb-3 mx-auto text-center">
 
-<p>
-    dashboard works! Current room: <b>{{id}}</b>
-</p>
+<h4 class="mt-3" *ngIf="schedule != null">{{ schedule.identifier }} - Week {{ schedule.week }}</h4>
+<table class="table table-sm mb-3 mx-auto" *ngIf="schedule != null && _scheduleHelper != null">
+    <thead>
+    <tr>
+        <th></th>
+        <th *ngFor="let day of schedule.days">
+            {{ day.weekday }}
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let hour of hours">
+        <td>
+            <b>{{ hour }}</b>
+        </td>
+        <td>
+            <p [innerHtml]="getLesson('Monday', hour)"></p>
+        </td>
+        <td>
+            <p [innerHtml]="getLesson('Tuesday', hour)"></p>
+        </td>
+        <td>
+            <p [innerHtml]="getLesson('Wednesday', hour)"></p>
+        </td>
+        <td>
+            <p [innerHtml]="getLesson('Thursday', hour)"></p>
+        </td>
+        <td>
+            <p [innerHtml]="getLesson('Friday', hour)"></p>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</div>
+
+
+
+

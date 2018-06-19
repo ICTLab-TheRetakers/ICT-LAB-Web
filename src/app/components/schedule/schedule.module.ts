@@ -25,6 +25,9 @@ import { CustomErrorHandler } from '../../shared/error-handler';
 
         { provide: LocationStrategy, useClass: PathLocationStrategy },
         { provide: ErrorHandler, useClass: CustomErrorHandler }
+    ],
+    exports: [
+        ScheduleComponent
     ]
 })
 export class ScheduleModule { }

@@ -4,6 +4,7 @@ import Schedule from '../../shared/models/schedule/schedule.model';
 import { environment } from '../../../environments/environment';
 import { RoomService } from '../../shared/services/room.service';
 import { ReservationService } from '../../shared/services/reservation.service';
+import {SharedService} from "../../shared/services/shared.service";
 
 @Component({
     selector: 'app-schedule',

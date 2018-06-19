@@ -15,6 +15,7 @@ import { RoomService } from '../../shared/services/room.service';
 
 import { SelectRoomModule } from '../room/select-room/select-room.module';
 import { CustomErrorHandler } from '../../shared/error-handler';
+import {ScheduleComponent} from "../schedule/schedule.component";
 
 
 @NgModule({
@@ -37,6 +38,8 @@ import { CustomErrorHandler } from '../../shared/error-handler';
         SharedService,
         { provide: LocationStrategy, useClass: PathLocationStrategy },
         { provide: ErrorHandler, useClass: CustomErrorHandler }
+    ],    exports: [
+        RoomReadingComponent
     ]
 })
 export class RoomreadingsModule { }
