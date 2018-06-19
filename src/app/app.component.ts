@@ -3,6 +3,7 @@ import { SharedService } from './shared/services/shared.service';
 import User from './shared/models/user.model';
 import { AuthenticationService } from './shared/authentication.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
     selector: 'app-root',
@@ -15,7 +16,7 @@ export class AppComponent implements OnInit {
     isLoggedIn: boolean = false;
 
     constructor(private authService: AuthenticationService, private route: ActivatedRoute,
-        private router: Router, private _sharedService: SharedService) { }
+        private router: Router, private _sharedService: SharedService, private sanitizer: DomSanitizer) { }
 
     ngOnInit() {
         this.checkIfLoggedIn();
@@ -30,6 +31,7 @@ export class AppComponent implements OnInit {
             this.isLoggedIn = false;
         }
     }
+
 
     signOut() {
         this.authService.logout();

@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light" [ngClass]="{'navbarAdmin': user?.role_id == 1}">
+<nav class="navbar navbar-expand-lg navbar-dark" [ngClass]="{'navbarAdmin': user?.role_id == 1}">
     <a class="navbar-brand" href="#">Hogeschool Rotterdam</a>
     <div class="ml-auto" *ngIf="user != null">
 
@@ -23,16 +23,20 @@
                     <a [routerLink]="['/reservations']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
                        class="nav-link">Reservations</a>
                 </li>
-                <li class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
-                    <a [routerLink]="['/users/details/', user.user_id]"routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
-                       class="nav-link">Profile</a>
-                </li>
                 <li class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show" [hidden]="user.role_id == 2 || user.role_id == 3">
                     <a [routerLink]="['/users']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
-                        class="nav-link">Users</a>
+                       class="nav-link">Users</a>
+                </li>
+                <li class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
+                    <a [routerLink]="['/users/details/', user.user_id]" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+                       class="nav-link profile" title="{{user.first_name}} {{user.last_name}}">
+                        <img class="profile-thumbnail d-none d-sm-none d-md-block" [src]="sanitizer.bypassSecurityTrustUrl(user.picture)" /> <span class="d-block d-sm-block d-md-none d-lg-none">Profile</span>
+                    </a>
                 </li>
                 <li data-toggle="collapse" class="nav-item">
-                    <a class="nav-link" style="cursor: pointer;" (click)="signOut()">Sign out</a>
+                    <a class="nav-link sign-out" (click)="signOut()" title="Sign out">
+                        <i class="fa fa-sign-out d-none d-sm-none d-md-block"></i> <span class="d-block d-sm-block d-md-none d-lg-none">Sign out</span>
+                    </a>
                 </li>
             </ul>
         </div>

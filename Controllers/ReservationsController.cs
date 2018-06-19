@@ -177,7 +177,7 @@ namespace ICT_LAB_Web.Controllers
                 StartTime = x.StartTime,
                 EndTime = x.EndTime,
                 Description = x.Description
-            });
+            }).OrderBy(o => o.StartTime);
 
             return Ok(result);
         }
@@ -207,7 +207,7 @@ namespace ICT_LAB_Web.Controllers
                 StartTime = x.StartTime,
                 EndTime = x.EndTime,
                 Description = x.Description
-            });
+            }).OrderBy(o => o.StartTime);
 
             return Ok(result);
         }
@@ -249,7 +249,7 @@ namespace ICT_LAB_Web.Controllers
                 StartTime = x.StartTime,
                 EndTime = x.EndTime,
                 Description = x.Description
-            });
+            }).OrderBy(o => o.StartTime);
 
             return Ok(result);
         }
@@ -327,6 +327,8 @@ namespace ICT_LAB_Web.Controllers
                 {
                     result[i] = result[i].Replace("\"", "");
                 }
+
+                result.OrderBy(o => o);
             }).ConfigureAwait(false);
 
             return Ok(result);
@@ -367,6 +369,8 @@ namespace ICT_LAB_Web.Controllers
                 {
                     result[i] = result[i].Replace("\"", "");
                 }
+
+                result.OrderBy(o => o);
             }).ConfigureAwait(false);
 
             return Ok(result);
@@ -407,6 +411,8 @@ namespace ICT_LAB_Web.Controllers
                 {
                     result[i] = result[i].Replace("\"", "");
                 }
+
+                result.OrderBy(o => o);
             }).ConfigureAwait(false);
 
             return Ok(result);
@@ -504,7 +510,7 @@ namespace ICT_LAB_Web.Controllers
                 StartTime = x.StartTime,
                 EndTime = x.EndTime,
                 Description = x.Description
-            });
+            }).OrderBy(o => o.StartTime);
 
             return Ok(result);
         }
