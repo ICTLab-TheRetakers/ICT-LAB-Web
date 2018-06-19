@@ -15,7 +15,7 @@ import { RoomService } from '../../shared/services/room.service';
 
 import { SelectRoomModule } from '../room/select-room/select-room.module';
 import { CustomErrorHandler } from '../../shared/error-handler';
-import {ScheduleComponent} from "../schedule/schedule.component";
+import { SidebarComponent } from './sidebar/sidebar.component';
 
 
 @NgModule({
@@ -30,7 +30,10 @@ import {ScheduleComponent} from "../schedule/schedule.component";
     ],
     declarations: [
         RoomReadingComponent,
-
+        SidebarComponent,
+    ],
+    exports: [
+        SidebarComponent
     ],
     providers: [
         RoomReadingService,
@@ -38,8 +41,6 @@ import {ScheduleComponent} from "../schedule/schedule.component";
         SharedService,
         { provide: LocationStrategy, useClass: PathLocationStrategy },
         { provide: ErrorHandler, useClass: CustomErrorHandler }
-    ],    exports: [
-        RoomReadingComponent
     ]
 })
 export class RoomreadingsModule { }

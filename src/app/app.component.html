@@ -44,7 +44,8 @@
 </nav>
 
 <aside class="bg-faded sidebar" [ngClass]="{'sidebarAdmin': user?.role_id == 1}">
-    <app-notification *ngIf="this.isLoggedIn"></app-notification>
+    <app-notification *ngIf="this.isLoggedIn && !this.isDashboard"></app-notification>
+    <app-sidebar *ngIf="this.isDashboard"></app-sidebar>
     <ul class="nav nav-pills flex-column nav-bottom">
         <li class="nav-item">
             <div class="qrComp" *ngIf="this.isDashboard">
