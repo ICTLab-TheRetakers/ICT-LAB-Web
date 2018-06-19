@@ -29,7 +29,7 @@ namespace ICT_LAB_Web.Components.Helper
         {
             var reservations = await reservationRepository.GetByDate(DateTime.Now);
 
-            var toSendNotification = reservations.Where(q => q.StartTime.AddHours(-3).CompareTo(DateTime.Now) < 0).ToList();
+            var toSendNotification = reservations.Where(q => (q.StartTime.AddHours(-3).CompareTo(DateTime.Now) < 0) && (q.StartTime.CompareTo(DateTime.Now) > 0)).ToList();
             foreach (Reservation reservation in toSendNotification)
             {
                 var notifications = await notificationRepository.GetByUser(reservation.UserId, DateTime.Now.AddHours(-3), DateTime.Now);
