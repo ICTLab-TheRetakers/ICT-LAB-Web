@@ -14,13 +14,23 @@ import { DomSanitizer } from '@angular/platform-browser';
 export class AppComponent implements OnInit {
     user: User = null;
     isLoggedIn: boolean = false;
+    dashboardQR: string;
+    isDashboard: boolean = false;
 
     constructor(private authService: AuthenticationService, private route: ActivatedRoute,
         private router: Router, private _sharedService: SharedService, private sanitizer: DomSanitizer) { }
 
     ngOnInit() {
         this.checkIfLoggedIn();
+        this.checkIfDashboard();
         this._sharedService.clearData();
+    }
+
+    checkIfDashboard() {
+        if (window.location.pathname.toString().includes('dashboard')) {
+            this.isDashboard = true;
+            this.dashboardQR = 'http://145.24.222.238/dashboard/'.concat(window.location.pathname.substring(window.location.pathname.lastIndexOf('/') + 1));
+        }
     }
 
     checkIfLoggedIn() {
