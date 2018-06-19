@@ -136,12 +136,14 @@
 	
 	.navbar {
 		height: 10vh;
+        margin-bottom: 15px;
 		padding-right: 0;
 	}
-	
+
     main {
         margin: auto;
-        position: unset;
+        left: 0 !important;
+        width: 100vw !important;
     }
 }
 
