@@ -20,3 +20,10 @@
 .card-deck .card .table tbody tr td:nth-child(2) {
     font-weight: 700;
 }
+
+@media (max-width: 991px) {
+    .card-deck .card {
+        width: 100% !important;
+    }
+
+}

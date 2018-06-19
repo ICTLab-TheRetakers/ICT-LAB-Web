@@ -145,7 +145,7 @@
         top: calc(90vh + 30px);
         left: 0 !important;
         width: 100vw !important;
-        overflow: auto;
+        overflow-x: scroll;
     }
 }
 
@@ -155,7 +155,7 @@ main {
     top: 8vh;
     bottom: 0;
     overflow-y: auto;
-    overflow-x: auto;
+    overflow-x: hidden;
     width: 100%;
     width: 88vw;
     height: 100%;
