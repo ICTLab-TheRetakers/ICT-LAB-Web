@@ -4,7 +4,7 @@
     <app-select-room [onlyAllowRooms]="false" [getSchedule]="true" (resetSchedule)="resetSchedule($event)" (chosenObject)="getScheduleChoice($event)"></app-select-room>
 
     <h4 class="mt-3" *ngIf="schedule != null">{{ schedule.identifier }} - Week {{ schedule.week }}</h4>
-    <table class="table mb-3 mx-auto" *ngIf="schedule != null">
+    <table class="table table-sm mb-3 mx-auto" *ngIf="schedule != null">
         <thead>
             <tr>
                 <th></th>

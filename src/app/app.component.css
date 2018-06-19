@@ -98,18 +98,17 @@
 }
 
 @media (max-width: 991px) {
-    .navbar {
-        padding-right: 0;
+	.navbar-nav {
+        width: 30vw;
+        height: auto;
+        background: inherit;
+        position: absolute;
+        top: 8vh;
+        left: 0px;
+        right: 0px;
     }
 
-    main {
-        margin: auto;
-        position: unset;
-    }
-}
-
-@media (max-width: 767.98px) {
-    .navbar-nav {
+	.navbar-nav {
         width: 100vw;
         height: auto;
         background: inherit;
@@ -137,7 +136,13 @@
 	
 	.navbar {
 		height: 10vh;
+		padding-right: 0;
 	}
+	
+    main {
+        margin: auto;
+        position: unset;
+    }
 }
 
 main {
