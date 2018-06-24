@@ -69,7 +69,7 @@
                             <td class="col-5" *ngIf="light != -1">{{ light }} *</td>
                         </tr>
                     </tbody>
-                    * = analog values, the higher the louder/brighter
+                    * = analog values, the higher the louder/brighter.
                 </table>
                 <div class="card-footer">
                     <span class="text-muted" *ngIf="created_on != null">
@@ -84,7 +84,8 @@
     <a *ngIf="selectedRoom != null" [routerLink]="['/issues/report', selectedRoom.room_code]" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
        class="btn btn-primary mt-4">Report Issue</a>
 
-    <div  [hidden]="currentUser.role_id == 2 || currentUser.role_id == 3" ><a *ngIf="readings?.length == 0 && selectedRoom != null" [routerLink]="['/devices/add', selectedRoom.room_code]" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+    <div  [hidden]="currentUser.role_id == 2 || currentUser.role_id == 3" >
+        <a *ngIf="readings?.length == 0 && selectedRoom != null"  routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
        class="btn btn-primary mt-4" (click)="onAddDevice()">Add device to this room</a>  </div>
 </div>
 

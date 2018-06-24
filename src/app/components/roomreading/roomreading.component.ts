@@ -135,6 +135,7 @@ export class RoomReadingComponent implements OnInit {
                     this.device = res;
                 }));
         }
+        this.router.navigate(['/devices/add/', this.selectedRoom.room_code]);
     }
 
     sortByLatest() {
