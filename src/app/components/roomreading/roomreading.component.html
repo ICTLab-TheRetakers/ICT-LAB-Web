@@ -62,13 +62,14 @@
                         </tr>
                         <tr class="d-flex">
                             <td class="col-7">Sound Level</td>
-                            <td class="col-5" *ngIf="sound != -1">{{ sound }} dB</td>
+                            <td class="col-5" *ngIf="sound != -1">{{ sound }} *</td>
                         </tr>
                         <tr class="d-flex">
                             <td class="col-7">Light Level</td>
-                            <td class="col-5" *ngIf="light != -1">{{ light }} lux</td>
+                            <td class="col-5" *ngIf="light != -1">{{ light }} *</td>
                         </tr>
                     </tbody>
+                    * = analog values, the higher the louder/brighter
                 </table>
                 <div class="card-footer">
                     <span class="text-muted" *ngIf="created_on != null">
@@ -83,7 +84,7 @@
     <a *ngIf="selectedRoom != null" [routerLink]="['/issues/report', selectedRoom.room_code]" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
        class="btn btn-primary mt-4">Report Issue</a>
 
-    <a *ngIf="readings?.length == 0 && selectedRoom != null" [routerLink]="['/devices/add', selectedRoom.room_code]" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+    <a *ngIf="readings?.length == 0 && selectedRoom != null" [hidden]="currentUser.role_id == 2 || currentUser.role_id == 3" [routerLink]="['/devices/add', selectedRoom.room_code]" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
        class="btn btn-primary mt-4" (click)="onAddDevice()">Add device to this room</a>
 </div>
 

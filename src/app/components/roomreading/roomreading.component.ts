@@ -14,6 +14,10 @@ import Device from '../../shared/models/device.model';
 import { SelectRoomComponent } from '../room/select-room/select-room.component';
 import { SharedService } from '../../shared/services/shared.service';
 import { DeviceService } from '../../shared/services/device.service';
+import User from  '../../shared/models/user.model';
+import Role from  '../../shared/models/role.model';
+import {UserService} from '../../shared/services/user.service';
+import {RoleService} from  '../../shared/services/role.service';
 
 
 @Component({
@@ -24,13 +28,14 @@ import { DeviceService } from '../../shared/services/device.service';
 export class RoomReadingComponent implements OnInit {
     toastOptions: ToastOptions;
     limit: number = 20;
-
+    userId: string;
+    roles: Role[];
     roomCode: string;
     readings: Roomreading[] = [];
-
     device: Device = null;
     selectedRoom: Room = null;
-
+    currentUser: User;
+    user: User;
     temperature: number;
     sound: number;
     light: number;
@@ -38,13 +43,36 @@ export class RoomReadingComponent implements OnInit {
     created_on: Date;
     hasDevice: boolean;
 
-    constructor(private _readingService: RoomReadingService, private _deviceService: DeviceService, private _sharedService: SharedService,
+    constructor(private _userService: UserService, private _roleService: RoleService, private _readingService: RoomReadingService, private _deviceService: DeviceService, private _sharedService: SharedService,
         private route: ActivatedRoute, private router: Router) {
 
         }
 
     ngOnInit() {
         this.checkIfRoomAvailable();
+        this.getCurrentUser();
+
+    }
+
+    getUser(email: string) {
+        this._userService.getById(email).subscribe(
+            (response) => {
+                this.user = response;
+                this.getRoles();
+            },
+            (error: HttpErrorResponse) => { throw error; }
+        );
+    }
+
+    getRoles() {
+        this._roleService.getAll().subscribe(
+            (response) => this.roles = response,
+            (error: HttpErrorResponse) => { throw error; }
+        );
+    }
+
+    getCurrentUser() {
+        this.currentUser = JSON.parse(sessionStorage.getItem('loggedInUser'));
     }
 
     checkIfRoomAvailable() {
