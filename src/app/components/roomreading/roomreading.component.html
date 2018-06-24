@@ -84,7 +84,7 @@
     <a *ngIf="selectedRoom != null" [routerLink]="['/issues/report', selectedRoom.room_code]" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
        class="btn btn-primary mt-4">Report Issue</a>
 
-    <a *ngIf="readings?.length == 0 && selectedRoom != null" [hidden]="currentUser.role_id == 2 || currentUser.role_id == 3" [routerLink]="['/devices/add', selectedRoom.room_code]" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+    <a [hidden]="currentUser.role_id == 2 || currentUser.role_id == 3" *ngIf="readings?.length == 0 && selectedRoom != null" [routerLink]="['/devices/add', selectedRoom.room_code]" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
        class="btn btn-primary mt-4" (click)="onAddDevice()">Add device to this room</a>
 </div>
 
