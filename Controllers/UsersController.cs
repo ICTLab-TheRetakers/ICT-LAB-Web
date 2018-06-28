@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace ICT_LAB_Web.Controllers
@@ -47,7 +48,7 @@ namespace ICT_LAB_Web.Controllers
             }
 
             // Check if email address is valid
-            if (!email.Contains("@") || !email.Contains("."))
+            if (!Regex.Match(email, @"^([\w\.\-]+)@((?!\.|\-)[\w\-]+)((\.(\w){2,3})+)$").Success)
             {
                 return StatusCode(400, "This e-mail address is not valid.");
             }
@@ -161,7 +162,7 @@ namespace ICT_LAB_Web.Controllers
             }
 
             // Check if email address is valid
-            if (!email.Contains("@") || !email.Contains("."))
+            if (!Regex.Match(email, @"^([\w\.\-]+)@((?!\.|\-)[\w\-]+)((\.(\w){2,3})+)$").Success)
             {
                 return StatusCode(400, "This e-mail address is not valid.");
             }
@@ -242,7 +243,7 @@ namespace ICT_LAB_Web.Controllers
             }
 
             // Check if email address is valid
-            if (!email.Contains("@") || !email.Contains("."))
+            if (!Regex.Match(email, @"^([\w\.\-]+)@((?!\.|\-)[\w\-]+)((\.(\w){2,3})+)$").Success)
             {
                 return StatusCode(400, "This e-mail address is not valid.");
             }
@@ -285,7 +286,7 @@ namespace ICT_LAB_Web.Controllers
             }
 
             // Check if email address is valid
-            if (!model.Email.Contains("@") || !model.Email.Contains("."))
+            if (!Regex.Match(email, @"^([\w\.\-]+)@((?!\.|\-)[\w\-]+)((\.(\w){2,3})+)$").Success)
             {
                 return StatusCode(400, "This e-mail address is not valid.");
             }

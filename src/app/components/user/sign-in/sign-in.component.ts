@@ -19,6 +19,7 @@ export class SignInComponent implements OnInit {
     toastOptions: ToastOptions;
     email: string;
     password: string;
+    redirectUrl: string;
 
     constructor(private route: ActivatedRoute, private userService: UserService, private roleService: RoleService,
         private router: Router, private authenticationService: AuthenticationService) { }
@@ -26,6 +27,9 @@ export class SignInComponent implements OnInit {
     ngOnInit() {
         // reset login status
         this.authenticationService.logout();
+
+        // get return url from route parameters or default to '/'
+        this.redirectUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
     }
 
     checkCredentials() {
@@ -40,7 +44,7 @@ export class SignInComponent implements OnInit {
 
     saveLocal(user: User) {
         sessionStorage.setItem('loggedInUser', JSON.stringify(user));
-        this.router.navigate(['/']);
+        this.router.navigateByUrl(this.redirectUrl);
     }
 
     checkRole(user: User) {
