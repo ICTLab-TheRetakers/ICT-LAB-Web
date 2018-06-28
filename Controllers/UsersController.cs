@@ -286,7 +286,7 @@ namespace ICT_LAB_Web.Controllers
             }
 
             // Check if email address is valid
-            if (!Regex.Match(email, @"^([\w\.\-]+)@((?!\.|\-)[\w\-]+)((\.(\w){2,3})+)$").Success)
+            if (!Regex.Match(model.Email, @"^([\w\.\-]+)@((?!\.|\-)[\w\-]+)((\.(\w){2,3})+)$").Success)
             {
                 return StatusCode(400, "This e-mail address is not valid.");
             }
