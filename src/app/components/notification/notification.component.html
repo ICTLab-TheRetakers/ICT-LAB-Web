@@ -1,16 +1,4 @@
-<h4>Alerts</h4>
-<!--<ul class="nav nav-pills flex-column">
-    <li class="nav-item">
-        Your reservation for room H.4.212 has been canceled
-    </li>
-    <li class="nav-item">
-        Reminder: Scheduled room WD.4.002 for today 14:30
-    </li>
-    <li class="nav-item">
-        Some more text about reservations and stuff
-    </li>
-</ul>-->
-
+<i class="fa fa-bell alert"></i>
 <ul class="nav nav-pills flex-column" *ngFor="let alert of alerts; let i=index">
     <li class="nav-item" *ngIf="i<5">
         {{ alert.description }}

@@ -71,7 +71,7 @@ export class DashboardComponent implements OnInit {
             this.startWeek = this.startWeek + 1;
         }
 
-        setTimeout(() => { this.getOptions(); }, 1000);
+        this.getOptions();
     }
 
     selectOption() {
@@ -102,7 +102,7 @@ export class DashboardComponent implements OnInit {
         this._reservationService.getLessonsByWeek('r', identifier, this.quarter, this.startWeek).subscribe(
             (response) => {
                 this.schedule = response;
-                setTimeout(() => { this.initHelper(); }, 300);
+                this.initHelper();
             },
             (error: HttpErrorResponse) => { throw error; }
         );
@@ -112,8 +112,8 @@ export class DashboardComponent implements OnInit {
         this._reservationService.getAllRooms(this.quarter).subscribe(
         (response) =>  {
             this.index = response.indexOf(this.roomCode);
-            setTimeout(() => { this.selectOption(); }, 1000);
-        },
+                this.selectOption();
+            },
         (error: HttpErrorResponse) => {
                 throw error;
             }
@@ -123,7 +123,6 @@ export class DashboardComponent implements OnInit {
 
     getLesson(day: string, hour: string): string {
         let lesson = this.schedule.days.filter(f => f.weekday == day)[0].lessons.filter(f => f.start_time == hour)[0];
-        setTimeout(() => { }, 200);
 
         return this._scheduleHelper.print(lesson);
     }
