@@ -9,6 +9,7 @@ import {HttpErrorResponse} from '@angular/common/http';
 import * as moment from 'moment';
 import {ReservationService} from '../../shared/services/reservation.service';
 import { SharedService } from '../../shared/services/shared.service';
+import Reservation from '../../shared/models/reservation.model';
 
 @Component({
   selector: 'app-dashboard',
@@ -123,7 +124,6 @@ export class DashboardComponent implements OnInit {
 
     getLesson(day: string, hour: string): string {
         let lesson = this.schedule.days.filter(f => f.weekday == day)[0].lessons.filter(f => f.start_time == hour)[0];
-        setTimeout(() => { }, 200);
 
         return this._scheduleHelper.print(lesson);
     }
