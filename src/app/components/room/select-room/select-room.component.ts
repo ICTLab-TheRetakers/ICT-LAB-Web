@@ -27,6 +27,7 @@ export class SelectRoomComponent implements OnInit {
     options: string[] = null;
     hide: boolean = false;
     room: Room;
+    wantedRoom: string;
 
     @Input() onlyAllowRooms: boolean;
     @Input() getSchedule: boolean;
@@ -66,6 +67,22 @@ export class SelectRoomComponent implements OnInit {
             this._roomService.getAllRooms().subscribe(
                 (response) => this.options = response.map(m => m.room_code),
 				(error: HttpErrorResponse) => { throw error; }
+            );
+        }
+
+        /* Accept Room Parameter */
+        var url = new URL(window.location.href);
+        if (url.searchParams.get("room") != null)
+            this.wantedRoom = url.searchParams.get("room").split('-').join('.');;
+        if (this.wantedRoom != null) {
+            this._roomService.get(this.wantedRoom).subscribe(
+                (response) => {
+                    this.chosenObject.emit(response);
+                },
+                (error: HttpErrorResponse) => {
+                    this.wantedRoom = null;
+                    throw error;
+                }
             );
         }
     }
