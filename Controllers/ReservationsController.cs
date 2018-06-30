@@ -72,7 +72,7 @@ namespace ICT_LAB_Web.Controllers
                 Description = x.Description
             }).ToList();
 
-            var totalPages = result.Count > pageSize.Value ? (int)Math.Ceiling((double)(result.Count() / pageSize.Value)) : 1;
+            var totalPages = ((result.Count - 1) / pageSize.Value) + 1;
             var requestedData = result.Skip((page.Value - 1) * pageSize.Value).Take(pageSize.Value).ToList();
 
             var paging = new PaginationResult<ReservationViewModel>(page.Value, totalPages, requestedData);
