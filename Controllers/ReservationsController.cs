@@ -70,9 +70,9 @@ namespace ICT_LAB_Web.Controllers
                 StartTime = x.StartTime,
                 EndTime = x.EndTime,
                 Description = x.Description
-            });
+            }).ToList();
 
-            var totalPages = result.Count() < pageSize.Value ? 1 : (int)Math.Ceiling((double)(result.Count() / pageSize.Value));
+            var totalPages = result.Count > pageSize.Value ? (int)Math.Ceiling((double)(result.Count() / pageSize.Value)) : 1;
             var requestedData = result.Skip((page.Value - 1) * pageSize.Value).Take(pageSize.Value).ToList();
 
             var paging = new PaginationResult<ReservationViewModel>(page.Value, totalPages, requestedData);

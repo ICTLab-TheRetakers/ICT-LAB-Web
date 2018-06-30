@@ -117,9 +117,9 @@ namespace ICT_LAB_Web.Controllers
                 CreatedOn = x.CreatedOn,
                 Resolved = x.Resolved,
                 Description = x.Description
-            });
+            }).ToList();
 
-            var totalPages = result.Count() < pageSize.Value ? 1 : (int)Math.Ceiling((double)(result.Count() / pageSize.Value));
+            var totalPages = result.Count > pageSize.Value ? (int)Math.Ceiling((double)(result.Count() / pageSize.Value)) : 1;
             var requestedData = result.Skip((page.Value - 1) * pageSize.Value).Take(pageSize.Value).ToList();
 
             var paging = new PaginationResult<IssueViewModel>(page.Value, totalPages, requestedData);

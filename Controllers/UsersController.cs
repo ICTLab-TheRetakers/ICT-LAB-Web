@@ -1,19 +1,22 @@
-using ICT_LAB_Web.Components.Entities;
-using ICT_LAB_Web.Components.Helper;
-using ICT_LAB_Web.Components.Services;
-using ICT_LAB_Web.Components.Services.Interfaces;
-using ICT_LAB_Web.Controllers.ViewModels;
-using Microsoft.AspNetCore.Cors;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Primitives;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+
+using ICT_LAB_Web.Components.Entities;
+using ICT_LAB_Web.Components.Helper;
+using ICT_LAB_Web.Components.Services;
+using ICT_LAB_Web.Components.Services.Interfaces;
+using ICT_LAB_Web.Controllers.ViewModels;
+
+using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Primitives;
+
+using Newtonsoft.Json;
 
 namespace ICT_LAB_Web.Controllers
 {
@@ -100,9 +103,9 @@ namespace ICT_LAB_Web.Controllers
                 Email = s.Email,
                 Password = s.Password,
                 Picture = s.Picture
-            });
+            }).ToList();
 
-            var totalPages = result.Count() < pageSize.Value ? 1 : (int)Math.Ceiling((double)(result.Count() / pageSize.Value));
+            var totalPages = result.Count > pageSize.Value ? (int)Math.Ceiling((double)(result.Count() / pageSize.Value)) : 1;
             var requestedData = result.Skip((page.Value - 1) * pageSize.Value).Take(pageSize.Value).ToList();
 
             var paging = new PaginationResult<UserViewModel>(page.Value, totalPages, requestedData);
