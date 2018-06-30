@@ -1,10 +1,10 @@
-<div class="col-sm-12 col-md-10 offset-md-1 mx-auto text-center">
-    <h3 class="my-3">Room Information</h3>
+<div class="col-sm-12 col-md-10 offset-md-1 mx-auto">
+    <h3 class="my-3 text-center">Room Information</h3>
 
     <app-select-room [onlyAllowRooms]="true" [getSchedule]="false" (chosenObject)="getRoomChoice($event)"></app-select-room>
     <h3 class="text-center mt-3" *ngIf="selectedRoom != null">{{ selectedRoom.room_code }}</h3>
 
-    <div class="card-deck mx-auto mt-4">
+    <div class="card-deck text-center mx-auto mt-4 mb-3">
 
         <!-- Classroom details -->
         <ng-container *ngIf="selectedRoom != null">
@@ -12,7 +12,6 @@
                 <i class="card-img-top fa fa-info-circle fa-4x mt-3" aria-hidden="true"></i>
                 <div class="card-body">
                     <h5 class="card-title">Classroom <br /> Details</h5>
-                    <p class="card-text"></p>
                 </div>
                 <table class="table table-hover mx-auto">
                     <tbody>
@@ -35,6 +34,9 @@
                     </tbody>
                 </table>
                 <div class="card-footer text-muted">
+                    <span class="text-muted">
+                        &nbsp;
+                    </span>
                     <span class="text-muted" *ngIf="created_on != null">
                         &nbsp;
                     </span>
@@ -48,7 +50,6 @@
                 <i class="card-img-top fa fa-thermometer-half fa-4x mt-3" aria-hidden="true"></i>
                 <div class="card-body">
                     <h5 class="card-title">Classroom <br /> Information</h5>
-                    <p class="card-text"></p>
                 </div>
                 <table class="table table-hover mx-auto">
                     <tbody>
@@ -69,9 +70,11 @@
                             <td class="col-5" *ngIf="light != -1">{{ light }} *</td>
                         </tr>
                     </tbody>
-                    * = analog values, the higher the louder/brighter.
                 </table>
                 <div class="card-footer">
+                    <span class="text-muted">
+                        * = analog values, the higher the louder/brighter.
+                    </span>
                     <span class="text-muted" *ngIf="created_on != null">
                         Last updated on {{ created_on | date: 'dd-MM HH:mm' }}
                     </span>
@@ -81,11 +84,14 @@
 
     </div>
 
-    <a *ngIf="selectedRoom != null" [routerLink]="['/issues/report', selectedRoom.room_code]" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
-       class="btn btn-primary mt-4">Report Issue</a>
+    <div class="text-center mt-4">
+        <a *ngIf="selectedRoom != null" [routerLink]="['/issues/report', selectedRoom.room_code]" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+           class="btn btn-primary">Report Issue</a>
 
-    <div  [hidden]="currentUser.role_id == 2 || currentUser.role_id == 3" >
-        <a *ngIf="readings?.length == 0 && selectedRoom != null"  routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
-       class="btn btn-primary mt-4" (click)="onAddDevice()">Add device to this room</a>  </div>
+        <ng-container *ngIf="currentUser.role_id != 2 || currentUser.role_id != 3">
+            <a *ngIf="readings?.length == 0 && selectedRoom != null" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+               class="btn btn-primary text-white" (click)="onAddDevice()">Add device to this room</a>
+        </ng-container>
+    </div>
 </div>
 
