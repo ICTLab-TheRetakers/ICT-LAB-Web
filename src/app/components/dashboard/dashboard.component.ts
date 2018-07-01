@@ -49,7 +49,7 @@ export class DashboardComponent implements OnInit {
         let today = new Date();
         let dayOfWeek = moment(today).day();
         let time = moment(today).hours();
-        let week = moment(today).isoWeek();
+        let week = moment(today).week();
         let quarter = moment(today).quarter();
 
         switch (quarter) {
