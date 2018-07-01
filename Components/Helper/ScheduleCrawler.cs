@@ -78,7 +78,7 @@ namespace ICT_LAB_Web.Components.Helper
         private async Task<Schedule> GetSchedule(string scheduleType, string identifier, string quarterOfYear, int week)
         {
             string url = "";
-            if (char.IsDigit(quarterOfYear[0]))
+            if (char.IsDigit(Convert.ToChar(quarterOfYear)))
             {
                 url = String.Format("http://misc.hro.nl/roosterdienst/webroosters/{0}/kw{1}/{2}/{3}/{4}.htm", this.Department, quarterOfYear, week, scheduleType, identifier);
             }

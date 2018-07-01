@@ -74,7 +74,7 @@ export class SelectRoomComponent implements OnInit {
         let today = new Date();
         let dayOfWeek = moment(today).day();
         let time = moment(today).hours();
-        let week = moment(today).week();
+        let week = moment(today).isoWeek();
         let quarter = moment(today).quarter();
 
         switch (quarter) {
@@ -92,13 +92,13 @@ export class SelectRoomComponent implements OnInit {
                 break;
         }
 
-        if (week > 27 && week < 36) {
-            this.quarter = 'Zomerrooster';
-        }
-
         this.startWeek = moment(today).week();
         if (dayOfWeek == 0 || dayOfWeek == 6 || (dayOfWeek == 5 && time >= 22)) {
             this.startWeek = this.startWeek + 1;
+        }
+
+        if (week > 27 && week < 36) {
+            this.quarter = 'Zomerrooster';
         }
 
         this.currentWeek = this.startWeek;
