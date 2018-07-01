@@ -73,7 +73,7 @@ export class DashboardComponent implements OnInit {
             week++;
         }
 
-        if (quarter == 3 && week < 27) {
+        if (quarter == 3 && week <= 27) {
             this.quarter = '4';
         }
 
