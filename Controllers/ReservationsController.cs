@@ -308,7 +308,7 @@ namespace ICT_LAB_Web.Controllers
             }
 
             string url = "";
-            if (char.IsDigit(Convert.ToChar(quarter)))
+            if (quarter.Length == 1)
             {
                 url = String.Format("http://misc.hro.nl/roosterdienst/webroosters/{0}/kw{1}/frames/navbar.htm", "CMI", quarter);
             }
@@ -359,7 +359,7 @@ namespace ICT_LAB_Web.Controllers
             }
 
             string url = "";
-            if (char.IsDigit(Convert.ToChar(quarter)))
+            if (quarter.Length == 1)
             {
                 url = String.Format("http://misc.hro.nl/roosterdienst/webroosters/{0}/kw{1}/frames/navbar.htm", "CMI", quarter);
             }
@@ -410,7 +410,7 @@ namespace ICT_LAB_Web.Controllers
             }
 
             string url = "";
-            if (char.IsDigit(Convert.ToChar(quarter)))
+            if (quarter.Length == 1)
             {
                 url = String.Format("http://misc.hro.nl/roosterdienst/webroosters/{0}/kw{1}/frames/navbar.htm", "CMI", quarter);
             }
