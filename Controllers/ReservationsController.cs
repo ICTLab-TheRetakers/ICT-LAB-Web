@@ -314,7 +314,7 @@ namespace ICT_LAB_Web.Controllers
             }
             else
             {
-                String.Format("http://misc.hro.nl/roosterdienst/webroosters/{0}/{1}/frames/navbar.htm", "CMI", quarter);
+                url = String.Format("http://misc.hro.nl/roosterdienst/webroosters/{0}/{1}/frames/navbar.htm", "CMI", quarter);
             }
 
             var result = new List<string>();
@@ -365,7 +365,7 @@ namespace ICT_LAB_Web.Controllers
             }
             else
             {
-                String.Format("http://misc.hro.nl/roosterdienst/webroosters/{0}/{1}/frames/navbar.htm", "CMI", quarter);
+                url = String.Format("http://misc.hro.nl/roosterdienst/webroosters/{0}/{1}/frames/navbar.htm", "CMI", quarter);
             }
 
             var result = new List<string>();
@@ -416,7 +416,7 @@ namespace ICT_LAB_Web.Controllers
             }
             else
             {
-                String.Format("http://misc.hro.nl/roosterdienst/webroosters/{0}/{1}/frames/navbar.htm", "CMI", quarter);
+                url = String.Format("http://misc.hro.nl/roosterdienst/webroosters/{0}/{1}/frames/navbar.htm", "CMI", quarter);
             }
 
             var result = new List<string>();
