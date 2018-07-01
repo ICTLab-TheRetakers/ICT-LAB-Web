@@ -70,6 +70,7 @@ export class DashboardComponent implements OnInit {
         this.startWeek = moment(today).week();
         if (dayOfWeek == 0 || dayOfWeek == 6 || (dayOfWeek == 5 && time >= 22)) {
             this.startWeek = this.startWeek + 1;
+            week++;
         }
 
         if (week > 27 && week < 36) {
