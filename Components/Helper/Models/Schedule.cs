@@ -11,7 +11,7 @@ namespace ICT_LAB_Web.Components.Helper.Models
         public string Identifier { get; set; }
         public string ScheduleType { get; set; }
         public int Week { get; set; }
-        public int QuarterOfYear { get; set; }
+        public string QuarterOfYear { get; set; }
         public string Department { get; set; }
         public List<Day> Days { get; set; }
 

@@ -22,7 +22,7 @@ export class DashboardComponent implements OnInit {
 
     schedule: Schedule = null;
     startWeek: number = null;
-    quarter: number = null;
+    quarter: string = null;
     index: number = null;
     options: string[] = null;
 
@@ -49,21 +49,26 @@ export class DashboardComponent implements OnInit {
         let today = new Date();
         let dayOfWeek = moment(today).day();
         let time = moment(today).hours();
+        let week = moment(today).isoWeek();
         let quarter = moment(today).quarter();
 
         switch (quarter) {
             case 1:
-                this.quarter = 3;
+                this.quarter = '3';
                 break;
             case 2:
-                this.quarter = 4;
+                this.quarter = '4';
                 break;
             case 3:
-                this.quarter = 1;
+                this.quarter = '1';
                 break;
             case 4:
-                this.quarter = 2;
+                this.quarter = '2';
                 break;
+        }
+
+        if (week > 27 && week < 36) {
+            this.quarter = 'Zomerrooster';
         }
 
         this.startWeek = moment(today).week();

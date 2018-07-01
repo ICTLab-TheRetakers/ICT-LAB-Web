@@ -265,10 +265,10 @@ namespace ICT_LAB_Web.Controllers
         [ProducesResponseType(typeof(ScheduleViewModel), 200)]
         [ProducesResponseType(typeof(void), 400)]
         [ProducesResponseType(typeof(void), 500)]
-        public async Task<IActionResult> GetLessonsByWeek(string type, string index, int? week, int? quarter)
+        public async Task<IActionResult> GetLessonsByWeek(string type, string index, int? week, string quarter)
         {
             if (String.IsNullOrEmpty(type) || String.IsNullOrEmpty(index) || !week.HasValue
-                || !quarter.HasValue)
+                || String.IsNullOrEmpty(quarter))
             {
                 return StatusCode(400, "Invalid parameter(s).");
             }
@@ -277,7 +277,7 @@ namespace ICT_LAB_Web.Controllers
             _crawler.SetScheduleType(type);
             _crawler.SetIndex(index);
             _crawler.SetWeek(week.Value);
-            _crawler.SetQuarterOfYear(quarter.Value);
+            _crawler.SetQuarterOfYear(quarter);
 
             // Get schedule
             var data = await Task.Run(() => _crawler.StartCrawling()).ConfigureAwait(false);
@@ -300,14 +300,23 @@ namespace ICT_LAB_Web.Controllers
         [ProducesResponseType(typeof(List<string>), 200)]
         [ProducesResponseType(typeof(void), 400)]
         [ProducesResponseType(typeof(void), 500)]
-        public async Task<IActionResult> GetAllTeachers(int? quarter)
+        public async Task<IActionResult> GetAllTeachers(string quarter)
         {
-            if (!quarter.HasValue)
+            if (String.IsNullOrEmpty(quarter))
             {
                 return StatusCode(400, "Invalid parameter(s).");
             }
 
-            var url = String.Format("http://misc.hro.nl/roosterdienst/webroosters/{0}/kw{1}/frames/navbar.htm", "CMI", quarter);
+            string url = "";
+            if (char.IsDigit(quarter[0]))
+            {
+                url = String.Format("http://misc.hro.nl/roosterdienst/webroosters/{0}/kw{1}/frames/navbar.htm", "CMI", quarter);
+            }
+            else
+            {
+                String.Format("http://misc.hro.nl/roosterdienst/webroosters/{0}/{1}/frames/navbar.htm", "CMI", quarter);
+            }
+
             var result = new List<string>();
             await Task.Run(async () =>
             {
@@ -342,14 +351,23 @@ namespace ICT_LAB_Web.Controllers
         [ProducesResponseType(typeof(List<string>), 200)]
         [ProducesResponseType(typeof(void), 400)]
         [ProducesResponseType(typeof(void), 500)]
-        public async Task<IActionResult> GetAllClasses(int? quarter)
+        public async Task<IActionResult> GetAllClasses(string quarter)
         {
-            if (!quarter.HasValue)
+            if (String.IsNullOrEmpty(quarter))
             {
                 return StatusCode(400, "Invalid parameter(s).");
             }
 
-            var url = String.Format("http://misc.hro.nl/roosterdienst/webroosters/{0}/kw{1}/frames/navbar.htm", "CMI", quarter);
+            string url = "";
+            if (char.IsDigit(quarter[0]))
+            {
+                url = String.Format("http://misc.hro.nl/roosterdienst/webroosters/{0}/kw{1}/frames/navbar.htm", "CMI", quarter);
+            }
+            else
+            {
+                String.Format("http://misc.hro.nl/roosterdienst/webroosters/{0}/{1}/frames/navbar.htm", "CMI", quarter);
+            }
+
             var result = new List<string>();
             await Task.Run(async () =>
             {
@@ -384,14 +402,23 @@ namespace ICT_LAB_Web.Controllers
         [ProducesResponseType(typeof(List<string>), 200)]
         [ProducesResponseType(typeof(void), 400)]
         [ProducesResponseType(typeof(void), 500)]
-        public async Task<IActionResult> GetAllRooms(int? quarter)
+        public async Task<IActionResult> GetAllRooms(string quarter)
         {
-            if (!quarter.HasValue)
+            if (String.IsNullOrEmpty(quarter))
             {
                 return StatusCode(400, "Invalid parameter(s).");
             }
 
-            var url = String.Format("http://misc.hro.nl/roosterdienst/webroosters/{0}/kw{1}/frames/navbar.htm", "CMI", quarter);
+            string url = "";
+            if (char.IsDigit(quarter[0]))
+            {
+                url = String.Format("http://misc.hro.nl/roosterdienst/webroosters/{0}/kw{1}/frames/navbar.htm", "CMI", quarter);
+            }
+            else
+            {
+                String.Format("http://misc.hro.nl/roosterdienst/webroosters/{0}/{1}/frames/navbar.htm", "CMI", quarter);
+            }
+
             var result = new List<string>();
             await Task.Run(async () =>
             {

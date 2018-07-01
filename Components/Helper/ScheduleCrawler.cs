@@ -16,7 +16,7 @@ namespace ICT_LAB_Web.Components.Helper
         private string Identifier;
         private string Department = "CMI";
         private int Week;
-        private int Quarter;
+        private string Quarter;
         private string Index;
         private HttpClient httpClient;
 
@@ -29,7 +29,7 @@ namespace ICT_LAB_Web.Components.Helper
             this.httpClient = new HttpClient();
         }
 
-        public ScheduleCrawler(string scheduleType, string index, int quarter, int week)
+        public ScheduleCrawler(string scheduleType, string index, string quarter, int week)
         {
             this.ScheduleType = scheduleType;
             this.Week = week;
@@ -52,7 +52,7 @@ namespace ICT_LAB_Web.Components.Helper
             this.Week = week;
         }
 
-        public void SetQuarterOfYear(int quarter)
+        public void SetQuarterOfYear(string quarter)
         {
             this.Quarter = quarter;
         }
@@ -75,9 +75,17 @@ namespace ICT_LAB_Web.Components.Helper
 
         #region Private Methods
 
-        private async Task<Schedule> GetSchedule(string scheduleType, string identifier, int quarterOfYear, int week)
+        private async Task<Schedule> GetSchedule(string scheduleType, string identifier, string quarterOfYear, int week)
         {
-            var url = String.Format("http://misc.hro.nl/roosterdienst/webroosters/{0}/kw{1}/{2}/{3}/{4}.htm", this.Department, quarterOfYear, week, scheduleType, identifier);
+            string url = "";
+            if (char.IsDigit(quarterOfYear[0]))
+            {
+                url = String.Format("http://misc.hro.nl/roosterdienst/webroosters/{0}/kw{1}/{2}/{3}/{4}.htm", this.Department, quarterOfYear, week, scheduleType, identifier);
+            }
+            else
+            {
+                url = String.Format("http://misc.hro.nl/roosterdienst/webroosters/{0}/{1}/{2}/{3}/{4}.htm", this.Department, quarterOfYear, week, scheduleType, identifier);
+            }
 
             var html = await httpClient.GetStringAsync(url).ConfigureAwait(false);
             var document = new HtmlDocument();
