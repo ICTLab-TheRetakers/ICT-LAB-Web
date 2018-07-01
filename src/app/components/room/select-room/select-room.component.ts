@@ -93,9 +93,9 @@ export class SelectRoomComponent implements OnInit {
         }
 
         this.startWeek = moment(today).week();
-        if (dayOfWeek == 0 || dayOfWeek == 6 || (dayOfWeek == 5 && time >= 22)) {
-            this.startWeek = this.startWeek + 1;
-        }
+        //if (dayOfWeek == 0 || dayOfWeek == 6 || (dayOfWeek == 5 && time >= 22)) {
+        //    this.startWeek = this.startWeek + 1;
+        //}
 
         if (quarter == 3 && week <= 27) {
             this.quarter = '4';
