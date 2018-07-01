@@ -31,7 +31,7 @@ export class SidebarComponent implements OnInit {
     getRoom() {
         this._roomService.get(this.roomCode).subscribe(
             (response) => this.room = response,
-            (error: HttpErrorResponse) => { throw error; }
+            (error: HttpErrorResponse) => {  }
         );
     }
 
