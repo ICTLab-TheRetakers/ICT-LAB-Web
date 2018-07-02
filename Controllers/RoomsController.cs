@@ -54,9 +54,9 @@ namespace ICT_LAB_Web.Controllers
                 HasComputer = x.HasComputer,
                 HasWindows = x.HasWindows,
                 StudentCapacity = x.StudentCapacity
-            });
+            }).ToList();
 
-            var totalPages = result.Count() < pageSize.Value ? 1 : (int)Math.Ceiling((double)(result.Count() / pageSize.Value));
+            var totalPages = ((result.Count - 1) / pageSize.Value) + 1;
             var requestedData = result.Skip((page.Value - 1) * pageSize.Value).Take(pageSize.Value).ToList();
 
             var paging = new PaginationResult<RoomViewModel>(page.Value, totalPages, requestedData);

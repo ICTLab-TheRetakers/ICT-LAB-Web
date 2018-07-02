@@ -39,7 +39,7 @@
                 <i class="fa fa-file-text-o"></i>
             </a>
         </div>
-        <div class="right" *ngIf="pagedResult != null && pagedResult.total_pages > 1">
+        <div class="right" *ngIf="pagedResult != null">
             <button [disabled]="pagedResult.current_page == pagedResult.total_pages" class="btn btn-primary" (click)="getPage(pagedResult.current_page + 1)">
                 <i class="fa fa-chevron-right"></i>
             </button>
