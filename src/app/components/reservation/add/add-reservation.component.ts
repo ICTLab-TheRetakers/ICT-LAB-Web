@@ -57,6 +57,17 @@ export class AddReservationComponent implements OnInit {
     submitForm() {
         let errorCount = 0;
         this.reservations.forEach(reservation => {
+            // Check if hours are valid
+            var validStart = false;
+            var validEnd = false;
+
+            this.hours.forEach(hour => {
+                if (hour.startsWith(reservation.begin))
+                    validStart = true;
+
+                if (hour.endsWith(reservation.end))
+                    validEnd = true;
+            })
 
             // Check if input values are valid
             this.date = reservation.date.toString();
@@ -66,6 +77,9 @@ export class AddReservationComponent implements OnInit {
 
             } else if (reservation.begin > reservation.end) {
                 this.toastOptions.msg = 'Start time cannot be later than end time.';
+                this.toastyService.error(this.toastOptions);
+            } else if (!validStart || !validEnd) {
+                this.toastOptions.msg = 'Please use a start / end time that is used for regular hours';
                 this.toastyService.error(this.toastOptions);
             } else {
                 reservation = this.convertDatetime(reservation);
