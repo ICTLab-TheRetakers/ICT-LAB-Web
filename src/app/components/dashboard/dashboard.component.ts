@@ -161,7 +161,7 @@ export class DashboardComponent implements OnInit {
 
     getReservation(day: number, hour: string): string {
         var result = '';
-        var reservation = '';
+        var reservation = new Reservation();
         var user = '';
 
         if (this.reservations == null)
@@ -181,27 +181,24 @@ export class DashboardComponent implements OnInit {
 
             // check if the hour begins or ends with the reservation time
             if (hour.startsWith(start)) {
-                reservation = reservations[i].description;
-                user = reservations[i].user_id;
+                reservation = reservations[i];
                 break;
             } else if (hour.endsWith(end)) {
-                reservation = reservations[i].description;
-                user = reservations[i].user_id;
+                reservation = reservations[i];
                 break;
             }
 
             // Do a direct string comparison in case the reservation is over many hours
             if (hour.substring(0, 5) > start && hour.substring(6) < end) {
-                reservation = reservations[i].description;
-                user = reservations[i].user_id;
+                reservation = reservations[i];
             }
         }
 
-        if (reservation != '') {
-            if (reservation.length > 25)
-                result = '<b><u>Reservation</u></b><br />' + reservation.substring(0, 24) + '...<br /><i>' + user + '</i>';
+        if (reservation.description != null) {
+            if (reservation.description.length > 25)
+                result = '<b><u>Reservation</u></b><br />' + reservation.description.substring(0, 24) + '...<br /><i>' + reservation.user_id + '</i>';
             else
-                result = '<b><u>Reservation</u></b><br />' + reservation + '<br /><i>' + user + '</i>';
+                result = '<b><u>Reservation</u></b><br />' + reservation.description + '<br /><i>' + reservation.user_id + '</i>';
         }
             
 
