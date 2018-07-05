@@ -23,9 +23,10 @@ export class DashboardComponent implements OnInit {
 
     schedule: Schedule = null;
     startWeek: number = null;
-    quarter: number = null;
+    quarter: string = null;
     index: number = null;
     options: string[] = null;
+    reservations: Reservation[];
 
     constructor(private route: ActivatedRoute, private _reservationService: ReservationService, private _sharedService: SharedService) {
         this.route.params.subscribe(
@@ -40,6 +41,7 @@ export class DashboardComponent implements OnInit {
 
     ngOnInit() {
         this.getScheduleByRoom();
+        this.setReservations();
     }
 
     getScheduleByRoom() {
@@ -50,29 +52,38 @@ export class DashboardComponent implements OnInit {
         let today = new Date();
         let dayOfWeek = moment(today).day();
         let time = moment(today).hours();
+        let week = moment(today).isoWeek();
         let quarter = moment(today).quarter();
 
         switch (quarter) {
             case 1:
-                this.quarter = 3;
+                this.quarter = '3';
                 break;
             case 2:
-                this.quarter = 4;
+                this.quarter = '4';
                 break;
             case 3:
-                this.quarter = 1;
+                this.quarter = '1';
                 break;
             case 4:
-                this.quarter = 2;
+                this.quarter = '2';
                 break;
         }
 
         this.startWeek = moment(today).week();
-        if (dayOfWeek == 0 || dayOfWeek == 6 || (dayOfWeek == 5 && time >= 22)) {
+        if (dayOfWeek == 6 || (dayOfWeek == 5 && time >= 22)) {
             this.startWeek = this.startWeek + 1;
         }
 
-        setTimeout(() => { this.getOptions(); }, 1000);
+        if (quarter == 3 && week <= 27) {
+            this.quarter = '4';
+        }
+
+        if (week > 27 && week < 36) {
+            this.quarter = 'Zomerrooster';
+        }
+
+        this.getOptions();
     }
 
     selectOption() {
@@ -103,7 +114,7 @@ export class DashboardComponent implements OnInit {
         this._reservationService.getLessonsByWeek('r', identifier, this.quarter, this.startWeek).subscribe(
             (response) => {
                 this.schedule = response;
-                setTimeout(() => { this.initHelper(); }, 300);
+                this.initHelper();
             },
             (error: HttpErrorResponse) => { throw error; }
         );
@@ -113,8 +124,8 @@ export class DashboardComponent implements OnInit {
         this._reservationService.getAllRooms(this.quarter).subscribe(
         (response) =>  {
             this.index = response.indexOf(this.roomCode);
-            setTimeout(() => { this.selectOption(); }, 1000);
-        },
+                this.selectOption();
+            },
         (error: HttpErrorResponse) => {
                 throw error;
             }
