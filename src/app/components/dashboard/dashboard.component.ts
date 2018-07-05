@@ -185,11 +185,9 @@ export class DashboardComponent implements OnInit {
             }
 
             // Make sure every hour string is the same length for further comparison
-            if (hour.length == 9)
-                hour = '0'.concat(hour).concat('0');
-            else if (hour.length == 10)
-                hour = '0'.concat(hour);
-
+            if (hour.length != 11)
+                hour = hour.length == 9 ? '0'.concat(hour).concat('0') : '0'.concat(hour);
+            
             // Do a direct string comparison in case the reservation is over many hours
             if (hour.substring(0, 5) > start && hour.substring(6) < end) {
                 result = reservations[i].description;
