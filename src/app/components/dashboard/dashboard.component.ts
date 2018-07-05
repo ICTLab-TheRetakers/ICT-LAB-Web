@@ -139,6 +139,67 @@ export class DashboardComponent implements OnInit {
         return this._scheduleHelper.print(lesson);
     }
 
+    setReservations() {
+        this._reservationService.getByRoom(this.roomCode).subscribe(
+            (response) => {
+                this.reservations = response;
+            },
+            (error: HttpErrorResponse) => {
+                throw error;
+            });
+    }
+
+    ComputeReservationHours(day: string, hour: string): string {
+        var result = '';
+        var reservations = this.reservations.filter(f => new Date(f.start_time).getDay().toString() == day);
+        for (var i = 0; i < reservations.length; i++) {
+            var start = new Date(reservations[i].start_time).toTimeString().substring(0, 5);
+            var end = new Date(reservations[i].end_time).toTimeString().substring(0, 5);
+
+            if (hour.startsWith(start)) {
+                result = reservations[i].description;
+            } else if (hour.endsWith(end)) {
+                result = reservations[i].description;
+            }
+        }
+
+        return result;
+
+    }
+
+    getReservation(day: string, hour: string): string {
+        var result = '';
+        // get the reservations of the day
+        var reservations = this.reservations.filter(f => new Date(f.start_time).getDay().toString() == day);
+
+        for (var i = 0; i < reservations.length; i++) {
+            // get the beginning and ending hours of the reservation
+            var start = new Date(reservations[i].start_time).toTimeString().substring(0, 5);
+            var end = new Date(reservations[i].end_time).toTimeString().substring(0, 5);
+
+            // check if the hour begins or ends with the reservation time
+            if (hour.startsWith(start)) {
+                result = reservations[i].description;
+            } else if (hour.endsWith(end)) {
+                result = reservations[i].description;
+            }
+
+            // Make sure every hour string is the same length for further comparison
+            if (hour.length == 9)
+                hour = '0'.concat(hour).concat('0');
+            else if (hour.length == 10)
+                hour = '0'.concat(hour);
+
+            // Do a direct string comparison in case the reservation is over many hours
+            if (hour.substring(0, 5) > start && hour.substring(6) < end) {
+                result = reservations[i].description;
+            }
+        }
+
+        return result;
+
+    }
+
     initHelper() {
         this._scheduleHelper = new ScheduleHelper(this.schedule);
     }
