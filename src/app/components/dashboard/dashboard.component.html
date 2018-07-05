@@ -16,19 +16,19 @@
             <b>{{ hour }}</b>
         </td>
         <td>
-            <p [innerHtml]="getLesson('Monday', hour)"></p>
+            <p [innerHtml]="SelectLessonOrReservation(1, hour)"></p>
         </td>
         <td>
-            <p [innerHtml]="getLesson('Tuesday', hour)"></p>
+            <p [innerHtml]="SelectLessonOrReservation(2, hour)"></p>
         </td>
         <td>
-            <p [innerHtml]="getLesson('Wednesday', hour)"></p>
+            <p [innerHtml]="SelectLessonOrReservation(3, hour)"></p>
         </td>
         <td>
-            <p [innerHtml]="getLesson('Thursday', hour)"></p>
+            <p [innerHtml]="SelectLessonOrReservation(4, hour)"></p>
         </td>
         <td>
-            <p style="background-color:aqua;" [innerHtml]="getReservation('5', hour)"></p>
+            <p [innerHtml]="SelectLessonOrReservation(5, hour)"></p>
         </td>
     </tr>
     </tbody>

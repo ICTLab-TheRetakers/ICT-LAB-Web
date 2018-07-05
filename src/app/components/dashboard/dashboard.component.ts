@@ -19,6 +19,7 @@ import Reservation from '../../shared/models/reservation.model';
 export class DashboardComponent implements OnInit {
     _scheduleHelper: ScheduleHelper;
     hours: string[] = environment.hours;
+    weekdays: string[] = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
     roomCode: string;
 
     schedule: Schedule = null;
@@ -133,8 +134,17 @@ export class DashboardComponent implements OnInit {
 
     }
 
-    getLesson(day: string, hour: string): string {
-        let lesson = this.schedule.days.filter(f => f.weekday == day)[0].lessons.filter(f => f.start_time == hour)[0];
+    SelectLessonOrReservation(day: number, hour: string): string {
+        var result = this.getLesson(day, hour);
+        if (result == '') {
+            result = this.getReservation(day, hour);
+        }
+
+        return result;
+    }
+
+    getLesson(day: number, hour: string): string {
+        let lesson = this.schedule.days.filter(f => f.weekday == this.weekdays[day - 1])[0].lessons.filter(f => f.start_time == hour)[0];
 
         return this._scheduleHelper.print(lesson);
     }
@@ -149,50 +159,51 @@ export class DashboardComponent implements OnInit {
             });
     }
 
-    ComputeReservationHours(day: string, hour: string): string {
+    getReservation(day: number, hour: string): string {
         var result = '';
-        var reservations = this.reservations.filter(f => new Date(f.start_time).getDay().toString() == day);
-        for (var i = 0; i < reservations.length; i++) {
-            var start = new Date(reservations[i].start_time).toTimeString().substring(0, 5);
-            var end = new Date(reservations[i].end_time).toTimeString().substring(0, 5);
+        var reservation = '';
+        var user = '';
 
-            if (hour.startsWith(start)) {
-                result = reservations[i].description;
-            } else if (hour.endsWith(end)) {
-                result = reservations[i].description;
-            }
-        }
+        if (this.reservations == null)
+            return result;
 
-        return result;
-
-    }
-
-    getReservation(day: string, hour: string): string {
-        var result = '';
         // get the reservations of the day
-        var reservations = this.reservations.filter(f => new Date(f.start_time).getDay().toString() == day);
+        var reservations = this.reservations.filter(f => new Date(f.start_time).getDay() == day);
 
         for (var i = 0; i < reservations.length; i++) {
             // get the beginning and ending hours of the reservation
             var start = new Date(reservations[i].start_time).toTimeString().substring(0, 5);
             var end = new Date(reservations[i].end_time).toTimeString().substring(0, 5);
 
-            // check if the hour begins or ends with the reservation time
-            if (hour.startsWith(start)) {
-                result = reservations[i].description;
-            } else if (hour.endsWith(end)) {
-                result = reservations[i].description;
-            }
-
             // Make sure every hour string is the same length for further comparison
             if (hour.length != 11)
-                hour = hour.length == 9 ? '0'.concat(hour).concat('0') : '0'.concat(hour);
-            
+                hour = hour.length == 9 ? '0'.concat(hour.substring(0, 4)).concat('0').concat(hour.substring(5)) : '0'.concat(hour);
+
+            // check if the hour begins or ends with the reservation time
+            if (hour.startsWith(start)) {
+                reservation = reservations[i].description;
+                user = reservations[i].user_id;
+                break;
+            } else if (hour.endsWith(end)) {
+                reservation = reservations[i].description;
+                user = reservations[i].user_id;
+                break;
+            }
+
             // Do a direct string comparison in case the reservation is over many hours
             if (hour.substring(0, 5) > start && hour.substring(6) < end) {
-                result = reservations[i].description;
+                reservation = reservations[i].description;
+                user = reservations[i].user_id;
             }
         }
+
+        if (reservation != '') {
+            if (reservation.length > 25)
+                result = '<b><u>Reservation</u></b><br />' + reservation.substring(0, 24) + '...<br /><i>' + user + '</i>';
+            else
+                result = '<b><u>Reservation</u></b><br />' + reservation + '<br /><i>' + user + '</i>';
+        }
+            
 
         return result;
 
