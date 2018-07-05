@@ -57,22 +57,22 @@ export class ReservationService {
             .catch(this.handleError);
     }
 
-    getAllTeachers(quarter: number): Observable<string[]> {
+    getAllTeachers(quarter: string): Observable<string[]> {
         return this.http.get(this.baseUrl + 'getAllTeachers?quarter=' + quarter)
             .catch(this.handleError);
     }
 
-    getAllRooms(quarter: number): Observable<string[]> {
+    getAllRooms(quarter: string): Observable<string[]> {
         return this.http.get(this.baseUrl + 'getAllRooms?quarter=' + quarter)
             .catch(this.handleError);
     }
 
-    getAllClasses(quarter: number): Observable<string[]> {
+    getAllClasses(quarter: string): Observable<string[]> {
         return this.http.get(this.baseUrl + 'getAllClasses?quarter=' + quarter)
             .catch(this.handleError);
     }
 
-    getLessonsByWeek(type: string, index: string, quarter: number, week: number): Observable<Schedule> {
+    getLessonsByWeek(type: string, index: string, quarter: string, week: number): Observable<Schedule> {
         return this.http.get(this.baseUrl + 'getLessonsByWeek?type=' + type + '&index=' + index + '&week=' + week + '&quarter=' + quarter)
             .map(res => res)
             .catch(this.handleError);
