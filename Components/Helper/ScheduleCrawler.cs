@@ -89,7 +89,7 @@ namespace ICT_LAB_Web.Components.Helper
 
             if (week > 27 && week < 36)
             {
-                url = String.Format("http://misc.hro.nl/roosterdienst/webroosters/{0}/Zomerrooster/{1}/{2}/{3}/{4}.htm", this.Department, quarterOfYear, week, scheduleType, identifier);
+                url = String.Format("http://misc.hro.nl/roosterdienst/webroosters/{0}/Zomerrooster/{1}/{2}/{3}.htm", this.Department, week, scheduleType, identifier);
             } else
             {
                 url = String.Format("http://misc.hro.nl/roosterdienst/webroosters/{0}/kw{1}/{2}/{3}/{4}.htm", this.Department, quarterOfYear, week, scheduleType, identifier);
