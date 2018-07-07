@@ -13,7 +13,7 @@ namespace ICT_LAB_Web.Controllers.ViewModels
         [JsonProperty("week")]
         public int Week { get; set; }
         [JsonProperty("quarter_of_year")]
-        public int QuarterOfYear { get; set; }
+        public string QuarterOfYear { get; set; }
         [JsonProperty("department")]
         public string Department { get; set; }
         [JsonProperty("days")]
