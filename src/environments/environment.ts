@@ -4,6 +4,7 @@
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 
 export const environment = {
+    //TODO: Bij gebruik van local database haal het IP weg
     production: false,
     deviceApi: 'http://145.24.222.238/api/devices/',
     issueApi: 'http://145.24.222.238/api/issues/',

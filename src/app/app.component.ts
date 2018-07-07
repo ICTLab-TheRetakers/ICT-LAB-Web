@@ -31,7 +31,10 @@ export class AppComponent implements OnInit {
         if (window.location.pathname.toString().includes('dashboard')) {
             this.isDashboard = true;
 
-            this.dashboardQR = 'http://145.24.222.238/dashboard/'.concat(window.location.pathname.substring(window.location.pathname.lastIndexOf('/') + 1))
+            //TODO: IP verranderen naar localhost als je local database gebruikt.
+            //Bij gebruik van school server gebruik voor this.dasboardQR dan http://145.24.222.238/reservations/add?room=
+            //CHANGED: /dashboard to /reservation/add?room=
+            this.dashboardQR = 'http://145.24.222.238/reservations/add?room='.concat(window.location.pathname.substring(window.location.pathname.lastIndexOf('/') + 1))
             ;
         }
     }
