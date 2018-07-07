@@ -78,13 +78,21 @@ namespace ICT_LAB_Web.Components.Helper
         private async Task<Schedule> GetSchedule(string scheduleType, string identifier, string quarterOfYear, int week)
         {
             string url = "";
-            if (quarterOfYear.Length == 1)
-            {
+            /*if (quarterOfYear.Length == 1)
+			{
                 url = String.Format("http://misc.hro.nl/roosterdienst/webroosters/{0}/kw{1}/{2}/{3}/{4}.htm", this.Department, quarterOfYear, week, scheduleType, identifier);
             }
             else
             {
-                url = String.Format("http://misc.hro.nl/roosterdienst/webroosters/{0}/{1}/{2}/{3}/{4}.htm", this.Department, quarterOfYear, week, scheduleType, identifier);
+                url = String.Format("http://misc.hro.nl/roosterdienst/webroosters/{0}/Zomerrooster/{1}/{2}/{3}/{4}.htm", this.Department, quarterOfYear, week, scheduleType, identifier);
+            }*/
+
+            if (week > 27 && week < 36)
+            {
+                url = String.Format("http://misc.hro.nl/roosterdienst/webroosters/{0}/Zomerrooster/{1}/{2}/{3}/{4}.htm", this.Department, quarterOfYear, week, scheduleType, identifier);
+            } else
+            {
+                url = String.Format("http://misc.hro.nl/roosterdienst/webroosters/{0}/kw{1}/{2}/{3}/{4}.htm", this.Department, quarterOfYear, week, scheduleType, identifier);
             }
 
             var html = await httpClient.GetStringAsync(url).ConfigureAwait(false);
