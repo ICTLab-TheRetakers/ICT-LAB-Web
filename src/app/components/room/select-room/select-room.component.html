@@ -50,6 +50,7 @@
     <ng-container *ngIf="chosenRoom !=null">
         <div class="form-row">
             <div class="col s-12 col-sm-12 col-md-6 offset-md-3">
+                <h3>{{ this.chosenRoom }}</h3>
                 <select class="custom-select" (change)="selectOption($event, getSchedule)" [(ngModel)]="index">
                     <option class="list-group-item" value="{{ this.chosenRoom }}">{{ this.chosenRoom }}</option>
                     <option class="list-group-item" *ngFor="let option of options;let i = index" [value]="i + 1">{{ option }}</option>
