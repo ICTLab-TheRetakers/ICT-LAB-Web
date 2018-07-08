@@ -108,7 +108,9 @@ export class DashboardComponent implements OnInit {
                 break;
         }
 
-        this._reservationService.getLessonsByWeek('r', identifier, this.quarter, this.startWeek).subscribe(
+        //TODO: Verrander waar this.quarter value krijgt. Gaat daar namelijk nu iets fout en hij krijgt telkens 4 als value en niet Zomerrooster.
+        //CHAGNED this._reservationService.getLessonsByWeek('r', identifier, this.quarter, this.startWeek).subscribe(
+        this._reservationService.getLessonsByWeek('r', identifier, 'Zomerrooster', this.startWeek).subscribe(
             (response) => {
                 this.schedule = response;
                 this.initHelper();
