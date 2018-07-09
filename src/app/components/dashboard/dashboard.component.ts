@@ -88,6 +88,7 @@ export class DashboardComponent implements OnInit {
         let firstDayOfWeek = moment(today).isoWeekday(1).format("YYYY-MM-DDTHH:mm:ss");
         let lastDayOfWeek = moment(today).isoWeekday(6).format("YYYY-MM-DDTHH:mm:ss");
 
+        // get the reservations from the current week
         this.setReservations(firstDayOfWeek, lastDayOfWeek);
 
         this.getOptions();
@@ -130,7 +131,7 @@ export class DashboardComponent implements OnInit {
     getOptions() {
         this._reservationService.getAllRooms(this.quarter).subscribe(
         (response) =>  {
-            this.index = response.indexOf(this.roomCode);
+                this.index = response.indexOf(this.roomCode);
                 this.selectOption();
             },
         (error: HttpErrorResponse) => {
@@ -179,10 +180,10 @@ export class DashboardComponent implements OnInit {
             // get the beginning and ending hours of the reservation
             var start = new Date(reservations[i].start_time).toTimeString().substring(0, 5);
             var end = new Date(reservations[i].end_time).toTimeString().substring(0, 5);
-
+            
             // Make sure every hour string is the same length for comparison
             if (hour.length != 11)
-                hour = hour.length == 9 ? '0'.concat(hour.substring(0, 4)).concat('0').concat(hour.substring(5)) : '0'.concat(hour);
+                hour = hour.length == 9 ? '0'.concat(hour.substring(0, 5)).concat('0').concat(hour.substring(5)) : '0'.concat(hour);
 
             // check if the hour begins or ends with the reservation time
             if (hour.startsWith(start)) {
