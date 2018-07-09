@@ -42,7 +42,6 @@ export class DashboardComponent implements OnInit {
 
     ngOnInit() {
         this.getScheduleByRoom();
-        this.setReservations();
     }
 
     getScheduleByRoom() {
@@ -83,6 +82,13 @@ export class DashboardComponent implements OnInit {
         if (week > 27 && week < 36) {
             this.quarter = 'Zomerrooster';
         }
+
+        // get the dates of monday and friday of the current week
+        today.setHours(0, 0, 0, 0);
+        let firstDayOfWeek = moment(today).isoWeekday(1).format("YYYY-MM-DDTHH:mm:ss");
+        let lastDayOfWeek = moment(today).isoWeekday(6).format("YYYY-MM-DDTHH:mm:ss");
+
+        this.setReservations(firstDayOfWeek, lastDayOfWeek);
 
         this.getOptions();
     }
@@ -149,8 +155,8 @@ export class DashboardComponent implements OnInit {
         return this._scheduleHelper.print(lesson);
     }
 
-    setReservations() {
-        this._reservationService.getByRoom(this.roomCode).subscribe(
+    setReservations(from: string, till: string) {
+        this._reservationService.getByRoomAndDate(this.roomCode, from, till).subscribe(
             (response) => {
                 this.reservations = response;
             },
@@ -162,7 +168,6 @@ export class DashboardComponent implements OnInit {
     getReservation(day: number, hour: string): string {
         var result = '';
         var reservation = new Reservation();
-        var user = '';
 
         if (this.reservations == null)
             return result;
@@ -175,7 +180,7 @@ export class DashboardComponent implements OnInit {
             var start = new Date(reservations[i].start_time).toTimeString().substring(0, 5);
             var end = new Date(reservations[i].end_time).toTimeString().substring(0, 5);
 
-            // Make sure every hour string is the same length for further comparison
+            // Make sure every hour string is the same length for comparison
             if (hour.length != 11)
                 hour = hour.length == 9 ? '0'.concat(hour.substring(0, 4)).concat('0').concat(hour.substring(5)) : '0'.concat(hour);
 
