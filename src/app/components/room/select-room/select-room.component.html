@@ -44,17 +44,11 @@
         </div>
     </ng-container>
 
-    <!-- TODO: Mogelijk moet de select worden weggehaald omdat deze niet zou werken wanneer de url wordt gebruikt.
-         Dan gewoon een header gebruiken ofzo. -->
     <!-- CHANGED: Deze select is alleen zichtbaar wanneer de URL een room parameter heeft. De ng-container *ngIf="wantedRoom != null"-->
     <ng-container *ngIf="chosenRoom !=null">
         <div class="form-row">
             <div class="col s-12 col-sm-12 col-md-6 offset-md-3">
                 <h3>{{ this.chosenRoom }}</h3>
-                <select class="custom-select" (change)="selectOption($event, getSchedule)" [(ngModel)]="index">
-                    <option class="list-group-item" value="{{ this.chosenRoom }}">{{ this.chosenRoom }}</option>
-                    <option class="list-group-item" *ngFor="let option of options;let i = index" [value]="i + 1">{{ option }}</option>
-                </select>
             </div>
         </div>
     </ng-container>
