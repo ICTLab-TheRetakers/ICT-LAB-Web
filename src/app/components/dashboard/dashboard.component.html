@@ -16,19 +16,19 @@
             <b>{{ hour }}</b>
         </td>
         <td>
-            <p [innerHtml]="getLesson('Monday', hour)"></p>
+            <p [innerHtml]="getTimeslot('Monday', hour)"></p>
         </td>
         <td>
-            <p [innerHtml]="getLesson('Tuesday', hour)"></p>
+            <p [innerHtml]="getTimeslot('Tuesday', hour)"></p>
         </td>
         <td>
-            <p [innerHtml]="getLesson('Wednesday', hour)"></p>
+            <p [innerHtml]="getTimeslot('Wednesday', hour)"></p>
         </td>
         <td>
-            <p [innerHtml]="getLesson('Thursday', hour)"></p>
+            <p [innerHtml]="getTimeslot('Thursday', hour)"></p>
         </td>
         <td>
-            <p [innerHtml]="getLesson('Friday', hour)"></p>
+            <p [innerHtml]="getTimeslot('Friday', hour)"></p>
         </td>
     </tr>
     </tbody>

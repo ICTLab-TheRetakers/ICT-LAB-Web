@@ -9,6 +9,7 @@ import {HttpErrorResponse} from '@angular/common/http';
 import * as moment from 'moment';
 import {ReservationService} from '../../shared/services/reservation.service';
 import { SharedService } from '../../shared/services/shared.service';
+import Reservation from '../../shared/models/reservation.model';
 
 @Component({
   selector: 'app-dashboard',
@@ -25,6 +26,10 @@ export class DashboardComponent implements OnInit {
     quarter: string = null;
     index: number = null;
     options: string[] = null;
+    reservation: Reservation[];
+    /*dayNumber: number = null;
+    reservedStatus: string = null;
+    reservedBy: string = null;*/
 
     constructor(private route: ActivatedRoute, private _reservationService: ReservationService, private _sharedService: SharedService) {
         this.route.params.subscribe(
@@ -80,6 +85,14 @@ export class DashboardComponent implements OnInit {
             this.quarter = 'Zomerrooster';
         }
 
+        // get the dates of monday and friday of the current week
+        today.setHours(0, 0, 0, 0);
+        let firstDayOfWeek = moment(today).isoWeekday(1).format("YYYY-MM-DDTHH:mm:ss");
+        let lastDayOfWeek = moment(today).isoWeekday(6).format("YYYY-MM-DDTHH:mm:ss");
+
+        // get the reservations from the current week
+        this.setReservation(firstDayOfWeek, lastDayOfWeek);
+
         this.getOptions();
     }
 
@@ -131,11 +144,103 @@ export class DashboardComponent implements OnInit {
         );
 
     }
-
+    
     getLesson(day: string, hour: string): string {
         let lesson = this.schedule.days.filter(f => f.weekday == day)[0].lessons.filter(f => f.start_time == hour)[0];
 
         return this._scheduleHelper.print(lesson);
+    }
+
+    setReservation(from: string, till: string) {
+        this._reservationService.getByRoomAndDate(this.roomCode, from, till).subscribe(
+            (response) => {
+                this.reservation = response;
+            },
+            (error: HttpErrorResponse) => {
+                throw error;
+            });
+    }
+
+    //CHANGED: Code om reservaties op te halen
+    getReservation(day: string, hour: string): string {
+        var dayNumber = 0;
+        var reservedStatus = '';
+        var reservedBy = '';
+        var print = '';
+        //Er is geen .toDayString of iets dergelijks dus moeten we van de dag een number maken
+        if (day == 'Monday') {
+            dayNumber = 1;
+        } else if (day == 'Tuesday') {
+            dayNumber = 2;
+        } else if (day == 'Wednesday') {
+            dayNumber = 3;
+        } else if (day == 'Thursday') {
+            dayNumber = 4;
+        } else if (day == 'Friday') {
+            dayNumber = 5;
+        }
+        
+
+        var reservation = this.reservation.filter(f => new Date(f.start_time).getDay() == dayNumber);
+        for (var i = 0; i < reservation.length; i++) {
+            /*//Star & eind tijdstip staat in de DB als volledige datum. toTimeString kapt dit al af naar alleen tijd
+            //Maar deze tijd staat dan weergegeven met seconden en tijdzone erbij.
+            //De substring methode kapt deze tijd af na de 1e 5 caracters wat in dit geval het tijdstip is.
+            var reservationStart = new Date(reservation[i].start_time).toTimeString().substring(0, 5);
+            var reservationEnd = new Date(reservation[i].end_time).toTimeString().substring(0, 5);*/
+
+            //Maakt van 8:30-9:20 -> 08:30-09:20 en van 9:20-10:10 -> 09:20-10:10 met .concat wat 2 strings samenvoegd
+            if (hour.length == 9) {
+                hour = '0'.concat(hour.substring(0, 4)).concat('0').concat(hour.substring(5));
+            } if (hour.length == 10) {
+                hour = '0'.concat(hour);
+            }
+
+            //Haalt de uren en minuten op uit de database en voegt deze samen. Moet apart omdat getTime() niet goed reageerd op toString()
+            var startHour = new Date(reservation[i].start_time).getHours().toString();
+            if (startHour.length < 2) {
+                startHour = '0'.concat(startHour);
+            }
+            var startMinutes = new Date(reservation[i].start_time).getMinutes().toString();
+            if (startMinutes.length < 2) {
+                startMinutes = '0'.concat(startMinutes);
+            }
+            var endHour = new Date(reservation[i].end_time).getHours().toString();
+            if (endHour.length < 2) {
+                endHour = '0'.concat(endHour);
+            }
+            var endMinutes = new Date(reservation[i].end_time).getMinutes().toString();
+            if (endMinutes.length < 2) {
+                endMinutes = '0'.concat(endMinutes);
+            }
+            var startTime = startHour + ':' + startMinutes;
+            var endTime = endHour + ':' + endMinutes;
+            
+            if (hour.substring(0, 5) <= startTime && hour.substring(6) > startTime) {
+                reservedStatus = 'GERESERVEERD';
+                reservedBy = reservation[i].user_id;
+            } if (hour.substring(0, 5) >= startTime && hour.substring(6) <= endTime) {
+                reservedStatus = 'GERESERVEERD';
+                reservedBy = reservation[i].user_id;
+            } if (hour.substring(0, 5) < endTime && hour.substring(6) >= endTime) {
+                reservedStatus = 'GERESERVEERD';
+                reservedBy = reservation[i].user_id;
+            }
+        }
+
+        if (reservedStatus != '') {
+            print = '<b>' + reservedStatus + '</b><br />' + reservedBy +'';
+        }
+        return print;
+    }
+
+    //CHANGED: Haalt eerst het rooster van HRO op als deze leeg is wordt er naar reservering gekeken
+    getTimeslot(day: string, hour: string): string {
+        var print = this.getLesson(day, hour);
+        if (print == '') {
+            print = this.getReservation(day, hour);
+        }
+        return print;
     }
 
     initHelper() {
