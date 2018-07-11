@@ -27,9 +27,6 @@ export class DashboardComponent implements OnInit {
     index: number = null;
     options: string[] = null;
     reservation: Reservation[];
-    /*dayNumber: number = null;
-    reservedStatus: string = null;
-    reservedBy: string = null;*/
 
     constructor(private route: ActivatedRoute, private _reservationService: ReservationService, private _sharedService: SharedService) {
         this.route.params.subscribe(
@@ -85,13 +82,11 @@ export class DashboardComponent implements OnInit {
             this.quarter = 'Zomerrooster';
         }
 
-        // get the dates of monday and friday of the current week
+        //CHANGED: Noteerd de datum van maandag en vrijdag voor de huidige week zodat deze datums gebruikt kunnen worden om in de DB te zoeken naar bepaalde reservations van een week
         today.setHours(0, 0, 0, 0);
-        let firstDayOfWeek = moment(today).isoWeekday(1).format("YYYY-MM-DDTHH:mm:ss");
-        let lastDayOfWeek = moment(today).isoWeekday(6).format("YYYY-MM-DDTHH:mm:ss");
-
-        // get the reservations from the current week
-        this.setReservation(firstDayOfWeek, lastDayOfWeek);
+        let monday = moment(today).isoWeekday(1).format("YYYY-MM-DDTHH:mm:ss");
+        let friday = moment(today).isoWeekday(6).format("YYYY-MM-DDTHH:mm:ss");
+        this.setReservationsForWeek(monday, friday);
 
         this.getOptions();
     }
@@ -151,7 +146,8 @@ export class DashboardComponent implements OnInit {
         return this._scheduleHelper.print(lesson);
     }
 
-    setReservation(from: string, till: string) {
+    //CHANGED: Vult de reservation array met alle reservations van een bepaalde week
+    setReservationsForWeek(from: string, till: string) {
         this._reservationService.getByRoomAndDate(this.roomCode, from, till).subscribe(
             (response) => {
                 this.reservation = response;
@@ -167,6 +163,7 @@ export class DashboardComponent implements OnInit {
         var reservedStatus = '';
         var reservedBy = '';
         var print = '';
+
         //Er is geen .toDayString of iets dergelijks dus moeten we van de dag een number maken
         if (day == 'Monday') {
             dayNumber = 1;
@@ -180,14 +177,9 @@ export class DashboardComponent implements OnInit {
             dayNumber = 5;
         }
         
-
-        var reservation = this.reservation.filter(f => new Date(f.start_time).getDay() == dayNumber);
-        for (var i = 0; i < reservation.length; i++) {
-            /*//Star & eind tijdstip staat in de DB als volledige datum. toTimeString kapt dit al af naar alleen tijd
-            //Maar deze tijd staat dan weergegeven met seconden en tijdzone erbij.
-            //De substring methode kapt deze tijd af na de 1e 5 caracters wat in dit geval het tijdstip is.
-            var reservationStart = new Date(reservation[i].start_time).toTimeString().substring(0, 5);
-            var reservationEnd = new Date(reservation[i].end_time).toTimeString().substring(0, 5);*/
+        //Filtered de reservation array om alleen de reservations van een bepaalde dag te laten zien
+        var filteredReservation = this.reservation.filter(f => new Date(f.start_time).getDay() == dayNumber);
+        for (var i = 0; i < filteredReservation.length; i++) {
 
             //Maakt van 8:30-9:20 -> 08:30-09:20 en van 9:20-10:10 -> 09:20-10:10 met .concat wat 2 strings samenvoegd
             if (hour.length == 9) {
@@ -196,38 +188,38 @@ export class DashboardComponent implements OnInit {
                 hour = '0'.concat(hour);
             }
 
-            //Haalt de uren en minuten op uit de database en voegt deze samen. Moet apart omdat getTime() niet goed reageerd op toString()
-            var startHour = new Date(reservation[i].start_time).getHours().toString();
+            //Haalt de uren en minuten op uit de database en voegt deze samen. Moet apart in uren en minuten omdat getTime() niet goed reageerd op toString()
+            var startHour = new Date(filteredReservation[i].start_time).getHours().toString();
             if (startHour.length < 2) {
                 startHour = '0'.concat(startHour);
             }
-            var startMinutes = new Date(reservation[i].start_time).getMinutes().toString();
+            var startMinutes = new Date(filteredReservation[i].start_time).getMinutes().toString();
             if (startMinutes.length < 2) {
                 startMinutes = '0'.concat(startMinutes);
             }
-            var endHour = new Date(reservation[i].end_time).getHours().toString();
+            var endHour = new Date(filteredReservation[i].end_time).getHours().toString();
             if (endHour.length < 2) {
                 endHour = '0'.concat(endHour);
             }
-            var endMinutes = new Date(reservation[i].end_time).getMinutes().toString();
+            var endMinutes = new Date(filteredReservation[i].end_time).getMinutes().toString();
             if (endMinutes.length < 2) {
                 endMinutes = '0'.concat(endMinutes);
             }
             var startTime = startHour + ':' + startMinutes;
             var endTime = endHour + ':' + endMinutes;
-            
+
+            //Check of de reservering tussen een bepaald tijdslot valt
             if (hour.substring(0, 5) <= startTime && hour.substring(6) > startTime) {
                 reservedStatus = 'GERESERVEERD';
-                reservedBy = reservation[i].user_id;
+                reservedBy = filteredReservation[i].user_id;
             } if (hour.substring(0, 5) >= startTime && hour.substring(6) <= endTime) {
                 reservedStatus = 'GERESERVEERD';
-                reservedBy = reservation[i].user_id;
+                reservedBy = filteredReservation[i].user_id;
             } if (hour.substring(0, 5) < endTime && hour.substring(6) >= endTime) {
                 reservedStatus = 'GERESERVEERD';
-                reservedBy = reservation[i].user_id;
+                reservedBy = filteredReservation[i].user_id;
             }
         }
-
         if (reservedStatus != '') {
             print = '<b>' + reservedStatus + '</b><br />' + reservedBy +'';
         }
