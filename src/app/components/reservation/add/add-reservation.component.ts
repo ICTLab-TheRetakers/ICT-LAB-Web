@@ -14,6 +14,19 @@ import * as moment from 'moment';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ToastyService, ToastOptions } from 'ng2-toasty';
 
+export const startHoursHRO = [
+    { time: '08:30' }, { time: '09:20' }, { time: '10:30' }, { time: '11:20' },
+    { time: '12:10' }, { time: '13:00' }, { time: '13:50' }, { time: '15:00' },
+    { time: '15:50' }, { time: '17:00' }, { time: '17:50' }, { time: '18:40' },
+    { time: '19:30' }, { time: '20:20' }, { time: '21:10' }
+];
+export const endHoursHRO = [
+    { time: '09:20' }, { time: '10:10' }, { time: '11:20' }, { time: '12:10' },
+    { time: '13:00' }, { time: '13:50' }, { time: '14:40' }, { time: '15:50' },
+    { time: '16:40' }, { time: '17:50' }, { time: '18:40' }, { time: '19:30' },
+    { time: '20:20' }, { time: '21:10' }, { time: '22:00' }
+];
+
 @Component({
     selector: 'app-add-reservation',
     templateUrl: './add-reservation.component.html',
@@ -29,6 +42,8 @@ export class AddReservationComponent implements OnInit {
     maxDate: string;
     date;
     reservationLimit: boolean;
+    startHours = startHoursHRO;
+    endHours = endHoursHRO;
 
     constructor(private _reservationService: ReservationService, private router: Router, private toastyService: ToastyService) {
         this.toastOptions = {

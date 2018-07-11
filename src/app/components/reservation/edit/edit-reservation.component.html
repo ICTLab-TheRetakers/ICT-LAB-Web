@@ -24,16 +24,27 @@
                                 <input type="date" class="form-control" name="date" [min]="minDate" [max]="maxDate" [(ngModel)]="reservation.date" required #dateModel />
                             </td>
                             <td>
-                                <input class="form-control" type="time" name="begin" [(ngModel)]="reservation.begin" step="600" min="08:00:00" max="22:00:00" required #beginModel />
-                                <div class="text-danger font-weight-bold" [hidden]="(beginModel.value.split(':')[0] - 0 > 7 && beginModel.value.split(':')[0] - 0 < 23) || reservationForm.controls['begin']?.touched == false">
-                                    Time must be between 08:00 and 22:00
-                                </div>
+                                <!--CHANGED: Maken van reservaties heeft voor de tijd nu keuze tussen de HRO tijden en geen invoerveld-->
+                                <select class="form-control" type="time" name="begin" [(ngModel)]="reservation.begin" required #beginModel>
+                                    <option *ngFor="let startHour of startHours" [value]="startHour.time">
+                                        {{ startHour.time }}
+                                    </option>
+                                </select>
+                                <!--<input class="form-control" type="time" name="begin" [(ngModel)]="reservation.begin" step="600" min="08:00:00" max="22:00:00" required #beginModel />
+    <div class="text-danger font-weight-bold" [hidden]="(beginModel.value.split(':')[0] - 0 > 7 && beginModel.value.split(':')[0] - 0 < 23) || reservationForm.controls['begin']?.touched == false">
+        Time must be between 08:00 and 22:00
+    </div>-->
                             </td>
                             <td>
-                                <input class="form-control" type="time" name="end" [(ngModel)]="reservation.end" step="600" min="08:00:00" max="22:00:00" required #endModel />
-                                <div class="text-danger font-weight-bold" [hidden]="(endModel.value.split(':')[0] - 0 > 7 && endModel.value.split(':')[0] - 0 < 23) || reservationForm.controls['end']?.touched == false">
-                                    Time must be between 08:00 and 22:00
-                                </div>
+                                <select class="form-control" type="time" name="end" [(ngModel)]="reservation.end" required #endModel>
+                                    <option *ngFor="let endHour of endHours" [value]="endHour.time">
+                                        {{ endHour.time }}
+                                    </option>
+                                </select>
+                                <!--<input class="form-control" type="time" name="end" [(ngModel)]="reservation.end" step="600" min="08:00:00" max="22:00:00" required #endModel />
+    <div class="text-danger font-weight-bold" [hidden]="(endModel.value.split(':')[0] - 0 > 7 && endModel.value.split(':')[0] - 0 < 23) || reservationForm.controls['end']?.touched == false">
+        Time must be between 08:00 and 22:00
+    </div>-->
                             </td>
                             <td>
                                 <input class="form-control" name="desc" [(ngModel)]="reservation.description" />

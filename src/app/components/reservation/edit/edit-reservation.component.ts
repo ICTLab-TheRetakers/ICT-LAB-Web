@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
+import { startHoursHRO } from '../add/add-reservation.component';
+import { endHoursHRO } from '../add/add-reservation.component';
 
 import { ReservationService } from '../../../shared/services/reservation.service';
 import { RoomService } from '../../../shared/services/room.service';
@@ -28,6 +30,8 @@ export class EditReservationComponent implements OnInit {
     minDate: string;
     maxDate: string;
     date;
+    startHours = startHoursHRO;
+    endHours = endHoursHRO;
 
     constructor(private _reservationService: ReservationService, private _roomService: RoomService,
         private router: Router, private route: ActivatedRoute, private toastyService: ToastyService) {
