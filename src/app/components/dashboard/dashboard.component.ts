@@ -167,13 +167,13 @@ export class DashboardComponent implements OnInit {
         //Er is geen .toDayString of iets dergelijks dus moeten we van de dag een number maken
         if (day == 'Monday') {
             dayNumber = 1;
-        } else if (day == 'Tuesday') {
+        } if (day == 'Tuesday') {
             dayNumber = 2;
-        } else if (day == 'Wednesday') {
+        } if (day == 'Wednesday') {
             dayNumber = 3;
-        } else if (day == 'Thursday') {
+        } if (day == 'Thursday') {
             dayNumber = 4;
-        } else if (day == 'Friday') {
+        } if (day == 'Friday') {
             dayNumber = 5;
         }
         
@@ -209,6 +209,7 @@ export class DashboardComponent implements OnInit {
             var endTime = endHour + ':' + endMinutes;
 
             //Check of de reservering tussen een bepaald tijdslot valt
+            //TODO Reserveringstijden zijn nu altijd vooraf vastgesteld dus if statement zouden verbeterd kunnen worden
             if (hour.substring(0, 5) <= startTime && hour.substring(6) > startTime) {
                 reservedStatus = 'GERESERVEERD';
                 reservedBy = filteredReservation[i].user_id;
