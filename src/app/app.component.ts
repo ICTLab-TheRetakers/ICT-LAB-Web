@@ -31,7 +31,7 @@ export class AppComponent implements OnInit {
         if (window.location.pathname.toString().includes('dashboard')) {
             this.isDashboard = true;
 
-            this.dashboardQR = 'http://145.24.222.238/dashboard/'.concat(window.location.pathname.substring(window.location.pathname.lastIndexOf('/') + 1))
+            this.dashboardQR = 'http://145.24.222.238/reservations/add/'
             ;
         }
     }

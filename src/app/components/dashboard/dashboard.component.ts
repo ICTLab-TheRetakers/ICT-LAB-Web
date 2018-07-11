@@ -9,6 +9,7 @@ import {HttpErrorResponse} from '@angular/common/http';
 import * as moment from 'moment';
 import {ReservationService} from '../../shared/services/reservation.service';
 import { SharedService } from '../../shared/services/shared.service';
+import Reservation from '../../shared/models/reservation.model';
 
 @Component({
   selector: 'app-dashboard',
@@ -20,6 +21,7 @@ export class DashboardComponent implements OnInit {
     hours: string[] = environment.hours;
     roomCode: string;
 
+    reservations: Reservation[];
     schedule: Schedule = null;
     startWeek: number = null;
     quarter: string = null;
@@ -80,6 +82,14 @@ export class DashboardComponent implements OnInit {
             this.quarter = 'Zomerrooster';
         }
 
+        today.setHours(0, 0, 0, 0);
+
+        let dayOne = moment(today).isoWeekday(1).format("YYYY-MM-DDTHH:mm:ss");
+        let dayTwo = moment(today).isoWeekday(6).format("YYYY-MM-DDTHH:mm:ss");
+
+
+        this.setReservations(dayOne, dayTwo);
+
         this.getOptions();
     }
 
@@ -130,10 +140,79 @@ export class DashboardComponent implements OnInit {
 
     }
 
+    
+
     getLesson(day: string, hour: string): string {
         let lesson = this.schedule.days.filter(f => f.weekday == day)[0].lessons.filter(f => f.start_time == hour)[0];
 
         return this._scheduleHelper.print(lesson);
+    }
+
+    setReservations(from: string, till: string) {
+        this._reservationService.getByRoomAndDate(this.roomCode, from, till).subscribe(
+            (response) => {
+                this.reservations = response;
+            },
+            (error: HttpErrorResponse) => {
+                throw error;
+            });
+    }
+
+    getReservations(day: string, hour: string): string {
+        var isReserved = false;
+        var reserverName = '';
+        var print = '';
+        var dayNum = 0;
+
+        if (day == 'Monday') {
+            dayNum = 1;
+        } if (day == 'Tuesday') {
+            dayNum = 2;
+        } if (day == 'Wednesday') {
+            dayNum = 3;
+        } if (day == 'Thursday') {
+            dayNum = 4;
+        } if (day == 'Friday') {
+            dayNum = 5;
+        }
+
+        var dailyReservation = this.reservations.filter(f => new Date(f.start_time).getDay() == dayNum);
+        for (var i = 0; i < dailyReservation.length; i++) {
+
+            //adds extra 0 where needed ( 8:30-9:20 => 08:30-09:20)
+            if (hour.length != 11)
+                hour = hour.length == 9 ? '0'.concat(hour.substring(0, 4)).concat('0').concat(hour.substring(5)) : '0'.concat(hour);
+
+            var startTime = new Date(dailyReservation[i].start_time).toTimeString().substring(0, 5);
+            var endTime = new Date(dailyReservation[i].end_time).toTimeString().substring(0, 5);
+
+            //checks if reservation is in a specific timeslot
+            if (hour.substring(0, 5) <= startTime && hour.substring(6) > startTime) {
+                isReserved = true;
+                reserverName = dailyReservation[i].user_id;
+            } if (hour.substring(0, 5) >= startTime && hour.substring(6) <= endTime) {
+                isReserved = true;
+                reserverName = dailyReservation[i].user_id;
+            } if (hour.substring(0, 5) < endTime && hour.substring(6) >= endTime) {
+                isReserved = true;
+                reserverName = dailyReservation[i].user_id;
+            }
+        }
+        if (isReserved == true) {
+                print = '<b> Reserved by ' + reserverName + '';
+        }
+
+        return print;
+
+    }
+
+    //if time is selected timeslot on hro is empty, look at reservations
+    getTimeslot(day: string, hour: string): string {
+        var print = this.getLesson(day, hour);
+        if (print == '') {
+            print = this.getReservations(day, hour);
+        }
+        return print;
     }
 
     initHelper() {
