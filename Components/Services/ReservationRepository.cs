@@ -126,6 +126,7 @@ namespace ICT_LAB_Web.Components.Services
         public async Task<bool> CheckIfReservationExists(Reservation reservation)
         {
             List<Reservation> response = null;
+            //CHANGED: De if statement klopte niet. Als de starttijd later was dan 1 in de DB kreeg je altijd een response, nu niet meer
             response = await _dbContext.Reservations.Where(q => q.RoomCode.ToLower() == reservation.RoomCode.ToLower() && q.StartTime.Day == reservation.StartTime.Day
                 && (reservation == q || (q.StartTime <= reservation.StartTime && q.EndTime > reservation.StartTime)
                 || (q.StartTime < reservation.EndTime && q.EndTime >= reservation.EndTime)
