@@ -14,6 +14,7 @@ import * as moment from 'moment';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ToastyService, ToastOptions } from 'ng2-toasty';
 
+//CHANGED: School uren toegevoed voor gebruik bij maken reservaties
 export const startHoursHRO = [
     { time: '08:30' }, { time: '09:20' }, { time: '10:30' }, { time: '11:20' },
     { time: '12:10' }, { time: '13:00' }, { time: '13:50' }, { time: '15:00' },
