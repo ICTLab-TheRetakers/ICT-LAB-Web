@@ -127,7 +127,7 @@ namespace ICT_LAB_Web.Components.Services
         {
             List<Reservation> response = null;
             response = await _dbContext.Reservations.Where(q => q.RoomCode.ToLower() == reservation.RoomCode.ToLower() && q.StartTime.Day == reservation.StartTime.Day
-                && (reservation == q || (reservation.StartTime >= q.StartTime || reservation.StartTime > q.StartTime) || (reservation.StartTime <= q.EndTime))).ToListAsync();
+                && (reservation == q || (q.StartTime <= reservation.StartTime && q.EndTime > reservation.StartTime) || (q.StartTime < reservation.EndTime && q.EndTime >= reservation.EndTime) || (q.StartTime >= reservation.StartTime && q.EndTime <= reservation.EndTime))).ToListAsync();
 
             if (response.Count > 0)
             {
