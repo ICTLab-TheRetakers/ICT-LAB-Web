@@ -24,6 +24,7 @@
 		"@angular/router": "^5.2.0",
 		"angularx-qrcode": "^1.1.5",
 		"core-js": "^2.4.1",
+		"https-proxy-agent": "^2.2.1",
 		"ng2-toasty": "^4.0.3",
 		"rxjs": "^5.5.6",
 		"zone.js": "^0.8.19"
@@ -44,7 +45,7 @@
 		"karma-jasmine": "~1.1.0",
 		"karma-jasmine-html-reporter": "^0.2.2",
 		"moment": "^2.22.1",
-		"protractor": "~5.1.2",
+		"protractor": "^5.4.1",
 		"stacktrace-js": "^2.0.0",
 		"ts-node": "~4.1.0",
 		"tslint": "~5.9.1",
